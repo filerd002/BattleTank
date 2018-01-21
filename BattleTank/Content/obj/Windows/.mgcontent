@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Arial.spritefont</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/explosion.wav</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/hit.wav</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/klik.wav</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/menu_sound.wav</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/respawn.wav</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/shot.wav</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Background.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank2.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank3.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BlueTank.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/GreenTank.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/koniec.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/koniec1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/MenuWinAndLoss.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/nowagra.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/nowagra1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PinkTank.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/player2VScpu.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/player2VScpu1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/playerVScpu.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/playerVScpu1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/playerVSplayer.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/playerVSplayer1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/powrot.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/powrot1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przegrana.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przegrana1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/RedTank.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wall.jpg</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/YellowTank.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/zwyciestwo.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/zwyciestwo1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpAmmo.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpArmor.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpBarrier.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpHeart.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/barrier.png</File>
+  </SourceFiles>
+</SourceFileCollection>

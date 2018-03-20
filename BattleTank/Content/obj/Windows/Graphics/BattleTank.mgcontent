@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank.png</SourceFile>
-  <SourceTime>2018-01-16T14:05:00.3969174+01:00</SourceTime>
-  <DestFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/bin/Windows/Graphics/BattleTank.xnb</DestFile>
-  <DestTime>2018-01-21T13:14:29.8000169+01:00</DestTime>
+  <SourceFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/battleTank.png</SourceFile>
+  <SourceTime>2018-03-17T15:24:27.0159863+01:00</SourceTime>
+  <DestFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/bin/Windows/Graphics/battleTank.xnb</DestFile>
+  <DestTime>2018-03-19T19:31:44.2516605+01:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

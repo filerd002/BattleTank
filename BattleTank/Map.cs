@@ -16,6 +16,8 @@ namespace BattleTank
         public Tile[][] map;
       
         public Texture2D wallTexture;
+        public Texture2D bushTexture;
+        public Texture2D waterTexture;
         public Map(Game1 _game, int _screenWidth, int _screenHeight, int _WallBorder)
         {
             game = _game;
@@ -32,7 +34,8 @@ namespace BattleTank
             }
         
             wallTexture = game.Content.Load<Texture2D>("Graphics//wall");
-
+            bushTexture = game.Content.Load<Texture2D>("Graphics//bush");
+            waterTexture = game.Content.Load<Texture2D>("Graphics//water");
 
             Reset();
         }
@@ -42,8 +45,8 @@ namespace BattleTank
             {
                 for (int e = 0; e < map[i].Length; ++e)
                 {
-          
-                        map[i][e] = new Tile(Tile.AIR, new Rectangle(e * 48, i * 48, 48, 48), null);
+
+                    map[i][e] = new Tile(Tile.AIR, new Rectangle(e * 48, i * 48, 48, 48), null);
 
 
                 }
@@ -58,8 +61,8 @@ namespace BattleTank
             {
                 for (int e = 0; e < map[i].Length; ++e)
                 {
-               
-                        map[i][e].Update(gameTime);
+
+                    map[i][e].Update(gameTime);
 
               
                 }
@@ -71,8 +74,8 @@ namespace BattleTank
             {
                 for(int e = 0; e < map[i].Length; ++e)
                 {
-            
-                        map[i][e].Draw(spriteBatch);
+
+                    map[i][e].Draw(spriteBatch);
 
                 }
             }
@@ -190,16 +193,29 @@ namespace BattleTank
         {
             Random randy = new Random();
             //Middle rows
-            for (int i = 0; i < 60; ++i)
+            for (int i = 0; i < 90; ++i)
             {
                
 
                 int x = randy.Next(2,  map.Length - 2);
                 int y = randy.Next(2, columnHeight - 2);
-
-                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
+                if (i <30)
+                {
+                    if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
                         map[x][y] = new Tile(Tile.WALL, new Rectangle(x * 48, y * 48, 48, 48), wallTexture);
-               
+                }
+               else  if (i < 60)
+                {
+                    if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
+                        map[x][y] = new Tile(Tile.BUSH, new Rectangle(x * 48, y * 48, 48, 48), bushTexture);
+                }
+                else if (i < 90)
+                {
+                    if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
+                        map[x][y] = new Tile(Tile.WATER, new Rectangle(x * 48, y * 48, 48, 48), waterTexture);
+                }
+
+                
             }
 
 

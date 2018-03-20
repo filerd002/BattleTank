@@ -17,6 +17,8 @@ namespace BattleTank
         public const int ARMOR = 1;
         public const int BARRIER = 2;
         public const int AMMO = 3;
+        public const int MINE = 4;
+        public const int MATRIX = 5;
         public bool alive;
         public Particlecloud respawnParticles;
         public Particlecloud deathParticles;
@@ -71,6 +73,14 @@ namespace BattleTank
                         case AMMO:
                             game.tank1.strong++;
                             break;
+                        case MINE:
+                            game.tank1.mines++;
+                            break;
+                        case MATRIX:
+                            game.frozenPlayer = 1;
+                            game.timer3control = 1;
+                            break;
+
 
                     }
 
@@ -97,6 +107,13 @@ namespace BattleTank
                         case AMMO:
                             game.tank2.strong++;
                             break;
+                        case MINE:
+                            game.tank2.mines++;
+                            break;
+                        case MATRIX:                   
+                             game.frozenPlayer = 2;
+                            game.timer3control = 1;
+                            break;
 
                     }
 
@@ -104,7 +121,7 @@ namespace BattleTank
 
                     alive = false;
                 }
-                else if ((game.gameState==game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU) &&(game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
+                else if ((game.gameState==game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU)&&game.iloscCPUKamikaze+game.iloscCPUKlasyk>=1  &&(game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -123,14 +140,17 @@ namespace BattleTank
                         case AMMO:
                             game.enemyTanks[0].strong++;
                             break;
-
+                        case MATRIX:
+                            game.frozenPlayer = 3;
+                            game.timer3control = 1;
+                            break;
                     }
 
 
 
                     alive = false;
                 }
-                else if ((game.gameState == game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU) && (game.RandomPowerUp.isColliding(game.enemyTanks[1].tankRect).depth > 0))
+                else if ((game.gameState == game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 2 && (game.RandomPowerUp.isColliding(game.enemyTanks[1].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -149,14 +169,17 @@ namespace BattleTank
                         case AMMO:
                             game.enemyTanks[1].strong++;
                             break;
-
+                        case MATRIX:
+                            game.frozenPlayer = 4;
+                            game.timer3control = 1;
+                            break;
                     }
 
 
 
                     alive = false;
                 }
-                else if (game.gameState == game.gameRunningPlayer1 && (game.RandomPowerUp.isColliding(game.enemyTanks[2].tankRect).depth > 0))
+                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 3 && (game.RandomPowerUp.isColliding(game.enemyTanks[2].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -175,7 +198,10 @@ namespace BattleTank
                         case AMMO:
                             game.enemyTanks[2].strong++;
                             break;
-
+                        case MATRIX:
+                            game.frozenPlayer = 5;
+                            game.timer3control = 1;
+                            break;
                     }
 
 
@@ -183,9 +209,93 @@ namespace BattleTank
                     alive = false;
                 }
 
+                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 4 && (game.RandomPowerUp.isColliding(game.enemyTanks[3].tankRect).depth > 0))
+                {
+                    colliding = true;
+
+                    switch (game.RandomPowerUp.type)
+                    {
+                        case HEART:
+                            game.enemyTanks[3].lives++;
+                            break;
+                        case ARMOR:
+                            game.enemyTanks[3].armor++;
+                            break;
+                        case BARRIER:
+                            game.barrierPlayer = 6;
+                            game.timer2control = 1;
+                            break;
+                        case AMMO:
+                            game.enemyTanks[3].strong++;
+                            break;
+                        case MATRIX:
+                            game.frozenPlayer = 6;
+                            game.timer3control = 1;
+                            break;
+                    }
 
 
 
+                    alive = false;
+                }
+                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 5 && (game.RandomPowerUp.isColliding(game.enemyTanks[4].tankRect).depth > 0))
+                {
+                    colliding = true;
+
+                    switch (game.RandomPowerUp.type)
+                    {
+                        case HEART:
+                            game.enemyTanks[4].lives++;
+                            break;
+                        case ARMOR:
+                            game.enemyTanks[4].armor++;
+                            break;
+                        case BARRIER:
+                            game.barrierPlayer = 7;
+                            game.timer2control = 1;
+                            break;
+                        case AMMO:
+                            game.enemyTanks[4].strong++;
+                            break;
+                        case MATRIX:
+                            game.frozenPlayer = 7;
+                            game.timer3control = 1;
+                            break;
+                    }
+
+
+
+                    alive = false;
+                }
+                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 6 && (game.RandomPowerUp.isColliding(game.enemyTanks[5].tankRect).depth > 0))
+                {
+                    colliding = true;
+
+                    switch (game.RandomPowerUp.type)
+                    {
+                        case HEART:
+                            game.enemyTanks[5].lives++;
+                            break;
+                        case ARMOR:
+                            game.enemyTanks[5].armor++;
+                            break;
+                        case BARRIER:
+                            game.barrierPlayer = 8;
+                            game.timer2control = 1;
+                            break;
+                        case AMMO:
+                            game.enemyTanks[5].strong++;
+                            break;
+                        case MATRIX:
+                            game.frozenPlayer = 8;
+                            game.timer3control = 1;
+                            break;
+                    }
+
+
+
+                    alive = false;
+                }
 
 
 

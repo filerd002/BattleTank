@@ -4,7 +4,6 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Arial.spritefont</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/explosion.wav</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/hit.wav</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/klik.wav</File>
@@ -12,10 +11,6 @@
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/respawn.wav</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/shot.wav</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Background.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank1.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank2.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BattleTank3.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/BlueTank.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/GreenTank.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/koniec.png</File>
@@ -32,17 +27,84 @@
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/playerVSplayer1.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/powrot.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/powrot1.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przegrana.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przegrana1.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/RedTank.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wall.jpg</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/YellowTank.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/zwyciestwo.png</File>
-    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/zwyciestwo1.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpAmmo.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpArmor.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpBarrier.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpHeart.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/barrier.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/bush.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/water.gif</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Arial.spritefont</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/cursor.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/mineGreen.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/mineRed.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpMatrix.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/PowerUpMine.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/sukces.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/sukces1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przegrana.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przegrana1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/settings1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/zagraj.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/zagraj1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/settings.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyscig.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyscig1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Ramka.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Ramka1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Ramka2.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Ramka3.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Ramka4.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/battleTank.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/battleTank1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborTrybGry.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborTrybGry1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przerwa.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/przerwa1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Poziom1Trud.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Poziom1Trud1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Poziom2Trud.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Poziom2Trud1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Poziom3Trud.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Poziom3Trud1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborPoziomTrud.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborPoziomTrud1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborCpuKlamikaze.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborCpuKlamikaze1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborCpuKlasyk.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborCpuKlasyk1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/0.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/01.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/2.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/3.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/11.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/21.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/31.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/doBoju.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/doBoju1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Czas1Gry.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Czas1Gry1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Czas2Gry.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Czas2Gry1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Czas3Gry.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Czas3Gry1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborCzasGry.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/wyborCzasGry1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/oprawaGraficzna.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/oprawaGraficzna1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/oprawaGraficznaKlasyk.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/oprawaGraficznaKlasyk1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/oprawaGraficznaModern.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/oprawaGraficznaModern1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/SukcesPorazka1Gracza.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/SukcesPorazka1Gracza1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/SukcesPorazka2Gracza.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/SukcesPorazka2Gracza1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/RamkaXL.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/RamkaXXL.png</File>
   </SourceFiles>
 </SourceFileCollection>

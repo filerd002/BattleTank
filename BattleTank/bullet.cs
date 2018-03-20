@@ -18,6 +18,10 @@ namespace BattleTank
         public int player { get; set; }
         public float rotation { get; set; }
         public Texture2D rectangleTexture;
+        private Rectangle rectangle;
+        private int v;
+        private Texture2D whiteRectangle;
+
         public bool alive { get; set; }
         public int pointsOnHit { get; set; }
         public int pointsOnKill { get; set; }
@@ -36,6 +40,18 @@ namespace BattleTank
             pointsOnHit = 50;
             pointsOnKill = 200;
         }
+
+        public Bullet(Game1 game, Rectangle rectangle, Vector2 speed, Color color, int player, int v, Texture2D whiteRectangle)
+        {
+            this.game = game;
+            this.rectangle = rectangle;
+            this.speed = speed;
+            this.color = color;
+            this.player = player;
+            this.v = v;
+            this.whiteRectangle = whiteRectangle;
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (alive)
@@ -102,10 +118,10 @@ namespace BattleTank
                 if (game.tank2.barrier == false)
                 {
                     game.tank2.Hit();
-                    game.scoreManager.addScore(0, pointsOnHit);
+                  //  game.scoreManager.addScore(0, pointsOnHit);
                     if (!game.tank2.alive)
                     {
-                        game.scoreManager.addScore(0, pointsOnKill);
+                      //  game.scoreManager.addScore(0, pointsOnKill);
                     }
                 }
                 this.Die();
@@ -116,10 +132,10 @@ namespace BattleTank
                 if (game.tank1.barrier == false)
                 {
                     game.tank1.Hit();
-                    game.scoreManager.addScore(1, pointsOnHit);
+                  //  game.scoreManager.addScore(1, pointsOnHit);
                     if (!game.tank1.alive)
                     {
-                        game.scoreManager.addScore(1, pointsOnKill);
+                    //    game.scoreManager.addScore(1, pointsOnKill);
                     }
                 }
                 this.Die();
@@ -135,6 +151,7 @@ namespace BattleTank
                         if ((tile.isColliding(hitbulletRect).depth > 0)) //If collision is not an empty collision
                         {
                             Collision collision = tile.isColliding(hitbulletRect);
+                            if(tile.type==1)
                             this.Die();
                         }
                     }

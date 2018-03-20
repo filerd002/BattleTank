@@ -19,6 +19,8 @@ namespace BattleTank
         public int lives { get; set; }
 
         public int strong { get; set; }
+
+        public int mines { get; set; }
         public bool barrier { get; set; }
         public int armor { get; set; }
         public float scale { get; set; }
@@ -27,7 +29,6 @@ namespace BattleTank
         public Keys keyDown;
         public Keys keyRight;
         public Keys keyBoost;
-      
         public bool alive;
         public Rectangle tankRect;
         public Particlecloud deathParticles;
@@ -43,10 +44,12 @@ namespace BattleTank
         public const float UP_LEFT = -(MathHelper.Pi - MathHelper.PiOver4);
 		public bool colliding = false;
         public Texture2D whiteRectangle;
-		public bool enemy = false;
+ 
+        public bool enemy = false;
         public Texture2D barrierTexture;
         public Rectangle barrierRect;
         public Vector2 barrierLocation;
+        public bool frozen = false;
 
         //generic constructor
         public Tank()
@@ -55,7 +58,7 @@ namespace BattleTank
         }
 
         //overloaded constructor(s)
-        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, float _rotation, int _player, float _scale, Texture2D _whiteRectangle,int _strong,bool _barrier, Keys _keyUp, Keys _keyLeft, Keys _keyDown, Keys _keyRight, Keys _keyBoost)
+        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, float _rotation, int _player, float _scale, Texture2D _whiteRectangle,int _strong,int _mines, bool _barrier, Keys _keyUp, Keys _keyLeft, Keys _keyDown, Keys _keyRight, Keys _keyBoost)
         {
             tankTexture = _game.Content.Load<Texture2D>(_tankSpriteName);
             location = _location;
@@ -69,6 +72,7 @@ namespace BattleTank
             scale = _scale;
             whiteRectangle = _whiteRectangle;
             strong = _strong;
+            mines = _mines;
             barrier = _barrier;
             keyUp = _keyUp;
             keyLeft = _keyLeft;
@@ -93,11 +97,12 @@ namespace BattleTank
             if (alive)
             {
                 spriteBatch.Draw(tankTexture, location, null, null, origin, rotation, null, null);
-            } else
-			{
-              
-				
-			}
+            }
+            else
+            {
+             
+            }
+            
             respawnParticles.Draw(spriteBatch);
             deathParticles.Draw(spriteBatch);
             if (hitParticles != null)
@@ -109,7 +114,11 @@ namespace BattleTank
         {
             if (alive)
             {
+                if(!frozen)
+               { 
                 Move(state);
+            }
+
                 tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
 			
 				colliding = false;
@@ -146,14 +155,11 @@ namespace BattleTank
                     }
                 }
 
-            //Colision dla powerup
-            
-            //
-
+          
             } else
 			{
-               
-			}
+              
+            }
             respawnParticles.Update(gameTime);
             deathParticles.Update(gameTime);
             if (hitParticles != null)
@@ -425,6 +431,17 @@ namespace BattleTank
                 alive = true;
             }
         }
-		
+
+        public void Explode()
+        {
+            if (alive)
+            {
+               
+                Die();
+            }
+        }
+
+       
+
     }
 }

@@ -9,6 +9,8 @@ namespace BattleTank
     {
         public const int AIR = 0;
         public const int WALL = 1;
+        public const int BUSH = 2;
+        public const int WATER = 3;
         public Rectangle collisionRect;
         public Texture2D texture;
         public int type;
@@ -20,22 +22,33 @@ namespace BattleTank
         }
         public void Update(GameTime gameTime)
         {
-            switch(type)
+            switch (type)
             {
                 case AIR:
                     break;
                 case WALL:
                     break;
+                case BUSH:
+                    break;
+                case WATER:
+                    break;
+
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            switch(type)
+            switch (type)
             {
                 case AIR:
-                   
+
                     break;
                 case WALL:
+                    spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
+                    break;
+                case BUSH:
+                    spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
+                    break;
+                case WATER:
                     spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
                     break;
             }
@@ -43,7 +56,7 @@ namespace BattleTank
         public Collision isColliding(Rectangle possibleCollisionRect)
         {
             Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, collisionRect);
-            if (type == WALL)
+            if (type == WALL || type ==WATER)
             {
                 if (intersect.Width > 0 || intersect.Height > 0)
                 {

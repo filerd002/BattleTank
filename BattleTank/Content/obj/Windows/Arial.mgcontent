@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <SourceFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Arial.spritefont</SourceFile>
-  <SourceTime>2017-03-21T19:47:15+01:00</SourceTime>
+  <SourceTime>2018-03-17T11:50:38.0327268+01:00</SourceTime>
   <DestFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/bin/Windows/Arial.xnb</DestFile>
-  <DestTime>2018-01-21T13:14:27.3340065+01:00</DestTime>
+  <DestTime>2018-03-19T19:31:42.788255+01:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>FontDescriptionProcessor</Processor>

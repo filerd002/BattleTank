@@ -15,6 +15,7 @@ namespace BattleTank
         private int[] score;
         private int numOfPlayers { get; set; }
         private SpriteFont spriteFont;
+        private SpriteFont spriteFontBig;
         public Score() { }
 
 
@@ -41,6 +42,7 @@ namespace BattleTank
         public void Load()
         {
             spriteFont = game.Content.Load<SpriteFont>("Arial");
+            spriteFontBig = game.Content.Load<SpriteFont>("ArialBig");
         }
         public int getScore(int playerIndex)
         {
@@ -221,6 +223,16 @@ namespace BattleTank
 
                 //   spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.graphics.PreferredBackBufferWidth - 170, game.graphics.PreferredBackBufferHeight - 70), Color.Red);
 
+
+                if (game.gameState == game.gameRunningWyscig)
+                {
+
+                   
+                    TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);
+                    spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2)-20,game.map.screenHeight/ 2), Color.White);
+
+                    
+                }
 
 
                 if (locationScoreTank2.Equals("TOP"))

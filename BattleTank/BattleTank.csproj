@@ -256,6 +256,7 @@
     <None Include="Content\Arial.spritefont">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Content\ArialBig.spritefont" />
     <None Include="Content\Content.mgcb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

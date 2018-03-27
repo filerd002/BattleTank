@@ -1196,3 +1196,10 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/RamkaXXL.png
 
+#begin ArialBig.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:ArialBig.spritefont
+

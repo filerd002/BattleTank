@@ -141,7 +141,7 @@ namespace BattleTank
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height - GraphicsDevice.DisplayMode.Height % 48;
           //  graphics.PreferredBackBufferWidth = 48 * 20;
            // graphics.PreferredBackBufferHeight = 48 * 16;
-            graphics.IsFullScreen = false;
+            graphics.IsFullScreen = true;
             graphics.ApplyChanges();
             map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight,0);
             whiteRectangle.SetData(new[] { Color.White });
@@ -2778,7 +2778,7 @@ namespace BattleTank
                             }
                             else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 3)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, MathHelper.PiOver4, poziomTrudnosci, false));
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
@@ -2995,7 +2995,7 @@ namespace BattleTank
 
 
 
-                        if (!et.alive)
+                        if (!et.alive && et.lives>0)
                         {
                             tankAITimeToBackAlive -= timer;
                             if (tankAITimeToBackAlive < 0)

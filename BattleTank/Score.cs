@@ -386,7 +386,7 @@ namespace BattleTank
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze == 1)
+            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 1)
             {
                 //game.enemyTanks[0]
 
@@ -498,7 +498,7 @@ namespace BattleTank
                     }
                 }
             }
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze == 2)
+            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 2)
             {
 
                 //game.enemyTanks[1]
@@ -613,7 +613,7 @@ namespace BattleTank
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze == 3)
+            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 3)
 
             {
 
@@ -731,7 +731,7 @@ namespace BattleTank
             }
 
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze == 4)
+            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 4)
 
             {
 
@@ -848,7 +848,7 @@ namespace BattleTank
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze == 5)
+            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 5)
 
             {
 
@@ -965,7 +965,7 @@ namespace BattleTank
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze == 6)
+            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 6)
 
             {
 

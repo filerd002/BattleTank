@@ -169,3 +169,4 @@ C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\
 C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\RamkaXL.xnb
 C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\RamkaXXL.xnb
 C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\ArialBig.xnb
+C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Sounds\rustling.xnb

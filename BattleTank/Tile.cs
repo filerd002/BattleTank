@@ -13,6 +13,7 @@ namespace BattleTank
         public const int WATER = 3;
         public Rectangle collisionRect;
         public Texture2D texture;
+ 
         public int type;
         public Tile(int _type, Rectangle _collisionRect, Texture2D _texture)
         {
@@ -56,7 +57,7 @@ namespace BattleTank
         public Collision isColliding(Rectangle possibleCollisionRect)
         {
             Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, collisionRect);
-            if (type == WALL || type ==WATER)
+            if (type == WALL || type ==WATER || type == BUSH)
             {
                 if (intersect.Width > 0 || intersect.Height > 0)
                 {
@@ -83,7 +84,8 @@ namespace BattleTank
                     }
                 }
             }
-            return new Collision();
+            
+                return new Collision();
         }
     }
 }

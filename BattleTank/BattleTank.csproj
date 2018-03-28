@@ -248,6 +248,7 @@
     <Content Include="Content\Sounds\klik.wav" />
     <Content Include="Content\Sounds\menu_sound.wav" />
     <Content Include="Content\Sounds\respawn.wav" />
+    <Content Include="Content\Sounds\rustling.wav" />
     <Content Include="Content\Sounds\shot.wav" />
     <Content Include="Icon.ico" />
   </ItemGroup>

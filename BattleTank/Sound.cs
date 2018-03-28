@@ -16,18 +16,19 @@ namespace BattleTank
         private SoundEffect klik;
         private SoundEffect respawn;
         private SoundEffect explosion;
-     
+        private SoundEffect rustling;
 
-        public enum Sounds { MENU_SOUND,HIT,SHOT,KLIK,RESPAWN,EXPLOSION }
+        public enum Sounds { MENU_SOUND,HIT,SHOT,KLIK,RESPAWN,EXPLOSION,RUSTLING }
         public Sound(Game1 game)
         {
             menuSound = game.Content.Load<SoundEffect>("Sounds\\menu_sound");
-            hit = game.Content.Load<SoundEffect>("Sounds\\hit"); ;
-            shot = game.Content.Load<SoundEffect>("Sounds\\shot"); ;
-            klik = game.Content.Load<SoundEffect>("Sounds\\klik"); ;
-            respawn = game.Content.Load<SoundEffect>("Sounds\\respawn"); ;
-            explosion = game.Content.Load<SoundEffect>("Sounds\\explosion"); ;
-    }
+            hit = game.Content.Load<SoundEffect>("Sounds\\hit"); 
+            shot = game.Content.Load<SoundEffect>("Sounds\\shot"); 
+            klik = game.Content.Load<SoundEffect>("Sounds\\klik"); 
+            respawn = game.Content.Load<SoundEffect>("Sounds\\respawn"); 
+            explosion = game.Content.Load<SoundEffect>("Sounds\\explosion");
+            rustling = game.Content.Load<SoundEffect>("Sounds\\rustling");
+        }
         public SoundEffect deploySound(Sounds sound)
         {
             SoundEffect soundEffect = null;
@@ -49,7 +50,7 @@ namespace BattleTank
 
         public void PlaySound(Sounds sound)
         {
-            //HIT,SHOT,KLIK,RESPAWN,EXPLOSION 
+            //HIT,SHOT,KLIK,RESPAWN,EXPLOSION ,RUSTLING
             switch (sound)
             {
                 case Sounds.HIT:
@@ -67,7 +68,9 @@ namespace BattleTank
                 case Sounds.EXPLOSION:
                     explosion.Play();
                     break;
-
+                case Sounds.RUSTLING:
+                    rustling.Play();
+                    break;
             }
         }
 

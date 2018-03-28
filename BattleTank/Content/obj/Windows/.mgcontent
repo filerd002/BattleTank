@@ -108,5 +108,11 @@
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/RamkaXXL.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/ArialBig.spritefont</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/rustling.wav</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/trybSterowania.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/trybSterowania1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/trybSterowaniaKlawMysz.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/trybSterowaniaKlawMysz1.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/trybSterowaniaPad.png</File>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/trybSterowaniaPad1.png</File>
   </SourceFiles>
 </SourceFileCollection>

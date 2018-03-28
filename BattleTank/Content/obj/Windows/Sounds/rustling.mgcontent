@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <SourceFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/explosion.wav</SourceFile>
-  <SourceTime>2018-01-15T16:16:36.3433824+01:00</SourceTime>
-  <DestFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/bin/Windows/Sounds/explosion.xnb</DestFile>
-  <DestTime>2018-03-28T14:32:43.0081034+02:00</DestTime>
+  <SourceFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/rustling.wav</SourceFile>
+  <SourceTime>2018-03-28T14:31:56.440786+02:00</SourceTime>
+  <DestFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/bin/Windows/Sounds/rustling.xnb</DestFile>
+  <DestTime>2018-03-28T14:32:50.34411+02:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

@@ -50,6 +50,7 @@ namespace BattleTank
         public Rectangle barrierRect;
         public Vector2 barrierLocation;
         public bool frozen = false;
+        private float timerBush = 0f;
 
         //generic constructor
         public Tank()
@@ -126,30 +127,58 @@ namespace BattleTank
                 {
                     foreach (Tile tile in tiles)
                     {
-                        if (tile != null)
+                        if (tile.type == Tile.WALL || tile.type == Tile.WATER || tile.type == Tile.BUSH)
                         {
                             if ((tile.isColliding(tankRect).depth > 0)) 
                             {
+                                float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+                                timerBush -= timer;
+
                                 colliding = true;
                                 Collision collision = tile.isColliding(tankRect);
                                 switch (collision.side)
                                 {
                                     case Collision.Side.TOP:
-                                        location.Y += collision.depth;
+                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                            location.Y += collision.depth;
+                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        {
+                                            game.sound.PlaySound(Sound.Sounds.RUSTLING);
+                                            timerBush = 0.5f;
+                                        }
                                         break;
                                     case Collision.Side.BOTTOM:
-                                        location.Y -= collision.depth;
+                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                            location.Y -= collision.depth;
+                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        {
+                                            game.sound.PlaySound(Sound.Sounds.RUSTLING);
+                                            timerBush = 0.5f;
+                                        }
                                         break;
                                     case Collision.Side.LEFT:
-                                        location.X += collision.depth;
+                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                            location.X += collision.depth;
+                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        {
+                                            game.sound.PlaySound(Sound.Sounds.RUSTLING);
+                                            timerBush = 0.5f;
+                                        }
                                         break;
                                     case Collision.Side.RIGHT:
-                                        location.X -= collision.depth;
+                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                            location.X -= collision.depth;
+                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        {
+                                            game.sound.PlaySound(Sound.Sounds.RUSTLING);
+                                            timerBush = 0.5f;
+                                        }
                                         break;
 
                                 }
                             }
                         }
+                       
                         else { continue; }
                         
                     }

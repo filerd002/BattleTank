@@ -1203,3 +1203,9 @@
 /processorParam:TextureFormat=Compressed
 /build:ArialBig.spritefont
 
+#begin Sounds/rustling.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Sounds/rustling.wav
+

@@ -3,7 +3,7 @@
   <SourceFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/shot.wav</SourceFile>
   <SourceTime>2018-01-15T16:15:56.0513909+01:00</SourceTime>
   <DestFile>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/bin/Windows/Sounds/shot.xnb</DestFile>
-  <DestTime>2018-03-28T14:32:45.4921044+02:00</DestTime>
+  <DestTime>2018-03-28T23:42:41.7401222+02:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2017-03-01T16:05:36+01:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

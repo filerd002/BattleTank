@@ -170,3 +170,9 @@ C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\
 C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\RamkaXXL.xnb
 C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\ArialBig.xnb
 C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Sounds\rustling.xnb
+C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\trybSterowania.xnb
+C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\trybSterowania1.xnb
+C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\trybSterowaniaKlawMysz.xnb
+C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\trybSterowaniaKlawMysz1.xnb
+C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\trybSterowaniaPad.xnb
+C:\Users\Filip\source\repos\BattleTank\BattleTank\bin\Windows\x86\Debug\Content\Graphics\trybSterowaniaPad1.xnb

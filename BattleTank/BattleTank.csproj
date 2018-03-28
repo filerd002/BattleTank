@@ -213,6 +213,12 @@
     <Content Include="Content\Graphics\SukcesPorazka1Gracza1.png" />
     <Content Include="Content\Graphics\SukcesPorazka2Gracza.png" />
     <Content Include="Content\Graphics\SukcesPorazka2Gracza1.png" />
+    <Content Include="Content\Graphics\trybSterowania.png" />
+    <Content Include="Content\Graphics\trybSterowania1.png" />
+    <Content Include="Content\Graphics\trybSterowaniaKlawMysz.png" />
+    <Content Include="Content\Graphics\trybSterowaniaKlawMysz1.png" />
+    <Content Include="Content\Graphics\trybSterowaniaPad.png" />
+    <Content Include="Content\Graphics\trybSterowaniaPad1.png" />
     <Content Include="Content\Graphics\wall.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

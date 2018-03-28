@@ -15,12 +15,12 @@ namespace BattleTank
     {
         public Map map;
         public bool WallInside = false;
-       public  GraphicsDeviceManager graphics;
+        public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D whiteRectangle;
         public Tank tank1;
         public Tank tank2;
-		public List<AI_Tank> enemyTanks = new List<AI_Tank>();
+        public List<AI_Tank> enemyTanks = new List<AI_Tank>();
         List<Bullet> bullets = new List<Bullet>();
         public List<Mine> mines = new List<Mine>();
         public Score scoreManager;
@@ -36,7 +36,7 @@ namespace BattleTank
         private float tank2TimeToBackAlive = 2f;
         private float tankAITimeToBackAlive = 2f;
         private const float BACK_ALIVE_DELAY = 2f;
-     
+
         int timer1control = 0;
         public int timer2control = 0;
         public int timer3control = 0;
@@ -48,9 +48,9 @@ namespace BattleTank
         Texture2D przerwaTexture;
         Texture2D winTexture;
         Texture2D lossTexture;
-         Texture2D cursorTexture;
-         Texture2D mineTextureGreen;
-         Texture2D mineTextureRed;
+        Texture2D cursorTexture;
+        Texture2D mineTextureGreen;
+        Texture2D mineTextureRed;
         Texture2D ButtonPlayer1;
         Texture2D ButtonPlayer2;
         Texture2D ButtonPlayer3;
@@ -60,9 +60,9 @@ namespace BattleTank
         Texture2D ButtonKoniec;
         Texture2D ButtonZagraj;
         Texture2D ButtonSettings;
-        Texture2D SettingsOprawaGraficzna;
-        Texture2D ButtonSettingsOprawaGraficznaKlasyk;
-        Texture2D ButtonSettingsOprawaGraficznaModern;
+        Texture2D SettingsTrybSterowania;
+        Texture2D ButtonSettingsTrybSterowaniaKlawMysz;
+        Texture2D ButtonSettingsTrybSterowaniaPad;
         Texture2D wyborPoziomTrud;
         Texture2D Poziom1Trud;
         Texture2D Poziom2Trud;
@@ -92,7 +92,7 @@ namespace BattleTank
 
         public PowerUp RandomPowerUp;
         string PowerUpSpriteName;
-        public  float timerPowerUp = 10f;
+        public float timerPowerUp = 10f;
         private float timerBarrier = 10f;
         private float timerFrozen = 4f;
         Random randy = new Random();
@@ -113,15 +113,15 @@ namespace BattleTank
         public float czasWyscigu = 300f;
 
         public int gameState, gameReturn;
-        public  int START_GAME = 0, SETTINGS = 1,CHOICE_OF_GAME_TYPE = 2, CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU=3, CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG=4, gameRunningPlayer1 = 5, gameRunningPlayers2 = 6, gameRunningPlayers2andCPU = 7, gameRunningWyscig=8, pause = 9, gameWin=10,gameLoss=11;
+        public int START_GAME = 0, SETTINGS = 1, CHOICE_OF_GAME_TYPE = 2, CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU = 3, CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG = 4, gameRunningPlayer1 = 5, gameRunningPlayers2 = 6, gameRunningPlayers2andCPU = 7, gameRunningWyscig = 8, pause = 9, gameWin = 10, gameLoss = 11;
 
         SoundEffectInstance soundEffectInstance = null;
 
-       
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-         
+
             Content.RootDirectory = "Content";
         }
 
@@ -136,18 +136,18 @@ namespace BattleTank
             IsMouseVisible = false;
             gameState = START_GAME;
             whiteRectangle = new Texture2D(GraphicsDevice, 1, 1);
-           // UNCOMMENT NEXT THREE COMMENTS FOR FULLSCREEN
+            // UNCOMMENT NEXT THREE COMMENTS FOR FULLSCREEN
             graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width - GraphicsDevice.DisplayMode.Width % 48; //Makes the window size a divisor of 48 so the tiles fit more cleanly.
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height - GraphicsDevice.DisplayMode.Height % 48;
-          //  graphics.PreferredBackBufferWidth = 48 * 20;
-           // graphics.PreferredBackBufferHeight = 48 * 16;
+            //  graphics.PreferredBackBufferWidth = 48 * 20;
+            // graphics.PreferredBackBufferHeight = 48 * 16;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
-            map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight,0);
+            map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0);
             whiteRectangle.SetData(new[] { Color.White });
             background = Content.Load<Texture2D>("Graphics//Background");
             menuTexture = Content.Load<Texture2D>("Graphics//Ramka");
-         
+
             menuWinAndLossTexture = Content.Load<Texture2D>("Graphics//MenuWinAndLoss");
             BattleTankTexture = Content.Load<Texture2D>("Graphics//battleTank");
             wyborTrybGryTexture = Content.Load<Texture2D>("Graphics//wyborTrybGry");
@@ -155,10 +155,10 @@ namespace BattleTank
             lossTexture = Content.Load<Texture2D>("Graphics//przegrana");
             przerwaTexture = Content.Load<Texture2D>("Graphics//przerwa");
 
-            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50,50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1,3, false, Keys.W, Keys.A, Keys.S, Keys.D, Keys.B);
-            tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle,1,3, false, Keys.Up, Keys.Left, Keys.Down, Keys.Right,  Keys.Decimal);
-          
-     
+            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, Keys.W, Keys.A, Keys.S, Keys.D, Keys.B);
+            tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal);
+
+
             cursorTexture = Content.Load<Texture2D>("Graphics//cursor");
             mineTextureGreen = Content.Load<Texture2D>("Graphics//mineGreen");
             mineTextureRed = Content.Load<Texture2D>("Graphics//mineRed");
@@ -169,9 +169,9 @@ namespace BattleTank
             tank2DebugRect = new Rectangle();
             sound = new Sound(this);
 
-            menuSound = new Sound(this);       
+            menuSound = new Sound(this);
             soundEffectInstance = menuSound.deploySound(Sound.Sounds.MENU_SOUND).CreateInstance();
-            soundOnOff = 0; 
+            soundOnOff = 0;
 
 
             base.Initialize();
@@ -195,11 +195,11 @@ namespace BattleTank
             ButtonPowrot = this.Content.Load<Texture2D>("Graphics//powrot");
             ButtonNowaGra = this.Content.Load<Texture2D>("Graphics//nowagra");
             ButtonKoniec = this.Content.Load<Texture2D>("Graphics//koniec");
-            ButtonZagraj = this.Content.Load<Texture2D>("Graphics//zagraj"); 
+            ButtonZagraj = this.Content.Load<Texture2D>("Graphics//zagraj");
             ButtonSettings = this.Content.Load<Texture2D>("Graphics//settings");
-            SettingsOprawaGraficzna = this.Content.Load<Texture2D>("Graphics//oprawaGraficzna");
-            ButtonSettingsOprawaGraficznaKlasyk = this.Content.Load<Texture2D>("Graphics//oprawaGraficznaKlasyk");
-            ButtonSettingsOprawaGraficznaModern = this.Content.Load<Texture2D>("Graphics//oprawaGraficznaModern");
+            SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania");
+            ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
+            ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
 
             wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics//wyborPoziomTrud");
             Poziom1Trud = this.Content.Load<Texture2D>("Graphics//Poziom1Trud");
@@ -271,7 +271,7 @@ namespace BattleTank
 
             }
 
-            if (gameReturn == gameRunningPlayer1 && gameState== gameRunningPlayer1)
+            if (gameReturn == gameRunningPlayer1 && gameState == gameRunningPlayer1)
             {
 
 
@@ -530,7 +530,7 @@ namespace BattleTank
                     }
                 }
             }
-            else if ((gameReturn == gameRunningPlayers2 && gameState == gameRunningPlayers2)|| (gameReturn == gameRunningWyscig && gameState == gameRunningWyscig))
+            else if ((gameReturn == gameRunningPlayers2 && gameState == gameRunningPlayers2) || (gameReturn == gameRunningWyscig && gameState == gameRunningWyscig))
             {
                 if (tank1.barrier == true || tank2.barrier == true)
                 {
@@ -939,8 +939,8 @@ namespace BattleTank
                 }
             }
 
-          
-            if (gameReturn == gameRunningPlayer1 && gameState== gameRunningPlayer1)
+
+            if (gameReturn == gameRunningPlayer1 && gameState == gameRunningPlayer1)
             {
 
 
@@ -1199,7 +1199,7 @@ namespace BattleTank
                     }
                 }
             }
-            else if ((gameReturn == gameRunningPlayers2 && gameState == gameRunningPlayers2)|| (gameReturn == gameRunningWyscig && gameState == gameRunningWyscig))
+            else if ((gameReturn == gameRunningPlayers2 && gameState == gameRunningPlayers2) || (gameReturn == gameRunningWyscig && gameState == gameRunningWyscig))
             {
                 if (tank1.frozen == true || tank2.frozen == true)
                 {
@@ -1271,7 +1271,7 @@ namespace BattleTank
 
 
 
-                    if (gameReturn == gameRunningPlayers2 || gameReturn== gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
+                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
                         tank2.frozen = true;
 
 
@@ -1607,12 +1607,12 @@ namespace BattleTank
                     enemyTanks[5].frozen = false;
                 }
             }
-         
+
             //
             //
 
             if (RandomPowerUp != null)
-            {      
+            {
                 RandomPowerUp.Update(gameTime);
             }
             float timer1 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
@@ -1623,7 +1623,7 @@ namespace BattleTank
                 if (timer1control == 0)
                 {
 
-                 
+
                     Vector2 positionPowerUp = new Vector2(randy.Next(50, graphics.PreferredBackBufferWidth - 50), randy.Next(50, graphics.PreferredBackBufferHeight - 50));
 
                     typePowerUp = randy.Next(6);
@@ -1650,15 +1650,15 @@ namespace BattleTank
                     }
 
                     RandomPowerUp = new PowerUp(this, typePowerUp, positionPowerUp, PowerUpSpriteName, whiteRectangle);
-                  
+
 
                     timer1control = 1;
                 }
                 else if (timer1control == 1)
                 {
                     RandomPowerUp.controlSound = 1;
-                    RandomPowerUp =null;
-                  
+                    RandomPowerUp = null;
+
                     timer1control = 0;
                 }
 
@@ -1674,21 +1674,22 @@ namespace BattleTank
                 soundEffectInstance.Stop();
             }
 
-                else if (soundOnOff == 0)
-                {
-                    soundEffectInstance.Play();
-                
-                }
-            
+            else if (soundOnOff == 0)
+            {
+                soundEffectInstance.Play();
 
-               
+            }
 
-            if((tank1.location.X) < 0){
+
+
+
+            if ((tank1.location.X) < 0)
+            {
                 tank1.location.X = map.screenWidth;
             }
             if ((tank1.location.X) > map.screenWidth)
             {
-                tank1.location.X =0;
+                tank1.location.X = 0;
             }
             if ((tank2.location.X) < 0)
             {
@@ -1737,17 +1738,17 @@ namespace BattleTank
                 {
                     et.location.Y = 0;
                 }
-              
+
             }
 
 
 
 
-        
+
 
             if (gameState == gameRunningPlayer1 || gameState == gameRunningPlayers2andCPU)
             {
-                if (gameState == gameRunningPlayer1  && tank1.lives == 0)
+                if (gameState == gameRunningPlayer1 && tank1.lives == 0)
                 {
                     gameState = gameLoss;
                 }
@@ -1759,50 +1760,50 @@ namespace BattleTank
 
                 else if (iloscCPUKlasyk + iloscCPUKamikaze == 1)
                 {
-                if (enemyTanks[0].lives == 0)
-                    gameState = gameWin;
+                    if (enemyTanks[0].lives == 0)
+                        gameState = gameWin;
                 }
-                 else if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
+                else if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
                 {
-                if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0)
-                    gameState = gameWin;
+                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0)
+                        gameState = gameWin;
                 }
-                 else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
+                else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
                 {
-                if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0)
-                    gameState = gameWin;
+                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0)
+                        gameState = gameWin;
                 }
-                 else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
+                else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
                 {
-                if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0)
-                    gameState = gameWin;
+                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0)
+                        gameState = gameWin;
                 }
-                 else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
+                else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
                 {
-                 if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0 && enemyTanks[4].lives == 0)
-                    gameState = gameWin;
+                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0 && enemyTanks[4].lives == 0)
+                        gameState = gameWin;
                 }
-                 else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
+                else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
                 {
-                if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0 && enemyTanks[4].lives == 0 && enemyTanks[5].lives == 0)
-                    gameState = gameWin;
+                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0 && enemyTanks[4].lives == 0 && enemyTanks[5].lives == 0)
+                        gameState = gameWin;
                 }
 
-               
-        }
 
-            
-       if (gameState == gameRunningPlayers2)
-       {
-           if (tank1.lives == 0)
-           {
-               gameState = gameWin;
-           }
-           if (tank2.lives == 0)
-           {
-               gameState = gameWin;
-           }
-       }
+            }
+
+
+            if (gameState == gameRunningPlayers2)
+            {
+                if (tank1.lives == 0)
+                {
+                    gameState = gameWin;
+                }
+                if (tank2.lives == 0)
+                {
+                    gameState = gameWin;
+                }
+            }
 
 
             if (gameState == gameRunningWyscig)
@@ -1814,7 +1815,7 @@ namespace BattleTank
                     if (scoreManager.getScore(0) > scoreManager.getScore(1))
                     {
                         tank2.lives = 0;
-                         
+
                     }
                     if (scoreManager.getScore(0) < scoreManager.getScore(1))
                     {
@@ -1822,14 +1823,14 @@ namespace BattleTank
                     }
                     gameState = gameWin;
                 }
-                }
+            }
 
 
 
 
 
 
-                if (gameState == pause || gameState == gameWin || gameState == gameLoss)
+            if (gameState == pause || gameState == gameWin || gameState == gameLoss)
             {
 
 
@@ -1893,13 +1894,13 @@ namespace BattleTank
                         winTexture = this.Content.Load<Texture2D>("Graphics//sukces");
                     }
 
-            
+
 
                     if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60, 300, 70)))
                     {
 
-                        if(tank2.lives==0)
-                        SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka1Gracza1");
+                        if (tank2.lives == 0)
+                            SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka1Gracza1");
                         if (tank1.lives == 0)
                             SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka2Gracza1");
 
@@ -1908,7 +1909,7 @@ namespace BattleTank
                     {
 
                         if (tank2.lives == 0)
-                        SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka1Gracza");
+                            SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka1Gracza");
                         if (tank1.lives == 0)
                             SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka2Gracza");
 
@@ -2118,21 +2119,21 @@ namespace BattleTank
                 if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 145, 300, 70)))
                 {
 
-                    SettingsOprawaGraficzna = this.Content.Load<Texture2D>("Graphics//OprawaGraficzna1");
+                    SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania1");
 
                 }
                 else
                 {
-                    SettingsOprawaGraficzna = this.Content.Load<Texture2D>("Graphics//OprawaGraficzna");
+                    SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania");
                 }
 
 
 
 
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 270, (map.screenHeight / 2) - 60, 250, 50)))
+                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50)))
                 {
 
-                    ButtonSettingsOprawaGraficznaKlasyk = this.Content.Load<Texture2D>("Graphics//oprawaGraficznaKlasyk1");
+                    ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
                     if (state.LeftButton == ButtonState.Pressed)
                     {
                         sound.PlaySound(Sound.Sounds.KLIK);
@@ -2142,19 +2143,19 @@ namespace BattleTank
                 }
                 else
                 {
-                    ButtonSettingsOprawaGraficznaKlasyk = this.Content.Load<Texture2D>("Graphics//oprawaGraficznaKlasyk");
+                    ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
                 }
 
 
 
 
 
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 0, (map.screenHeight / 2) - 60, 250, 50)))
+                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50)))
 
 
                 {
 
-                    ButtonSettingsOprawaGraficznaModern = this.Content.Load<Texture2D>("Graphics//oprawaGraficznaModern1");
+                    ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
                     if (state.LeftButton == ButtonState.Pressed)
                     {
 
@@ -2166,7 +2167,7 @@ namespace BattleTank
                 }
                 else
                 {
-                    ButtonSettingsOprawaGraficznaModern = this.Content.Load<Texture2D>("Graphics//oprawaGraficznaModern");
+                    ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
                 }
 
 
@@ -2316,7 +2317,7 @@ namespace BattleTank
                             gameState = CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG;
                             gameReturn = gameRunningWyscig;
 
-                     
+
                         }
                     }
                     else
@@ -2338,7 +2339,7 @@ namespace BattleTank
 
                     gameState = CHOICE_OF_GAME_TYPE;
                     keysStatus = true;
-                  
+
 
 
                 }
@@ -2350,7 +2351,7 @@ namespace BattleTank
                 positionMouse.X = state.X;
                 positionMouse.Y = state.Y;
 
-                
+
 
 
 
@@ -2371,7 +2372,7 @@ namespace BattleTank
                         wyborCzasGry = this.Content.Load<Texture2D>("Graphics//wyborCzasGry");
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90, 250, 50))||czasWyscigu==120)
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90, 250, 50)) || czasWyscigu == 120)
                     {
 
                         Czas1Gry = this.Content.Load<Texture2D>("Graphics//Czas1Gry1");
@@ -2447,7 +2448,7 @@ namespace BattleTank
 
                 }
 
-                }
+            }
 
 
             //
@@ -2469,7 +2470,7 @@ namespace BattleTank
 
                 }
 
-               
+
 
                 // Update our sprites position to the current cursor location
 
@@ -2995,7 +2996,7 @@ namespace BattleTank
 
 
 
-                        if (!et.alive && et.lives>0)
+                        if (!et.alive && et.lives > 0)
                         {
                             tankAITimeToBackAlive -= timer;
                             if (tankAITimeToBackAlive < 0)
@@ -3107,10 +3108,10 @@ namespace BattleTank
                 }
             }
 
-          
+
 
             base.Update(gameTime);
-        
+
         }
         /// <summary>
         /// This is called when the game should draw itself.
@@ -3118,30 +3119,30 @@ namespace BattleTank
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            
 
-                GraphicsDevice.Clear(Color.WhiteSmoke);
 
-                // TODO: Add your drawing code here
-                spriteBatch.Begin();
-                spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
-    
+            GraphicsDevice.Clear(Color.WhiteSmoke);
 
-                map.Draw(spriteBatch);
+            // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
 
-                foreach (Mine mine in mines)
-                {
-                    mine.Draw(spriteBatch);
-                }
 
-                if (gameState == CHOICE_OF_GAME_TYPE || gameState == pause || gameState == START_GAME)
-                {
-               
-                    spriteBatch.Draw(menuTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
+            map.Draw(spriteBatch);
+
+            foreach (Mine mine in mines)
+            {
+                mine.Draw(spriteBatch);
+            }
+
+            if (gameState == CHOICE_OF_GAME_TYPE || gameState == pause || gameState == START_GAME)
+            {
+
+                spriteBatch.Draw(menuTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
 
                 if (gameState == START_GAME)
                 {
-                    spriteBatch.Draw(BattleTankTexture,new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100), Color.White);
+                    spriteBatch.Draw(BattleTankTexture, new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100), Color.White);
 
                     spriteBatch.Draw(ButtonZagraj, new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50), Color.White);
                     spriteBatch.Draw(ButtonSettings, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50), Color.White);
@@ -3154,26 +3155,26 @@ namespace BattleTank
                     spriteBatch.Draw(wyborTrybGryTexture, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 145, 300, 70), Color.White);
 
                     spriteBatch.Draw(ButtonPlayer1, new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 60, 250, 50), Color.White);
-                        spriteBatch.Draw(ButtonPlayer2, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) - 10, 250, 50), Color.White);
-                        spriteBatch.Draw(ButtonPlayer3, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 40, 250, 50), Color.White);
-                         spriteBatch.Draw(ButtonPlayer4, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 90, 250, 50), Color.White);
+                    spriteBatch.Draw(ButtonPlayer2, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) - 10, 250, 50), Color.White);
+                    spriteBatch.Draw(ButtonPlayer3, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 40, 250, 50), Color.White);
+                    spriteBatch.Draw(ButtonPlayer4, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 90, 250, 50), Color.White);
                 }
 
-              
 
-                if (gameState == pause )
-                    {
+
+                if (gameState == pause)
+                {
 
                     spriteBatch.Draw(przerwaTexture, new Rectangle((map.screenWidth / 2) - 170, (map.screenHeight / 2) - 145, 320, 80), Color.White);
 
                     spriteBatch.Draw(ButtonPowrot, new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50), Color.White);
-                        spriteBatch.Draw(ButtonNowaGra, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50), Color.White);
-                        spriteBatch.Draw(ButtonKoniec, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50), Color.White);
-                    }
-                    spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
+                    spriteBatch.Draw(ButtonNowaGra, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50), Color.White);
+                    spriteBatch.Draw(ButtonKoniec, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50), Color.White);
                 }
+                spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
+            }
 
-            if ( gameState == SETTINGS || gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU || gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
+            if (gameState == SETTINGS || gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU || gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
             {
                 spriteBatch.Draw(menuTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
 
@@ -3185,13 +3186,13 @@ namespace BattleTank
                     spriteBatch.Draw(wyborPoziomTrud, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 220, 300, 60), Color.White);
                     spriteBatch.Draw(Poziom1Trud, new Rectangle((map.screenWidth / 2) - 325, (map.screenHeight / 2) - 155, 250, 50), Color.White);
                     spriteBatch.Draw(Poziom2Trud, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 155, 250, 50), Color.White);
-                    spriteBatch.Draw(Poziom3Trud, new Rectangle((map.screenWidth / 2) +75, (map.screenHeight / 2) - 155, 250, 50), Color.White);
+                    spriteBatch.Draw(Poziom3Trud, new Rectangle((map.screenWidth / 2) + 75, (map.screenHeight / 2) - 155, 250, 50), Color.White);
 
                     spriteBatch.Draw(wyborCpuKlasyk, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 100, 300, 60), Color.White);
 
                     spriteBatch.Draw(wyborCpuKlasykIlosc0, new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30, 60, 50), Color.White);
                     spriteBatch.Draw(wyborCpuKlasykIlosc1, new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30, 60, 50), Color.White);
-                    spriteBatch.Draw(wyborCpuKlasykIlosc2, new Rectangle((map.screenWidth / 2) +40, (map.screenHeight / 2) - 30, 60, 50), Color.White);
+                    spriteBatch.Draw(wyborCpuKlasykIlosc2, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30, 60, 50), Color.White);
                     spriteBatch.Draw(wyborCpuKlasykIlosc3, new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30, 60, 50), Color.White);
 
                     spriteBatch.Draw(wyborCpuKlamikaze, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 20, 300, 60), Color.White);
@@ -3210,9 +3211,9 @@ namespace BattleTank
 
                 if (gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
                 {
-                    
+
                     spriteBatch.Draw(wyborCzasGry, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 150, 300, 60), Color.White);
-                  
+
                     spriteBatch.Draw(Czas1Gry, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90, 250, 50), Color.White);
                     spriteBatch.Draw(Czas2Gry, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35, 250, 50), Color.White);
                     spriteBatch.Draw(Czas3Gry, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20, 250, 50), Color.White);
@@ -3223,9 +3224,9 @@ namespace BattleTank
 
                 if (gameState == SETTINGS)
                 {
-                    spriteBatch.Draw(SettingsOprawaGraficzna, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 145, 300, 70), Color.White);
-                    spriteBatch.Draw(ButtonSettingsOprawaGraficznaKlasyk, new Rectangle((map.screenWidth / 2) - 270, (map.screenHeight / 2) - 60, 250, 50), Color.White);
-                    spriteBatch.Draw(ButtonSettingsOprawaGraficznaModern, new Rectangle((map.screenWidth / 2) - 0, (map.screenHeight / 2) - 60, 250, 50), Color.White);
+                    spriteBatch.Draw(SettingsTrybSterowania, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 145, 300, 70), Color.White);
+                    spriteBatch.Draw(ButtonSettingsTrybSterowaniaKlawMysz, new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50), Color.White);
+                    spriteBatch.Draw(ButtonSettingsTrybSterowaniaPad, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50), Color.White);
                     spriteBatch.Draw(ButtonPowrot, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50), Color.White);
 
                 }
@@ -3235,34 +3236,36 @@ namespace BattleTank
 
             }
 
-            if (gameState == gameWin || gameState == gameLoss) {
-                    spriteBatch.Draw(menuWinAndLossTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
-                    spriteBatch.Draw(ButtonNowaGra, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2)+ 20, 250, 50), Color.White);
-                    spriteBatch.Draw(ButtonKoniec, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) +80, 250, 50), Color.White);
+            if (gameState == gameWin || gameState == gameLoss)
+            {
+                spriteBatch.Draw(menuWinAndLossTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
+                spriteBatch.Draw(ButtonNowaGra, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50), Color.White);
+                spriteBatch.Draw(ButtonKoniec, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50), Color.White);
 
-                    if (gameState == gameWin) {
-                        spriteBatch.Draw(winTexture, new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 300, 70), Color.White);
-                          if(tank2.lives==0)   
-                      spriteBatch.Draw(SukcesPorazka1Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60, 300, 70), Color.White);
+                if (gameState == gameWin)
+                {
+                    spriteBatch.Draw(winTexture, new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 300, 70), Color.White);
+                    if (tank2.lives == 0)
+                        spriteBatch.Draw(SukcesPorazka1Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60, 300, 70), Color.White);
                     if (tank1.lives == 0)
                         spriteBatch.Draw(SukcesPorazka2Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60, 300, 70), Color.White);
 
                 }
 
                 if (gameState == gameLoss)
-                    {
-                        spriteBatch.Draw(lossTexture, new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 300, 70), Color.White);
+                {
+                    spriteBatch.Draw(lossTexture, new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 300, 70), Color.White);
 
-                    }
-                    spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
                 }
-            
+                spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
+            }
 
 
 
-           if (gameState == gameRunningPlayers2andCPU)
+
+            if (gameState == gameRunningPlayers2andCPU)
             {
-               
+
                 if (timer1control == 1)
                     RandomPowerUp.Draw(spriteBatch);
 
@@ -3274,7 +3277,7 @@ namespace BattleTank
                 }
 
                 map.Draw(spriteBatch);
-          
+
                 scoreManager.Draw(spriteBatch);
 
                 foreach (Bullet bullet in bullets)
@@ -3284,11 +3287,11 @@ namespace BattleTank
                         bullet.Draw(spriteBatch);
                     }
                 }
-           }
+            }
             if (gameState == gameRunningPlayers2 || gameState == gameRunningWyscig)
             {
                 //
-                if(timer1control==1)
+                if (timer1control == 1)
                     RandomPowerUp.Draw(spriteBatch);
 
 
@@ -3297,7 +3300,7 @@ namespace BattleTank
                 tank1.Draw(spriteBatch);
                 tank2.Draw(spriteBatch);
 
-               
+
 
                 map.Draw(spriteBatch);
 
@@ -3310,7 +3313,7 @@ namespace BattleTank
                 }
                 scoreManager.Draw(spriteBatch);
 
-              
+
             }
             if (gameState == gameRunningPlayer1)
             {
@@ -3318,7 +3321,7 @@ namespace BattleTank
                     RandomPowerUp.Draw(spriteBatch);
 
                 tank1.Draw(spriteBatch);
-             
+
                 foreach (AI_Tank et in enemyTanks)
                 {
                     et.Draw(spriteBatch);
@@ -3334,12 +3337,12 @@ namespace BattleTank
                     }
                 }
             }
-         
+
 
             spriteBatch.End();
-            
+
             base.Draw(gameTime);
         }
     }
 }
-    
+

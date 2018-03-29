@@ -48,8 +48,6 @@ namespace BattleTank
         Texture2D winTexture;
         Texture2D lossTexture;
         Texture2D cursorTexture;
-        Texture2D mineTextureGreen;
-        Texture2D mineTextureRed;
         Texture2D ButtonPlayer1;
         Texture2D ButtonPlayer2;
         Texture2D ButtonPlayer3;
@@ -154,16 +152,13 @@ namespace BattleTank
             lossTexture = Content.Load<Texture2D>("Graphics//przegrana");
             przerwaTexture = Content.Load<Texture2D>("Graphics//przerwa");
 
-            KeyboardTankActionProvider keyboardProvider1stPlayer = new KeyboardTankActionProvider(Keys.W, Keys.A, Keys.S, Keys.D, Keys.B, Keys.D, Keys.Space);
+            KeyboardTankActionProvider keyboardProvider1stPlayer = new KeyboardTankActionProvider(Keys.W, Keys.A, Keys.S, Keys.D, Keys.B, Keys.N, Keys.Space);
             KeyboardTankActionProvider keyboardProvider2stPlayer = new KeyboardTankActionProvider(Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal, Keys.NumPad1, Keys.NumPad0);
             tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, keyboardProvider1stPlayer);
             tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, keyboardProvider2stPlayer);
 
 
             cursorTexture = Content.Load<Texture2D>("Graphics//cursor");
-            mineTextureGreen = Content.Load<Texture2D>("Graphics//mineGreen");
-            mineTextureRed = Content.Load<Texture2D>("Graphics//mineRed");
-
 
             scoreManager = new Score(this, 10);
             debugRect = new Rectangle();
@@ -3042,7 +3037,7 @@ namespace BattleTank
                             }
                         }
                     }
-                    
+
                     // TODO: Add your update logic here
                     KeyboardState stateKey = Keyboard.GetState();
 
@@ -3057,13 +3052,10 @@ namespace BattleTank
                     debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
                     tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
 
-                    foreach (Mine mine in mines)
-                    {
-                        mine.Update();
-                    }
+                    mines.ForEach(c => c.Update());
+                    bullets.ForEach(c => c?.Update());
 
-                    Bullet[] newBullets;
-                    if (tank1.TryFire(out newBullets))
+                    if (tank1.TryFire(out Bullet[] newBullets))
                     {
                         bullets.AddRange(newBullets);
                     }
@@ -3072,27 +3064,13 @@ namespace BattleTank
                         bullets.AddRange(newBullets);
                     }
 
-                    if (stateKey.IsKeyDown(Keys.RightAlt) && tank1MineDelay <= 0 && tank1.mines > 0)
+                    if (tank1.TryPlantMine(out Mine mine))
                     {
-                        tank1.mines--;
-                        tank1MineDelay = MINE_DELAY;
-                        mines.Add(new Mine(this, new Rectangle((int)tank1.location.X, (int)tank1.location.Y, 20, 20), Vector2.Zero, Color.Orange, 1, 0, mineTextureGreen));
+                        mines.Add(mine);
                     }
-                    if (stateKey.IsKeyDown(Keys.NumPad1) && tank2MineDelay <= 0 && tank2.mines > 0)
+                    if (tank2.TryPlantMine(out mine))
                     {
-                        tank2.mines--;
-                        tank2MineDelay = MINE_DELAY;
-                        mines.Add(new Mine(this, new Rectangle((int)tank2.location.X, (int)tank2.location.Y, 20, 20), Vector2.Zero, Color.Orange, 2, 0, mineTextureRed));
-                    }
-
-
-
-                    foreach (Bullet bullet in bullets)
-                    {
-                        if (bullet != null)
-                        {
-                            bullet.Update();
-                        }
+                        mines.Add(mine);
                     }
                 }
             }

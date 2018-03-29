@@ -11,17 +11,21 @@ namespace BattleTank
 {
     public class Mine : Bullet
     {
-      
-        public Mine() { }
-        public Mine(Game1 _game, Rectangle _bulletRect, Vector2 _speed, Color _color, int _player, float _rotation, Texture2D _rectangleTexture)
+        static Texture2D mineTextureGreen;
+        static Texture2D mineTextureRed;
+
+        public Mine(Game1 _game, Rectangle _bulletRect, Vector2 _speed, Color _color, int _player, float _rotation)
         {
+            if (mineTextureGreen is null) mineTextureGreen = _game.Content.Load<Texture2D>("Graphics//mineGreen");
+            if (mineTextureRed is null) mineTextureRed = _game.Content.Load<Texture2D>("Graphics//mineRed");
+
             game = _game;
             bulletRect = _bulletRect;
             speed = _speed;
             color = _color;
             player = _player;
             rotation = _rotation;
-            rectangleTexture = _rectangleTexture;
+            rectangleTexture = player == 1 ? mineTextureGreen : mineTextureRed;
             alive = true;
             pointsOnHit = 50;
             pointsOnKill = 200;

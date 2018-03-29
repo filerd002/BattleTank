@@ -46,7 +46,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Tanks\AI_Tank.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="mine.cs" />
+    <Compile Include="Mine.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleCloud.cs" />
     <Compile Include="PowerUp.cs" />

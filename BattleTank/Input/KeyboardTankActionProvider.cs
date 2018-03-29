@@ -1,18 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 
-namespace BattleTank.Tanks
+namespace BattleTank.Input
 {
-    public interface ITankActionProvider
-    {
-        TankControllerState GetTankControllerState();
-    }
-
     public class KeyboardTankActionProvider : ITankActionProvider
     {
         public Keys GoUp { get; }

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using BattleTank.Input;
 using BattleTank.Tanks;
 
 namespace BattleTank
@@ -3039,19 +3040,11 @@ namespace BattleTank
                     }
 
                     // TODO: Add your update logic here
-                    KeyboardState stateKey = Keyboard.GetState();
-
                     tank1.Update(gameTime);
                     tank2.Update(gameTime);
 
-                    foreach (AI_Tank et in enemyTanks)
-                    {
-                        et.Update(gameTime);
-                    }
-
-                    debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
-                    tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
-
+                    enemyTanks.ForEach(c => Update(gameTime));
+                    
                     mines.ForEach(c => c.Update());
                     bullets.ForEach(c => c?.Update());
 
@@ -3072,6 +3065,11 @@ namespace BattleTank
                     {
                         mines.Add(mine);
                     }
+
+                    // Zastanów się Filipie czy tego potrzebujesz, skoro jest to nie używane akutalnie.
+                    debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
+                    tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
+
                 }
             }
 

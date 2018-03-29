@@ -205,11 +205,10 @@ namespace BattleTank.Tanks
             if (xMovement == 0) angle = -MathHelper.PiOver2; // Pozostaw wartość niezmienioną
             else if (yMovement == 0 && xMovement < 0) angle -= MathHelper.PiOver2; // Obróć w lewo o 90 stopni
             else if (yMovement == 0 && xMovement > 0) angle += MathHelper.PiOver2; // Obróć w prawo o 90 stopni
-            else angle += (float) Math.Atan(yMovement / xMovement);
+            else angle += (float)Math.Atan(yMovement / xMovement);
 
             if (yMovement < 0)
-                angle += MathHelper
-                    .Pi; // Kiedy czołg jedzie w doł to odwróc wyniki, bo tg ma zakress od -pi/2 do pi/2
+                angle += MathHelper.Pi; // Kiedy czołg jedzie w doł to odwróc wyniki, bo tg ma zakress od -pi/2 do pi/2
 
             Rotate(angle);
 
@@ -277,62 +276,28 @@ namespace BattleTank.Tanks
         }
         public Bullet Fire()
         {
+            if (!alive) return null;
+
             game.sound.PlaySound(Sound.Sounds.SHOT);
-            if (alive)
-            {
-                Color color = Color.Blue;
 
+            Color color = Color.Blue;
 
+            if (player == 1)
+                color = Color.Green;
+            if (player == 2)
+                color = Color.Red;
 
-                if (player == 1)
-                    color = Color.Green;
-                if (player == 2)
-                    color = Color.Red;
+            float xFraction = (float) Math.Cos(rotation); // składowa pozioma aktualnego obrotu
+            float yFraction = (float) Math.Sin(rotation); // składowa pionowa akutlanego obrutu
 
+            float bulletMaxSpeed = 20;
+            Vector2 bulletSpeed = new Vector2(xFraction * bulletMaxSpeed, yFraction * bulletMaxSpeed);
 
+            float bulletShowDistance = 5; // Odległość od czołgu w jakiej ma się pojawić pocisk, zbyt mała może powodować kolizje z strzelającym
+            Rectangle bulletStartPosition = new Rectangle( (int)(location.X + xFraction * bulletShowDistance),
+                                                           (int)(location.Y + yFraction * bulletShowDistance), 5, 5);
 
-
-                if (rotation == UP)
-                {
-
-                    return new Bullet(game, new Rectangle((int)location.X - 2, (int)location.Y, 5, 5), new Vector2(0, -20), color, player, UP, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y, 5, 20));
-                }
-                else if (rotation == UP_RIGHT)
-                {
-                    return new Bullet(game, new Rectangle((int)location.X - 2, (int)location.Y - 2, 5, 5), new Vector2(10, -10), color, player, UP_RIGHT, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y - 2, 20, 20));
-                }
-                else if (rotation == RIGHT)
-                {
-                    return new Bullet(game, new Rectangle((int)location.X - 5, (int)location.Y - 2, 5, 5), new Vector2(20, 0), color, player, RIGHT, whiteRectangle, new Rectangle((int)location.X - 5, (int)location.Y - 2, 20, 5));
-                }
-                else if (rotation == DOWN_RIGHT)
-                {
-                    return new Bullet(game, new Rectangle((int)location.X, (int)location.Y, 5, 5), new Vector2(10, 10), color, player, DOWN_RIGHT, whiteRectangle, new Rectangle((int)location.X, (int)location.Y, 20, 20));
-                }
-                else if (rotation == DOWN)
-                {
-                    return new Bullet(game, new Rectangle((int)location.X - 2, (int)location.Y - 5, 5, 5), new Vector2(0, 20), color, player, DOWN, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y - 5, 5, 20));
-                }
-                else if (rotation == DOWN_LEFT)
-                {
-                    return new Bullet(game, new Rectangle((int)location.X - 2, (int)location.Y - 2, 5, 5), new Vector2(-10, 10), color, player, DOWN_LEFT, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y - 2, 20, 20));
-                }
-                else if (rotation == LEFT)
-                {
-                    return new Bullet(game, new Rectangle((int)location.X, (int)location.Y - 2, 5, 5), new Vector2(-20, 0), color, player, LEFT, whiteRectangle, new Rectangle((int)location.X, (int)location.Y - 2, 20, 5));
-                }
-                else if (rotation == UP_LEFT)
-                {
-                    return new Bullet(game, new Rectangle((int)location.X - 3, (int)location.Y - 3, 5, 5), new Vector2(-10, -10), color, player, UP, whiteRectangle, new Rectangle((int)location.X - 3, (int)location.Y - 3, 20, 20));
-                }
-                else
-                {
-                    return null;
-                }
-
-            }
-            return null;
-
+            return new Bullet(game, bulletStartPosition, bulletSpeed, color, player, 0, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y, 5, 20));
         }
 
 

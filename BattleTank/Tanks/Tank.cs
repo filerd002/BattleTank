@@ -52,19 +52,20 @@ namespace BattleTank.Tanks
         /// <summary>
         /// Opóźnienie pomiędzy kolejnymi strzałami w milisekundach
         /// </summary>
-        public const int FIRE_DELAY = 500;
+        public readonly TimeSpan FIRE_DELAY = TimeSpan.FromMilliseconds(500);
+
         /// <summary>
         /// Określa ile czasu zostało do następnego strzału
         /// </summary>
-        private int timeLeftToNextShot = 0;
+        private TimeSpan _timeLeftToNextShot = TimeSpan.Zero;
         /// <summary>
         /// Opóźnienie pomiędzy kolejnymi strzałami w miliseksundach
         /// </summary>
-        public const int PLANT_MINE_DELAY = 2000;
+        public readonly TimeSpan PLANT_MINE_DELAY = TimeSpan.FromMilliseconds(2000);
         /// <summary>
         /// Okresla ile zcasu zostało do następnego strzału
         /// </summary>
-        private int timeLeftToPlantMine = 0;
+        private TimeSpan _timeLeftToPlantMine = TimeSpan.Zero;
 
         //generic constructor
         public Tank()
@@ -125,8 +126,8 @@ namespace BattleTank.Tanks
         {
             if (alive)
             {
-                timeLeftToNextShot -= (int)gameTime.ElapsedGameTime.TotalMilliseconds;
-                timeLeftToPlantMine -= (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+                _timeLeftToNextShot -= gameTime.ElapsedGameTime;
+                _timeLeftToPlantMine -= gameTime.ElapsedGameTime;
 
                 if (!frozen)
                 {
@@ -312,8 +313,9 @@ namespace BattleTank.Tanks
         {
             if (!alive) return new Bullet[0];
 
-            if (timeLeftToNextShot > 0) return new Bullet[0];
-            timeLeftToNextShot = FIRE_DELAY;
+            if (_timeLeftToNextShot > TimeSpan.Zero) return new Bullet[0];
+
+            _timeLeftToNextShot = FIRE_DELAY;
 
             game.sound.PlaySound(Sound.Sounds.SHOT);
 
@@ -346,7 +348,7 @@ namespace BattleTank.Tanks
         {
             mine = null;
 
-            if (mines <= 0 || timeLeftToPlantMine > 0) return false;
+            if (mines <= 0 || _timeLeftToPlantMine > TimeSpan.Zero) return false;
 
             TankControllerState controller = _tankActionProvider.GetTankControllerState();
             if (!controller.PlantMine)
@@ -354,15 +356,14 @@ namespace BattleTank.Tanks
             
             if (!alive) return false;
 
-            if (timeLeftToPlantMine > 0) return false;
-            timeLeftToPlantMine = PLANT_MINE_DELAY;
+            _timeLeftToPlantMine = PLANT_MINE_DELAY;
 
             Color color = Color.Orange;
 
             Rectangle minePositiono = new Rectangle(this.location.ToPoint(), new Point(20, 20));
             mine = new Mine(game, minePositiono, Vector2.Zero, Color.Orange, player, 0);
             mines--;
-            timeLeftToPlantMine = PLANT_MINE_DELAY;
+            _timeLeftToPlantMine = PLANT_MINE_DELAY;
             return true;
         }
 

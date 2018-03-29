@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using BattleTank.Tanks;
 
 namespace BattleTank
 {
@@ -155,8 +156,10 @@ namespace BattleTank
             lossTexture = Content.Load<Texture2D>("Graphics//przegrana");
             przerwaTexture = Content.Load<Texture2D>("Graphics//przerwa");
 
-            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, Keys.W, Keys.A, Keys.S, Keys.D, Keys.B);
-            tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal);
+            KeyboardTankActionProvider keyboardProvider1stPlayer = new KeyboardTankActionProvider(Keys.W, Keys.A, Keys.S, Keys.D, Keys.B, Keys.D, Keys.Space);
+            KeyboardTankActionProvider keyboardProvider2stPlayer = new KeyboardTankActionProvider(Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal, Keys.NumPad1, Keys.NumPad0);
+            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, keyboardProvider1stPlayer);
+            tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, keyboardProvider2stPlayer);
 
 
             cursorTexture = Content.Load<Texture2D>("Graphics//cursor");
@@ -3043,16 +3046,18 @@ namespace BattleTank
                             }
                         }
                     }
-
+                    
                     // TODO: Add your update logic here
                     KeyboardState stateKey = Keyboard.GetState();
 
-                    tank1.Update(stateKey, gameTime);
-                    tank2.Update(stateKey, gameTime);
+                    tank1.Update(gameTime);
+                    tank2.Update(gameTime);
+
                     foreach (AI_Tank et in enemyTanks)
                     {
-                        et.Update(stateKey, gameTime);
+                        et.Update(gameTime);
                     }
+
                     debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
                     tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
 

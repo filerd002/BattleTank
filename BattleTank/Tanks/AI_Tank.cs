@@ -89,7 +89,7 @@ namespace BattleTank.Tanks
                 }
             }
         }
-        public override void Update(KeyboardState state, GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
 
             float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
@@ -102,7 +102,7 @@ namespace BattleTank.Tanks
                 }
                 delayOfFire = FIRE_DELAY;
             }
-            base.Update(state, gameTime);
+            base.Update(gameTime);
             foreach (Bullet b in enemyBullets)
             {
                 if (b != null && b.alive)
@@ -111,7 +111,7 @@ namespace BattleTank.Tanks
                 }
             }
         }
-        public override void Move(KeyboardState state)
+        public override void Move()
         {
             if (colliding)
             {

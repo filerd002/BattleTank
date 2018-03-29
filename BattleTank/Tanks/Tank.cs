@@ -24,11 +24,7 @@ namespace BattleTank.Tanks
         public bool barrier { get; set; }
         public int armor { get; set; }
         public float scale { get; set; }
-        public Keys keyUp;
-        public Keys keyLeft;
-        public Keys keyDown;
-        public Keys keyRight;
-        public Keys keyBoost;
+        private ITankActionProvider _tankActionProvider;
         public bool alive;
         public Rectangle tankRect;
         public Particlecloud deathParticles;
@@ -59,7 +55,7 @@ namespace BattleTank.Tanks
         }
 
         //overloaded constructor(s)
-        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, float _rotation, int _player, float _scale, Texture2D _whiteRectangle, int _strong, int _mines, bool _barrier, Keys _keyUp, Keys _keyLeft, Keys _keyDown, Keys _keyRight, Keys _keyBoost)
+        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, float _rotation, int _player, float _scale, Texture2D _whiteRectangle, int _strong, int _mines, bool _barrier, ITankActionProvider tankActionProvider)
         {
             tankTexture = _game.Content.Load<Texture2D>(_tankSpriteName);
             location = _location;
@@ -75,11 +71,7 @@ namespace BattleTank.Tanks
             strong = _strong;
             mines = _mines;
             barrier = _barrier;
-            keyUp = _keyUp;
-            keyLeft = _keyLeft;
-            keyDown = _keyDown;
-            keyRight = _keyRight;
-            keyBoost = _keyBoost;
+            _tankActionProvider = tankActionProvider;
             alive = true;
             lives = 3;
             armor = 3;
@@ -111,13 +103,13 @@ namespace BattleTank.Tanks
                 hitParticles.Draw(spriteBatch);
             }
         }
-        public virtual void Update(KeyboardState state, GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if (alive)
-			{
+            {
                 if (!frozen)
                 {
-                    Move(state);
+                    Move();
                 }
 
                 tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
@@ -178,17 +170,18 @@ namespace BattleTank.Tanks
                                 }
                             }
                         }
-                       
+
                         else { continue; }
 
+                    }
                 }
+
+
             }
+            else
+            {
 
-
-			} else
-			{
-
-			}
+            }
             respawnParticles.Update(gameTime);
             deathParticles.Update(gameTime);
             if (hitParticles != null)
@@ -198,39 +191,31 @@ namespace BattleTank.Tanks
 
 
         }
-        public virtual void Move(KeyboardState state)
+
+        public virtual void Move()
         {
-            int xMovement = 0;
-            int yMovement = 0;
-            bool isSpeedBoost = false;
+            TankControllerState controller = _tankActionProvider.GetTankControllerState();
+            int xMovement = controller.MoveX;
+            int yMovement = controller.MoveY;
 
-            if (state.IsKeyDown(keyRight))
-                xMovement = 5000;
-            if (state.IsKeyDown(keyDown))
-                yMovement = -5000;
-            if (state.IsKeyDown(keyLeft))
-                xMovement = -5000;
-            if (state.IsKeyDown(keyUp))
-                yMovement = 5000;
-            if (state.IsKeyDown(keyBoost))
-                isSpeedBoost = state.IsKeyDown(keyBoost);
+            if (xMovement == 0 && yMovement == 0) return;
 
-            if (xMovement != 0 || yMovement != 0)
-            {
-                float angle = -MathHelper.PiOver2; // Czołg w wyjściowej pozycji jest obrócony do góry.
+            float angle = -MathHelper.PiOver2; // Czołg w wyjściowej pozycji jest obrócony do góry.
 
-                if (xMovement == 0) angle = -MathHelper.PiOver2; // Pozostaw wartość niezmienioną
-                else if (yMovement == 0 && xMovement < 0) angle -= MathHelper.PiOver2; // Obróć w lewo o 90 stopni
-                else if (yMovement == 0 && xMovement > 0) angle += MathHelper.PiOver2; // Obróć w prawo o 90 stopni
-                else angle += (float)Math.Atan(yMovement / xMovement);
+            if (xMovement == 0) angle = -MathHelper.PiOver2; // Pozostaw wartość niezmienioną
+            else if (yMovement == 0 && xMovement < 0) angle -= MathHelper.PiOver2; // Obróć w lewo o 90 stopni
+            else if (yMovement == 0 && xMovement > 0) angle += MathHelper.PiOver2; // Obróć w prawo o 90 stopni
+            else angle += (float) Math.Atan(yMovement / xMovement);
 
-                if (yMovement < 0) angle += MathHelper.Pi; // Kiedy czołg jedzie w doł to odwróc wyniki, bo tg ma zakress od -pi/2 do pi/2
+            if (yMovement < 0)
+                angle += MathHelper
+                    .Pi; // Kiedy czołg jedzie w doł to odwróc wyniki, bo tg ma zakress od -pi/2 do pi/2
 
-                Rotate(angle); 
+            Rotate(angle);
 
-                Move(angle, isSpeedBoost);
-            }
+            Move(angle, controller.SpeedBoost);
         }
+
 
         public void Move(float angle, bool isSpeeBoostUp)
         {

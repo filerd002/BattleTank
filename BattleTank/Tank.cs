@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace BattleTank
         //data members
         public Vector2 location;
         public Vector2 startingLocation;
-		public Vector2 speed;
+        public Vector2 speed;
         public float rotation { get; set; }
         public Texture2D tankTexture { get; set; }
         public Vector2 origin { get; set; }
@@ -42,9 +43,9 @@ namespace BattleTank
         public const float DOWN_LEFT = MathHelper.Pi - MathHelper.PiOver4;
         public const float LEFT = MathHelper.Pi;
         public const float UP_LEFT = -(MathHelper.Pi - MathHelper.PiOver4);
-		public bool colliding = false;
+        public bool colliding = false;
         public Texture2D whiteRectangle;
- 
+
         public bool enemy = false;
         public Texture2D barrierTexture;
         public Rectangle barrierRect;
@@ -59,7 +60,7 @@ namespace BattleTank
         }
 
         //overloaded constructor(s)
-        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, float _rotation, int _player, float _scale, Texture2D _whiteRectangle,int _strong,int _mines, bool _barrier, Keys _keyUp, Keys _keyLeft, Keys _keyDown, Keys _keyRight, Keys _keyBoost)
+        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, float _rotation, int _player, float _scale, Texture2D _whiteRectangle, int _strong, int _mines, bool _barrier, Keys _keyUp, Keys _keyLeft, Keys _keyDown, Keys _keyRight, Keys _keyBoost)
         {
             tankTexture = _game.Content.Load<Texture2D>(_tankSpriteName);
             location = _location;
@@ -79,7 +80,7 @@ namespace BattleTank
             keyLeft = _keyLeft;
             keyDown = _keyDown;
             keyRight = _keyRight;
-            keyBoost = _keyBoost;     
+            keyBoost = _keyBoost;
             alive = true;
             lives = 3;
             armor = 3;
@@ -90,20 +91,20 @@ namespace BattleTank
         }
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if(barrier)
+            if (barrier)
                 spriteBatch.Draw(barrierTexture, barrierLocation, null, null);
-         else
-			{
-         }
+            else
+            {
+            }
             if (alive)
             {
                 spriteBatch.Draw(tankTexture, location, null, null, origin, rotation, null, null);
             }
             else
             {
-             
+
             }
-            
+
             respawnParticles.Draw(spriteBatch);
             deathParticles.Draw(spriteBatch);
             if (hitParticles != null)
@@ -114,22 +115,22 @@ namespace BattleTank
         public virtual void Update(KeyboardState state, GameTime gameTime)
         {
             if (alive)
-            {
-                if(!frozen)
-               { 
-                Move(state);
-            }
+			{
+                if (!frozen)
+                {
+                    Move(state);
+                }
 
                 tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
-			
-				colliding = false;
+
+                colliding = false;
                 foreach (Tile[] tiles in game.map.map)
                 {
                     foreach (Tile tile in tiles)
                     {
                         if (tile.type == Tile.WALL || tile.type == Tile.WATER || tile.type == Tile.BUSH)
                         {
-                            if ((tile.isColliding(tankRect).depth > 0)) 
+                            if ((tile.isColliding(tankRect).depth > 0))
                             {
                                 float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
                                 timerBush -= timer;
@@ -180,15 +181,15 @@ namespace BattleTank
                         }
                        
                         else { continue; }
-                        
-                    }
-                }
 
-          
-            } else
-			{
-              
+                }
             }
+
+
+			} else
+			{
+
+			}
             respawnParticles.Update(gameTime);
             deathParticles.Update(gameTime);
             if (hitParticles != null)
@@ -200,117 +201,51 @@ namespace BattleTank
         }
         public virtual void Move(KeyboardState state)
         {
-           
-            bool RIGHT_down = state.IsKeyDown(keyRight);
-            bool DOWN_down = state.IsKeyDown(keyDown);
-            bool LEFT_down = state.IsKeyDown(keyLeft);
-            bool UP_down = state.IsKeyDown(keyUp);
-            bool BOOST_down = state.IsKeyDown(keyBoost);
-            bool isPressedLeft = false;
-            bool isPressedRight = false;
-            bool isDrifting = false;
+            int xMovement = 0;
+            int yMovement = 0;
+            bool isSpeedBoost = false;
 
-            //isPressed keyUp statements
-            if (!RIGHT_down)
-            {
-                isPressedRight = false;
-            }
+            if (state.IsKeyDown(keyRight))
+                xMovement = 5000;
+            if (state.IsKeyDown(keyDown))
+                yMovement = -5000;
+            if (state.IsKeyDown(keyLeft))
+                xMovement = -5000;
+            if (state.IsKeyDown(keyUp))
+                yMovement = 5000;
+            if (state.IsKeyDown(keyBoost))
+                isSpeedBoost = state.IsKeyDown(keyBoost);
 
-            if (!LEFT_down)
+            if (xMovement != 0 || yMovement != 0)
             {
-                isPressedLeft = false;
-            }
+                float angle = -MathHelper.PiOver2; // Czołg w wyjściowej pozycji jest obrócony do góry.
 
-            if (!LEFT_down || !RIGHT_down)
-            {
-                isDrifting = false;
-            }
+                if (xMovement == 0) angle = -MathHelper.PiOver2; // Pozostaw wartość niezmienioną
+                else if (yMovement == 0 && xMovement < 0) angle -= MathHelper.PiOver2; // Obróć w lewo o 90 stopni
+                else if (yMovement == 0 && xMovement > 0) angle += MathHelper.PiOver2; // Obróć w prawo o 90 stopni
+                else angle += (float)Math.Atan(yMovement / xMovement);
 
-        
-            if (isPressedRight && UP_down && LEFT_down)
-            {
-                isDrifting = true;
-                Rotate(UP_RIGHT);
-                MoveUp(BOOST_down);
+                if (yMovement < 0) angle += MathHelper.Pi; // Kiedy czołg jedzie w doł to odwróc wyniki, bo tg ma zakress od -pi/2 do pi/2
 
-            } else if (isPressedRight && DOWN_down && LEFT_down)
-            {
-                isDrifting = true;
-                Rotate(DOWN_RIGHT);
-                MoveDown(BOOST_down);
-            }
+                Rotate(angle); 
 
-            if (isPressedLeft && UP_down)
-            {
-                isDrifting = true;
-                Rotate(UP_LEFT);
-                MoveUp(BOOST_down);
-
-            } else if (isPressedLeft && DOWN_down)
-            {
-                isDrifting = true;
-                Rotate(DOWN_LEFT);
-                MoveDown(BOOST_down);
+                Move(angle, isSpeedBoost);
             }
-
-    
-            if (UP_down && !isDrifting)
-            {
-                Rotate(UP);
-                MoveUp(BOOST_down);
-                if (RIGHT_down && !BOOST_down)
-                {
-                    Rotate(UP_RIGHT);
-                    MoveRight(BOOST_down);
-                }
-                if (LEFT_down && !BOOST_down)
-                {
-                    Rotate(UP_LEFT);
-                    MoveLeft(BOOST_down);
-                }
-            }
-            else if (DOWN_down && !isDrifting)
-            {
-                Rotate(DOWN);
-                MoveDown(BOOST_down);
-                if (RIGHT_down && !BOOST_down)
-                {
-                    Rotate(DOWN_RIGHT);
-                    MoveRight(BOOST_down);
-                }
-                if (LEFT_down && !BOOST_down)
-                {
-                    Rotate(DOWN_LEFT);
-                    MoveLeft(BOOST_down);
-                }
-            }
-            else if (RIGHT_down && !isDrifting)
-            {
-                Rotate(RIGHT);
-                MoveRight(BOOST_down);
-                    if (!isPressedLeft)
-                    {
-                        isPressedRight = true;
-                    }
-            }
-            else if (LEFT_down && !isDrifting)
-            {
-                Rotate(LEFT);
-                MoveLeft(BOOST_down);
-                if (!isPressedRight)
-                {
-                        isPressedLeft = true;
-                }
-            }
-            
         }
+
+        public void Move(float angle, bool isSpeeBoostUp)
+        {
+            this.location.X += (float)Math.Cos(angle) * this.speed.X * (isSpeeBoostUp ? 2 : 1);
+            this.location.Y += (float)Math.Sin(angle) * this.speed.Y * (isSpeeBoostUp ? 2 : 1);
+        }
+
         public void MoveLeft(bool isBoostPressed)
         {
             if (isBoostPressed)
             {
                 this.location.X -= (2) + this.speed.X;
             }
-          
+
             else
             {
                 this.location.X -= this.speed.X;
@@ -322,7 +257,7 @@ namespace BattleTank
             {
                 this.location.X += (2) + this.speed.X;
             }
-          
+
             else
             {
                 this.location.X += this.speed.X;
@@ -334,7 +269,7 @@ namespace BattleTank
             {
                 this.location.Y -= (2) + this.speed.Y;
             }
-           
+
             else
             {
                 this.location.Y -= this.speed.Y;
@@ -346,7 +281,7 @@ namespace BattleTank
             {
                 this.location.Y += (2) + this.speed.Y;
             }
-         
+
             else
             {
                 this.location.Y += this.speed.Y;
@@ -363,16 +298,16 @@ namespace BattleTank
             {
                 Color color = Color.Blue;
 
-           
+
 
                 if (player == 1)
                     color = Color.Green;
-                if(player == 2)
+                if (player == 2)
                     color = Color.Red;
 
 
 
-          
+
                 if (rotation == UP)
                 {
 
@@ -410,10 +345,10 @@ namespace BattleTank
                 {
                     return null;
                 }
-            
+
             }
             return null;
-            
+
         }
 
 
@@ -430,10 +365,12 @@ namespace BattleTank
         {
             game.sound.PlaySound(Sound.Sounds.HIT);
             armor -= 1;
-            if(armor <  1)
+            if (armor < 1)
             {
                 Die();
-            } else {
+            }
+            else
+            {
                 hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
             }
         }
@@ -450,8 +387,8 @@ namespace BattleTank
         }
         public virtual void Respawn(Vector2 _location)
         {
-         
-            if (!alive&&lives>0)
+
+            if (!alive && lives > 0)
             {
                 game.sound.PlaySound(Sound.Sounds.RESPAWN);
                 location = _location;
@@ -465,12 +402,12 @@ namespace BattleTank
         {
             if (alive)
             {
-               
+
                 Die();
             }
         }
 
-       
+
 
     }
 }

@@ -98,7 +98,7 @@ namespace BattleTank.Tanks
             {
                 if (!frozen)
                 {
-                    enemyBullets.Add(Fire());
+                    enemyBullets.AddRange(Fire());
                 }
                 delayOfFire = FIRE_DELAY;
             }

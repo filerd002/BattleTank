@@ -27,8 +27,6 @@ namespace BattleTank
         public Score scoreManager;
         Rectangle debugRect;
         Rectangle tank2DebugRect;
-        private float tank1FireDelay = 0f;
-        private float tank2FireDelay = 0f;
         private const float FIRE_DELAY = 0.5f;
         private float tank1MineDelay = 0f;
         private float tank2MineDelay = 0f;
@@ -2893,8 +2891,6 @@ namespace BattleTank
 
                     //Update delays
                     float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                    tank1FireDelay -= timer;
-                    tank2FireDelay -= timer;
                     tank1MineDelay -= timer;
                     tank2MineDelay -= timer;
 
@@ -3066,24 +3062,13 @@ namespace BattleTank
                         mine.Update();
                     }
 
-                    if (stateKey.IsKeyDown(Keys.Space) && tank1FireDelay <= 0)
+                    if (stateKey.IsKeyDown(Keys.Space))
                     {
-                        tank1FireDelay = FIRE_DELAY;
-                        for (int i = 0; i < tank1.strong; i++)
-                        {
-
-                            bullets.Add(tank1.Fire());
-                        }
+                        bullets.AddRange(tank1.Fire());
                     }
-                    if (stateKey.IsKeyDown(Keys.NumPad0) && tank2FireDelay <= 0)
+                    if (stateKey.IsKeyDown(Keys.NumPad0))
                     {
-
-                        tank2FireDelay = FIRE_DELAY;
-                        for (int i = 0; i < tank2.strong; i++)
-                        {
-
-                            bullets.Add(tank2.Fire());
-                        }
+                        bullets.AddRange(tank2.Fire());
                     }
 
 

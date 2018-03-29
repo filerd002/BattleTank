@@ -48,6 +48,15 @@ namespace BattleTank.Tanks
         public bool frozen = false;
         private float timerBush = 0f;
 
+        /// <summary>
+        /// Opóźnienie pomiędzy kolejnymi strzałami w milisekundach
+        /// </summary>
+        public const int FIRE_DELAY = 500;
+        /// <summary>
+        /// Określa ile czasu zostało do następnego strzału
+        /// </summary>
+        private int timeLeftToNextShot = 0;
+
         //generic constructor
         public Tank()
         {
@@ -107,6 +116,8 @@ namespace BattleTank.Tanks
         {
             if (alive)
             {
+                timeLeftToNextShot -= (int)gameTime.ElapsedGameTime.TotalMilliseconds;
+
                 if (!frozen)
                 {
                     Move();
@@ -274,9 +285,12 @@ namespace BattleTank.Tanks
         {
             this.rotation = angle;
         }
-        public Bullet Fire()
+        public Bullet[] Fire()
         {
-            if (!alive) return null;
+            if (!alive) return new Bullet[0];
+
+            if (timeLeftToNextShot > 0) return new Bullet[0];
+            timeLeftToNextShot = FIRE_DELAY;
 
             game.sound.PlaySound(Sound.Sounds.SHOT);
 
@@ -297,7 +311,12 @@ namespace BattleTank.Tanks
             Rectangle bulletStartPosition = new Rectangle( (int)(location.X + xFraction * bulletShowDistance),
                                                            (int)(location.Y + yFraction * bulletShowDistance), 5, 5);
 
-            return new Bullet(game, bulletStartPosition, bulletSpeed, color, player, 0, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y, 5, 20));
+            var bullets = new Bullet[strong];
+
+            for (int i = 0; i < this.strong; i++) // stwórz na raz tyle pociskow, ile mocy ma czołg.
+                bullets[i] = new Bullet(game, bulletStartPosition, bulletSpeed, color, player, 0, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y, 5, 20));
+
+            return bullets;
         }
 
 

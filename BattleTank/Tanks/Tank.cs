@@ -285,6 +285,19 @@ namespace BattleTank.Tanks
         {
             this.rotation = angle;
         }
+
+        public bool TryFire(out Bullet[] bullets)
+        {
+            TankControllerState controller = _tankActionProvider.GetTankControllerState();
+            if (controller.Fire)
+            {
+                bullets = Fire();
+                return true;
+            }
+
+            bullets = new Bullet[0];
+            return false;
+        }
         public Bullet[] Fire()
         {
             if (!alive) return new Bullet[0];

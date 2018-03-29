@@ -3062,16 +3062,15 @@ namespace BattleTank
                         mine.Update();
                     }
 
-                    if (stateKey.IsKeyDown(Keys.Space))
+                    Bullet[] newBullets;
+                    if (tank1.TryFire(out newBullets))
                     {
-                        bullets.AddRange(tank1.Fire());
+                        bullets.AddRange(newBullets);
                     }
-                    if (stateKey.IsKeyDown(Keys.NumPad0))
+                    if (tank2.TryFire(out newBullets))
                     {
-                        bullets.AddRange(tank2.Fire());
+                        bullets.AddRange(newBullets);
                     }
-
-
 
                     if (stateKey.IsKeyDown(Keys.RightAlt) && tank1MineDelay <= 0 && tank1.mines > 0)
                     {

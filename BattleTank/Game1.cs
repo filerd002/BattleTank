@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Timers;
+using BattleTank.Input;
+using BattleTank.Tanks;
 
 namespace BattleTank
 {
@@ -26,8 +28,6 @@ namespace BattleTank
         public Score scoreManager;
         Rectangle debugRect;
         Rectangle tank2DebugRect;
-        private float tank1FireDelay = 0f;
-        private float tank2FireDelay = 0f;
         private const float FIRE_DELAY = 0.5f;
         private float tank1MineDelay = 0f;
         private float tank2MineDelay = 0f;
@@ -49,8 +49,6 @@ namespace BattleTank
         Texture2D winTexture;
         Texture2D lossTexture;
         Texture2D cursorTexture;
-        Texture2D mineTextureGreen;
-        Texture2D mineTextureRed;
         Texture2D ButtonPlayer1;
         Texture2D ButtonPlayer2;
         Texture2D ButtonPlayer3;
@@ -155,14 +153,13 @@ namespace BattleTank
             lossTexture = Content.Load<Texture2D>("Graphics//przegrana");
             przerwaTexture = Content.Load<Texture2D>("Graphics//przerwa");
 
-            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, Keys.W, Keys.A, Keys.S, Keys.D, Keys.B);
-            tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal);
+            KeyboardTankActionProvider keyboardProvider1stPlayer = new KeyboardTankActionProvider(Keys.W, Keys.A, Keys.S, Keys.D, Keys.B, Keys.N, Keys.Space);
+            KeyboardTankActionProvider keyboardProvider2stPlayer = new KeyboardTankActionProvider(Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal, Keys.NumPad1, Keys.NumPad0);
+            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, keyboardProvider1stPlayer);
+            tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, keyboardProvider2stPlayer);
 
 
             cursorTexture = Content.Load<Texture2D>("Graphics//cursor");
-            mineTextureGreen = Content.Load<Texture2D>("Graphics//mineGreen");
-            mineTextureRed = Content.Load<Texture2D>("Graphics//mineRed");
-
 
             scoreManager = new Score(this, 10);
             debugRect = new Rectangle();
@@ -2890,8 +2887,6 @@ namespace BattleTank
 
                     //Update delays
                     float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                    tank1FireDelay -= timer;
-                    tank2FireDelay -= timer;
                     tank1MineDelay -= timer;
                     tank2MineDelay -= timer;
 
@@ -3045,66 +3040,36 @@ namespace BattleTank
                     }
 
                     // TODO: Add your update logic here
-                    KeyboardState stateKey = Keyboard.GetState();
+                    tank1.Update(gameTime);
+                    tank2.Update(gameTime);
 
-                    tank1.Update(stateKey, gameTime);
-                    tank2.Update(stateKey, gameTime);
-                    foreach (AI_Tank et in enemyTanks)
+                    enemyTanks.ForEach(c => c.Update(gameTime));
+                    
+                    mines.ForEach(c => c.Update());
+                    bullets.ForEach(c => c?.Update());
+
+                    if (tank1.TryFire(out Bullet[] newBullets))
                     {
-                        et.Update(stateKey, gameTime);
+                        bullets.AddRange(newBullets);
                     }
+                    if (tank2.TryFire(out newBullets))
+                    {
+                        bullets.AddRange(newBullets);
+                    }
+
+                    if (tank1.TryPlantMine(out Mine mine))
+                    {
+                        mines.Add(mine);
+                    }
+                    if (tank2.TryPlantMine(out mine))
+                    {
+                        mines.Add(mine);
+                    }
+
+                    // Zastanów się Filipie czy tego potrzebujesz, skoro jest to nie używane akutalnie.
                     debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
                     tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
 
-                    foreach (Mine mine in mines)
-                    {
-                        mine.Update();
-                    }
-
-                    if (stateKey.IsKeyDown(Keys.Space) && tank1FireDelay <= 0)
-                    {
-                        tank1FireDelay = FIRE_DELAY;
-                        for (int i = 0; i < tank1.strong; i++)
-                        {
-
-                            bullets.Add(tank1.Fire());
-                        }
-                    }
-                    if (stateKey.IsKeyDown(Keys.NumPad0) && tank2FireDelay <= 0)
-                    {
-
-                        tank2FireDelay = FIRE_DELAY;
-                        for (int i = 0; i < tank2.strong; i++)
-                        {
-
-                            bullets.Add(tank2.Fire());
-                        }
-                    }
-
-
-
-                    if (stateKey.IsKeyDown(Keys.RightAlt) && tank1MineDelay <= 0 && tank1.mines > 0)
-                    {
-                        tank1.mines--;
-                        tank1MineDelay = MINE_DELAY;
-                        mines.Add(new Mine(this, new Rectangle((int)tank1.location.X, (int)tank1.location.Y, 20, 20), Vector2.Zero, Color.Orange, 1, 0, mineTextureGreen));
-                    }
-                    if (stateKey.IsKeyDown(Keys.NumPad1) && tank2MineDelay <= 0 && tank2.mines > 0)
-                    {
-                        tank2.mines--;
-                        tank2MineDelay = MINE_DELAY;
-                        mines.Add(new Mine(this, new Rectangle((int)tank2.location.X, (int)tank2.location.Y, 20, 20), Vector2.Zero, Color.Orange, 2, 0, mineTextureRed));
-                    }
-
-
-
-                    foreach (Bullet bullet in bullets)
-                    {
-                        if (bullet != null)
-                        {
-                            bullet.Update();
-                        }
-                    }
                 }
             }
 

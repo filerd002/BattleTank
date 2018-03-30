@@ -24,7 +24,7 @@ namespace BattleTank
         private Texture2D whiteRectangle;
 
         public bool alive { get; set; }
-        public int pointsOnHit { get; set; }
+       // public int pointsOnHit { get; set; }
         public int pointsOnKill { get; set; }
         public Bullet() { }
         public Bullet(Game1 _game, Rectangle _bulletRect, Vector2 _speed, Color _color, int _player, float _rotation, Texture2D _rectangleTexture, Rectangle _hitbulletRect)
@@ -38,8 +38,8 @@ namespace BattleTank
             rectangleTexture = _rectangleTexture;
             hitbulletRect = _hitbulletRect;
             alive = true;
-            pointsOnHit = 50;
-            pointsOnKill = 200;
+            //pointsOnHit = 50;
+            pointsOnKill = 1;
         }
 
         public Bullet(Game1 game, Rectangle rectangle, Vector2 speed, Color color, int player, int v, Texture2D whiteRectangle)
@@ -78,7 +78,7 @@ namespace BattleTank
                 if ((Rectangle.Intersect(bulletRect, new Rectangle((int)et.location.X - (et.tankTexture.Width / 2), (int)et.location.Y - (et.tankTexture.Height / 2), et.tankTexture.Width, et.tankTexture.Height)).Width != 0) && et.alive && player <3)
                 {
                     et.Hit();
-                    game.scoreManager.addScore(player - 1, pointsOnHit);
+                    //game.scoreManager.addScore(player - 1, pointsOnHit);
                     if (!et.alive)
                     {
                         game.scoreManager.addScore(player - 1, pointsOnKill);
@@ -92,7 +92,7 @@ namespace BattleTank
                 if (game.tank1.barrier == false)
                 {
                     game.tank1.Hit();
-                    game.scoreManager.addScore(1, pointsOnHit);
+                   // game.scoreManager.addScore(1, pointsOnHit);
                     if (!game.tank1.alive)
                     {
                         game.scoreManager.addScore(1, pointsOnKill);
@@ -105,7 +105,7 @@ namespace BattleTank
                 if (game.tank2.barrier == false)
                 {
                     game.tank2.Hit();
-                    game.scoreManager.addScore(0, pointsOnHit);
+                   // game.scoreManager.addScore(0, pointsOnHit);
                     if (!game.tank2.alive)
                     {
                         game.scoreManager.addScore(0, pointsOnKill);

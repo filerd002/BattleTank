@@ -118,6 +118,7 @@ namespace BattleTank.Tanks
                 switch ((int)targetDirection)
                 {
                     case (int)UP:
+
                         targetDirection = RIGHT;
                         break;
                     case (int)RIGHT:

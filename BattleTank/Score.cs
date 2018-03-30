@@ -12,8 +12,9 @@ namespace BattleTank
     public class Score
     {
         private Game1 game { get; set; }
-        private int[] score;
+        private int[][] score;
         private int numOfPlayers { get; set; }
+     
         private SpriteFont spriteFont;
         private SpriteFont spriteFontBig;
         public Score() { }
@@ -32,10 +33,12 @@ namespace BattleTank
         {
             game = _game;
             numOfPlayers = _numOfPlayers;
-            score = new int[numOfPlayers];
+            score = new int[numOfPlayers][];
             for (int i = 0; i < score.Length; ++i)
             {
-                score[i] = 0;
+                score[i] = new int[4];
+                for (int j = 0; j < 4; ++j)                 
+                score[i][j] = 0;
             }
             Load();
         }
@@ -46,11 +49,23 @@ namespace BattleTank
         }
         public int getScore(int playerIndex)
         {
-            return score[playerIndex];
+            return score[playerIndex][0];
         }
         public void addScore(int playerIndex, int pointsToAdd)
         {
-            score[playerIndex] += pointsToAdd;
+
+            if (score[playerIndex][2] == 9)
+            {
+                score[playerIndex][2] = 0;
+                score[playerIndex][3] += pointsToAdd;
+            }
+            else if (score[playerIndex][1] == 9)
+            {
+                score[playerIndex][1] = 0 ;
+                score[playerIndex][2] += pointsToAdd;           
+            }
+            else
+                score[playerIndex][1] += pointsToAdd;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -230,8 +245,10 @@ namespace BattleTank
                    
                     TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);
                     spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2)-27,65), Color.White);
+                    spriteBatch.DrawString(spriteFontBig, score[0][3].ToString() +""+ score[0][2].ToString() + ""+score[0][1].ToString() + ""+score[0][0].ToString(), new Vector2((game.map.screenWidth / 2) - 97, 65), Color.Green);
+                    spriteBatch.DrawString(spriteFontBig, score[1][3].ToString() + "" + score[1][2].ToString() + "" + score[1][1].ToString() + "" + score[1][0].ToString(), new Vector2((game.map.screenWidth / 2) +57, 65), Color.Red);
 
-                    
+
                 }
 
 

@@ -3043,7 +3043,7 @@ namespace BattleTank
                     tank1.Update(gameTime);
                     tank2.Update(gameTime);
 
-                    enemyTanks.ForEach(c => Update(gameTime));
+                    enemyTanks.ForEach(c => c.Update(gameTime));
                     
                     mines.ForEach(c => c.Update());
                     bullets.ForEach(c => c?.Update());

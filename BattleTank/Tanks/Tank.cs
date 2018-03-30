@@ -17,13 +17,13 @@ namespace BattleTank.Tanks
         public Vector2 origin { get; set; }
         public Game1 game { get; set; }
         public int player { get; set; }
-        public int lives { get; set; }
+        public float lives { get; set; }
 
         public int strong { get; set; }
 
         public int mines { get; set; }
         public bool barrier { get; set; }
-        public int armor { get; set; }
+        public float armor { get; set; }
         public float scale { get; set; }
         private ITankActionProvider _tankActionProvider;
         public bool alive;
@@ -93,7 +93,7 @@ namespace BattleTank.Tanks
             _tankActionProvider = tankActionProvider;
             alive = true;
             lives = 3;
-            armor = 3;
+            armor = 1;
             respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
             deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
             hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
@@ -380,11 +380,16 @@ namespace BattleTank.Tanks
         public virtual void Hit()
         {
             game.sound.PlaySound(Sound.Sounds.HIT);
-            armor -= 1;
-            if (armor < 1)
+            if (armor > 0)
+            armor -= 0.25f;
+            else if (armor==0)
             {
-                Die();
-            }
+                lives -= 0.25f;
+                if (lives %1== 0)
+                {
+                    Die();
+                }
+                }
             else
             {
                 hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
@@ -396,8 +401,7 @@ namespace BattleTank.Tanks
             if (alive)
             {
                 deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2);
-                alive = false;
-                lives--;
+                alive = false;               
                 location = new Vector2(-100, -100);
             }
         }
@@ -408,7 +412,7 @@ namespace BattleTank.Tanks
             {
                 game.sound.PlaySound(Sound.Sounds.RESPAWN);
                 location = _location;
-                armor = 3;
+                armor = 1;
                 respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Green, 2);
                 alive = true;
             }

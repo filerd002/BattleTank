@@ -67,10 +67,22 @@ namespace BattleTank
             else
                 score[playerIndex][1] += pointsToAdd;
         }
+
+        private static Texture2D rect;
+
+      
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            
+             void DrawRectangle(Rectangle coords, Color color)
+            {
+                if (rect == null)
+                {
+                    rect = new Texture2D(game.graphics.GraphicsDevice, 1, 1);
+                    rect.SetData(new[] { Color.White });
+                }
+                spriteBatch.Draw(rect, coords, color);
+            }
 
 
 
@@ -238,16 +250,48 @@ namespace BattleTank
 
                 //   spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.graphics.PreferredBackBufferWidth - 170, game.graphics.PreferredBackBufferHeight - 70), Color.Red);
 
+                Texture2D rect = new Texture2D(game.graphics.GraphicsDevice, 5, 4);
+
+                Color[] data = new Color[5 * 4];
+                for (int i = 0; i < data.Length; ++i) data[i] = new Color(138, 7, 7);
+                rect.SetData(data);
+
+                if (game.tank1.lives >= 3)
+                    spriteBatch.Draw(rect, new Vector2(144, 100), Color.White);
+                if (game.tank1.lives >= 2.75)
+                    spriteBatch.Draw(rect, new Vector2(139, 100), Color.White);
+                if (game.tank1.lives >= 2.5)
+                    spriteBatch.Draw(rect, new Vector2(134, 100), Color.White);
+                if (game.tank1.lives >= 2.25)
+                    spriteBatch.Draw(rect, new Vector2(129, 100), Color.White);
+                if (game.tank1.lives >= 2)
+                    spriteBatch.Draw(rect, new Vector2(122, 100), Color.White);
+                if (game.tank1.lives >= 1.75)
+                    spriteBatch.Draw(rect, new Vector2(117, 100), Color.White);
+                if (game.tank1.lives >= 1.5)
+                    spriteBatch.Draw(rect, new Vector2(112, 100), Color.White);
+                if (game.tank1.lives >= 1.25)
+                    spriteBatch.Draw(rect, new Vector2(107, 100), Color.White);
+                if (game.tank1.lives >= 1)
+                    spriteBatch.Draw(rect, new Vector2(100, 100), Color.White);
+                if (game.tank1.lives >= 0.75)
+                    spriteBatch.Draw(rect, new Vector2(95, 100), Color.White);
+                if (game.tank1.lives >= 0.5)
+                    spriteBatch.Draw(rect, new Vector2(90, 100), Color.White);
+                if (game.tank1.lives >= 0.25)
+                    spriteBatch.Draw(rect, new Vector2(85, 100), Color.White);
+
+                DrawRectangle(new Rectangle(250, 100, (int)(16*game.tank1.lives), 4), new Color(138, 7, 7));
 
                 if (game.gameState == game.gameRunningWyscig)
                 {
 
-                   
                     TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);
                     spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2)-27,65), Color.White);
                     spriteBatch.DrawString(spriteFontBig, score[0][3].ToString() +""+ score[0][2].ToString() + ""+score[0][1].ToString() + ""+score[0][0].ToString(), new Vector2((game.map.screenWidth / 2) - 97, 65), Color.Green);
-                    spriteBatch.DrawString(spriteFontBig, score[1][3].ToString() + "" + score[1][2].ToString() + "" + score[1][1].ToString() + "" + score[1][0].ToString(), new Vector2((game.map.screenWidth / 2) +57, 65), Color.Red);
+                    spriteBatch.DrawString(spriteFontBig, score[1][3].ToString() + "" + score[1][2].ToString() + "" + score[1][1].ToString() + "" + score[1][0].ToString(), new Vector2((game.map.screenWidth / 2) +50, 65), Color.Red);
 
+                   
 
                 }
 

@@ -2806,32 +2806,36 @@ namespace BattleTank
                             if (poziomTrudnosci == 3)
                             {
                                 tank1.mines = 1;
-                                tank1.lives = 2;
+                                tank1.lives = 1;
 
                                 if (gameReturn != gameRunningPlayer1)
                                 {
                                     tank2.mines = 1;
-                                    tank2.lives = 2;
+                                    tank2.lives = 1;
                                 }
                             }
                             else if (poziomTrudnosci == 2)
                             {
                                 tank1.mines = 3;
-                                tank1.lives = 3;
+                                tank1.lives = 2;
+                                tank1.armor = 2;
                                 if (gameReturn != gameRunningPlayer1)
                                 {
                                     tank2.mines = 3;
-                                    tank2.lives = 3;
+                                    tank2.lives = 2;
+                                    tank2.armor = 2;
                                 }
                             }
                             else
                             {
                                 tank1.mines = 5;
-                                tank1.lives = 4;
+                                tank1.lives = 3;
+                                tank1.armor = 3;
                                 if (gameReturn != gameRunningPlayer1)
                                 {
                                     tank2.mines = 5;
-                                    tank2.lives = 4;
+                                    tank2.lives = 3;
+                                    tank2.armor = 3;
                                 }
                             }
 

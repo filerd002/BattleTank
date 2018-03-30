@@ -229,7 +229,7 @@ namespace BattleTank
 
                    
                     TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);
-                    spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2)-20,game.map.screenHeight/ 2), Color.White);
+                    spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2)-27,65), Color.White);
 
                     
                 }

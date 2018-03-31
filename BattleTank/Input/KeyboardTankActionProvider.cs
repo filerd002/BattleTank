@@ -1,9 +1,12 @@
-﻿using Microsoft.Xna.Framework.Input;
+﻿using System;
+using Microsoft.Xna.Framework.Input;
 
 namespace BattleTank.Input
 {
     public class KeyboardTankActionProvider : ITankActionProvider
     {
+        public static KeyboardTankActionProvider DefaultPlayerOneKeybordLayout { get; } =  new KeyboardTankActionProvider(Keys.W, Keys.A, Keys.S, Keys.D, Keys.B, Keys.N, Keys.Space);
+        public static KeyboardTankActionProvider DefaultPlayerTwoKeybordLayout { get; }= new KeyboardTankActionProvider(Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal, Keys.NumPad1, Keys.NumPad0);
         public Keys GoUp { get; }
         public Keys GoLeft { get; }
         public Keys GoDown { get; }
@@ -34,6 +37,21 @@ namespace BattleTank.Input
                 speedBoost: keyboardState.IsKeyDown(SpeedBoost),
                 plantMine: keyboardState.IsKeyDown(PlantMine),
                 fire: keyboardState.IsKeyDown(Fire));
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (base.Equals(obj)) return true;
+            if (!(obj is KeyboardTankActionProvider provider)) return false;
+
+            return     provider.Fire == this.Fire
+                    && provider.GoUp == this.GoUp
+                    && provider.GoDown == this.GoDown 
+                    && provider.GoLeft == this.GoLeft
+                    && provider.GoRight == this.GoRight 
+                    && provider.PlantMine == this.PlantMine
+                    && provider.SpeedBoost == this.SpeedBoost;
         }
     }
 }

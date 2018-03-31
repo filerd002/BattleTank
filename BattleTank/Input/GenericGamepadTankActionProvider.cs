@@ -11,20 +11,34 @@ namespace BattleTank.Input
     class GenericGamepadTankActionProvider : ITankActionProvider
     {
         private Joystick Joystick;
-        public GenericGamepadTankActionProvider()
+        public static GenericGamepadTankActionProvider DefaultGamepadProvider { get; } = new GenericGamepadTankActionProvider(3, 0, 7);
+        public int SpeedBoostButtonNumber { get; set; }
+        public int PlantMineButtonNumber { get; set; }
+        public int FireButtonNumber { get; set; }
+        public GenericGamepadTankActionProvider(int speedBoostButtonNumber, int plantMineButtonNumber, int fireButtonNumber)
+        {
+            SpeedBoostButtonNumber = speedBoostButtonNumber;
+            PlantMineButtonNumber = plantMineButtonNumber;
+            FireButtonNumber = fireButtonNumber;
+
+            Initialize();
+        }
+
+        private void Initialize()
         {
             DirectInput dinput = new DirectInput();
-            var devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).First();
+            DeviceInstance devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).First();
             Joystick = new SlimDX.DirectInput.Joystick(dinput, devices.InstanceGuid);
 
             foreach (DeviceObjectInstance doi in Joystick.GetObjects(ObjectDeviceType.Axis))
             {
-                Joystick.GetObjectPropertiesById((int)doi.ObjectType).SetRange(Int16.MinValue, Int16.MaxValue);
+                Joystick.GetObjectPropertiesById((int) doi.ObjectType).SetRange(Int16.MinValue, Int16.MaxValue);
             }
             Joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
-            
+
             Joystick.Acquire();
         }
+
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
@@ -38,13 +52,25 @@ namespace BattleTank.Input
             {
                 throw new Exception("Nie udało się pobrać danych z joystika");
             }
-            var buttons = state.GetButtons();
+
+            bool[] buttons = state.GetButtons();
             return new TankControllerState(
-                moveY: -state.Y,
                 moveX: state.X,
-                speedBoost: buttons[2],
-                plantMine: buttons[0],
-                fire: buttons[7]);
+                moveY: -state.Y,
+                speedBoost: buttons[SpeedBoostButtonNumber],
+                plantMine: buttons[PlantMineButtonNumber],
+                fire: buttons[FireButtonNumber]);
+        }
+
+        /// <inheritdoc />
+        public override bool Equals(object obj)
+        {
+            if (base.Equals(obj)) return true;
+            if (!(obj is GenericGamepadTankActionProvider provider)) return false;
+
+            return provider.FireButtonNumber == this.FireButtonNumber
+                   && provider.PlantMineButtonNumber == this.PlantMineButtonNumber
+                   && provider.SpeedBoostButtonNumber == this.SpeedBoostButtonNumber;
         }
     }
 }

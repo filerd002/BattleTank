@@ -147,7 +147,7 @@ namespace BattleTank.Tanks
                             {
                                 float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
                                 timerBush -= timer;
-
+                                if (tile.type != Tile.BUSH)
                                 colliding = true;
                                 Collision collision = tile.isColliding(tankRect);
                                 switch (collision.side)

@@ -225,6 +225,7 @@
     <Content Include="Content\Graphics\trybSterowania1.png" />
     <Content Include="Content\Graphics\trybSterowaniaKlawMysz.png" />
     <Content Include="Content\Graphics\trybSterowaniaKlawMysz1.png" />
+    <Content Include="Content\Graphics\trybSterowaniaPad-unavailble.png" />
     <Content Include="Content\Graphics\trybSterowaniaPad.png" />
     <Content Include="Content\Graphics\trybSterowaniaPad1.png" />
     <Content Include="Content\Graphics\wall.jpg">

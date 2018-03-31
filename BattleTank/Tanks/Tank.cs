@@ -25,7 +25,7 @@ namespace BattleTank.Tanks
         public bool barrier { get; set; }
         public float armor { get; set; }
         public float scale { get; set; }
-        private ITankActionProvider _tankActionProvider;
+        public ITankActionProvider TankActionProvider { get; set; }
         public bool alive;
         public Rectangle tankRect;
         public Particlecloud deathParticles;
@@ -90,7 +90,7 @@ namespace BattleTank.Tanks
             strong = _strong;
             mines = _mines;
             barrier = _barrier;
-            _tankActionProvider = tankActionProvider;
+            TankActionProvider = tankActionProvider;
             alive = true;
             lives = 3;
             armor = 1;
@@ -216,7 +216,7 @@ namespace BattleTank.Tanks
 
         public virtual void Move()
         {
-            TankControllerState controller = _tankActionProvider.GetTankControllerState();
+            TankControllerState controller = TankActionProvider.GetTankControllerState();
             int xMovement = controller.MoveX;
             int yMovement = controller.MoveY;
 
@@ -307,7 +307,7 @@ namespace BattleTank.Tanks
 
         public bool TryFire(out Bullet[] bullets)
         {
-            TankControllerState controller = _tankActionProvider.GetTankControllerState();
+            TankControllerState controller = TankActionProvider.GetTankControllerState();
             if (controller.Fire)
             {
                 bullets = Fire();
@@ -358,7 +358,7 @@ namespace BattleTank.Tanks
 
             if (mines <= 0 || _timeLeftToPlantMine > TimeSpan.Zero) return false;
 
-            TankControllerState controller = _tankActionProvider.GetTankControllerState();
+            TankControllerState controller = TankActionProvider.GetTankControllerState();
             if (!controller.PlantMine)
                 return false;
             

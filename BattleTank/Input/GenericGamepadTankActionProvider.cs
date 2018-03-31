@@ -10,12 +10,16 @@ namespace BattleTank.Input
 {
     class GenericGamepadTankActionProvider : ITankActionProvider
     {
-        private Joystick Joystick;
         private const int MAX_AXIS_VALUE = 5000;
+
         public static GenericGamepadTankActionProvider DefaultGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
+
         public int SpeedBoostButtonNumber { get; set; }
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }
+
+        private Joystick _joystick;
+
         public GenericGamepadTankActionProvider(int speedBoostButtonNumber, int plantMineButtonNumber, int fireButtonNumber)
         {
             SpeedBoostButtonNumber = speedBoostButtonNumber;
@@ -29,27 +33,27 @@ namespace BattleTank.Input
         {
             DirectInput dinput = new DirectInput();
             DeviceInstance devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).First();
-            Joystick = new SlimDX.DirectInput.Joystick(dinput, devices.InstanceGuid);
+            _joystick = new SlimDX.DirectInput.Joystick(dinput, devices.InstanceGuid);
 
-            foreach (DeviceObjectInstance doi in Joystick.GetObjects(ObjectDeviceType.Axis))
+            foreach (DeviceObjectInstance doi in _joystick.GetObjects(ObjectDeviceType.Axis))
             {
-                Joystick.GetObjectPropertiesById((int) doi.ObjectType).SetRange(-MAX_AXIS_VALUE, MAX_AXIS_VALUE);
+                _joystick.GetObjectPropertiesById((int) doi.ObjectType).SetRange(-MAX_AXIS_VALUE, MAX_AXIS_VALUE);
             }
-            Joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
+            _joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
 
-            Joystick.Acquire();
+            _joystick.Acquire();
         }
 
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            JoystickState state = Joystick.GetCurrentState();
+            JoystickState state = _joystick.GetCurrentState();
 
-            if (Joystick.Poll().IsFailure)
+            if (_joystick.Poll().IsFailure)
             {
                 throw new Exception("Nie udało się połączyć z joystickiem");
             }
-            if (Joystick.GetCurrentState(ref state).IsFailure)
+            if (_joystick.GetCurrentState(ref state).IsFailure)
             {
                 throw new Exception("Nie udało się pobrać danych z joystika");
             }
@@ -63,6 +67,14 @@ namespace BattleTank.Input
                 fire: buttons[FireButtonNumber]);
         }
 
+        public static bool IsAnyAvailbableGamePad()
+        {
+            DirectInput dinput = new DirectInput();
+            DeviceInstance devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
+            return devices is null;
+        }
+
+        #region Overrides
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
@@ -73,5 +85,6 @@ namespace BattleTank.Input
                    && provider.PlantMineButtonNumber == this.PlantMineButtonNumber
                    && provider.SpeedBoostButtonNumber == this.SpeedBoostButtonNumber;
         }
+        #endregion
     }
 }

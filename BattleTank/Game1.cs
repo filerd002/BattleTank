@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Timers;
 using BattleTank.Input;
 using BattleTank.Tanks;
@@ -28,10 +29,7 @@ namespace BattleTank
         public Score scoreManager;
         Rectangle debugRect;
         Rectangle tank2DebugRect;
-        private const float FIRE_DELAY = 0.5f;
-        private float tank1MineDelay = 0f;
-        private float tank2MineDelay = 0f;
-        private const float MINE_DELAY = 2f;
+
         private float tank1TimeToBackAlive = 2f;
         private float tank2TimeToBackAlive = 2f;
         private float tankAITimeToBackAlive = 2f;
@@ -115,7 +113,11 @@ namespace BattleTank
 
         SoundEffectInstance soundEffectInstance = null;
 
+        public ITankActionProvider PlayerOneController { get; set; } = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
 
+        public ITankActionProvider PlayerTwoControleler { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
+
+        private bool _isAnyAvailbleGamePad;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -153,12 +155,6 @@ namespace BattleTank
             lossTexture = Content.Load<Texture2D>("Graphics//przegrana");
             przerwaTexture = Content.Load<Texture2D>("Graphics//przerwa");
 
-            KeyboardTankActionProvider keyboardProvider1stPlayer = new KeyboardTankActionProvider(Keys.W, Keys.A, Keys.S, Keys.D, Keys.B, Keys.N, Keys.Space);
-            KeyboardTankActionProvider keyboardProvider2stPlayer = new KeyboardTankActionProvider(Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal, Keys.NumPad1, Keys.NumPad0);
-            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, keyboardProvider1stPlayer);
-            tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, keyboardProvider2stPlayer);
-
-
             cursorTexture = Content.Load<Texture2D>("Graphics//cursor");
 
             scoreManager = new Score(this, 10);
@@ -170,6 +166,7 @@ namespace BattleTank
             soundEffectInstance = menuSound.deploySound(Sound.Sounds.MENU_SOUND).CreateInstance();
             soundOnOff = 0;
 
+            _isAnyAvailbleGamePad = GenericGamepadTankActionProvider.IsAnyAvailbableGamePad();
 
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
@@ -1676,64 +1673,23 @@ namespace BattleTank
                 soundEffectInstance.Play();
 
             }
-
-
-
-
-            if ((tank1.location.X) < 0)
+            foreach (Tank tankInGame in enemyTanks.Concat(new List<Tank> { tank1, tank2 }).Where(d => !(d is null)))
             {
-                tank1.location.X = map.screenWidth;
-            }
-            if ((tank1.location.X) > map.screenWidth)
-            {
-                tank1.location.X = 0;
-            }
-            if ((tank2.location.X) < 0)
-            {
-                tank2.location.X = map.screenWidth;
-            }
-            if ((tank2.location.X) > map.screenWidth)
-            {
-                tank2.location.X = 0;
-            }
-
-
-            if ((tank1.location.Y) < 0)
-            {
-                tank1.location.Y = map.screenHeight;
-            }
-            if ((tank1.location.Y) > map.screenHeight)
-            {
-                tank1.location.Y = 0;
-            }
-            if ((tank2.location.Y) < 0)
-            {
-                tank2.location.Y = map.screenHeight;
-            }
-            if ((tank2.location.Y) > map.screenHeight)
-            {
-                tank2.location.Y = 0;
-            }
-
-
-            foreach (AI_Tank et in enemyTanks)
-            {
-
-                if ((et.location.X) < 0)
+                if ((tankInGame.location.X) < 0)
                 {
-                    et.location.X = map.screenWidth;
+                    tankInGame.location.X = map.screenWidth;
                 }
-                if ((et.location.X) > map.screenWidth)
+                if ((tankInGame.location.X) > map.screenWidth)
                 {
-                    et.location.X = 0;
+                    tankInGame.location.X = 0;
                 }
-                if ((et.location.Y) < 0)
+                if ((tankInGame.location.Y) < 0)
                 {
-                    et.location.Y = map.screenHeight;
+                    tankInGame.location.Y = map.screenHeight;
                 }
-                if ((et.location.Y) > map.screenHeight)
+                if ((tankInGame.location.Y) > map.screenHeight)
                 {
-                    et.location.Y = 0;
+                    tankInGame.location.Y = 0;
                 }
 
             }
@@ -2115,56 +2071,55 @@ namespace BattleTank
 
                 if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 145, 300, 70)))
                 {
-
                     SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania1");
-
                 }
                 else
                 {
                     SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania");
                 }
 
-
-
-
                 if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50)))
                 {
-
                     ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
                     if (state.LeftButton == ButtonState.Pressed)
                     {
                         sound.PlaySound(Sound.Sounds.KLIK);
-
-
+                        PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
                     }
+                }
+                else if (PlayerOneController.Equals(KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout))
+                {
+                    ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
                 }
                 else
                 {
                     ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
                 }
 
-
-
-
-
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50)))
-
-
+                if (_isAnyAvailbleGamePad)
                 {
-
-                    ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
-                    if (state.LeftButton == ButtonState.Pressed)
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50)))
                     {
+                        ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
 
-
-                        sound.PlaySound(Sound.Sounds.KLIK);
-
-
+                        if (state.LeftButton == ButtonState.Pressed)
+                        {
+                            sound.PlaySound(Sound.Sounds.KLIK);
+                            PlayerOneController = GenericGamepadTankActionProvider.DefaultGamepadProvider;
+                        }
+                    }
+                    else if (PlayerOneController.Equals(GenericGamepadTankActionProvider.DefaultGamepadProvider))
+                    {
+                        ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
+                    }
+                    else
+                    {
+                        ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
                     }
                 }
                 else
                 {
-                    ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
+                        ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad-unavailble");
                 }
 
 
@@ -2195,10 +2150,12 @@ namespace BattleTank
 
             else if (gameState == CHOICE_OF_GAME_TYPE)
             {
-
-
-
-
+                // To też nie jest najlepsze miejsce na tworzenie czołgów. Ale jest to
+                // tuż po wybraniu ustawień przez użytkownika. Ze względu na to aby robić
+                // jak najmniej komplikacji tutaj będą one tworzone. Jednak w przyszłości należy
+                // przenieśc je jeszcze bliżej samej rozgrywki
+                tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, PlayerOneController);
+                tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, PlayerTwoControleler);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keysStatus == false)
                 {
@@ -2888,10 +2845,6 @@ namespace BattleTank
 
                     //Update delays
                     float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                    tank1MineDelay -= timer;
-                    tank2MineDelay -= timer;
-
-
 
                     //if tanks are dead, decrease their time until they respawn
                     if (!tank1.alive)
@@ -3045,7 +2998,7 @@ namespace BattleTank
                     tank2.Update(gameTime);
 
                     enemyTanks.ForEach(c => c.Update(gameTime));
-                    
+
                     mines.ForEach(c => c.Update());
                     bullets.ForEach(c => c?.Update());
 

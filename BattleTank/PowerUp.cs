@@ -54,7 +54,7 @@ namespace BattleTank
 
                 colliding = false;
 
-                if ((game.RandomPowerUp.isColliding(game.tank1.tankRect).depth > 0))
+                if (game.tank1 != null && (game.RandomPowerUp.isColliding(game.tank1.tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -88,7 +88,7 @@ namespace BattleTank
 
                     alive = false;
                 }
-                else if ((game.RandomPowerUp.isColliding(game.tank2.tankRect).depth > 0))
+                else if (game.tank2 != null && (game.RandomPowerUp.isColliding(game.tank2.tankRect).depth > 0))
                 {
                     colliding = true;
 

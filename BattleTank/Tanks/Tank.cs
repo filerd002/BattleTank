@@ -25,7 +25,7 @@ namespace BattleTank.Tanks
         public bool barrier { get; set; }
         public float armor { get; set; }
         public float scale { get; set; }
-        private ITankActionProvider _tankActionProvider;
+        public ITankActionProvider TankActionProvider { get; set; }
         public bool alive;
         public Rectangle tankRect;
         public Particlecloud deathParticles;
@@ -90,7 +90,7 @@ namespace BattleTank.Tanks
             strong = _strong;
             mines = _mines;
             barrier = _barrier;
-            _tankActionProvider = tankActionProvider;
+            TankActionProvider = tankActionProvider;
             alive = true;
             lives = 3;
             armor = 1;
@@ -216,32 +216,42 @@ namespace BattleTank.Tanks
 
         public virtual void Move()
         {
-            TankControllerState controller = _tankActionProvider.GetTankControllerState();
-            int xMovement = controller.MoveX;
-            int yMovement = controller.MoveY;
+            TankControllerState controller = TankActionProvider.GetTankControllerState();
+            float xMovement = controller.MoveX;
+            float yMovement = controller.MoveY;
 
-            if (xMovement == 0 && yMovement == 0) return;
+            if (Math.Abs(xMovement) < float.Epsilon && Math.Abs(yMovement) < float.Epsilon) return;
 
-            float angle = -MathHelper.PiOver2; // Czołg w wyjściowej pozycji jest obrócony do góry.
+            float tan = Math.Abs(xMovement) > double.Epsilon
+                ? Math.Abs(yMovement)  / xMovement
+                : float.PositiveInfinity; // Obliczam tangensa konta w górnej połowie układu współrzędnego
+            
+            float angle = -MathHelper.PiOver2;
 
-            if (xMovement == 0) angle = -MathHelper.PiOver2; // Pozostaw wartość niezmienioną
-            else if (yMovement == 0 && xMovement < 0) angle -= MathHelper.PiOver2; // Obróć w lewo o 90 stopni
-            else if (yMovement == 0 && xMovement > 0) angle += MathHelper.PiOver2; // Obróć w prawo o 90 stopni
-            else angle += (float)Math.Atan(yMovement / xMovement);
-
-            if (yMovement < 0)
-                angle += MathHelper.Pi; // Kiedy czołg jedzie w doł to odwróc wyniki, bo tg ma zakress od -pi/2 do pi/2
+            if (Math.Abs(tan) < float.Epsilon && xMovement > 0) // czołg w rzeczywistości porusza się w prawo
+                angle += MathHelper.PiOver2;
+            else if (Math.Abs(tan) < float.Epsilon && xMovement < 0) // czołg porusza się w rzeczywistyości w lewo
+                angle -= MathHelper.PiOver2;
+            else
+                angle += (float)(((tan > 0 ? 1 : -1)*MathHelper.PiOver2) - Math.Atan(tan));
+            
+            if (yMovement < 0) // Kiedy czołg chce jechać w dół
+                angle = (-angle);
 
             Rotate(angle);
 
-            Move(angle, controller.SpeedBoost);
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine($"{xMovement} x {yMovement}, {tan} = tan({angle}°");
+#endif
+
+            Move(new Vector2(Math.Abs(xMovement), Math.Abs(yMovement)), controller.SpeedBoost);
         }
 
 
-        public void Move(float angle, bool isSpeeBoostUp)
+        public void Move(Vector2 currentSpeed, bool isSpeeBoostUp)
         {
-            this.location.X += (float)Math.Cos(angle) * this.speed.X * (isSpeeBoostUp ? 2 : 1);
-            this.location.Y += (float)Math.Sin(angle) * this.speed.Y * (isSpeeBoostUp ? 2 : 1);
+            this.location.X += ((float)Math.Cos(rotation) * this.speed.X * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
+            this.location.Y += ((float)Math.Sin(rotation) * this.speed.Y * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
         }
 
         public void MoveLeft(bool isBoostPressed)
@@ -299,10 +309,10 @@ namespace BattleTank.Tanks
 
         public bool TryFire(out Bullet[] bullets)
         {
-            TankControllerState controller = _tankActionProvider.GetTankControllerState();
+            TankControllerState controller = TankActionProvider.GetTankControllerState();
             if (controller.Fire)
             {
-                bullets = Fire();
+                 bullets = Fire();
                 return true;
             }
 
@@ -350,7 +360,7 @@ namespace BattleTank.Tanks
 
             if (mines <= 0 || _timeLeftToPlantMine > TimeSpan.Zero) return false;
 
-            TankControllerState controller = _tankActionProvider.GetTankControllerState();
+            TankControllerState controller = TankActionProvider.GetTankControllerState();
             if (!controller.PlantMine)
                 return false;
             

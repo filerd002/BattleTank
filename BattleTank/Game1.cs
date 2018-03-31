@@ -28,10 +28,7 @@ namespace BattleTank
         public Score scoreManager;
         Rectangle debugRect;
         Rectangle tank2DebugRect;
-        private const float FIRE_DELAY = 0.5f;
-        private float tank1MineDelay = 0f;
-        private float tank2MineDelay = 0f;
-        private const float MINE_DELAY = 2f;
+
         private float tank1TimeToBackAlive = 2f;
         private float tank2TimeToBackAlive = 2f;
         private float tankAITimeToBackAlive = 2f;
@@ -153,9 +150,9 @@ namespace BattleTank
             lossTexture = Content.Load<Texture2D>("Graphics//przegrana");
             przerwaTexture = Content.Load<Texture2D>("Graphics//przerwa");
 
-            KeyboardTankActionProvider keyboardProvider1stPlayer = new KeyboardTankActionProvider(Keys.W, Keys.A, Keys.S, Keys.D, Keys.B, Keys.N, Keys.Space);
+            ITankActionProvider TAProvider1stPlayer = new GenericGamepadTankActionProvider();
             KeyboardTankActionProvider keyboardProvider2stPlayer = new KeyboardTankActionProvider(Keys.Up, Keys.Left, Keys.Down, Keys.Right, Keys.Decimal, Keys.NumPad1, Keys.NumPad0);
-            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, keyboardProvider1stPlayer);
+            tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, TAProvider1stPlayer);
             tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, keyboardProvider2stPlayer);
 
 
@@ -2888,10 +2885,6 @@ namespace BattleTank
 
                     //Update delays
                     float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                    tank1MineDelay -= timer;
-                    tank2MineDelay -= timer;
-
-
 
                     //if tanks are dead, decrease their time until they respawn
                     if (!tank1.alive)

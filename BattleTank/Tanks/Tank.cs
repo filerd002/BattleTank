@@ -222,15 +222,23 @@ namespace BattleTank.Tanks
 
             if (xMovement == 0 && yMovement == 0) return;
 
-            float angle = -MathHelper.PiOver2; // Czołg w wyjściowej pozycji jest obrócony do góry.
+            float tan = xMovement != 0
+                ? Math.Abs((float) yMovement ) / (float) xMovement
+                : float.PositiveInfinity; // Obliczam tangensa konta w górnej połowie układu współrzędnego
+            
+            float angle = -MathHelper.PiOver2;
 
-            if (xMovement == 0) angle = -MathHelper.PiOver2; // Pozostaw wartość niezmienioną
-            else if (yMovement == 0 && xMovement < 0) angle -= MathHelper.PiOver2; // Obróć w lewo o 90 stopni
-            else if (yMovement == 0 && xMovement > 0) angle += MathHelper.PiOver2; // Obróć w prawo o 90 stopni
-            else angle += (float)Math.Atan(yMovement / xMovement);
+            if (Math.Abs(tan) < float.Epsilon && xMovement > 0) // czołg w rzeczywistości porusza się w prawo
+                angle += MathHelper.PiOver2;
+            else if (Math.Abs(tan) < float.Epsilon && xMovement < 0) // czołg porusza się w rzeczywistyości w lewo
+                angle -= MathHelper.PiOver2;
+            else
+                angle += (float)(((tan > 0 ? 1 : -1)*MathHelper.PiOver2) - Math.Atan(tan));
+        
+            
+            if (yMovement < 0) // Kiedy czołg chce jechać w dół
+                angle = (-angle);
 
-            if (yMovement < 0)
-                angle += MathHelper.Pi; // Kiedy czołg jedzie w doł to odwróc wyniki, bo tg ma zakress od -pi/2 do pi/2
 
             Rotate(angle);
 

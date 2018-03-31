@@ -44,6 +44,7 @@
     <Compile Include="bullet.cs" />
     <Compile Include="Collision.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Input\GenericGamepadTankActionProvider.cs" />
     <Compile Include="Tanks\AI_Tank.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Mine.cs" />
@@ -63,6 +64,9 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
+      <HintPath>..\packages\SlimDX.4.0.13.44\lib\NET40\SlimDX.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -271,6 +275,7 @@
     <None Include="Content\Content.mgcb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />

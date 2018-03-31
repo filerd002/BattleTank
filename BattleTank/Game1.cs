@@ -2418,8 +2418,8 @@ namespace BattleTank
                         if (state.LeftButton == ButtonState.Pressed)
                         {
                             LeftButtonStatus = true;
-                            tank1.lives = 999;
-                            tank2.lives = 999;
+                            tank1.lives = 1;
+                            tank2.lives = 1;
                             tank1.mines = 10;
                             tank2.mines = 10;
                             map.WallBorder = randy.Next(5);
@@ -2798,9 +2798,6 @@ namespace BattleTank
                             {
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, true));
                             }
-
-
-
 
 
                             if (poziomTrudnosci == 3)

@@ -76,6 +76,7 @@
     <Content Include="Content\Graphics\21.png" />
     <Content Include="Content\Graphics\3.png" />
     <Content Include="Content\Graphics\31.png" />
+    <Content Include="Content\Graphics\Ammo.png" />
     <Content Include="Content\Graphics\Background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

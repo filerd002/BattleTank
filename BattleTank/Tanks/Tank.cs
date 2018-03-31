@@ -390,18 +390,20 @@ namespace BattleTank.Tanks
                     Die();
                 }
                 }
-            else
-            {
+           
                 hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
-            }
+            
         }
         public virtual void Die()
         {
             game.sound.PlaySound(Sound.Sounds.EXPLOSION);
             if (alive)
             {
+                if (game.gameState == game.gameRunningWyscig)
+                { lives++; }
+               
                 deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2);
-                alive = false;               
+                alive = false;
                 location = new Vector2(-100, -100);
             }
         }
@@ -413,6 +415,7 @@ namespace BattleTank.Tanks
                 game.sound.PlaySound(Sound.Sounds.RESPAWN);
                 location = _location;
                 armor = 1;
+                strong = 1;
                 respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Green, 2);
                 alive = true;
             }

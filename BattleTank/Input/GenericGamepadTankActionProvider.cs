@@ -29,11 +29,14 @@ namespace BattleTank.Input
             Initialize();
         }
 
-        private void Initialize()
+        private bool Initialize()
         {
             DirectInput dinput = new DirectInput();
-            DeviceInstance devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).First();
-            _joystick = new SlimDX.DirectInput.Joystick(dinput, devices.InstanceGuid);
+            DeviceInstance devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
+
+            if (devices is null) return false;
+
+            _joystick = new Joystick(dinput, devices.InstanceGuid);
 
             foreach (DeviceObjectInstance doi in _joystick.GetObjects(ObjectDeviceType.Axis))
             {
@@ -42,6 +45,7 @@ namespace BattleTank.Input
             _joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
 
             _joystick.Acquire();
+            return true;
         }
 
         /// <inheritdoc />
@@ -68,11 +72,7 @@ namespace BattleTank.Input
         }
 
         public static bool IsAnyAvailbableGamePad()
-        {
-            DirectInput dinput = new DirectInput();
-            DeviceInstance devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
-            return devices is null;
-        }
+            => DefaultGamepadProvider.Initialize(); 
 
         #region Overrides
         /// <inheritdoc />

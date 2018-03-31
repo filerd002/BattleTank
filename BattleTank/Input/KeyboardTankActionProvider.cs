@@ -28,12 +28,11 @@ namespace BattleTank.Input
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            // TODO: tego 5000 nie może byc tutaj na sztywno!
             KeyboardState keyboardState = Keyboard.GetState();
 
             return new TankControllerState(
-                moveY: (keyboardState.IsKeyDown(GoUp) ? 5000 : 0) - (keyboardState.IsKeyDown(GoDown) ? 5000 : 0),
-                moveX: (keyboardState.IsKeyDown(GoRight) ? 5000 : 0) -  (keyboardState.IsKeyDown(GoLeft) ? 5000 : 0),
+                moveY: (float)((keyboardState.IsKeyDown(GoUp) ? 1 : 0) - (keyboardState.IsKeyDown(GoDown) ? 1 : 0)),
+                moveX: (float)((keyboardState.IsKeyDown(GoRight) ? 1: 0) -  (keyboardState.IsKeyDown(GoLeft) ? 1 : 0)),
                 speedBoost: keyboardState.IsKeyDown(SpeedBoost),
                 plantMine: keyboardState.IsKeyDown(PlantMine),
                 fire: keyboardState.IsKeyDown(Fire));

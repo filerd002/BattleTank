@@ -11,7 +11,8 @@ namespace BattleTank.Input
     class GenericGamepadTankActionProvider : ITankActionProvider
     {
         private Joystick Joystick;
-        public static GenericGamepadTankActionProvider DefaultGamepadProvider { get; } = new GenericGamepadTankActionProvider(1, 0, 7);
+        private const int MAX_AXIS_VALUE = 5000;
+        public static GenericGamepadTankActionProvider DefaultGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
         public int SpeedBoostButtonNumber { get; set; }
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }
@@ -32,7 +33,7 @@ namespace BattleTank.Input
 
             foreach (DeviceObjectInstance doi in Joystick.GetObjects(ObjectDeviceType.Axis))
             {
-                Joystick.GetObjectPropertiesById((int) doi.ObjectType).SetRange(Int16.MinValue, Int16.MaxValue);
+                Joystick.GetObjectPropertiesById((int) doi.ObjectType).SetRange(-MAX_AXIS_VALUE, MAX_AXIS_VALUE);
             }
             Joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
 
@@ -55,8 +56,8 @@ namespace BattleTank.Input
 
             bool[] buttons = state.GetButtons();
             return new TankControllerState(
-                moveX: state.X,
-                moveY: -state.Y,
+                moveX: (float)state.X / MAX_AXIS_VALUE,
+                moveY: (float)-state.Y / MAX_AXIS_VALUE,
                 speedBoost: buttons[SpeedBoostButtonNumber],
                 plantMine: buttons[PlantMineButtonNumber],
                 fire: buttons[FireButtonNumber]);

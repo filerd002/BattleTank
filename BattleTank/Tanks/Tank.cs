@@ -217,13 +217,13 @@ namespace BattleTank.Tanks
         public virtual void Move()
         {
             TankControllerState controller = TankActionProvider.GetTankControllerState();
-            int xMovement = controller.MoveX;
-            int yMovement = controller.MoveY;
+            float xMovement = controller.MoveX;
+            float yMovement = controller.MoveY;
 
-            if (xMovement == 0 && yMovement == 0) return;
+            if (Math.Abs(xMovement) < float.Epsilon && Math.Abs(yMovement) < float.Epsilon) return;
 
-            float tan = xMovement != 0
-                ? Math.Abs((float) yMovement ) / (float) xMovement
+            float tan = Math.Abs(xMovement) > double.Epsilon
+                ? Math.Abs(yMovement)  / xMovement
                 : float.PositiveInfinity; // Obliczam tangensa konta w górnej połowie układu współrzędnego
             
             float angle = -MathHelper.PiOver2;
@@ -234,22 +234,24 @@ namespace BattleTank.Tanks
                 angle -= MathHelper.PiOver2;
             else
                 angle += (float)(((tan > 0 ? 1 : -1)*MathHelper.PiOver2) - Math.Atan(tan));
-        
             
             if (yMovement < 0) // Kiedy czołg chce jechać w dół
                 angle = (-angle);
 
-
             Rotate(angle);
 
-            Move(angle, controller.SpeedBoost);
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine($"{xMovement} x {yMovement}, {tan} = tan({angle}°");
+#endif
+
+            Move(new Vector2(Math.Abs(xMovement), Math.Abs(yMovement)), controller.SpeedBoost);
         }
 
 
-        public void Move(float angle, bool isSpeeBoostUp)
+        public void Move(Vector2 currentSpeed, bool isSpeeBoostUp)
         {
-            this.location.X += (float)Math.Cos(angle) * this.speed.X * (isSpeeBoostUp ? 2 : 1);
-            this.location.Y += (float)Math.Sin(angle) * this.speed.Y * (isSpeeBoostUp ? 2 : 1);
+            this.location.X += ((float)Math.Cos(rotation) * this.speed.X * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
+            this.location.Y += ((float)Math.Sin(rotation) * this.speed.Y * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
         }
 
         public void MoveLeft(bool isBoostPressed)

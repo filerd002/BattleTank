@@ -339,7 +339,7 @@ namespace BattleTank.Tanks
             var bullets = new Bullet[strong];
 
             for (int i = 0; i < this.strong; i++) // stwórz na raz tyle pociskow, ile mocy ma czołg.
-                bullets[i] = new Bullet(game, bulletStartPosition, bulletSpeed, color, player, 0, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y, 5, 20));
+                bullets[i] = new Bullet(game, bulletStartPosition, bulletSpeed, color, player, 0, whiteRectangle, new Rectangle((int)location.X - 2, (int)location.Y, 5, 7));
 
             return bullets;
         }

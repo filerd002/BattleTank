@@ -425,7 +425,7 @@ namespace BattleTank.Tanks
         {
             if (alive)
             {
-
+                lives--;
                 Die();
             }
         }

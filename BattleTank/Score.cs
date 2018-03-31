@@ -247,6 +247,17 @@ namespace BattleTank
 
 
             DrawRectangle(new Rectangle((int)game.tank1.location.X-20, (int)game.tank1.location.Y - 22, (int)(16 * (game.tank1.lives)), 4), new Color(138, 7, 7));
+            DrawRectangle(new Rectangle((int)game.tank1.location.X - 20, (int)game.tank1.location.Y - 22, 1, 4), Color.Yellow);
+            for (int i = 0; i < game.tank1.lives-1; i++)
+            {
+                if (i == 0)
+                {
+                    DrawRectangle(new Rectangle((int)game.tank1.location.X - 4, (int)game.tank1.location.Y - 22, 1, 4), Color.Yellow);
+                }
+                else
+                    DrawRectangle(new Rectangle((int)game.tank1.location.X - 4 + (16 * i), (int)game.tank1.location.Y - 22, 1, 4), Color.Yellow);
+
+            }
             DrawRectangle(new Rectangle((int)game.tank1.location.X-20, (int)game.tank1.location.Y - 27, (int)(16 * (game.tank1.armor)), 4), Color.Gray);
 
             if (game.tank1.mines < 4)

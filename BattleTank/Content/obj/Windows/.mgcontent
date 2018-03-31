@@ -4,6 +4,7 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Graphics/Ammo.png</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/explosion.wav</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/hit.wav</File>
     <File>C:/Users/Filip/source/repos/BattleTank/BattleTank/Content/Sounds/klik.wav</File>

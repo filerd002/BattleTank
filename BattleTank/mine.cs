@@ -27,19 +27,19 @@ namespace BattleTank
             rotation = _rotation;
             rectangleTexture = player == 1 ? mineTextureGreen : mineTextureRed;
             alive = true;
-            pointsOnHit = 50;
-            pointsOnKill = 200;
+          //  pointsOnHit = 50;
+            pointsOnKill = 1;
         }
         public override void Die()
         {
             base.Die();
             if (player == 1)
             {
-                 game.scoreManager.addScore(0, 200);
+                 game.scoreManager.addScore(0, pointsOnKill);
             }
             if (player == 2)
             {
-                 game.scoreManager.addScore(1, 200);
+                 game.scoreManager.addScore(1, pointsOnKill);
             }
         }
         public override void Update()

@@ -62,7 +62,7 @@ namespace BattleTank.Tanks
             barrier = _barrier;
             alive = true;
             lives = 3;
-            armor = 3;
+            armor = 1;
             respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
             deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
             tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);

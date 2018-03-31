@@ -61,10 +61,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.tank1.lives++;
+                            game.tank1.lives+=0.25f;
                             break;
                         case ARMOR :
-                            game.tank1.armor++;
+                            game.tank1.armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 1;
@@ -95,10 +95,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.tank2.lives++;
+                            game.tank2.lives += 0.25f;
                             break;
                         case ARMOR:
-                            game.tank2.armor++;
+                            game.tank2.armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 2;
@@ -128,10 +128,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.enemyTanks[0].lives++;
+                            game.enemyTanks[0].lives += 0.25f;
                             break;
                         case ARMOR:
-                            game.enemyTanks[0].armor++;
+                            game.enemyTanks[0].armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 3;
@@ -157,10 +157,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.enemyTanks[1].lives++;
+                            game.enemyTanks[1].lives += 0.25f;
                             break;
                         case ARMOR:
-                            game.enemyTanks[1].armor++;
+                            game.enemyTanks[1].armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 4;
@@ -186,10 +186,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.enemyTanks[2].lives++;
+                            game.enemyTanks[2].lives += 0.25f;
                             break;
                         case ARMOR:
-                            game.enemyTanks[2].armor++;
+                            game.enemyTanks[2].armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 5;
@@ -216,10 +216,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.enemyTanks[3].lives++;
+                            game.enemyTanks[3].lives += 0.25f;
                             break;
                         case ARMOR:
-                            game.enemyTanks[3].armor++;
+                            game.enemyTanks[3].armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 6;
@@ -245,10 +245,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.enemyTanks[4].lives++;
+                            game.enemyTanks[4].lives += 0.25f;
                             break;
                         case ARMOR:
-                            game.enemyTanks[4].armor++;
+                            game.enemyTanks[4].armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 7;
@@ -274,10 +274,10 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.enemyTanks[5].lives++;
+                            game.enemyTanks[5].lives += 0.25f;
                             break;
                         case ARMOR:
-                            game.enemyTanks[5].armor++;
+                            game.enemyTanks[5].armor += 0.25f;
                             break;
                         case BARRIER:
                             game.barrierPlayer = 8;

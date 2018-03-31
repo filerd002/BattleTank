@@ -12,8 +12,9 @@ namespace BattleTank
     public class Score
     {
         private Game1 game { get; set; }
-        private int[] score;
+        private int[][] score;
         private int numOfPlayers { get; set; }
+
         private SpriteFont spriteFont;
         private SpriteFont spriteFontBig;
         public Score() { }
@@ -32,10 +33,12 @@ namespace BattleTank
         {
             game = _game;
             numOfPlayers = _numOfPlayers;
-            score = new int[numOfPlayers];
+            score = new int[numOfPlayers][];
             for (int i = 0; i < score.Length; ++i)
             {
-                score[i] = 0;
+                score[i] = new int[4];
+                for (int j = 0; j < 4; ++j)
+                    score[i][j] = 0;
             }
             Load();
         }
@@ -46,355 +49,497 @@ namespace BattleTank
         }
         public int getScore(int playerIndex)
         {
-            return score[playerIndex];
+            return score[playerIndex][0];
         }
         public void addScore(int playerIndex, int pointsToAdd)
         {
-            score[playerIndex] += pointsToAdd;
+
+            if (score[playerIndex][2] == 9)
+            {
+                score[playerIndex][2] = 0;
+                score[playerIndex][3] += pointsToAdd;
+            }
+            else if (score[playerIndex][1] == 9)
+            {
+                score[playerIndex][1] = 0;
+                score[playerIndex][2] += pointsToAdd;
+            }
+            else
+                score[playerIndex][1] += pointsToAdd;
         }
+
+        private static Texture2D rect;
+
+
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            
-
-
-
-
-            if (locationScoreTank1.Equals("TOP"))
+            void DrawRectangle(Rectangle coords, Color color)
             {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 32), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 47), Color.Green);
-                if(game.gameState == game.gameRunningWyscig)
-                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
-                else
-                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 77), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 92), Color.Green);
-
-
-            }
-            else if (locationScoreTank1.Equals("BOTTOM"))
-            {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 92), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 77), Color.Green);
-                if (game.gameState == game.gameRunningWyscig)
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
-                else
-                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 47), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 32), Color.Green);
-
-
-            }
-            else if (locationScoreTank1.Equals("LEFT"))
-            {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 92), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 77), Color.Green);
-                if (game.gameState == game.gameRunningWyscig)
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
-                else
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 47), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 32), Color.Green);
-            }
-            else if (locationScoreTank1.Equals("RIGHT"))
-            {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 32), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 47), Color.Green);
-                if (game.gameState == game.gameRunningWyscig)
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
-                else
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 77), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 92), Color.Green);
-
-            }
-
-            else if (locationScoreTank1.Equals("TOP_LEFT"))
-            {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 92), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 77), Color.Green);
-                if (game.gameState == game.gameRunningWyscig)
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 62), Color.Green);
-                else
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 47), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 32), Color.Green);
-            }
-            else if (locationScoreTank1.Equals("TOM_RIGHT"))
-            {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 92), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 77), Color.Green);
-                if (game.gameState == game.gameRunningWyscig)
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
-                else
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 47), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 32), Color.Green);
-
-            }
-            else if (locationScoreTank1.Equals("BOTTOM_LEFT"))
-            {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 32), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 47), Color.Green);
-                if (game.gameState == game.gameRunningWyscig)
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
-                else
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 77), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 92), Color.Green);
-
-            }
-            else if (locationScoreTank1.Equals("BOTTOM_RIGHT"))
-            {
-                spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 32), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 47), Color.Green);
-                if (game.gameState == game.gameRunningWyscig)
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
-                else
-                    spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 77), Color.Green);
-                spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 92), Color.Green);
-
-            }
-
-
-            game.tank1.colliding = false;
-            foreach (Tile[] tiles in game.map.map)
-            {
-                foreach (Tile tile in tiles)
+                if (rect == null)
                 {
-                    if (tile != null)
-                    {
-                        if ((tile.isColliding(game.tank1.tankRect).depth > 0))
+                    rect = new Texture2D(game.graphics.GraphicsDevice, 1, 1);
+                    rect.SetData(new[] { Color.White });
+                }
+                spriteBatch.Draw(rect, coords, color);
+            }
+
+
+
+            /*
+                        if (locationScoreTank1.Equals("TOP"))
                         {
-                            game.tank1.colliding = true;
-                            Collision collision = tile.isColliding(game.tank1.tankRect);
-                            switch (collision.side)
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 32), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 47), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 77), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 92), Color.Green);
+
+
+                        }
+                        else if (locationScoreTank1.Equals("BOTTOM"))
+                        {
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 92), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 77), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 47), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 32), Color.Green);
+
+
+                        }
+                        else if (locationScoreTank1.Equals("LEFT"))
+                        {
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 92), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 77), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 47), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 32), Color.Green);
+                        }
+                        else if (locationScoreTank1.Equals("RIGHT"))
+                        {
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 32), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 47), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 77), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 92), Color.Green);
+
+                        }
+
+                        else if (locationScoreTank1.Equals("TOP_LEFT"))
+                        {
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 92), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 77), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 47), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y - 32), Color.Green);
+                        }
+                        else if (locationScoreTank1.Equals("TOM_RIGHT"))
+                        {
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 92), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 77), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 47), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y - 32), Color.Green);
+
+                        }
+                        else if (locationScoreTank1.Equals("BOTTOM_LEFT"))
+                        {
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 32), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 47), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 77), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X - 108, game.tank1.location.Y + 92), Color.Green);
+
+                        }
+                        else if (locationScoreTank1.Equals("BOTTOM_RIGHT"))
+                        {
+                            spriteBatch.DrawString(spriteFont, "  Player 1: " + score[0], new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 32), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Armor P1: " + game.tank1.armor, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 47), Color.Green);
+                            if (game.gameState == game.gameRunningWyscig)
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: Niesmiertelny", new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
+                            else
+                                spriteBatch.DrawString(spriteFont, "  Lives P1: " + game.tank1.lives, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 62), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Strong P1: " + game.tank1.strong, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 77), Color.Green);
+                            spriteBatch.DrawString(spriteFont, "  Mines P1: " + game.tank1.mines, new Vector2(game.tank1.location.X + 14, game.tank1.location.Y + 92), Color.Green);
+
+                        }
+
+
+                        game.tank1.colliding = false;
+                        foreach (Tile[] tiles in game.map.map)
+                        {
+                            foreach (Tile tile in tiles)
                             {
-                                case Collision.Side.TOP:
-                                    if (locationScoreTank1.Equals("LEFT"))
-                                        locationScoreTank1 = "TOP_LEFT";
-                                    else if (locationScoreTank1.Equals("RIGHT"))
-                                        locationScoreTank1 = "TOP_RIGHT";
-                                    else
-                                        locationScoreTank1 = "TOP";
-                                    break;
-                                case Collision.Side.BOTTOM:
-                                    if (locationScoreTank1.Equals("LEFT"))
-                                        locationScoreTank1 = "BOTTOM_LEFT";
-                                    else if (locationScoreTank1.Equals("RIGHT"))
-                                        locationScoreTank1 = "BOTTOM_RIGHT";
-                                    else
-                                        locationScoreTank1 = "BOTTOM";
+                                if (tile != null)
+                                {
+                                    if ((tile.isColliding(game.tank1.tankRect).depth > 0))
+                                    {
+                                        game.tank1.colliding = true;
+                                        Collision collision = tile.isColliding(game.tank1.tankRect);
+                                        switch (collision.side)
+                                        {
+                                            case Collision.Side.TOP:
+                                                if (locationScoreTank1.Equals("LEFT"))
+                                                    locationScoreTank1 = "TOP_LEFT";
+                                                else if (locationScoreTank1.Equals("RIGHT"))
+                                                    locationScoreTank1 = "TOP_RIGHT";
+                                                else
+                                                    locationScoreTank1 = "TOP";
+                                                break;
+                                            case Collision.Side.BOTTOM:
+                                                if (locationScoreTank1.Equals("LEFT"))
+                                                    locationScoreTank1 = "BOTTOM_LEFT";
+                                                else if (locationScoreTank1.Equals("RIGHT"))
+                                                    locationScoreTank1 = "BOTTOM_RIGHT";
+                                                else
+                                                    locationScoreTank1 = "BOTTOM";
 
-                                    break;
-                                case Collision.Side.LEFT:
-                                    if (locationScoreTank1.Equals("TOP"))
-                                        locationScoreTank1 = "TOP_LEFT";
-                                    else if (locationScoreTank1.Equals("BOTTOM"))
-                                        locationScoreTank1 = "BOTTOM_LEFT";
-                                    else
-                                        locationScoreTank1 = "LEFT";
+                                                break;
+                                            case Collision.Side.LEFT:
+                                                if (locationScoreTank1.Equals("TOP"))
+                                                    locationScoreTank1 = "TOP_LEFT";
+                                                else if (locationScoreTank1.Equals("BOTTOM"))
+                                                    locationScoreTank1 = "BOTTOM_LEFT";
+                                                else
+                                                    locationScoreTank1 = "LEFT";
 
-                                    break;
-                                case Collision.Side.RIGHT:
-                                    if (locationScoreTank1.Equals("TOP"))
-                                        locationScoreTank1 = "TOP_RIGHT";
-                                    else if (locationScoreTank1.Equals("BOTTOM"))
-                                        locationScoreTank1 = "BOTTOM_RIGHT";
-                                    else
-                                        locationScoreTank1 = "RIGHT";
+                                                break;
+                                            case Collision.Side.RIGHT:
+                                                if (locationScoreTank1.Equals("TOP"))
+                                                    locationScoreTank1 = "TOP_RIGHT";
+                                                else if (locationScoreTank1.Equals("BOTTOM"))
+                                                    locationScoreTank1 = "BOTTOM_RIGHT";
+                                                else
+                                                    locationScoreTank1 = "RIGHT";
 
-                                    break;
+                                                break;
+
+                                        }
+                                    }
+                                }
+                                else { continue; }
 
                             }
-                        }
-                    }
-                    else { continue; }
 
-                }
+                        }
+                        */
+
+
+            DrawRectangle(new Rectangle((int)game.tank1.location.X-20, (int)game.tank1.location.Y - 22, (int)(16 * (game.tank1.lives)), 4), new Color(138, 7, 7));
+            DrawRectangle(new Rectangle((int)game.tank1.location.X-20, (int)game.tank1.location.Y - 27, (int)(16 * (game.tank1.armor)), 4), Color.Gray);
+
+            if (game.tank1.mines < 4)
+            {
+                if (game.tank1.mines >= 1)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X-22, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+                if (game.tank1.mines >= 2)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X-8, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+                if (game.tank1.mines >= 3)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X+6, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(spriteFont, game.tank1.mines + "x", new Vector2((int)game.tank1.location.X -19, (int)game.tank1.location.Y - 50), Color.White);
+
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X -2, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+            }
+            if (game.tank1.strong < 4)
+            {
+                if (game.tank1.strong >= 1)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X-22, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
+                if (game.tank1.strong >= 2)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X -8, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
+                if (game.tank1.strong >= 3)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X + 6, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(spriteFont, game.tank1.strong + "x", new Vector2((int)game.tank1.location.X - 19, (int)game.tank1.location.Y - 40), Color.White);
+
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X -2, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
             }
 
 
+                /*
+                 
+                
+            DrawRectangle(new Rectangle(250, 150, (int)(16 * (game.tank1.lives)), 4), new Color(138, 7, 7));
+            DrawRectangle(new Rectangle(250, 155, (int)(16 * (game.tank1.armor)), 4), Color.Gray);
 
-            if (game.gameState == game.gameRunningPlayers2 || game.gameState == game.gameRunningPlayers2andCPU || game.gameState == game.gameRunningWyscig)
+            if (game.tank1.mines < 4)
+            {
+                if (game.tank1.mines >= 1)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle(249, 159, 12, 12), Color.White);
+                if (game.tank1.mines >= 2)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle(263, 159, 12, 12), Color.White);
+                if (game.tank1.mines >= 3)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle(277, 159, 12, 12), Color.White);
+            }
+            else
+            {
+                spriteBatch.DrawString(spriteFont, game.tank1.mines + "x", new Vector2(250, 159), Color.White);
+
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle(268, 159, 12, 12), Color.White);
+            }
+            if (game.tank1.strong < 4)
+            {
+                if (game.tank1.strong >= 1)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle(249, 169, 12, 12), Color.White);
+                if (game.tank1.strong >= 2)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle(263, 169, 12, 12), Color.White);
+                if (game.tank1.strong >= 3)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle(277, 169, 12, 12), Color.White);
+                else
+                {
+                    spriteBatch.DrawString(spriteFont, game.tank1.strong + "x", new Vector2(250, 169), Color.White);
+
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle(268, 169, 12, 12), Color.White);
+                }
+
+
+                 */
+
+
+
+
+                if (game.gameState == game.gameRunningPlayers2 || game.gameState == game.gameRunningPlayers2andCPU || game.gameState == game.gameRunningWyscig)
             {
 
                 //   spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.graphics.PreferredBackBufferWidth - 170, game.graphics.PreferredBackBufferHeight - 70), Color.Red);
 
 
-                if (game.gameState == game.gameRunningWyscig)
+
+
+                    if (game.gameState == game.gameRunningWyscig)
                 {
 
-                   
                     TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);
-                    spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2)-20,game.map.screenHeight/ 2), Color.White);
+                    spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2) - 27, 65), Color.White);
+                    spriteBatch.DrawString(spriteFontBig, score[0][3].ToString() + "" + score[0][2].ToString() + "" + score[0][1].ToString() + "" + score[0][0].ToString(), new Vector2((game.map.screenWidth / 2) - 97, 65), Color.Green);
+                    spriteBatch.DrawString(spriteFontBig, score[1][3].ToString() + "" + score[1][2].ToString() + "" + score[1][1].ToString() + "" + score[1][0].ToString(), new Vector2((game.map.screenWidth / 2) + 50, 65), Color.Red);
 
-                    
-                }
-
-
-                if (locationScoreTank2.Equals("TOP"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 32), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 47), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 77), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 92), Color.Red);
 
 
                 }
-                else if (locationScoreTank2.Equals("BOTTOM"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 92), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 77), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 47), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 32), Color.Red);
 
-
-                }
-                else if (locationScoreTank2.Equals("LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 92), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 77), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 47), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 32), Color.Red);
-                }
-                else if (locationScoreTank2.Equals("RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 32), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 47), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 77), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 92), Color.Red);
-
-                }
-
-                else if (locationScoreTank2.Equals("TOP_LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 92), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 77), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 47), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 32), Color.Red);
-                }
-                else if (locationScoreTank2.Equals("TOM_RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 92), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 77), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 47), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 32), Color.Red);
-
-                }
-                else if (locationScoreTank2.Equals("BOTTOM_LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 32), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 47), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 77), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 92), Color.Red);
-
-                }
-                else if (locationScoreTank2.Equals("BOTTOM_RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 32), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 47), Color.Red);
-                    if (game.gameState == game.gameRunningWyscig)
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
-                    else
-                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 77), Color.Red);
-                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 92), Color.Red);
-
-                }
-
-
-                game.tank2.colliding = false;
-                foreach (Tile[] tiles in game.map.map)
-                {
-                    foreach (Tile tile in tiles)
-                    {
-                        if (tile != null)
-                        {
-                            if ((tile.isColliding(game.tank2.tankRect).depth > 0))
-                            {
-                                game.tank2.colliding = true;
-                                Collision collision2 = tile.isColliding(game.tank2.tankRect);
-                                switch (collision2.side)
+                /*
+                                if (locationScoreTank2.Equals("TOP"))
                                 {
-                                    case Collision.Side.TOP:
-                                        if (locationScoreTank2.Equals("LEFT"))
-                                            locationScoreTank2 = "TOP_LEFT";
-                                        else if (locationScoreTank2.Equals("RIGHT"))
-                                            locationScoreTank2 = "TOP_RIGHT";
-                                        else
-                                            locationScoreTank2 = "TOP";
-                                        break;
-                                    case Collision.Side.BOTTOM:
-                                        if (locationScoreTank2.Equals("LEFT"))
-                                            locationScoreTank2 = "BOTTOM_LEFT";
-                                        else if (locationScoreTank2.Equals("RIGHT"))
-                                            locationScoreTank2 = "BOTTOM_RIGHT";
-                                        else
-                                            locationScoreTank2 = "BOTTOM";
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 32), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 47), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 77), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 92), Color.Red);
 
-                                        break;
-                                    case Collision.Side.LEFT:
-                                        if (locationScoreTank2.Equals("TOP"))
-                                            locationScoreTank2 = "TOP_LEFT";
-                                        else if (locationScoreTank2.Equals("BOTTOM"))
-                                            locationScoreTank2 = "BOTTOM_LEFT";
-                                        else
-                                            locationScoreTank2 = "LEFT";
-
-                                        break;
-                                    case Collision.Side.RIGHT:
-                                        if (locationScoreTank2.Equals("TOP"))
-                                            locationScoreTank2 = "TOP_RIGHT";
-                                        else if (locationScoreTank2.Equals("BOTTOM"))
-                                            locationScoreTank2 = "BOTTOM_RIGHT";
-                                        else
-                                            locationScoreTank2 = "RIGHT";
-
-                                        break;
 
                                 }
-                            }
-                        }
-                        else { continue; }
+                                else if (locationScoreTank2.Equals("BOTTOM"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 92), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 77), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 47), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 32), Color.Red);
 
-                    }
+
+                                }
+                                else if (locationScoreTank2.Equals("LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 92), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 77), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 47), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 32), Color.Red);
+                                }
+                                else if (locationScoreTank2.Equals("RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 32), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 47), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 77), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 92), Color.Red);
+
+                                }
+
+                                else if (locationScoreTank2.Equals("TOP_LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 92), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 77), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 47), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y - 32), Color.Red);
+                                }
+                                else if (locationScoreTank2.Equals("TOM_RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 92), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 77), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 47), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y - 32), Color.Red);
+
+                                }
+                                else if (locationScoreTank2.Equals("BOTTOM_LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 32), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 47), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 77), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X - 108, game.tank2.location.Y + 92), Color.Red);
+
+                                }
+                                else if (locationScoreTank2.Equals("BOTTOM_RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Player 2: " + score[1], new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 32), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Armor P2: " + game.tank2.armor, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 47), Color.Red);
+                                    if (game.gameState == game.gameRunningWyscig)
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: Niesmiertelny", new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
+                                    else
+                                        spriteBatch.DrawString(spriteFont, "  Lives P2: " + game.tank2.lives, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 62), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Strong P2: " + game.tank2.strong, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 77), Color.Red);
+                                    spriteBatch.DrawString(spriteFont, "  Mines P2: " + game.tank2.mines, new Vector2(game.tank2.location.X + 14, game.tank2.location.Y + 92), Color.Red);
+
+                                }
 
 
+                                game.tank2.colliding = false;
+                                foreach (Tile[] tiles in game.map.map)
+                                {
+                                    foreach (Tile tile in tiles)
+                                    {
+                                        if (tile != null)
+                                        {
+                                            if ((tile.isColliding(game.tank2.tankRect).depth > 0))
+                                            {
+                                                game.tank2.colliding = true;
+                                                Collision collision2 = tile.isColliding(game.tank2.tankRect);
+                                                switch (collision2.side)
+                                                {
+                                                    case Collision.Side.TOP:
+                                                        if (locationScoreTank2.Equals("LEFT"))
+                                                            locationScoreTank2 = "TOP_LEFT";
+                                                        else if (locationScoreTank2.Equals("RIGHT"))
+                                                            locationScoreTank2 = "TOP_RIGHT";
+                                                        else
+                                                            locationScoreTank2 = "TOP";
+                                                        break;
+                                                    case Collision.Side.BOTTOM:
+                                                        if (locationScoreTank2.Equals("LEFT"))
+                                                            locationScoreTank2 = "BOTTOM_LEFT";
+                                                        else if (locationScoreTank2.Equals("RIGHT"))
+                                                            locationScoreTank2 = "BOTTOM_RIGHT";
+                                                        else
+                                                            locationScoreTank2 = "BOTTOM";
+
+                                                        break;
+                                                    case Collision.Side.LEFT:
+                                                        if (locationScoreTank2.Equals("TOP"))
+                                                            locationScoreTank2 = "TOP_LEFT";
+                                                        else if (locationScoreTank2.Equals("BOTTOM"))
+                                                            locationScoreTank2 = "BOTTOM_LEFT";
+                                                        else
+                                                            locationScoreTank2 = "LEFT";
+
+                                                        break;
+                                                    case Collision.Side.RIGHT:
+                                                        if (locationScoreTank2.Equals("TOP"))
+                                                            locationScoreTank2 = "TOP_RIGHT";
+                                                        else if (locationScoreTank2.Equals("BOTTOM"))
+                                                            locationScoreTank2 = "BOTTOM_RIGHT";
+                                                        else
+                                                            locationScoreTank2 = "RIGHT";
+
+                                                        break;
+
+                                                }
+                                            }
+                                        }
+                                        else { continue; }
+
+                                    }
+
+
+                                }
+
+                    */
+
+
+                DrawRectangle(new Rectangle((int)game.tank2.location.X - 20, (int)game.tank2.location.Y - 22, (int)(16 * (game.tank2.lives)), 4), new Color(138, 7, 7));
+                DrawRectangle(new Rectangle((int)game.tank2.location.X - 20, (int)game.tank2.location.Y - 27, (int)(16 * (game.tank2.armor)), 4), Color.Gray);
+
+                if (game.tank2.mines < 4)
+                {
+                    if (game.tank2.mines >= 1)
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X - 22, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                    if (game.tank2.mines >= 2)
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X - 8, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                    if (game.tank2.mines >= 3)
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X + 6, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                }
+                else
+                {
+                    spriteBatch.DrawString(spriteFont, game.tank2.mines + "x", new Vector2((int)game.tank2.location.X - 19, (int)game.tank2.location.Y - 50), Color.White);
+
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X - 2, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                }
+                if (game.tank2.strong < 4)
+                {
+                    if (game.tank2.strong >= 1)
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X - 22, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
+                    if (game.tank2.strong >= 2)
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X - 8, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
+                    if (game.tank2.strong >= 3)
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X + 6, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
+                }
+                else
+                {
+                    spriteBatch.DrawString(spriteFont, game.tank2.strong + "x", new Vector2((int)game.tank2.location.X - 19, (int)game.tank2.location.Y - 40), Color.White);
+
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X - 2, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
                 }
 
 
-               
 
             }
 
@@ -402,6 +547,7 @@ namespace BattleTank
             {
                 //game.enemyTanks[0]
 
+                /*
                 if (locationScoreenemyTanks0.Equals("TOP"))
                 {
                     spriteBatch.DrawString(spriteFont, "  Armor CPU1: " + game.enemyTanks[0].armor, new Vector2(game.enemyTanks[0].location.X + 14, game.enemyTanks[0].location.Y + 32), Color.Pink);
@@ -509,119 +655,130 @@ namespace BattleTank
 
                     }
                 }
+                */
+                DrawRectangle(new Rectangle((int)game.enemyTanks[0].location.X - 20, (int)game.enemyTanks[0].location.Y - 22, (int)(16 * (game.enemyTanks[0].lives)), 4), new Color(138, 7, 7));
+                DrawRectangle(new Rectangle((int)game.enemyTanks[0].location.X - 20, (int)game.enemyTanks[0].location.Y - 27, (int)(16 * (game.enemyTanks[0].armor)), 4), Color.Gray);
+
+
+
             }
             if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 2)
             {
 
                 //game.enemyTanks[1]
-
-                if (locationScoreenemyTanks1.Equals("TOP"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 32), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 47), Color.Yellow);
-
-                }
-                else if (locationScoreenemyTanks1.Equals("BOTTOM"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 47), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 32), Color.Yellow);
-
-                }
-                else if (locationScoreenemyTanks1.Equals("LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 47), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 32), Color.Yellow);
-
-                }
-                else if (locationScoreenemyTanks1.Equals("RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 32), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 47), Color.Yellow);
-
-                }
-
-                else if (locationScoreenemyTanks1.Equals("TOP_LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y - 47), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y - 32), Color.Yellow);
-
-                }
-                else if (locationScoreenemyTanks1.Equals("TOM_RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 47), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 32), Color.Yellow);
-
-                }
-                else if (locationScoreenemyTanks1.Equals("BOTTOM_LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 32), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 47), Color.Yellow);
-
-                }
-                else if (locationScoreenemyTanks1.Equals("BOTTOM_RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 32), Color.Yellow);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 47), Color.Yellow);
-
-                }
-
-
-                game.enemyTanks[1].colliding = false;
-                foreach (Tile[] tiles in game.map.map)
-                {
-                    foreach (Tile tile in tiles)
-                    {
-                        if (tile != null)
-                        {
-                            if ((tile.isColliding(game.enemyTanks[1].tankRect).depth > 1))
-                            {
-                                game.enemyTanks[1].colliding = true;
-                                Collision collisionenemyTanks1 = tile.isColliding(game.enemyTanks[1].tankRect);
-                                switch (collisionenemyTanks1.side)
+                /*
+                                if (locationScoreenemyTanks1.Equals("TOP"))
                                 {
-                                    case Collision.Side.TOP:
-                                        if (locationScoreenemyTanks1.Equals("LEFT"))
-                                            locationScoreenemyTanks1 = "TOP_LEFT";
-                                        else if (locationScoreenemyTanks1.Equals("RIGHT"))
-                                            locationScoreenemyTanks1 = "TOP_RIGHT";
-                                        else
-                                            locationScoreenemyTanks1 = "TOP";
-                                        break;
-                                    case Collision.Side.BOTTOM:
-                                        if (locationScoreenemyTanks1.Equals("LEFT"))
-                                            locationScoreenemyTanks1 = "BOTTOM_LEFT";
-                                        else if (locationScoreenemyTanks1.Equals("RIGHT"))
-                                            locationScoreenemyTanks1 = "BOTTOM_RIGHT";
-                                        else
-                                            locationScoreenemyTanks1 = "BOTTOM";
-
-                                        break;
-                                    case Collision.Side.LEFT:
-                                        if (locationScoreenemyTanks1.Equals("TOP"))
-                                            locationScoreenemyTanks1 = "TOP_LEFT";
-                                        else if (locationScoreenemyTanks1.Equals("BOTTOM"))
-                                            locationScoreenemyTanks1 = "BOTTOM_LEFT";
-                                        else
-                                            locationScoreenemyTanks1 = "LEFT";
-
-                                        break;
-                                    case Collision.Side.RIGHT:
-                                        if (locationScoreenemyTanks1.Equals("TOP"))
-                                            locationScoreenemyTanks1 = "TOP_RIGHT";
-                                        else if (locationScoreenemyTanks1.Equals("BOTTOM"))
-                                            locationScoreenemyTanks1 = "BOTTOM_RIGHT";
-                                        else
-                                            locationScoreenemyTanks1 = "RIGHT";
-
-                                        break;
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 32), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 47), Color.Yellow);
 
                                 }
-                            }
-                        }
-                        else { continue; }
+                                else if (locationScoreenemyTanks1.Equals("BOTTOM"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 47), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 32), Color.Yellow);
 
-                    }
-                }
+                                }
+                                else if (locationScoreenemyTanks1.Equals("LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 47), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 32), Color.Yellow);
+
+                                }
+                                else if (locationScoreenemyTanks1.Equals("RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 32), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 47), Color.Yellow);
+
+                                }
+
+                                else if (locationScoreenemyTanks1.Equals("TOP_LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y - 47), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y - 32), Color.Yellow);
+
+                                }
+                                else if (locationScoreenemyTanks1.Equals("TOM_RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 47), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y - 32), Color.Yellow);
+
+                                }
+                                else if (locationScoreenemyTanks1.Equals("BOTTOM_LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 32), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X - 108, game.enemyTanks[1].location.Y + 47), Color.Yellow);
+
+                                }
+                                else if (locationScoreenemyTanks1.Equals("BOTTOM_RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU2: " + game.enemyTanks[1].armor, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 32), Color.Yellow);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU2: " + game.enemyTanks[1].lives, new Vector2(game.enemyTanks[1].location.X + 14, game.enemyTanks[1].location.Y + 47), Color.Yellow);
+
+                                }
+
+
+                                game.enemyTanks[1].colliding = false;
+                                foreach (Tile[] tiles in game.map.map)
+                                {
+                                    foreach (Tile tile in tiles)
+                                    {
+                                        if (tile != null)
+                                        {
+                                            if ((tile.isColliding(game.enemyTanks[1].tankRect).depth > 1))
+                                            {
+                                                game.enemyTanks[1].colliding = true;
+                                                Collision collisionenemyTanks1 = tile.isColliding(game.enemyTanks[1].tankRect);
+                                                switch (collisionenemyTanks1.side)
+                                                {
+                                                    case Collision.Side.TOP:
+                                                        if (locationScoreenemyTanks1.Equals("LEFT"))
+                                                            locationScoreenemyTanks1 = "TOP_LEFT";
+                                                        else if (locationScoreenemyTanks1.Equals("RIGHT"))
+                                                            locationScoreenemyTanks1 = "TOP_RIGHT";
+                                                        else
+                                                            locationScoreenemyTanks1 = "TOP";
+                                                        break;
+                                                    case Collision.Side.BOTTOM:
+                                                        if (locationScoreenemyTanks1.Equals("LEFT"))
+                                                            locationScoreenemyTanks1 = "BOTTOM_LEFT";
+                                                        else if (locationScoreenemyTanks1.Equals("RIGHT"))
+                                                            locationScoreenemyTanks1 = "BOTTOM_RIGHT";
+                                                        else
+                                                            locationScoreenemyTanks1 = "BOTTOM";
+
+                                                        break;
+                                                    case Collision.Side.LEFT:
+                                                        if (locationScoreenemyTanks1.Equals("TOP"))
+                                                            locationScoreenemyTanks1 = "TOP_LEFT";
+                                                        else if (locationScoreenemyTanks1.Equals("BOTTOM"))
+                                                            locationScoreenemyTanks1 = "BOTTOM_LEFT";
+                                                        else
+                                                            locationScoreenemyTanks1 = "LEFT";
+
+                                                        break;
+                                                    case Collision.Side.RIGHT:
+                                                        if (locationScoreenemyTanks1.Equals("TOP"))
+                                                            locationScoreenemyTanks1 = "TOP_RIGHT";
+                                                        else if (locationScoreenemyTanks1.Equals("BOTTOM"))
+                                                            locationScoreenemyTanks1 = "BOTTOM_RIGHT";
+                                                        else
+                                                            locationScoreenemyTanks1 = "RIGHT";
+
+                                                        break;
+
+                                                }
+                                            }
+                                        }
+                                        else { continue; }
+
+                                    }
+                                }
+
+                    */
+                DrawRectangle(new Rectangle((int)game.enemyTanks[1].location.X - 20, (int)game.enemyTanks[1].location.Y - 22, (int)(16 * (game.enemyTanks[1].lives)), 4), new Color(138, 7, 7));
+                DrawRectangle(new Rectangle((int)game.enemyTanks[1].location.X - 20, (int)game.enemyTanks[1].location.Y - 27, (int)(16 * (game.enemyTanks[1].armor)), 4), Color.Gray);
+
 
             }
 
@@ -630,7 +787,7 @@ namespace BattleTank
             {
 
                 //game.enemyTanks[2]
-
+                /*
                 if (locationScoreenemyTanks2.Equals("TOP"))
                 {
                     spriteBatch.DrawString(spriteFont, "  Armor CPU3: " + game.enemyTanks[2].armor, new Vector2(game.enemyTanks[2].location.X + 14, game.enemyTanks[2].location.Y + 32), Color.Blue);
@@ -737,6 +894,10 @@ namespace BattleTank
 
                     }
                 }
+                */
+
+                DrawRectangle(new Rectangle((int)game.enemyTanks[2].location.X - 20, (int)game.enemyTanks[2].location.Y - 22, (int)(16 * (game.enemyTanks[2].lives)), 4), new Color(138, 7, 7));
+                DrawRectangle(new Rectangle((int)game.enemyTanks[2].location.X - 20, (int)game.enemyTanks[2].location.Y - 27, (int)(16 * (game.enemyTanks[2].armor)), 4), Color.Gray);
 
 
 
@@ -748,7 +909,7 @@ namespace BattleTank
             {
 
                 //game.enemyTanks[3]
-
+                /*
                 if (locationScoreenemyTanks3.Equals("TOP"))
                 {
                     spriteBatch.DrawString(spriteFont, "  Armor CPU4: " + game.enemyTanks[3].armor, new Vector2(game.enemyTanks[3].location.X + 14, game.enemyTanks[3].location.Y + 32), Color.Blue);
@@ -855,6 +1016,9 @@ namespace BattleTank
 
                     }
                 }
+                */
+                DrawRectangle(new Rectangle((int)game.enemyTanks[3].location.X - 20, (int)game.enemyTanks[3].location.Y - 22, (int)(16 * (game.enemyTanks[3].lives)), 4), new Color(138, 7, 7));
+                DrawRectangle(new Rectangle((int)game.enemyTanks[3].location.X - 20, (int)game.enemyTanks[3].location.Y - 27, (int)(16 * (game.enemyTanks[3].armor)), 4), Color.Gray);
 
 
 
@@ -865,113 +1029,117 @@ namespace BattleTank
             {
 
                 //game.enemyTanks[4]
-
-                if (locationScoreenemyTanks3.Equals("TOP"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 32), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 47), Color.Blue);
-                }
-                else if (locationScoreenemyTanks4.Equals("BOTTOM"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 47), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 32), Color.Blue);
-
-                }
-                else if (locationScoreenemyTanks4.Equals("LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 47), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 32), Color.Blue);
-
-                }
-                else if (locationScoreenemyTanks4.Equals("RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 32), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 47), Color.Blue);
-
-                }
-
-                else if (locationScoreenemyTanks4.Equals("TOP_LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y - 47), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y - 32), Color.Blue);
-
-                }
-                else if (locationScoreenemyTanks4.Equals("TOM_RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 47), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 32), Color.Blue);
-
-                }
-                else if (locationScoreenemyTanks4.Equals("BOTTOM_LEFT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 32), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 47), Color.Blue);
-
-                }
-                else if (locationScoreenemyTanks4.Equals("BOTTOM_RIGHT"))
-                {
-                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 32), Color.Blue);
-                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 47), Color.Blue);
-
-                }
-
-
-                game.enemyTanks[4].colliding = false;
-                foreach (Tile[] tiles in game.map.map)
-                {
-                    foreach (Tile tile in tiles)
-                    {
-                        if (tile != null)
-                        {
-                            if ((tile.isColliding(game.enemyTanks[4].tankRect).depth > 1))
-                            {
-                                game.enemyTanks[4].colliding = true;
-                                Collision collisionenemyTanks4 = tile.isColliding(game.enemyTanks[4].tankRect);
-                                switch (collisionenemyTanks4.side)
+                /*
+                                if (locationScoreenemyTanks3.Equals("TOP"))
                                 {
-                                    case Collision.Side.TOP:
-                                        if (locationScoreenemyTanks4.Equals("LEFT"))
-                                            locationScoreenemyTanks4 = "TOP_LEFT";
-                                        else if (locationScoreenemyTanks4.Equals("RIGHT"))
-                                            locationScoreenemyTanks4 = "TOP_RIGHT";
-                                        else
-                                            locationScoreenemyTanks4 = "TOP";
-                                        break;
-                                    case Collision.Side.BOTTOM:
-                                        if (locationScoreenemyTanks4.Equals("LEFT"))
-                                            locationScoreenemyTanks4 = "BOTTOM_LEFT";
-                                        else if (locationScoreenemyTanks4.Equals("RIGHT"))
-                                            locationScoreenemyTanks4 = "BOTTOM_RIGHT";
-                                        else
-                                            locationScoreenemyTanks4 = "BOTTOM";
-
-                                        break;
-                                    case Collision.Side.LEFT:
-                                        if (locationScoreenemyTanks4.Equals("TOP"))
-                                            locationScoreenemyTanks4 = "TOP_LEFT";
-                                        else if (locationScoreenemyTanks4.Equals("BOTTOM"))
-                                            locationScoreenemyTanks4 = "BOTTOM_LEFT";
-                                        else
-                                            locationScoreenemyTanks4 = "LEFT";
-
-                                        break;
-                                    case Collision.Side.RIGHT:
-                                        if (locationScoreenemyTanks4.Equals("TOP"))
-                                            locationScoreenemyTanks4 = "TOP_RIGHT";
-                                        else if (locationScoreenemyTanks4.Equals("BOTTOM"))
-                                            locationScoreenemyTanks4 = "BOTTOM_RIGHT";
-                                        else
-                                            locationScoreenemyTanks4 = "RIGHT";
-
-                                        break;
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 32), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 47), Color.Blue);
+                                }
+                                else if (locationScoreenemyTanks4.Equals("BOTTOM"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 47), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 32), Color.Blue);
 
                                 }
-                            }
-                        }
-                        else { continue; }
+                                else if (locationScoreenemyTanks4.Equals("LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 47), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 32), Color.Blue);
 
-                    }
-                }
+                                }
+                                else if (locationScoreenemyTanks4.Equals("RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 32), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 47), Color.Blue);
+
+                                }
+
+                                else if (locationScoreenemyTanks4.Equals("TOP_LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y - 47), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y - 32), Color.Blue);
+
+                                }
+                                else if (locationScoreenemyTanks4.Equals("TOM_RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 47), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y - 32), Color.Blue);
+
+                                }
+                                else if (locationScoreenemyTanks4.Equals("BOTTOM_LEFT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 32), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X - 108, game.enemyTanks[4].location.Y + 47), Color.Blue);
+
+                                }
+                                else if (locationScoreenemyTanks4.Equals("BOTTOM_RIGHT"))
+                                {
+                                    spriteBatch.DrawString(spriteFont, "  Armor CPU5: " + game.enemyTanks[4].armor, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 32), Color.Blue);
+                                    spriteBatch.DrawString(spriteFont, "  Lives CPU5: " + game.enemyTanks[4].lives, new Vector2(game.enemyTanks[4].location.X + 14, game.enemyTanks[4].location.Y + 47), Color.Blue);
+
+                                }
+
+
+                                game.enemyTanks[4].colliding = false;
+                                foreach (Tile[] tiles in game.map.map)
+                                {
+                                    foreach (Tile tile in tiles)
+                                    {
+                                        if (tile != null)
+                                        {
+                                            if ((tile.isColliding(game.enemyTanks[4].tankRect).depth > 1))
+                                            {
+                                                game.enemyTanks[4].colliding = true;
+                                                Collision collisionenemyTanks4 = tile.isColliding(game.enemyTanks[4].tankRect);
+                                                switch (collisionenemyTanks4.side)
+                                                {
+                                                    case Collision.Side.TOP:
+                                                        if (locationScoreenemyTanks4.Equals("LEFT"))
+                                                            locationScoreenemyTanks4 = "TOP_LEFT";
+                                                        else if (locationScoreenemyTanks4.Equals("RIGHT"))
+                                                            locationScoreenemyTanks4 = "TOP_RIGHT";
+                                                        else
+                                                            locationScoreenemyTanks4 = "TOP";
+                                                        break;
+                                                    case Collision.Side.BOTTOM:
+                                                        if (locationScoreenemyTanks4.Equals("LEFT"))
+                                                            locationScoreenemyTanks4 = "BOTTOM_LEFT";
+                                                        else if (locationScoreenemyTanks4.Equals("RIGHT"))
+                                                            locationScoreenemyTanks4 = "BOTTOM_RIGHT";
+                                                        else
+                                                            locationScoreenemyTanks4 = "BOTTOM";
+
+                                                        break;
+                                                    case Collision.Side.LEFT:
+                                                        if (locationScoreenemyTanks4.Equals("TOP"))
+                                                            locationScoreenemyTanks4 = "TOP_LEFT";
+                                                        else if (locationScoreenemyTanks4.Equals("BOTTOM"))
+                                                            locationScoreenemyTanks4 = "BOTTOM_LEFT";
+                                                        else
+                                                            locationScoreenemyTanks4 = "LEFT";
+
+                                                        break;
+                                                    case Collision.Side.RIGHT:
+                                                        if (locationScoreenemyTanks4.Equals("TOP"))
+                                                            locationScoreenemyTanks4 = "TOP_RIGHT";
+                                                        else if (locationScoreenemyTanks4.Equals("BOTTOM"))
+                                                            locationScoreenemyTanks4 = "BOTTOM_RIGHT";
+                                                        else
+                                                            locationScoreenemyTanks4 = "RIGHT";
+
+                                                        break;
+
+                                                }
+                                            }
+                                        }
+                                        else { continue; }
+
+                                    }
+                                }
+                                */
+
+                DrawRectangle(new Rectangle((int)game.enemyTanks[4].location.X - 20, (int)game.enemyTanks[4].location.Y - 22, (int)(16 * (game.enemyTanks[4].lives)), 4), new Color(138, 7, 7));
+                DrawRectangle(new Rectangle((int)game.enemyTanks[4].location.X - 20, (int)game.enemyTanks[4].location.Y - 27, (int)(16 * (game.enemyTanks[4].armor)), 4), Color.Gray);
 
 
 
@@ -982,7 +1150,7 @@ namespace BattleTank
             {
 
                 //game.enemyTanks[5]
-
+                /*
                 if (locationScoreenemyTanks5.Equals("TOP"))
                 {
                     spriteBatch.DrawString(spriteFont, "  Armor CPU6: " + game.enemyTanks[5].armor, new Vector2(game.enemyTanks[5].location.X + 14, game.enemyTanks[5].location.Y + 32), Color.Blue);
@@ -1089,6 +1257,10 @@ namespace BattleTank
 
                     }
                 }
+                */
+
+                DrawRectangle(new Rectangle((int)game.enemyTanks[5].location.X - 20, (int)game.enemyTanks[5].location.Y - 22, (int)(16 * (game.enemyTanks[5].lives)), 4), new Color(138, 7, 7));
+                DrawRectangle(new Rectangle((int)game.enemyTanks[5].location.X - 20, (int)game.enemyTanks[5].location.Y - 27, (int)(16 * (game.enemyTanks[5].armor)), 4), Color.Gray);
 
 
 
@@ -1096,5 +1268,5 @@ namespace BattleTank
         }
     }
 }
-    
+
 

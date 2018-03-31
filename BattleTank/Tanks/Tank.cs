@@ -310,7 +310,7 @@ namespace BattleTank.Tanks
             TankControllerState controller = TankActionProvider.GetTankControllerState();
             if (controller.Fire)
             {
-                bullets = Fire();
+                 bullets = Fire();
                 return true;
             }
 

@@ -11,7 +11,7 @@ namespace BattleTank.Input
     class GenericGamepadTankActionProvider : ITankActionProvider
     {
         private Joystick Joystick;
-        public static GenericGamepadTankActionProvider DefaultGamepadProvider { get; } = new GenericGamepadTankActionProvider(3, 0, 7);
+        public static GenericGamepadTankActionProvider DefaultGamepadProvider { get; } = new GenericGamepadTankActionProvider(1, 0, 7);
         public int SpeedBoostButtonNumber { get; set; }
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }

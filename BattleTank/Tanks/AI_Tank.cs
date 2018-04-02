@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using BattleTank.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -127,13 +128,11 @@ namespace BattleTank.Tanks
                     break;
             }
 
-            if (_kamikazeMode)
+            foreach (var userTank in new[] { game.tank1, game.tank2 }.Where(d => d.alive))
             {
-
-                foreach (var userTank in new[] { game.tank1, game.tank2 })
+                if (_kamikazeMode)
                 {
-
-                    if ((location -  userTank.location).Length() <= _aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
+                    if ((location - userTank.location).Length() <= _aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
                     {
                         Explode();
                         if (game.tank1.barrier == false)
@@ -143,82 +142,31 @@ namespace BattleTank.Tanks
                     }
                 }
 
+                // TODO: względem poprzedniej wersji algorytmu występuje problem zacięcia się komputerowego czolgu, ze względu na to, 
+                //       że ma dwa różny ruchy do dwóch rożnych czołgów użytkownika. W pierwotnej wersji taki problem nie występuje. 
+                var toUserTankXDistance = Math.Abs(location.X - userTank.location.X);
+                var toUserTankYDistance = Math.Abs(location.Y - userTank.location.Y);
 
-            }
-
-            if (game.gameState == game.gameRunningPlayers2andCPU)
-            {
-
-                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y > game.tank1.location.Y) || ((location.X >= game.tank2.location.X - _aiLevel && location.X <= game.tank2.location.X + _aiLevel) && location.Y > game.tank2.location.Y))
+                if (toUserTankXDistance <= _aiLevel && location.Y >= game.tank1.location.Y)
                 {
-
-
                     _targetDirection = UP;
-
                 }
 
-                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y < game.tank1.location.Y) || ((location.X >= game.tank2.location.X - _aiLevel && location.X <= game.tank2.location.X + _aiLevel) && location.Y < game.tank2.location.Y))
+                if (toUserTankXDistance <= _aiLevel && location.Y <= game.tank1.location.Y)
                 {
-
                     _targetDirection = DOWN;
-
                 }
 
-                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X > game.tank1.location.X) || ((location.Y >= game.tank2.location.Y - _aiLevel && location.Y <= game.tank2.location.Y + _aiLevel) && location.X > game.tank2.location.X))
+                if (toUserTankYDistance <= _aiLevel && location.X >= game.tank1.location.X)
                 {
-
-
                     _targetDirection = LEFT;
-
                 }
 
-                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X < game.tank1.location.X) || ((location.Y >= game.tank2.location.Y - _aiLevel && location.Y <= game.tank2.location.Y + _aiLevel) && location.X < game.tank2.location.X))
+                if (toUserTankYDistance <= _aiLevel && location.X <= game.tank1.location.X)
                 {
-
-
                     _targetDirection = RIGHT;
-
-
                 }
             }
-            else
-            {
-
-                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y > game.tank1.location.Y))
-                {
-
-
-                    _targetDirection = UP;
-
-                }
-
-                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y < game.tank1.location.Y))
-                {
-
-                    _targetDirection = DOWN;
-
-                }
-
-                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X > game.tank1.location.X))
-                {
-
-
-                    _targetDirection = LEFT;
-
-                }
-                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X < game.tank1.location.X))
-                {
-
-
-                    _targetDirection = RIGHT;
-
-
-                }
-
-            }
-
-
         }
-
     }
 }

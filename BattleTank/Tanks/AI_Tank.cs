@@ -9,13 +9,10 @@ namespace BattleTank.Tanks
 {
     public class AI_Tank : Tank
     {
-        public int Level_AI;  //Można wykorzystać do ustawienia poziomu trudności
-        public float targetDirection;
-        public List<Bullet> enemyBullets = new List<Bullet>();
-        private float delayOfFire = 1;
-        private const float FIRE_DELAY = 1;
-        public bool KamikazeMode = false;
-
+        private readonly int _aiLevel;  //Można wykorzystać do ustawienia poziomu trudności
+        private float _targetDirection;
+        private readonly List<Bullet> _enemyBullets = new List<Bullet>();
+        private readonly bool _kamikazeMode = false;
 
         public AI_Tank(Game1 game, string tankSpriteName, Vector2 location, Vector2 maxSpeed, 
             float rotation, int player, float scale, Texture2D whiteRectangle, int strong, 
@@ -24,13 +21,13 @@ namespace BattleTank.Tanks
                   whiteRectangle, strong, 0, barrier, null)
         {
             enemy = true;
-            Level_AI = aiLevel;
+            _aiLevel = aiLevel;
 
-            this.targetDirection = targetDirection;
+            _targetDirection = targetDirection;
 
-            KamikazeMode = kamikazeMode;
+            _kamikazeMode = kamikazeMode;
 
-            if (KamikazeMode)
+            if (_kamikazeMode)
             {
                 speed = new Vector2(3, 3);
             }
@@ -39,7 +36,7 @@ namespace BattleTank.Tanks
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
-            foreach (Bullet b in enemyBullets)
+            foreach (Bullet b in _enemyBullets)
             {
                 if (b != null && b.alive)
                 {
@@ -52,18 +49,16 @@ namespace BattleTank.Tanks
         {
             if (!alive) return;
 
-            float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            delayOfFire -= timer;
-            if (delayOfFire <= 0)
+            if (_timeLeftToNextShot <= TimeSpan.Zero)
             {
                 if (!frozen)
                 {
-                    enemyBullets.AddRange(Fire());
+                    _enemyBullets.AddRange(Fire());
                 }
-                delayOfFire = FIRE_DELAY;
             }
+
             base.Update(gameTime);
-            foreach (Bullet b in enemyBullets)
+            foreach (Bullet b in _enemyBullets)
             {
                 if (b != null && b.alive)
                 {
@@ -76,31 +71,31 @@ namespace BattleTank.Tanks
         {
             if (colliding)
             {
-                switch ((int)targetDirection)
+                switch ((int)_targetDirection)
                 {
                     case (int)UP:
-                        targetDirection = RIGHT;
+                        _targetDirection = RIGHT;
                         break;
                     case (int)RIGHT:
-                        targetDirection = DOWN;
+                        _targetDirection = DOWN;
                         break;
                     case (int)LEFT:
-                        targetDirection = UP;
+                        _targetDirection = UP;
                         break;
                     case (int)DOWN:
-                        targetDirection = LEFT;
+                        _targetDirection = LEFT;
                         break;
                     case (int)UP_LEFT:
-                        targetDirection = LEFT;
+                        _targetDirection = LEFT;
                         break;
                     case (int)DOWN_LEFT:
-                        targetDirection = LEFT;
+                        _targetDirection = LEFT;
                         break;
                     default:
                         break;
                 }
             }
-            switch ((int)targetDirection)
+            switch ((int)_targetDirection)
             {
                 case (int)UP:
                     MoveUp(false);
@@ -132,10 +127,10 @@ namespace BattleTank.Tanks
                     break;
             }
 
-            if (KamikazeMode)
+            if (_kamikazeMode)
             {
 
-                if ((location.X >= game.tank1.location.X - Level_AI && location.X <= game.tank1.location.X + Level_AI) && (location.Y >= game.tank1.location.Y - Level_AI && location.Y <= game.tank1.location.Y + Level_AI))
+                if ((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && (location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel))
                 {
                     Explode();
                     if (game.tank1.barrier == false)
@@ -143,7 +138,7 @@ namespace BattleTank.Tanks
                         game.tank1.Die();
                     }
                 }
-                if ((location.X >= game.tank2.location.X - Level_AI && location.X <= game.tank2.location.X + Level_AI) && (location.Y >= game.tank2.location.Y - Level_AI && location.Y <= game.tank2.location.Y + Level_AI))
+                if ((location.X >= game.tank2.location.X - _aiLevel && location.X <= game.tank2.location.X + _aiLevel) && (location.Y >= game.tank2.location.Y - _aiLevel && location.Y <= game.tank2.location.Y + _aiLevel))
                 {
                     Explode();
                     if (game.tank2.barrier == false)
@@ -158,34 +153,34 @@ namespace BattleTank.Tanks
             if (game.gameState == game.gameRunningPlayers2andCPU)
             {
 
-                if (((location.X >= game.tank1.location.X - Level_AI && location.X <= game.tank1.location.X + Level_AI) && location.Y > game.tank1.location.Y) || ((location.X >= game.tank2.location.X - Level_AI && location.X <= game.tank2.location.X + Level_AI) && location.Y > game.tank2.location.Y))
+                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y > game.tank1.location.Y) || ((location.X >= game.tank2.location.X - _aiLevel && location.X <= game.tank2.location.X + _aiLevel) && location.Y > game.tank2.location.Y))
                 {
 
 
-                    targetDirection = UP;
+                    _targetDirection = UP;
 
                 }
 
-                if (((location.X >= game.tank1.location.X - Level_AI && location.X <= game.tank1.location.X + Level_AI) && location.Y < game.tank1.location.Y) || ((location.X >= game.tank2.location.X - Level_AI && location.X <= game.tank2.location.X + Level_AI) && location.Y < game.tank2.location.Y))
+                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y < game.tank1.location.Y) || ((location.X >= game.tank2.location.X - _aiLevel && location.X <= game.tank2.location.X + _aiLevel) && location.Y < game.tank2.location.Y))
                 {
 
-                    targetDirection = DOWN;
+                    _targetDirection = DOWN;
 
                 }
 
-                if (((location.Y >= game.tank1.location.Y - Level_AI && location.Y <= game.tank1.location.Y + Level_AI) && location.X > game.tank1.location.X) || ((location.Y >= game.tank2.location.Y - Level_AI && location.Y <= game.tank2.location.Y + Level_AI) && location.X > game.tank2.location.X))
+                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X > game.tank1.location.X) || ((location.Y >= game.tank2.location.Y - _aiLevel && location.Y <= game.tank2.location.Y + _aiLevel) && location.X > game.tank2.location.X))
                 {
 
 
-                    targetDirection = LEFT;
+                    _targetDirection = LEFT;
 
                 }
 
-                if (((location.Y >= game.tank1.location.Y - Level_AI && location.Y <= game.tank1.location.Y + Level_AI) && location.X < game.tank1.location.X) || ((location.Y >= game.tank2.location.Y - Level_AI && location.Y <= game.tank2.location.Y + Level_AI) && location.X < game.tank2.location.X))
+                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X < game.tank1.location.X) || ((location.Y >= game.tank2.location.Y - _aiLevel && location.Y <= game.tank2.location.Y + _aiLevel) && location.X < game.tank2.location.X))
                 {
 
 
-                    targetDirection = RIGHT;
+                    _targetDirection = RIGHT;
 
 
                 }
@@ -193,33 +188,33 @@ namespace BattleTank.Tanks
             else
             {
 
-                if (((location.X >= game.tank1.location.X - Level_AI && location.X <= game.tank1.location.X + Level_AI) && location.Y > game.tank1.location.Y))
+                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y > game.tank1.location.Y))
                 {
 
 
-                    targetDirection = UP;
+                    _targetDirection = UP;
 
                 }
 
-                if (((location.X >= game.tank1.location.X - Level_AI && location.X <= game.tank1.location.X + Level_AI) && location.Y < game.tank1.location.Y))
+                if (((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && location.Y < game.tank1.location.Y))
                 {
 
-                    targetDirection = DOWN;
+                    _targetDirection = DOWN;
 
                 }
 
-                if (((location.Y >= game.tank1.location.Y - Level_AI && location.Y <= game.tank1.location.Y + Level_AI) && location.X > game.tank1.location.X))
+                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X > game.tank1.location.X))
                 {
 
 
-                    targetDirection = LEFT;
+                    _targetDirection = LEFT;
 
                 }
-                if (((location.Y >= game.tank1.location.Y - Level_AI && location.Y <= game.tank1.location.Y + Level_AI) && location.X < game.tank1.location.X))
+                if (((location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel) && location.X < game.tank1.location.X))
                 {
 
 
-                    targetDirection = RIGHT;
+                    _targetDirection = RIGHT;
 
 
                 }

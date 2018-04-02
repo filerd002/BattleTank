@@ -57,7 +57,7 @@ namespace BattleTank.Tanks
         /// <summary>
         /// Określa ile czasu zostało do następnego strzału
         /// </summary>
-        private TimeSpan _timeLeftToNextShot = TimeSpan.Zero;
+        protected TimeSpan _timeLeftToNextShot = TimeSpan.Zero;
         /// <summary>
         /// Opóźnienie pomiędzy kolejnymi strzałami w miliseksundach
         /// </summary>

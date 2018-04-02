@@ -14,10 +14,10 @@ namespace BattleTank.Tanks
         private readonly List<Bullet> _enemyBullets = new List<Bullet>();
         private readonly bool _kamikazeMode = false;
 
-        public AI_Tank(Game1 game, string tankSpriteName, Vector2 location, Vector2 maxSpeed, 
-            float rotation, int player, float scale, Texture2D whiteRectangle, int strong, 
+        public AI_Tank(Game1 game, string tankSpriteName, Vector2 location, Vector2 maxSpeed,
+            float rotation, int player, float scale, Texture2D whiteRectangle, int strong,
             bool barrier, float targetDirection, int aiLevel, bool kamikazeMode = false)
-            : base(game, tankSpriteName, location, maxSpeed, rotation, player, scale, 
+            : base(game, tankSpriteName, location, maxSpeed, rotation, player, scale,
                   whiteRectangle, strong, 0, barrier, null)
         {
             enemy = true;
@@ -130,23 +130,19 @@ namespace BattleTank.Tanks
             if (_kamikazeMode)
             {
 
-                if ((location.X >= game.tank1.location.X - _aiLevel && location.X <= game.tank1.location.X + _aiLevel) && (location.Y >= game.tank1.location.Y - _aiLevel && location.Y <= game.tank1.location.Y + _aiLevel))
+                foreach (var userTank in new[] { game.tank1, game.tank2 })
                 {
-                    Explode();
-                    if (game.tank1.barrier == false)
-                    {
-                        game.tank1.Die();
-                    }
-                }
-                if ((location.X >= game.tank2.location.X - _aiLevel && location.X <= game.tank2.location.X + _aiLevel) && (location.Y >= game.tank2.location.Y - _aiLevel && location.Y <= game.tank2.location.Y + _aiLevel))
-                {
-                    Explode();
-                    if (game.tank2.barrier == false)
-                    {
-                        game.tank2.Die();
-                    }
 
+                    if ((location -  userTank.location).Length() <= _aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
+                    {
+                        Explode();
+                        if (game.tank1.barrier == false)
+                        {
+                            game.tank1.Die();
+                        }
+                    }
                 }
+
 
             }
 

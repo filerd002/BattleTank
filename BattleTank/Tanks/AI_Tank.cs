@@ -141,28 +141,26 @@ namespace BattleTank.Tanks
                         }
                     }
                 }
-
-                // TODO: względem poprzedniej wersji algorytmu występuje problem zacięcia się komputerowego czolgu, ze względu na to, 
-                //       że ma dwa różny ruchy do dwóch rożnych czołgów użytkownika. W pierwotnej wersji taki problem nie występuje. 
+                
                 var toUserTankXDistance = Math.Abs(location.X - userTank.location.X);
                 var toUserTankYDistance = Math.Abs(location.Y - userTank.location.Y);
 
-                if (toUserTankXDistance <= _aiLevel && location.Y >= game.tank1.location.Y)
+                if (toUserTankXDistance <= _aiLevel && location.Y >= userTank.location.Y)
                 {
                     _targetDirection = UP;
                 }
 
-                if (toUserTankXDistance <= _aiLevel && location.Y <= game.tank1.location.Y)
+                if (toUserTankXDistance <= _aiLevel && location.Y <= userTank.location.Y)
                 {
                     _targetDirection = DOWN;
                 }
 
-                if (toUserTankYDistance <= _aiLevel && location.X >= game.tank1.location.X)
+                if (toUserTankYDistance <= _aiLevel && location.X >= userTank.location.X)
                 {
                     _targetDirection = LEFT;
                 }
 
-                if (toUserTankYDistance <= _aiLevel && location.X <= game.tank1.location.X)
+                if (toUserTankYDistance <= _aiLevel && location.X <= userTank.location.X)
                 {
                     _targetDirection = RIGHT;
                 }

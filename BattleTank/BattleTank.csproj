@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="bullet.cs" />
     <Compile Include="Collision.cs" />
+    <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Input\GenericGamepadTankActionProvider.cs" />
     <Compile Include="Tanks\AI_Tank.cs" />

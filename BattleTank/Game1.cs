@@ -1571,7 +1571,9 @@ namespace BattleTank
                         menuTexture = Content.Load<Texture2D>("Graphics//Ramka1");
                         if (state.LeftButton == ButtonState.Pressed)
                         {
-
+                            tank2.lives = 0;
+                            tank2.armor = 0;
+                            tank2.alive = false;
                             LeftButtonStatus = true;
                             menuTexture = Content.Load<Texture2D>("Graphics//RamkaXXL");
                             gameState = CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;

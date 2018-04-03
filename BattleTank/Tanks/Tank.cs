@@ -445,7 +445,16 @@ namespace BattleTank.Tanks
         {
             if (alive)
             {
-                lives--;
+                armor = 0;
+                if (((lives / 0.25f) % 4)==0)
+                    lives--;
+                else if (((lives / 0.25f) % 4) == 3)
+                        lives-=0.75f;
+                else if (((lives / 0.25f) % 4) == 2)
+                    lives -= 0.5f;
+                else if (((lives / 0.25f) % 4) == 1)
+                    lives -= 0.25f;
+
                 Die();
             }
         }

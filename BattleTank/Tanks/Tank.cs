@@ -113,9 +113,9 @@ namespace BattleTank.Tanks
             {
                 barrierLocation = new Vector2((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2));
 
-                if (_timeLeftForBarrier.Seconds < 3)
+                if (_timeLeftForBarrier.Seconds <= 3)
                 {
-                    if (_timeLeftForBarrier.Milliseconds.IsWithin(750, 500) || _timeLeftForBarrier.Milliseconds.IsWithin(250, 0))
+                    if (_timeLeftForBarrier.Milliseconds.IsWithin(500, 750) || _timeLeftForBarrier.Milliseconds.IsWithin(0, 250))
                         spriteBatch.Draw(barrierTexture, barrierLocation, Color.White);
                 }
                 else

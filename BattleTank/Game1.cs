@@ -119,7 +119,8 @@ namespace BattleTank
 
         public ITankActionProvider PlayerTwoControleler { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
 
-        private bool _isAnyAvailbleGamePad;
+        private bool _isAnyAvailbleGamePad1;
+        private bool _isAnyAvailbleGamePad2;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -168,8 +169,8 @@ namespace BattleTank
             soundEffectInstance = menuSound.deploySound(Sound.Sounds.MENU_SOUND).CreateInstance();
             soundOnOff = 0;
 
-            _isAnyAvailbleGamePad = GenericGamepadTankActionProvider.IsAnyAvailbableGamePad();
-
+            _isAnyAvailbleGamePad1 = GenericGamepadTankActionProvider.IsAnyAvailbableGamePad1();
+            _isAnyAvailbleGamePad2 = GenericGamepadTankActionProvider.IsAnyAvailbableGamePad2();
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                     graphics.GraphicsDevice.Viewport.Height / 2);
@@ -1406,7 +1407,7 @@ namespace BattleTank
                     ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
                 }
 
-                if (_isAnyAvailbleGamePad)
+                if (_isAnyAvailbleGamePad1)
                 {
                     if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50)))
                     {
@@ -1415,10 +1416,10 @@ namespace BattleTank
                         if (state.LeftButton == ButtonState.Pressed)
                         {
                             sound.PlaySound(Sound.Sounds.KLIK);
-                            PlayerOneController = GenericGamepadTankActionProvider.DefaultGamepadProvider;
+                            PlayerOneController = GenericGamepadTankActionProvider.DefaultPlayerOneGamepadProvider;
                         }
                     }
-                    else if (PlayerOneController.Equals(GenericGamepadTankActionProvider.DefaultGamepadProvider))
+                    else if (PlayerOneController.Equals(GenericGamepadTankActionProvider.DefaultPlayerOneGamepadProvider))
                     {
                         ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
                     }
@@ -1460,7 +1461,7 @@ namespace BattleTank
                     ButtonSettingsTrybSterowaniaKlawMysz2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
                 }
 
-                if (_isAnyAvailbleGamePad)
+                if (_isAnyAvailbleGamePad2)
                 {
                     if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 67, 250, 50)))
                     {
@@ -1469,10 +1470,10 @@ namespace BattleTank
                         if (state.LeftButton == ButtonState.Pressed)
                         {
                             sound.PlaySound(Sound.Sounds.KLIK);
-                            PlayerTwoControleler = GenericGamepadTankActionProvider.DefaultGamepadProvider;
+                            PlayerTwoControleler = GenericGamepadTankActionProvider.DefaultPlayerTwoGamepadProvider;
                         }
                     }
-                    else if (PlayerTwoControleler.Equals(GenericGamepadTankActionProvider.DefaultGamepadProvider))
+                    else if (PlayerTwoControleler.Equals(GenericGamepadTankActionProvider.DefaultPlayerTwoGamepadProvider))
                     {
                         ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
                     }

@@ -12,8 +12,8 @@ namespace BattleTank.Input
     {
         private const int MAX_AXIS_VALUE = 5000;
 
-        public static GenericGamepadTankActionProvider DefaultGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
-
+        public static GenericGamepadTankActionProvider DefaultPlayerOneGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
+        public static GenericGamepadTankActionProvider DefaultPlayerTwoGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
         public int SpeedBoostButtonNumber { get; set; }
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }
@@ -26,17 +26,29 @@ namespace BattleTank.Input
             PlantMineButtonNumber = plantMineButtonNumber;
             FireButtonNumber = fireButtonNumber;
 
-            Initialize();
+            Initialize(1);
+            Initialize(2);
         }
 
-        private bool Initialize()
+        private bool Initialize(int pad)
         {
             DirectInput dinput = new DirectInput();
-            DeviceInstance devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
+            if (pad == 1)
+            {
+                DeviceInstance device1 = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
+                if (device1 is null) return false;
 
-            if (devices is null) return false;
+                _joystick = new Joystick(dinput, device1.InstanceGuid);
 
-            _joystick = new Joystick(dinput, devices.InstanceGuid);
+            }
+            if (pad == 2)
+            {
+                DeviceInstance device2 = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).LastOrDefault();
+                if (device2 is null || dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).Count==1 ) return false;
+
+                _joystick = new Joystick(dinput, device2.InstanceGuid);
+            }
+          
 
             foreach (DeviceObjectInstance doi in _joystick.GetObjects(ObjectDeviceType.Axis))
             {
@@ -71,8 +83,11 @@ namespace BattleTank.Input
                 fire: buttons[FireButtonNumber]);
         }
 
-        public static bool IsAnyAvailbableGamePad()
-            => DefaultGamepadProvider.Initialize(); 
+        public static bool IsAnyAvailbableGamePad1()
+            => DefaultPlayerOneGamepadProvider.Initialize(1);
+
+        public static bool IsAnyAvailbableGamePad2()
+          => DefaultPlayerTwoGamepadProvider.Initialize(2);
 
         #region Overrides
         /// <inheritdoc />

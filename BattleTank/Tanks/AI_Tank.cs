@@ -48,7 +48,7 @@ namespace BattleTank.Tanks
 
         public override void Update(GameTime gameTime)
         {
-          //  if (!alive) return;
+     
 
             if (_timeLeftToNextShot <= TimeSpan.Zero)
             {

@@ -78,13 +78,16 @@ namespace BattleTank
             {
                 if ((Rectangle.Intersect(bulletRect, new Rectangle((int)et.location.X - (et.tankTexture.Width / 2), (int)et.location.Y - (et.tankTexture.Height / 2), et.tankTexture.Width, et.tankTexture.Height)).Width != 0) && et.alive && player <3)
                 {
-                    et.Hit();
-                    //game.scoreManager.addScore(player - 1, pointsOnHit);
-                    if (!et.alive)
+                    if (et.barrier == false)
                     {
-                        game.scoreManager.addScore(player - 1, pointsOnKill);
+                        et.Hit();
+                        //game.scoreManager.addScore(player - 1, pointsOnHit);
+                        if (!et.alive)
+                        {
+                            game.scoreManager.addScore(player - 1, pointsOnKill);
+                        }
+                        this.Die();
                     }
-                    this.Die();
                 }
             }
 

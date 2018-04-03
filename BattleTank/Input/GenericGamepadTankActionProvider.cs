@@ -5,6 +5,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using SlimDX.DirectInput;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework;
 
 namespace BattleTank.Input
 {
@@ -18,7 +20,7 @@ namespace BattleTank.Input
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }
 
-        private Joystick _joystick;
+        private SlimDX.DirectInput.Joystick _joystick;
 
         public GenericGamepadTankActionProvider(int speedBoostButtonNumber, int plantMineButtonNumber, int fireButtonNumber)
         {
@@ -33,20 +35,22 @@ namespace BattleTank.Input
         private bool Initialize(int pad)
         {
             DirectInput dinput = new DirectInput();
+
+        
             if (pad == 1)
             {
                 DeviceInstance device1 = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
                 if (device1 is null) return false;
 
-                _joystick = new Joystick(dinput, device1.InstanceGuid);
-
+                _joystick = new SlimDX.DirectInput.Joystick(dinput, device1.InstanceGuid);
+            
             }
             if (pad == 2)
             {
                 DeviceInstance device2 = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).LastOrDefault();
                 if (device2 is null || dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).Count==1 ) return false;
 
-                _joystick = new Joystick(dinput, device2.InstanceGuid);
+                _joystick = new SlimDX.DirectInput.Joystick(dinput, device2.InstanceGuid);
             }
           
 
@@ -63,7 +67,7 @@ namespace BattleTank.Input
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            JoystickState state = _joystick.GetCurrentState();
+            SlimDX.DirectInput.JoystickState state = _joystick.GetCurrentState();
 
             if (_joystick.Poll().IsFailure)
             {

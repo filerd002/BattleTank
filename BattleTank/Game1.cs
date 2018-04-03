@@ -1697,22 +1697,17 @@ namespace BattleTank
 
             }
 
-
-
-
-
-
             if (gameState == gameRunningPlayer1 || gameState == gameRunningPlayers2andCPU)
             {
-                if (gameState == gameRunningPlayer1 && tank1.lives == 0)
+                if (gameState == gameRunningPlayer1 && tank1.lives <= 0)
                 {
                     gameState = gameLoss;
                 }
-                else if (gameState == gameRunningPlayers2andCPU && tank1.lives == 0 && tank2.lives == 0)
+                else if (gameState == gameRunningPlayers2andCPU && tank1.lives <= 0 && tank2.lives <= 0)
                 {
                     gameState = gameLoss;
                 }
-                else if (enemyTanks.All((tank) => !tank.alive))
+                else if (enemyTanks.All((tank) => !tank.alive && tank.lives <= 0))
                 {
                     gameState = gameWin;
                 }

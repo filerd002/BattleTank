@@ -1712,42 +1712,11 @@ namespace BattleTank
                 {
                     gameState = gameLoss;
                 }
-
-
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 1)
+                else if (enemyTanks.All((tank) => !tank.alive))
                 {
-                    if (enemyTanks[0].lives == 0)
-                        gameState = gameWin;
+                    gameState = gameWin;
                 }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                {
-                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0)
-                        gameState = gameWin;
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                {
-                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0)
-                        gameState = gameWin;
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                {
-                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0)
-                        gameState = gameWin;
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                {
-                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0 && enemyTanks[4].lives == 0)
-                        gameState = gameWin;
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                {
-                    if (enemyTanks[0].lives == 0 && enemyTanks[1].lives == 0 && enemyTanks[2].lives == 0 && enemyTanks[3].lives == 0 && enemyTanks[4].lives == 0 && enemyTanks[5].lives == 0)
-                        gameState = gameWin;
-                }
-
-
             }
-
 
             if (gameState == gameRunningPlayers2)
             {
@@ -2132,10 +2101,10 @@ namespace BattleTank
                 }
                 else
                 {
-                        ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad-unavailble");
+                    ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad-unavailble");
                 }
 
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2)-3 , 300, 60)))
+                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 3, 300, 60)))
                 {
                     SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka2Gracza1");
                 }
@@ -2144,7 +2113,7 @@ namespace BattleTank
                     SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka2Gracza");
                 }
 
-                
+
                 if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50)))
                 {
                     ButtonSettingsTrybSterowaniaKlawMysz2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
@@ -2189,7 +2158,7 @@ namespace BattleTank
                     ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad-unavailble");
                 }
 
-                
+
 
 
                 if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 130, 250, 50)))
@@ -3217,7 +3186,7 @@ namespace BattleTank
                     spriteBatch.Draw(ButtonSettingsTrybSterowaniaKlawMysz, new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50), Color.White);
                     spriteBatch.Draw(ButtonSettingsTrybSterowaniaPad, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50), Color.White);
 
-                    spriteBatch.Draw(SukcesPorazka2Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2)-3 , 300, 60), Color.White);
+                    spriteBatch.Draw(SukcesPorazka2Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 3, 300, 60), Color.White);
 
                     spriteBatch.Draw(ButtonSettingsTrybSterowaniaKlawMysz2, new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50), Color.White);
                     spriteBatch.Draw(ButtonSettingsTrybSterowaniaPad2, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 67, 250, 50), Color.White);

@@ -58,6 +58,7 @@ namespace BattleTank
             if (alive)
             {
                 spriteBatch.Draw(rectangleTexture, bulletRect, color);
+       
             }
         }
         public virtual void Update()
@@ -160,6 +161,11 @@ namespace BattleTank
                     { continue; }
                 }
             }
+
+            if (bulletRect.X < 0 || bulletRect.Y < 0 || bulletRect.X > game.map.screenWidth || bulletRect.Y > game.map.screenHeight  )
+            {
+                this.Die();
+              }
         }
         public virtual void Die()
         {

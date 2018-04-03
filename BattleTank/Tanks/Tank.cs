@@ -1,4 +1,5 @@
 ﻿using System;
+using BattleTank.Extensions;
 using BattleTank.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -43,7 +44,6 @@ namespace BattleTank.Tanks
 
         public bool enemy = false;
         public Texture2D barrierTexture;
-        public Rectangle barrierRect;
         public Vector2 barrierLocation;
         public bool frozen = false;
         private float timerBush = 0f;
@@ -103,31 +103,31 @@ namespace BattleTank.Tanks
             deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
             hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
             tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
+
+            if (_barrier) Barrier();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (barrier)
             {
-                barrierRect = new Rectangle((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2),
-                                            barrierTexture.Width, barrierTexture.Height);
                 barrierLocation = new Vector2((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2));
 
                 if (_timeLeftForBarrier.Seconds < 3)
                 {
-                    if (_timeLeftForBarrier.Milliseconds < 750 && _timeLeftForBarrier.Milliseconds > 500
-                        || _timeLeftForBarrier.Milliseconds < 250 && _timeLeftForBarrier.Milliseconds > 0)
-                        spriteBatch.Draw(barrierTexture, barrierLocation, null, null);
+                    if (_timeLeftForBarrier.Milliseconds.IsWithin(750, 500) || _timeLeftForBarrier.Milliseconds.IsWithin(250, 0))
+                        spriteBatch.Draw(barrierTexture, barrierLocation, Color.White);
                 }
                 else
                 {
-                    spriteBatch.Draw(barrierTexture, barrierLocation, null, null);
+                    spriteBatch.Draw(barrierTexture, barrierLocation, Color.White);
                 }
             }
 
             if (alive)
             {
-                spriteBatch.Draw(tankTexture, location, null, null, origin, rotation, null, null);
+
+                spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
             }
 
             respawnParticles.Draw(spriteBatch);

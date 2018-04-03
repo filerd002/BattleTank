@@ -24,7 +24,7 @@ namespace BattleTank
         private Texture2D whiteRectangle;
 
         public bool alive { get; set; }
-       // public int pointsOnHit { get; set; }
+
         public int pointsOnKill { get; set; }
         public Bullet() { }
         public Bullet(Game1 _game, Rectangle _bulletRect, Vector2 _speed, Color _color, int _player, float _rotation, Texture2D _rectangleTexture, Rectangle _hitbulletRect)
@@ -38,7 +38,7 @@ namespace BattleTank
             rectangleTexture = _rectangleTexture;
             hitbulletRect = _hitbulletRect;
             alive = true;
-            //pointsOnHit = 50;
+     
             pointsOnKill = 1;
         }
 
@@ -81,7 +81,7 @@ namespace BattleTank
                     if (et.barrier == false)
                     {
                         et.Hit();
-                        //game.scoreManager.addScore(player - 1, pointsOnHit);
+                      
                         if (!et.alive)
                         {
                             game.scoreManager.addScore(player - 1, pointsOnKill);
@@ -96,7 +96,7 @@ namespace BattleTank
                 if (game.tank1.barrier == false)
                 {
                     game.tank1.Hit();
-                   // game.scoreManager.addScore(1, pointsOnHit);
+                
                     if (!game.tank1.alive)
                     {
                         game.scoreManager.addScore(1, pointsOnKill);
@@ -109,7 +109,7 @@ namespace BattleTank
                 if (game.tank2.barrier == false)
                 {
                     game.tank2.Hit();
-                   // game.scoreManager.addScore(0, pointsOnHit);
+               
                     if (!game.tank2.alive)
                     {
                         game.scoreManager.addScore(0, pointsOnKill);
@@ -123,10 +123,10 @@ namespace BattleTank
                 if (game.tank2.barrier == false)
                 {
                     game.tank2.Hit();
-                  //  game.scoreManager.addScore(0, pointsOnHit);
+          
                     if (!game.tank2.alive)
                     {
-                      //  game.scoreManager.addScore(0, pointsOnKill);
+                  
                     }
                 }
                 this.Die();
@@ -137,10 +137,10 @@ namespace BattleTank
                 if (game.tank1.barrier == false)
                 {
                     game.tank1.Hit();
-                  //  game.scoreManager.addScore(1, pointsOnHit);
+      
                     if (!game.tank1.alive)
                     {
-                    //    game.scoreManager.addScore(1, pointsOnKill);
+                  
                     }
                 }
                 this.Die();

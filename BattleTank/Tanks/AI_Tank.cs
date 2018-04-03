@@ -48,7 +48,7 @@ namespace BattleTank.Tanks
 
         public override void Update(GameTime gameTime)
         {
-            if (!alive) return;
+     
 
             if (_timeLeftToNextShot <= TimeSpan.Zero)
             {
@@ -65,6 +65,7 @@ namespace BattleTank.Tanks
                 {
                     b.Update();
                 }
+            
             }
         }
 
@@ -135,9 +136,9 @@ namespace BattleTank.Tanks
                     if ((location - userTank.location).Length() <= _aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
                     {
                         Explode();
-                        if (game.tank1.barrier == false)
+                        if (userTank.barrier == false)
                         {
-                            game.tank1.Die();
+                            userTank.Explode();
                         }
                     }
                 }

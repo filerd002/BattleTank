@@ -1571,7 +1571,9 @@ namespace BattleTank
                         menuTexture = Content.Load<Texture2D>("Graphics//Ramka1");
                         if (state.LeftButton == ButtonState.Pressed)
                         {
-
+                            tank2.lives = 0;
+                            tank2.armor = 0;
+                            tank2.alive = false;
                             LeftButtonStatus = true;
                             menuTexture = Content.Load<Texture2D>("Graphics//RamkaXXL");
                             gameState = CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
@@ -2100,7 +2102,7 @@ namespace BattleTank
                             {
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, MathHelper.PiOver4, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, MathHelper.Pi - MathHelper.PiOver4, poziomTrudnosci, false));
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1, false, 0, poziomTrudnosci, true));
                                 enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 8, 1f, whiteRectangle, 1, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci, true));

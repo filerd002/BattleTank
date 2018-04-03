@@ -57,7 +57,7 @@ namespace BattleTank.Tanks
         /// <summary>
         /// Określa ile czasu zostało do następnego strzału
         /// </summary>
-        private TimeSpan _timeLeftToNextShot = TimeSpan.Zero;
+        protected TimeSpan _timeLeftToNextShot = TimeSpan.Zero;
         /// <summary>
         /// Opóźnienie pomiędzy kolejnymi strzałami w miliseksundach
         /// </summary>
@@ -67,14 +67,10 @@ namespace BattleTank.Tanks
         /// </summary>
         private TimeSpan _timeLeftToPlantMine = TimeSpan.Zero;
 
-        //generic constructor
-        public Tank()
-        {
-
-        }
-
         //overloaded constructor(s)
-        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, float _rotation, int _player, float _scale, Texture2D _whiteRectangle, int _strong, int _mines, bool _barrier, ITankActionProvider tankActionProvider)
+        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed, 
+                    float _rotation, int _player, float _scale, Texture2D _whiteRectangle, 
+                    int _strong, int _mines, bool _barrier, ITankActionProvider tankActionProvider)
         {
             tankTexture = _game.Content.Load<Texture2D>(_tankSpriteName);
             location = _location;
@@ -102,17 +98,13 @@ namespace BattleTank.Tanks
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (barrier)
-                spriteBatch.Draw(barrierTexture, barrierLocation, null, null);
-            else
             {
+                spriteBatch.Draw(barrierTexture, barrierLocation, null, null);
             }
+
             if (alive)
             {
                 spriteBatch.Draw(tankTexture, location, null, null, origin, rotation, null, null);
-            }
-            else
-            {
-
             }
 
             respawnParticles.Draw(spriteBatch);
@@ -198,10 +190,6 @@ namespace BattleTank.Tanks
                     }
                 }
 
-
-            }
-            else
-            {
 
             }
             respawnParticles.Update(gameTime);
@@ -377,7 +365,6 @@ namespace BattleTank.Tanks
             return true;
         }
 
-
         public virtual void Barrier()
         {
             barrierTexture = game.Content.Load<Texture2D>("Graphics//barrier");
@@ -385,7 +372,6 @@ namespace BattleTank.Tanks
             barrierLocation = new Vector2((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2));
             this.barrier = true;
         }
-
 
         public virtual void Hit()
         {
@@ -439,8 +425,5 @@ namespace BattleTank.Tanks
                 Die();
             }
         }
-
-
-
     }
 }

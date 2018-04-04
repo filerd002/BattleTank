@@ -76,14 +76,11 @@ namespace BattleTank
                         case MINE:
                             game.tank1.mines++;
                             break;
-                        case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
+                        case MATRIX:                         
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     et.Frozen();
                                 }
-                            }
                             if (game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
@@ -117,13 +114,10 @@ namespace BattleTank
                             game.tank2.mines++;
                             break;
                         case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     et.Frozen();
                                 }
-                            }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
                             break;
@@ -155,12 +149,9 @@ namespace BattleTank
                         case MATRIX:
                             if (game.enemyTanks.Count != 0)
                             {
-                                foreach (AI_Tank et in game.enemyTanks)
-                                {
-                                    if(et.Equals(game.enemyTanks[0]))
+                                    if(!et.Equals(game.enemyTanks[0]))
                                     et.Frozen();
                                 }
-                            }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
                             if (game.tank2.alive)
@@ -191,14 +182,11 @@ namespace BattleTank
                             game.enemyTanks[1].strong++;
                             break;
                         case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
-                                    if (et.Equals(game.enemyTanks[1]))
+                                    if (!et.Equals(game.enemyTanks[1]))
                                         et.Frozen();
                                 }
-                            }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
                             if (game.tank2.alive)
@@ -229,14 +217,11 @@ namespace BattleTank
                             game.enemyTanks[2].strong++;
                             break;
                         case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
-                                foreach (AI_Tank et in game.enemyTanks)
+                            foreach (AI_Tank et in game.enemyTanks)
                                 {
-                                    if (et.Equals(game.enemyTanks[2]))
+                                    if (!et.Equals(game.enemyTanks[2]))
                                         et.Frozen();
                                 }
-                            }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
                             if (game.tank2.alive)
@@ -268,14 +253,11 @@ namespace BattleTank
                             game.enemyTanks[3].strong++;
                             break;
                         case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
-                                    if (et.Equals(game.enemyTanks[3]))
+                                    if (!et.Equals(game.enemyTanks[3]))
                                         et.Frozen();
                                 }
-                            }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
                             if (game.tank2.alive)
@@ -306,14 +288,11 @@ namespace BattleTank
                             game.enemyTanks[4].strong++;
                             break;
                         case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
-                                    if (et.Equals(game.enemyTanks[4]))
+                                    if (!et.Equals(game.enemyTanks[4]))
                                         et.Frozen();
                                 }
-                            }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
                             if (game.tank2.alive)
@@ -344,14 +323,11 @@ namespace BattleTank
                             game.enemyTanks[5].strong++;
                             break;
                         case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
-                                foreach (AI_Tank et in game.enemyTanks)
+                           foreach (AI_Tank et in game.enemyTanks)
                                 {
-                                    if (et.Equals(game.enemyTanks[5]))
+                                    if (!et.Equals(game.enemyTanks[5]))
                                         et.Frozen();
                                 }
-                            }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
                             if (game.tank2.alive)

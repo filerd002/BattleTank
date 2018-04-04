@@ -142,8 +142,12 @@ namespace BattleTank.Tanks
 
             }
             if (frozen)
-                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//FrozenEfekt"), location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
+            {
+             
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//FrozenEfekt"), location, null, Color.Lerp(Color.Transparent, Color.White, ((_timeLeftForFrozen.Seconds+1)/5f)), rotation, origin, 1, SpriteEffects.None, 1);
+                
 
+            }
 
             respawnParticles.Draw(spriteBatch);
             deathParticles.Draw(spriteBatch);

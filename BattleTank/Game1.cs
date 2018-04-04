@@ -90,7 +90,6 @@ namespace BattleTank
         public PowerUp RandomPowerUp;
         string PowerUpSpriteName;
         public float timerPowerUp = 10f;
-  
         private float timerFrozen = 4f;
         Random randy = new Random();
 

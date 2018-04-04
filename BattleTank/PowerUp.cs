@@ -147,8 +147,8 @@ namespace BattleTank
                             game.enemyTanks[0].strong++;
                             break;
                         case MATRIX:
-                            if (game.enemyTanks.Count != 0)
-                            {
+                             foreach (AI_Tank et in game.enemyTanks)
+                                { 
                                     if(!et.Equals(game.enemyTanks[0]))
                                     et.Frozen();
                                 }

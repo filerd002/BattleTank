@@ -52,7 +52,7 @@ namespace BattleTank.Tanks
         public bool frozen => _timeLeftForFrozen > TimeSpan.Zero;
 
         /// <summary>
-        /// Czas po jakim czolg zostanie rozprozony
+        /// Czas po jakim czolg zostanie rozmrozony
         /// </summary>
         public readonly TimeSpan FROZEN_TIME = TimeSpan.FromSeconds(5);
         /// <summary>

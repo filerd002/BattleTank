@@ -45,11 +45,20 @@ namespace BattleTank.Tanks
         public bool enemy = false;
         public Texture2D barrierTexture;
         public Vector2 barrierLocation;
-        public bool frozen = false;
+
         private float timerBush = 0f;
 
         public bool barrier => _timeLeftForBarrier > TimeSpan.Zero;
+        public bool frozen => _timeLeftForFrozen > TimeSpan.Zero;
 
+        /// <summary>
+        /// Czas po jakim czolg zostanie rozprozony
+        /// </summary>
+        public readonly TimeSpan FROZEN_TIME = TimeSpan.FromSeconds(5);
+        /// <summary>
+        /// Czas jaki został do rozmrozenia
+        /// </summary>
+        protected TimeSpan _timeLeftForFrozen = TimeSpan.Zero;
         /// <summary>
         /// Czas po jakim osłona zostanie zdjęcia
         /// </summary>
@@ -78,7 +87,7 @@ namespace BattleTank.Tanks
         //overloaded constructor(s)
         public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed,
                     float _rotation, int _player, float _scale, Texture2D _whiteRectangle,
-                    int _strong, int _mines, bool _barrier, ITankActionProvider tankActionProvider)
+                    int _strong, int _mines, bool _barrier, bool _frozen, ITankActionProvider tankActionProvider)
         {
             tankTexture = _game.Content.Load<Texture2D>(_tankSpriteName);
             barrierTexture = _game.Content.Load<Texture2D>("Graphics/barrier");
@@ -105,6 +114,7 @@ namespace BattleTank.Tanks
             tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
 
             if (_barrier) Barrier();
+            if (_frozen) Frozen();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
@@ -124,15 +134,16 @@ namespace BattleTank.Tanks
                 }
             }
 
+
+
             if (alive)
             {
-                spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
-
-                if (frozen)
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//FrozenEfekt"), location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
-
+                spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);   
 
             }
+            if (frozen)
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//FrozenEfekt"), location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
+
 
             respawnParticles.Draw(spriteBatch);
             deathParticles.Draw(spriteBatch);
@@ -149,7 +160,7 @@ namespace BattleTank.Tanks
                 _timeLeftToNextShot -= gameTime.ElapsedGameTime;
                 _timeLeftToPlantMine -= gameTime.ElapsedGameTime;
                 _timeLeftForBarrier -= gameTime.ElapsedGameTime;
-
+                _timeLeftForFrozen -= gameTime.ElapsedGameTime;
                 if (!frozen)
                 {
                     Move();
@@ -402,6 +413,11 @@ namespace BattleTank.Tanks
             _timeLeftForBarrier = BARRIER_TIME;
         }
 
+        public virtual void Frozen()
+        {
+            _timeLeftForFrozen = FROZEN_TIME;
+        }
+
         public virtual void Hit()
         {
             game.sound.PlaySound(Sound.Sounds.HIT);
@@ -449,11 +465,11 @@ namespace BattleTank.Tanks
         {
             if (alive)
             {
-                armor=0;
-                if (((lives / 0.25f) % 4)==0)
+                armor = 0;
+                if (((lives / 0.25f) % 4) == 0)
                     lives--;
                 else if (((lives / 0.25f) % 4) == 3)
-                        lives-=0.75f;
+                    lives -= 0.75f;
                 else if (((lives / 0.25f) % 4) == 2)
                     lives -= 0.5f;
                 else if (((lives / 0.25f) % 4) == 1)

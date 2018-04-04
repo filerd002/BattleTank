@@ -17,9 +17,9 @@ namespace BattleTank.Tanks
 
         public AI_Tank(Game1 game, string tankSpriteName, Vector2 location, Vector2 maxSpeed,
             float rotation, int player, float scale, Texture2D whiteRectangle, int strong,
-            bool barrier, float targetDirection, int aiLevel, bool kamikazeMode = false)
+            bool barrier,bool frozen, float targetDirection, int aiLevel, bool kamikazeMode = false)
             : base(game, tankSpriteName, location, maxSpeed, rotation, player, scale,
-                  whiteRectangle, strong, 0, barrier, null)
+                  whiteRectangle, strong, 0, barrier,frozen, null)
         {
             enemy = true;
             _aiLevel = aiLevel;

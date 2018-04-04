@@ -16,6 +16,7 @@ namespace BattleTank.Input
 
         public static GenericGamepadTankActionProvider DefaultPlayerOneGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
         public static GenericGamepadTankActionProvider DefaultPlayerTwoGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
+
         public int SpeedBoostButtonNumber { get; set; }
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }
@@ -35,28 +36,27 @@ namespace BattleTank.Input
         private bool Initialize(int pad)
         {
             DirectInput dinput = new DirectInput();
+            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).ToList();
 
-        
             if (pad == 1)
             {
-                DeviceInstance device1 = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).FirstOrDefault();
+                DeviceInstance device1 = devices.FirstOrDefault();
                 if (device1 is null) return false;
 
                 _joystick = new SlimDX.DirectInput.Joystick(dinput, device1.InstanceGuid);
-            
             }
             if (pad == 2)
             {
-                DeviceInstance device2 = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).LastOrDefault();
-                if (device2 is null || dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).Count==1 ) return false;
+                DeviceInstance device2 = devices.LastOrDefault();
+                if (device2 is null || devices.Count == 1) return false;
 
                 _joystick = new SlimDX.DirectInput.Joystick(dinput, device2.InstanceGuid);
             }
-          
+
 
             foreach (DeviceObjectInstance doi in _joystick.GetObjects(ObjectDeviceType.Axis))
             {
-                _joystick.GetObjectPropertiesById((int) doi.ObjectType).SetRange(-MAX_AXIS_VALUE, MAX_AXIS_VALUE);
+                _joystick.GetObjectPropertiesById((int)doi.ObjectType).SetRange(-MAX_AXIS_VALUE, MAX_AXIS_VALUE);
             }
             _joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
 
@@ -91,7 +91,7 @@ namespace BattleTank.Input
             => DefaultPlayerOneGamepadProvider.Initialize(1);
 
         public static bool IsAnyAvailbableGamePad2()
-          => DefaultPlayerTwoGamepadProvider.Initialize(2);
+            => DefaultPlayerTwoGamepadProvider.Initialize(2);
 
         #region Overrides
         /// <inheritdoc />

@@ -311,8 +311,8 @@ namespace BattleTank
         {
             if (alive)
             {
-                PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
-
+                 PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
+             
                 colliding = false;
                 foreach (Tile[] tiles in game.map.map)
                 {
@@ -340,6 +340,8 @@ namespace BattleTank
                     }
 
                     spriteBatch.Draw(PowerUpTexture, location, null, null);
+          
+
                     respawnParticles.Draw(spriteBatch);
                
 

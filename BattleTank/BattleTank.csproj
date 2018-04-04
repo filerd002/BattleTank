@@ -107,6 +107,7 @@
     <Content Include="Content\Graphics\Czas3Gry1.png" />
     <Content Include="Content\Graphics\doBoju.png" />
     <Content Include="Content\Graphics\doBoju1.png" />
+    <Content Include="Content\Graphics\FrozenEfekt.png" />
     <Content Include="Content\Graphics\GreenTank.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

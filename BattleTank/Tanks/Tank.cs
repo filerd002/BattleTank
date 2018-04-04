@@ -126,8 +126,12 @@ namespace BattleTank.Tanks
 
             if (alive)
             {
-
                 spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
+
+                if (frozen)
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//FrozenEfekt"), location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
+
+
             }
 
             respawnParticles.Draw(spriteBatch);
@@ -445,7 +449,7 @@ namespace BattleTank.Tanks
         {
             if (alive)
             {
-                armor = 0;
+                armor=0;
                 if (((lives / 0.25f) % 4)==0)
                     lives--;
                 else if (((lives / 0.25f) % 4) == 3)

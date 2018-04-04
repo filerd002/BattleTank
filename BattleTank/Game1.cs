@@ -856,7 +856,7 @@ namespace BattleTank
                 // jak najmniej komplikacji tutaj będą one tworzone. Jednak w przyszłości należy
                 // przenieśc je jeszcze bliżej samej rozgrywki
                 tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false,false, PlayerOneController);
-                tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false,false, PlayerTwoControleler);
+                tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false,false, PlayerTwoController);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keysStatus == false)
                 {

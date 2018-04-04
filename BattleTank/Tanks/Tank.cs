@@ -476,7 +476,7 @@ namespace BattleTank.Tanks
             // czyli kiedy pozostała wartość życia jest wartością całkowitą
             if (Math.Abs(lives - (int) lives) <= float.Epsilon) 
                 lives--;
-            // Jeżeli pozostała ilosć życia jest większa niż część całkowita, odejmij część całkowitą
+            // Jeżeli pozostała ilosć życia jest większa niż część całkowita, odejmij część ułamkową
             else
                 lives -= lives - (int) lives;
 

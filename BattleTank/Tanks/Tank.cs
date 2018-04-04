@@ -138,14 +138,14 @@ namespace BattleTank.Tanks
 
             if (alive)
             {
-                spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);   
+                spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
 
             }
             if (frozen)
             {
-             
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//FrozenEfekt"), location, null, Color.Lerp(Color.Transparent, Color.White, ((_timeLeftForFrozen.Seconds+1)/5f)), rotation, origin, 1, SpriteEffects.None, 1);
-                
+
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//FrozenEfekt"), location, null, Color.Lerp(Color.Transparent, Color.White, ((_timeLeftForFrozen.Seconds + 1) / 5f)), rotation, origin, 1, SpriteEffects.None, 1);
+
 
             }
 
@@ -467,20 +467,21 @@ namespace BattleTank.Tanks
 
         public void Explode()
         {
-            if (alive)
-            {
-                armor = 0;
-                if (((lives / 0.25f) % 4) == 0)
-                    lives--;
-                else if (((lives / 0.25f) % 4) == 3)
-                    lives -= 0.75f;
-                else if (((lives / 0.25f) % 4) == 2)
-                    lives -= 0.5f;
-                else if (((lives / 0.25f) % 4) == 1)
-                    lives -= 0.25f;
+            if (!alive) return;
 
-                Die();
-            }
+            if (barrier) return;
+
+            armor = 0;
+
+            // czyli kiedy pozostała wartość życia jest wartością całkowitą
+            if (Math.Abs(lives - (int) lives) <= float.Epsilon) 
+                lives--;
+            // Jeżeli pozostała ilosć życia jest większa niż część całkowita, odejmij część całkowitą
+            else
+                lives -= lives - (int) lives;
+
+            Die();
+
         }
     }
 }

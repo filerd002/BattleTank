@@ -36,8 +36,7 @@ namespace BattleTank
         private const float BACK_ALIVE_DELAY = 2f;
 
         int timer1control = 0;
-        public int timer2control = 0;
-        public int timer3control = 0;
+  
         Texture2D background;
         Texture2D menuTexture;
         Texture2D menuWinAndLossTexture;
@@ -91,7 +90,6 @@ namespace BattleTank
         public PowerUp RandomPowerUp;
         string PowerUpSpriteName;
         public float timerPowerUp = 10f;
-        private float timerBarrier = 10f;
         private float timerFrozen = 4f;
         Random randy = new Random();
 
@@ -100,8 +98,8 @@ namespace BattleTank
 
 
         int typePowerUp;
-        public int barrierPlayer;
-        public int frozenPlayer;
+       
+ 
 
         int soundOnOff = 0;
 
@@ -271,676 +269,8 @@ namespace BattleTank
             
 
 
-            if (gameReturn == gameRunningPlayer1 && gameState == gameRunningPlayer1)
-            {
+          
 
-
-
-                if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                {
-                    if (tank1.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true || enemyTanks[3].frozen == true || enemyTanks[4].frozen == true || enemyTanks[5].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-                            enemyTanks[3].frozen = false;
-                            enemyTanks[4].frozen = false;
-                            enemyTanks[5].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                {
-                    if (tank1.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true || enemyTanks[3].frozen == true || enemyTanks[4].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-                            enemyTanks[3].frozen = false;
-                            enemyTanks[4].frozen = false;
-
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                {
-                    if (tank1.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true || enemyTanks[3].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-                            enemyTanks[3].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                {
-                    if (tank1.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                {
-                    if (tank1.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 1)
-                {
-                    if (tank1.frozen == true || enemyTanks[0].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            enemyTanks[0].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-            }
-            else if (gameReturn == gameRunningPlayers2andCPU && gameState == gameRunningPlayers2andCPU)
-            {
-
-
-                if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                {
-                    if (tank1.frozen == true || tank2.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true || enemyTanks[3].frozen == true || enemyTanks[4].frozen == true || enemyTanks[5].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            tank2.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-                            enemyTanks[3].frozen = false;
-                            enemyTanks[4].frozen = false;
-                            enemyTanks[5].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                {
-                    if (tank1.frozen == true || tank2.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true || enemyTanks[3].frozen == true || enemyTanks[4].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            tank2.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-                            enemyTanks[3].frozen = false;
-                            enemyTanks[4].frozen = false;
-
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                {
-                    if (tank1.frozen == true || tank2.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true || enemyTanks[3].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            tank2.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-                            enemyTanks[3].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                {
-                    if (tank1.frozen == true || tank2.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true || enemyTanks[2].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            tank2.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-                            enemyTanks[2].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                {
-                    if (tank1.frozen == true || tank2.frozen == true || enemyTanks[0].frozen == true || enemyTanks[1].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            tank2.frozen = false;
-                            enemyTanks[0].frozen = false;
-                            enemyTanks[1].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-                else if (iloscCPUKlasyk + iloscCPUKamikaze == 1)
-                {
-                    if (tank1.frozen == true || tank2.frozen == true || enemyTanks[0].frozen == true)
-                    {
-                        float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                        timerFrozen -= timer3;
-                        if (timerFrozen < 0)
-                        {
-
-                            timer3control = 0;
-                            tank1.frozen = false;
-                            tank2.frozen = false;
-                            enemyTanks[0].frozen = false;
-
-                            timerFrozen = 4;
-                        }
-                    }
-                }
-            }
-            else if ((gameReturn == gameRunningPlayers2 && gameState == gameRunningPlayers2) || (gameReturn == gameRunningWyscig && gameState == gameRunningWyscig))
-            {
-                if (tank1.frozen == true || tank2.frozen == true)
-                {
-                    float timer3 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                    timerFrozen -= timer3;
-                    if (timerFrozen < 0)
-                    {
-
-                        timer3control = 0;
-
-                        tank1.frozen = false;
-                        tank2.frozen = false;
-
-
-                        timerFrozen = 4;
-                    }
-                }
-            }
-
-
-
-            //
-
-            if (timer3control == 1)
-            {
-                if (frozenPlayer == 1)
-                {
-
-
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 1)
-                    {
-                        enemyTanks[0].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                        enemyTanks[5].frozen = true;
-                    }
-
-
-
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank2.frozen = true;
-
-
-                    tank1.frozen = false;
-                }
-                else if (frozenPlayer == 2)
-                {
-
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 1)
-                    {
-                        enemyTanks[0].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                        enemyTanks[5].frozen = true;
-                    }
-
-
-
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank1.frozen = true;
-
-
-                    tank2.frozen = false;
-
-                }
-                else if (frozenPlayer == 3)
-                {
-
-
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-
-                        enemyTanks[1].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                        enemyTanks[5].frozen = true;
-                    }
-
-
-                    tank1.frozen = true;
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank2.frozen = true;
-
-
-                    enemyTanks[0].frozen = false;
-                }
-                else if (frozenPlayer == 4)
-                {
-
-
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[2].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                        enemyTanks[5].frozen = true;
-                    }
-
-
-                    tank1.frozen = true;
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank2.frozen = true;
-
-
-                    enemyTanks[1].frozen = false;
-                }
-                else if (frozenPlayer == 5)
-                {
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[3].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                        enemyTanks[5].frozen = true;
-                    }
-
-
-                    tank1.frozen = true;
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank2.frozen = true;
-
-
-                    enemyTanks[2].frozen = false;
-                }
-
-                else if (frozenPlayer == 6)
-                {
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[4].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[4].frozen = true;
-                        enemyTanks[5].frozen = true;
-                    }
-
-
-                    tank1.frozen = true;
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank2.frozen = true;
-
-
-                    enemyTanks[3].frozen = false;
-                }
-
-                else if (frozenPlayer == 7)
-                {
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[5].frozen = true;
-                    }
-
-
-                    tank1.frozen = true;
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank2.frozen = true;
-
-
-                    enemyTanks[4].frozen = false;
-                }
-
-                else if (frozenPlayer == 8)
-                {
-                    if (iloscCPUKlasyk + iloscCPUKamikaze == 2)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 3)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 4)
-                    {
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 5)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                    }
-                    else if (iloscCPUKlasyk + iloscCPUKamikaze == 6)
-                    {
-
-                        enemyTanks[0].frozen = true;
-                        enemyTanks[1].frozen = true;
-                        enemyTanks[2].frozen = true;
-                        enemyTanks[3].frozen = true;
-                        enemyTanks[4].frozen = true;
-                    }
-
-
-                    tank1.frozen = true;
-                    if (gameReturn == gameRunningPlayers2 || gameReturn == gameRunningWyscig || gameReturn == gameRunningPlayers2andCPU)
-                        tank2.frozen = true;
-
-
-                    enemyTanks[5].frozen = false;
-                }
-            }
-
-            //
-            //
 
             if (RandomPowerUp != null)
             {
@@ -1520,8 +850,8 @@ namespace BattleTank
                 // tuż po wybraniu ustawień przez użytkownika. Ze względu na to aby robić
                 // jak najmniej komplikacji tutaj będą one tworzone. Jednak w przyszłości należy
                 // przenieśc je jeszcze bliżej samej rozgrywki
-                tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, PlayerOneController);
-                tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, PlayerTwoControleler);
+                tank1 = new Tank(this, "Graphics//GreenTank", new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false,false, PlayerOneController);
+                tank2 = new Tank(this, "Graphics//RedTank", new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false,false, PlayerTwoControleler);
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keysStatus == false)
                 {
@@ -2030,98 +1360,98 @@ namespace BattleTank
 
                             if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 0)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false,false, MathHelper.Pi, poziomTrudnosci, false));
                             }
                             else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 1)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 2)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 3)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, 0, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
                             }
 
                             else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 0)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
                             }
                             else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 1)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 2)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1, false, 0, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 3)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1, false, 0, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 7, 1f, whiteRectangle, 1, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 7, 1f, whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci, true));
                             }
 
                             else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 0)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
                             }
                             else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 1)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, 0, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 2)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, 0, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1, false, MathHelper.PiOver4, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver4, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 3)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, MathHelper.Pi - MathHelper.PiOver4, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1, false, 0, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 8, 1f, whiteRectangle, 1, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, MathHelper.Pi - MathHelper.PiOver4, poziomTrudnosci, false));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 8, 1f, whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci, true));
                             }
                             else if (iloscCPUKamikaze == 3 && iloscCPUKlasyk == 0)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKamikaze == 2 && iloscCPUKlasyk == 0)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
                             }
                             else if (iloscCPUKamikaze == 1 && iloscCPUKlasyk == 0)
                             {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, MathHelper.Pi, poziomTrudnosci, true));
+                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
                             }
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using BattleTank.Tanks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -7,8 +8,8 @@ namespace BattleTank
 {
     public class PowerUp
     {
-    
-  
+
+
         public string PowerUpSpriteName;
         public Vector2 location;
         public int type;
@@ -31,24 +32,24 @@ namespace BattleTank
         public PowerUp(Game1 _game, int _type, Vector2 _location, String _PowerUpSpriteName, Texture2D _whiteRectangle)
         {
             game = _game;
-            location = _location; 
+            location = _location;
             PowerUpTexture = _game.Content.Load<Texture2D>(_PowerUpSpriteName);
-            origin = new Vector2(location.X+PowerUpTexture.Width / 2f, location.Y + PowerUpTexture.Height / 2f);
+            origin = new Vector2(location.X + PowerUpTexture.Width / 2f, location.Y + PowerUpTexture.Height / 2f);
             type = _type;
             whiteRectangle = _whiteRectangle;
             alive = true;
-           respawnParticles = new Particlecloud(origin, game,1, whiteRectangle, Color.Gold, 2,50);
-          //  deathParticles = new Particlecloud(origin, game, 1, whiteRectangle, Color.Gold, 2, 50);
+            respawnParticles = new Particlecloud(origin, game, 1, whiteRectangle, Color.Gold, 2, 50);
+            //  deathParticles = new Particlecloud(origin, game, 1, whiteRectangle, Color.Gold, 2, 50);
             PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
         }
 
         public virtual void Update(GameTime gameTime)
         {
-          
+
 
             if (alive)
             {
-               
+
 
                 PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
 
@@ -61,9 +62,9 @@ namespace BattleTank
                     switch (game.RandomPowerUp.type)
                     {
                         case HEART:
-                            game.tank1.lives+=0.25f;
+                            game.tank1.lives += 0.25f;
                             break;
-                        case ARMOR :
+                        case ARMOR:
                             game.tank1.armor += 0.25f;
                             break;
                         case BARRIER:
@@ -75,9 +76,13 @@ namespace BattleTank
                         case MINE:
                             game.tank1.mines++;
                             break;
-                        case MATRIX:
-                            game.frozenPlayer = 1;
-                            game.timer3control = 1;
+                        case MATRIX:                         
+                                foreach (AI_Tank et in game.enemyTanks)
+                                {
+                                    et.Frozen();
+                                }
+                            if (game.tank2.alive)
+                                game.tank2.Frozen();
                             break;
 
 
@@ -108,9 +113,13 @@ namespace BattleTank
                         case MINE:
                             game.tank2.mines++;
                             break;
-                        case MATRIX:                   
-                             game.frozenPlayer = 2;
-                            game.timer3control = 1;
+                        case MATRIX:
+                                foreach (AI_Tank et in game.enemyTanks)
+                                {
+                                    et.Frozen();
+                                }
+                            if (game.tank1.alive)
+                                game.tank1.Frozen();
                             break;
 
                     }
@@ -119,7 +128,7 @@ namespace BattleTank
 
                     alive = false;
                 }
-                else if ((game.gameState==game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU)&&game.iloscCPUKamikaze+game.iloscCPUKlasyk>=1  &&(game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
+                else if ((game.gameState == game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 1 && (game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -138,8 +147,15 @@ namespace BattleTank
                             game.enemyTanks[0].strong++;
                             break;
                         case MATRIX:
-                            game.frozenPlayer = 3;
-                            game.timer3control = 1;
+                             foreach (AI_Tank et in game.enemyTanks)
+                                { 
+                                    if(!et.Equals(game.enemyTanks[0]))
+                                    et.Frozen();
+                                }
+                            if (game.tank1.alive)
+                                game.tank1.Frozen();
+                            if (game.tank2.alive)
+                                game.tank2.Frozen();
                             break;
                     }
 
@@ -166,8 +182,15 @@ namespace BattleTank
                             game.enemyTanks[1].strong++;
                             break;
                         case MATRIX:
-                            game.frozenPlayer = 4;
-                            game.timer3control = 1;
+                                foreach (AI_Tank et in game.enemyTanks)
+                                {
+                                    if (!et.Equals(game.enemyTanks[1]))
+                                        et.Frozen();
+                                }
+                            if (game.tank1.alive)
+                                game.tank1.Frozen();
+                            if (game.tank2.alive)
+                                game.tank2.Frozen();
                             break;
                     }
 
@@ -194,8 +217,15 @@ namespace BattleTank
                             game.enemyTanks[2].strong++;
                             break;
                         case MATRIX:
-                            game.frozenPlayer = 5;
-                            game.timer3control = 1;
+                            foreach (AI_Tank et in game.enemyTanks)
+                                {
+                                    if (!et.Equals(game.enemyTanks[2]))
+                                        et.Frozen();
+                                }
+                            if (game.tank1.alive)
+                                game.tank1.Frozen();
+                            if (game.tank2.alive)
+                                game.tank2.Frozen();
                             break;
                     }
 
@@ -223,8 +253,15 @@ namespace BattleTank
                             game.enemyTanks[3].strong++;
                             break;
                         case MATRIX:
-                            game.frozenPlayer = 6;
-                            game.timer3control = 1;
+                                foreach (AI_Tank et in game.enemyTanks)
+                                {
+                                    if (!et.Equals(game.enemyTanks[3]))
+                                        et.Frozen();
+                                }
+                            if (game.tank1.alive)
+                                game.tank1.Frozen();
+                            if (game.tank2.alive)
+                                game.tank2.Frozen();
                             break;
                     }
 
@@ -251,8 +288,15 @@ namespace BattleTank
                             game.enemyTanks[4].strong++;
                             break;
                         case MATRIX:
-                            game.frozenPlayer = 7;
-                            game.timer3control = 1;
+                                foreach (AI_Tank et in game.enemyTanks)
+                                {
+                                    if (!et.Equals(game.enemyTanks[4]))
+                                        et.Frozen();
+                                }
+                            if (game.tank1.alive)
+                                game.tank1.Frozen();
+                            if (game.tank2.alive)
+                                game.tank2.Frozen();
                             break;
                     }
 
@@ -279,8 +323,15 @@ namespace BattleTank
                             game.enemyTanks[5].strong++;
                             break;
                         case MATRIX:
-                            game.frozenPlayer = 8;
-                            game.timer3control = 1;
+                           foreach (AI_Tank et in game.enemyTanks)
+                                {
+                                    if (!et.Equals(game.enemyTanks[5]))
+                                        et.Frozen();
+                                }
+                            if (game.tank1.alive)
+                                game.tank1.Frozen();
+                            if (game.tank2.alive)
+                                game.tank2.Frozen();
                             break;
                     }
 
@@ -301,10 +352,10 @@ namespace BattleTank
             {
 
             }
-          respawnParticles.Update(gameTime);
-          
-        
-    
+            respawnParticles.Update(gameTime);
+
+
+
 
         }
         public void Draw(SpriteBatch spriteBatch)
@@ -322,7 +373,7 @@ namespace BattleTank
                         {
                             if ((tile.isColliding(PowerUpkRect).depth > 0))
                             {
-                                colliding = true;  
+                                colliding = true;
                             }
                         }
                         else { continue; }
@@ -340,8 +391,10 @@ namespace BattleTank
                     }
 
                     spriteBatch.Draw(PowerUpTexture, location, null, null);
+
+
                     respawnParticles.Draw(spriteBatch);
-               
+
 
                 }
                 else
@@ -349,38 +402,38 @@ namespace BattleTank
             }
             else { }
 
-           
+
         }
         public Collision isColliding(Rectangle possibleCollisionRect)
         {
 
             Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, PowerUpkRect);
-           
-                if (intersect.Width > 0 || intersect.Height > 0)
-                {
 
-                    if (possibleCollisionRect.Top < PowerUpkRect.Bottom && Math.Abs(intersect.Width) > Math.Abs(intersect.Height) && possibleCollisionRect.Y > PowerUpkRect.Y)
-                    {
-                        float depth = intersect.Height;
-                        return new Collision(Collision.Side.TOP, depth);
-                    }
-                    if (possibleCollisionRect.Bottom > PowerUpkRect.Top && Math.Abs(intersect.Width) > Math.Abs(intersect.Height))
-                    {
-                        float depth = intersect.Height;
-                        return new Collision(Collision.Side.BOTTOM, depth);
-                    }
-                    if (possibleCollisionRect.Left < PowerUpkRect.Right && Math.Abs(intersect.Width) < Math.Abs(intersect.Height) && possibleCollisionRect.Right > PowerUpkRect.Right)
-                    {
-                        float depth = intersect.Width;
-                        return new Collision(Collision.Side.LEFT, depth);
-                    }
-                    if (possibleCollisionRect.Right > PowerUpkRect.Right - PowerUpkRect.Width && possibleCollisionRect.Right > PowerUpkRect.Left && Math.Abs(intersect.Width) < Math.Abs(intersect.Height))
-                    {
-                        float depth = intersect.Width;
-                        return new Collision(Collision.Side.RIGHT, depth);
-                    }
+            if (intersect.Width > 0 || intersect.Height > 0)
+            {
+
+                if (possibleCollisionRect.Top < PowerUpkRect.Bottom && Math.Abs(intersect.Width) > Math.Abs(intersect.Height) && possibleCollisionRect.Y > PowerUpkRect.Y)
+                {
+                    float depth = intersect.Height;
+                    return new Collision(Collision.Side.TOP, depth);
                 }
-            
+                if (possibleCollisionRect.Bottom > PowerUpkRect.Top && Math.Abs(intersect.Width) > Math.Abs(intersect.Height))
+                {
+                    float depth = intersect.Height;
+                    return new Collision(Collision.Side.BOTTOM, depth);
+                }
+                if (possibleCollisionRect.Left < PowerUpkRect.Right && Math.Abs(intersect.Width) < Math.Abs(intersect.Height) && possibleCollisionRect.Right > PowerUpkRect.Right)
+                {
+                    float depth = intersect.Width;
+                    return new Collision(Collision.Side.LEFT, depth);
+                }
+                if (possibleCollisionRect.Right > PowerUpkRect.Right - PowerUpkRect.Width && possibleCollisionRect.Right > PowerUpkRect.Left && Math.Abs(intersect.Width) < Math.Abs(intersect.Height))
+                {
+                    float depth = intersect.Width;
+                    return new Collision(Collision.Side.RIGHT, depth);
+                }
+            }
+
             return new Collision();
         }
     }

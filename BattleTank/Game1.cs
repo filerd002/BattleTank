@@ -167,7 +167,7 @@ namespace BattleTank
             menuSound = new Sound(this);
             soundEffectInstance = menuSound.deploySound(Sound.Sounds.MENU_SOUND).CreateInstance();
             soundOnOff = 0;
-            AvailableGamepads = GamePads.GetNextAvailableGamepad();
+            AvailableGamepads = GamePads.GetAllAvailableGamepads();
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                     graphics.GraphicsDevice.Viewport.Height / 2);

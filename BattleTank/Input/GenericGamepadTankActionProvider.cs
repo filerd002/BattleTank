@@ -17,6 +17,13 @@ namespace BattleTank.Input
         public static GenericGamepadTankActionProvider DefaultPlayerOneGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
         public static GenericGamepadTankActionProvider DefaultPlayerTwoGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
 
+        public static int HowManyAvailable()
+        {
+            DirectInput dinput = new DirectInput();
+            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).ToList();
+            return devices.Count;
+        }
+
         public int SpeedBoostButtonNumber { get; set; }
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }

@@ -51,7 +51,7 @@ namespace BattleTank.Input
                 fire: fire);
         }
 
-        public int HowManyXPadsAvaiblable()
+        public static int HowManyAvailable()
         {
             for (int i = 0; i < 100; i++)
             {

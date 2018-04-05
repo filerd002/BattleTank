@@ -189,6 +189,8 @@
     <Content Include="Content\Graphics\Poziom2Trud1.png" />
     <Content Include="Content\Graphics\Poziom3Trud.png" />
     <Content Include="Content\Graphics\Poziom3Trud1.png" />
+    <Content Include="Content\Graphics\Poziom4Trud.png" />
+    <Content Include="Content\Graphics\Poziom4Trud1.png" />
     <Content Include="Content\Graphics\przegrana.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

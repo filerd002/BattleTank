@@ -64,6 +64,7 @@ namespace BattleTank
         Texture2D Poziom1Trud;
         Texture2D Poziom2Trud;
         Texture2D Poziom3Trud;
+        Texture2D Poziom4Trud;
         Texture2D wyborCpuKlasyk;
         Texture2D wyborCpuKlasykIlosc0;
         Texture2D wyborCpuKlasykIlosc1;
@@ -201,6 +202,7 @@ namespace BattleTank
             Poziom1Trud = this.Content.Load<Texture2D>("Graphics//Poziom1Trud");
             Poziom2Trud = this.Content.Load<Texture2D>("Graphics//Poziom2Trud");
             Poziom3Trud = this.Content.Load<Texture2D>("Graphics//Poziom3Trud");
+            Poziom4Trud = this.Content.Load<Texture2D>("Graphics//Poziom4Trud");
             wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics//wyborCpuKlasyk");
             wyborCpuKlasykIlosc0 = this.Content.Load<Texture2D>("Graphics//0");
             wyborCpuKlasykIlosc1 = this.Content.Load<Texture2D>("Graphics//1");
@@ -1155,7 +1157,7 @@ namespace BattleTank
                     }
 
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 325, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 1)
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 1)
                     {
 
                         Poziom1Trud = this.Content.Load<Texture2D>("Graphics//Poziom1Trud1");
@@ -1171,7 +1173,7 @@ namespace BattleTank
                     }
 
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 2)
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 2)
                     {
 
                         Poziom2Trud = this.Content.Load<Texture2D>("Graphics//Poziom2Trud1");
@@ -1185,7 +1187,7 @@ namespace BattleTank
                         Poziom2Trud = this.Content.Load<Texture2D>("Graphics//Poziom2Trud");
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 75, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 3)
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 3)
                     {
 
                         Poziom3Trud = this.Content.Load<Texture2D>("Graphics//Poziom3Trud1");
@@ -1197,6 +1199,21 @@ namespace BattleTank
                     else
                     {
                         Poziom3Trud = this.Content.Load<Texture2D>("Graphics//Poziom3Trud");
+                    }
+
+
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 4)
+                    {
+
+                        Poziom4Trud = this.Content.Load<Texture2D>("Graphics//Poziom4Trud1");
+                        if (state.LeftButton == ButtonState.Pressed)
+                        {
+                            poziomTrudnosci = 4;
+                        }
+                    }
+                    else
+                    {
+                        Poziom4Trud = this.Content.Load<Texture2D>("Graphics//Poziom4Trud");
                     }
 
 
@@ -1806,9 +1823,10 @@ namespace BattleTank
 
 
                     spriteBatch.Draw(wyborPoziomTrud, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 220, 300, 60), Color.White);
-                    spriteBatch.Draw(Poziom1Trud, new Rectangle((map.screenWidth / 2) - 325, (map.screenHeight / 2) - 155, 250, 50), Color.White);
-                    spriteBatch.Draw(Poziom2Trud, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 155, 250, 50), Color.White);
-                    spriteBatch.Draw(Poziom3Trud, new Rectangle((map.screenWidth / 2) + 75, (map.screenHeight / 2) - 155, 250, 50), Color.White);
+                    spriteBatch.Draw(Poziom1Trud, new Rectangle((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155, 250, 50), Color.White);
+                    spriteBatch.Draw(Poziom2Trud, new Rectangle((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155, 250, 50), Color.White);
+                    spriteBatch.Draw(Poziom3Trud, new Rectangle((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155, 250, 50), Color.White);
+                    spriteBatch.Draw(Poziom4Trud, new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50), Color.White);
 
                     spriteBatch.Draw(wyborCpuKlasyk, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 100, 300, 60), Color.White);
 

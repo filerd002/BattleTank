@@ -63,7 +63,7 @@ namespace BattleTank.Input
             {
                 if (!IsXGamePadAvailable((PlayerIndex)i))
                 {
-                    return i+1;
+                    return i;
                 }
             }
             return 0;

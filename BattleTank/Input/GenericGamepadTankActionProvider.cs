@@ -20,7 +20,7 @@ namespace BattleTank.Input
         public static int HowManyAvailable()
         {
             DirectInput dinput = new DirectInput();
-            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).ToList();
+            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).Where(d => !d.ProductName.Contains("XBOX")).ToList();
             return devices.Count;
         }
 
@@ -43,8 +43,7 @@ namespace BattleTank.Input
         private bool Initialize(int pad)
         {
             DirectInput dinput = new DirectInput();
-            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).ToList();
-
+            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).Where(d => !d.ProductName.Contains("XBOX")).ToList();
             if (pad == 1)
             {
                 DeviceInstance device1 = devices.FirstOrDefault();

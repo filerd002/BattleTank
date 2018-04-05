@@ -84,6 +84,8 @@ namespace BattleTank.Tanks
         /// </summary>
         private TimeSpan _timeLeftToPlantMine = TimeSpan.Zero;
 
+        private TimeSpan _timeLeftForVibration = TimeSpan.Zero;
+
         //overloaded constructor(s)
         public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed,
                     float _rotation, int _player, float _scale, Texture2D _whiteRectangle,
@@ -165,6 +167,17 @@ namespace BattleTank.Tanks
                 _timeLeftToPlantMine -= gameTime.ElapsedGameTime;
                 _timeLeftForBarrier -= gameTime.ElapsedGameTime;
                 _timeLeftForFrozen -= gameTime.ElapsedGameTime;
+
+                _timeLeftForVibration -= gameTime.ElapsedGameTime;
+
+                if (_timeLeftForVibration <= TimeSpan.Zero)
+                {
+                    if (TankActionProvider is XInputGamepadTankActionProvider c)
+                    {
+                        c.Vibrate(0);
+                    }
+                }
+
                 if (!frozen)
                 {
                     Move();
@@ -436,6 +449,12 @@ namespace BattleTank.Tanks
                 }
             }
             hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
+            if (TankActionProvider is XInputGamepadTankActionProvider c)
+            {
+                c.Vibrate(0.5f);
+                _timeLeftForVibration = TimeSpan.FromMilliseconds(100);
+            }
+
         }
 
         public virtual void Die()
@@ -449,6 +468,22 @@ namespace BattleTank.Tanks
                 deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2);
                 alive = false;
                 location = new Vector2(-100, -100);
+            }
+            if (lives <= 0)
+            {
+                if (TankActionProvider is XInputGamepadTankActionProvider c)
+                {
+                    c.Vibrate(0);
+                    _timeLeftForVibration = TimeSpan.Zero;
+                }
+            }
+            else
+            {
+                if (TankActionProvider is XInputGamepadTankActionProvider c)
+                {
+                    c.Vibrate(1f);
+                    _timeLeftForVibration = TimeSpan.FromMilliseconds(500);
+                }
             }
         }
 

@@ -52,6 +52,11 @@ namespace BattleTank.Input
                 fire: fire);
         }
 
+        public void Vibrate(float power)
+        {
+            GamePad.SetVibration(PadNumber, power, power);
+        }
+
         public static bool IsXGamePadAvailable(PlayerIndex padNo)
         {
             return GamePad.GetState(padNo).IsConnected;

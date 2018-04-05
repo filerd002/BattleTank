@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,11 +52,16 @@ namespace BattleTank.Input
                 fire: fire);
         }
 
+        public static bool IsXGamePadAvailable(PlayerIndex padNo)
+        {
+            return GamePad.GetState(padNo).IsConnected;
+        }
+
         public static int HowManyAvailable()
         {
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 4; i++)
             {
-                if (!GamePad.GetState(i).IsConnected)
+                if (!IsXGamePadAvailable((PlayerIndex)i))
                 {
                     return i+1;
                 }
@@ -63,6 +69,15 @@ namespace BattleTank.Input
             return 0;
         }
 
+        public static List<ITankActionProvider> GetAllAvailable()
+        {
+            var retVal = new List<ITankActionProvider>();
+            for (int i = 0; i < HowManyAvailable(); i++)
+            {
+                retVal.Add(new XInputGamepadTankActionProvider((PlayerIndex)i));
+            }
+            return retVal;
+        }
 
     }
 }

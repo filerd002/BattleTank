@@ -14,8 +14,8 @@ namespace BattleTank.Input
     {
         private const int MAX_AXIS_VALUE = 5000;
 
-        public static GenericGamepadTankActionProvider DefaultPlayerOneGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
-        public static GenericGamepadTankActionProvider DefaultPlayerTwoGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
+        public static GenericGamepadTankActionProvider DefaultPlayerOneGamepadProvider { get; } = new GenericGamepadTankActionProvider();
+        public static GenericGamepadTankActionProvider DefaultPlayerTwoGamepadProvider { get; } = new GenericGamepadTankActionProvider();
 
         public static int HowManyAvailable()
         {
@@ -30,7 +30,7 @@ namespace BattleTank.Input
 
         private SlimDX.DirectInput.Joystick _joystick;
 
-        public GenericGamepadTankActionProvider(int speedBoostButtonNumber, int plantMineButtonNumber, int fireButtonNumber)
+        public GenericGamepadTankActionProvider(int speedBoostButtonNumber = 2, int plantMineButtonNumber = 0, int fireButtonNumber = 7)
         {
             SpeedBoostButtonNumber = speedBoostButtonNumber;
             PlantMineButtonNumber = plantMineButtonNumber;
@@ -92,6 +92,16 @@ namespace BattleTank.Input
                 speedBoost: buttons[SpeedBoostButtonNumber],
                 plantMine: buttons[PlantMineButtonNumber],
                 fire: buttons[FireButtonNumber]);
+        }
+
+        public static List<ITankActionProvider> GetAllAvailable()
+        {
+            var retVal = new List<ITankActionProvider>();
+            for (int i = 0; i < HowManyAvailable(); i++)
+            {
+                retVal.Add(new GenericGamepadTankActionProvider());
+            }
+            return retVal;
         }
 
         public static bool IsAnyAvailbableGamePad1()

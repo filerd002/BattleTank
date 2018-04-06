@@ -45,7 +45,9 @@
     <Compile Include="Collision.cs" />
     <Compile Include="Extensions\MathExtensions.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Input\GamePads.cs" />
     <Compile Include="Input\GenericGamepadTankActionProvider.cs" />
+    <Compile Include="Input\XInputGamepadTankActionProvider.cs" />
     <Compile Include="Tanks\AI_Tank.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Mine.cs" />

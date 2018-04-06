@@ -5,8 +5,6 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using SlimDX.DirectInput;
-using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework;
 
 namespace BattleTank.Input
 {
@@ -14,45 +12,30 @@ namespace BattleTank.Input
     {
         private const int MAX_AXIS_VALUE = 5000;
 
-        public static GenericGamepadTankActionProvider DefaultPlayerOneGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
-        public static GenericGamepadTankActionProvider DefaultPlayerTwoGamepadProvider { get; } = new GenericGamepadTankActionProvider(2, 0, 7);
-
         public int SpeedBoostButtonNumber { get; set; }
         public int PlantMineButtonNumber { get; set; }
         public int FireButtonNumber { get; set; }
 
         private SlimDX.DirectInput.Joystick _joystick;
 
-        public GenericGamepadTankActionProvider(int speedBoostButtonNumber, int plantMineButtonNumber, int fireButtonNumber)
+        public GenericGamepadTankActionProvider(int gamePadNumber, int speedBoostButtonNumber = 2, int plantMineButtonNumber = 0, int fireButtonNumber = 7)
         {
             SpeedBoostButtonNumber = speedBoostButtonNumber;
             PlantMineButtonNumber = plantMineButtonNumber;
             FireButtonNumber = fireButtonNumber;
 
-            Initialize(1);
-            Initialize(2);
+            Initialize(gamePadNumber);
         }
 
         private bool Initialize(int pad)
         {
             DirectInput dinput = new DirectInput();
-            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly).ToList();
+            List<DeviceInstance> devices = GetAllAvailableDeviceInstances();
+            
+            DeviceInstance device = devices.ElementAtOrDefault(pad);
+            if (device is null) return false;
 
-            if (pad == 1)
-            {
-                DeviceInstance device1 = devices.FirstOrDefault();
-                if (device1 is null) return false;
-
-                _joystick = new SlimDX.DirectInput.Joystick(dinput, device1.InstanceGuid);
-            }
-            if (pad == 2)
-            {
-                DeviceInstance device2 = devices.LastOrDefault();
-                if (device2 is null || devices.Count == 1) return false;
-
-                _joystick = new SlimDX.DirectInput.Joystick(dinput, device2.InstanceGuid);
-            }
-
+            _joystick = new SlimDX.DirectInput.Joystick(dinput, device.InstanceGuid);
 
             foreach (DeviceObjectInstance doi in _joystick.GetObjects(ObjectDeviceType.Axis))
             {
@@ -87,11 +70,29 @@ namespace BattleTank.Input
                 fire: buttons[FireButtonNumber]);
         }
 
-        public static bool IsAnyAvailbableGamePad1()
-            => DefaultPlayerOneGamepadProvider.Initialize(1);
+        public static List<ITankActionProvider> GetAllAvailable()
+        {
+            var retVal = new List<ITankActionProvider>();
+            for (int i = 0; i < HowManyAvailable(); i++)
+            {
+                retVal.Add(new GenericGamepadTankActionProvider(i));
+            }
+            return retVal;
+        }
 
-        public static bool IsAnyAvailbableGamePad2()
-            => DefaultPlayerTwoGamepadProvider.Initialize(2);
+        public static int HowManyAvailable()
+        {
+            List<DeviceInstance> devices = GetAllAvailableDeviceInstances();
+            return devices.Count;
+        }
+
+        private static List<DeviceInstance> GetAllAvailableDeviceInstances()
+        {
+            DirectInput dinput = new DirectInput();
+            List<DeviceInstance> devices = dinput.GetDevices(DeviceClass.GameController, DeviceEnumerationFlags.AttachedOnly)
+                .Where(d => !d.ProductName.Contains("XBOX")).ToList();
+            return devices;
+        }
 
         #region Overrides
         /// <inheritdoc />

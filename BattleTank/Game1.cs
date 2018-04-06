@@ -418,8 +418,6 @@ namespace BattleTank
             {
 
 
-
-
                 // Update our sprites position to the current cursor location
 
                 positionMouse.X = state.X;

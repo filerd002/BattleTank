@@ -84,7 +84,7 @@ namespace BattleTank.Tanks
         /// </summary>
         private TimeSpan _timeLeftToPlantMine = TimeSpan.Zero;
 
-        private TimeSpan _timeLeftForVibration = TimeSpan.Zero;
+        public TimeSpan _timeLeftForVibration = TimeSpan.Zero;
 
         //overloaded constructor(s)
         public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed,
@@ -161,6 +161,7 @@ namespace BattleTank.Tanks
 
         public virtual void Update(GameTime gameTime)
         {
+            _timeLeftForVibration -= gameTime.ElapsedGameTime;
             if (alive)
             {
                 _timeLeftToNextShot -= gameTime.ElapsedGameTime;
@@ -168,7 +169,7 @@ namespace BattleTank.Tanks
                 _timeLeftForBarrier -= gameTime.ElapsedGameTime;
                 _timeLeftForFrozen -= gameTime.ElapsedGameTime;
 
-                _timeLeftForVibration -= gameTime.ElapsedGameTime;
+               
 
                 if (_timeLeftForVibration <= TimeSpan.Zero)
                 {
@@ -437,6 +438,11 @@ namespace BattleTank.Tanks
 
         public virtual void Hit()
         {
+            if (TankActionProvider is XInputGamepadTankActionProvider c)
+            {
+                c.Vibrate(0.5f);
+                _timeLeftForVibration = TimeSpan.FromMilliseconds(100);
+            }
             game.sound.PlaySound(Sound.Sounds.HIT);
             if (armor > 0)
                 armor -= 0.25f;
@@ -449,11 +455,7 @@ namespace BattleTank.Tanks
                 }
             }
             hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
-            if (TankActionProvider is XInputGamepadTankActionProvider c)
-            {
-                c.Vibrate(0.5f);
-                _timeLeftForVibration = TimeSpan.FromMilliseconds(100);
-            }
+         
 
         }
 
@@ -469,7 +471,7 @@ namespace BattleTank.Tanks
                 alive = false;
                 location = new Vector2(-100, -100);
             }
-            if (lives <= 0)
+            if (lives <= 0  )
             {
                 if (TankActionProvider is XInputGamepadTankActionProvider c)
                 {

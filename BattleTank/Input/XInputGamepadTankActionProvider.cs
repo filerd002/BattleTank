@@ -45,8 +45,9 @@ namespace BattleTank.Input
                 throw new Exception($"Próba pobrania danych z kontrolera ({PadNumber}), który najwidoczniej został odłączony!");
             }
 
-            float moveX = state.ThumbSticks.Left.X;
-            float moveY = state.ThumbSticks.Left.Y;
+               float moveX = state.ThumbSticks.Left.X - (float)(state.DPad.Left) + (float)(state.DPad.Right);
+              float moveY = state.ThumbSticks.Left.Y - (float)(state.DPad.Down) + (float)(state.DPad.Up);
+
 
             bool speedBost = state.IsButtonDown(SpeedBoostButton);
             bool plantMine = state.IsButtonDown(PlantMineButton);

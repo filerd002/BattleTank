@@ -84,7 +84,7 @@ namespace BattleTank.Tanks
         /// </summary>
         private TimeSpan _timeLeftToPlantMine = TimeSpan.Zero;
 
-        public TimeSpan _timeLeftForVibration = TimeSpan.Zero;
+        private TimeSpan _timeLeftForVibration = TimeSpan.Zero;
 
         //overloaded constructor(s)
         public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed,
@@ -161,7 +161,6 @@ namespace BattleTank.Tanks
 
         public virtual void Update(GameTime gameTime)
         {
-            _timeLeftForVibration -= gameTime.ElapsedGameTime;
             if (alive)
             {
                 _timeLeftToNextShot -= gameTime.ElapsedGameTime;
@@ -169,7 +168,7 @@ namespace BattleTank.Tanks
                 _timeLeftForBarrier -= gameTime.ElapsedGameTime;
                 _timeLeftForFrozen -= gameTime.ElapsedGameTime;
 
-               
+                _timeLeftForVibration -= gameTime.ElapsedGameTime;
 
                 if (_timeLeftForVibration <= TimeSpan.Zero)
                 {
@@ -438,7 +437,7 @@ namespace BattleTank.Tanks
 
         public virtual void Hit()
         {
-            if (TankActionProvider is XInputGamepadTankActionProvider c)
+               if (TankActionProvider is XInputGamepadTankActionProvider c)
             {
                 c.Vibrate(0.5f);
                 _timeLeftForVibration = TimeSpan.FromMilliseconds(100);

@@ -91,7 +91,7 @@ namespace BattleTank
         public PowerUp RandomPowerUp;
         string PowerUpSpriteName;
         public float timerPowerUp = 10f;
-        private float timerFrozen = 4f;
+      
         Random randy = new Random();
 
         bool keysStatus = false;
@@ -636,6 +636,7 @@ namespace BattleTank
                         ButtonSettings = this.Content.Load<Texture2D>("Graphics//settings1");
                         if (state.LeftButton == ButtonState.Pressed)
                         {
+                            AvailableGamepads = GamePads.GetAllAvailableGamepads();
                             menuTexture = Content.Load<Texture2D>("Graphics//RamkaXL");
                             gameState = SETTINGS;
                             sound.PlaySound(Sound.Sounds.KLIK);

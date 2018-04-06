@@ -30,11 +30,11 @@ namespace BattleTank.Input
         public TankControllerState GetTankControllerState()
         {
             GamePadState state = new GamePadState();
-            if (PadNumber==PlayerIndex.One)
+            if (PadNumber.Equals(PlayerIndex.One))
             {
                  state = GamePad.GetState(PlayerIndex.One);
             }
-            if (PadNumber == PlayerIndex.Two)
+            if (PadNumber.Equals(PlayerIndex.Two))
             {
                 state = GamePad.GetState(PlayerIndex.Two);
             }

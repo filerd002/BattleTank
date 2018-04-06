@@ -29,7 +29,15 @@ namespace BattleTank.Input
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            GamePadState state = GamePad.GetState(PlayerIndex.One);
+            GamePadState state = new GamePadState();
+            if (PadNumber==PlayerIndex.One)
+            {
+                 state = GamePad.GetState(PlayerIndex.One);
+            }
+            if (PadNumber == PlayerIndex.Two)
+            {
+                state = GamePad.GetState(PlayerIndex.Two);
+            }
 
             if (!state.IsConnected)
             {

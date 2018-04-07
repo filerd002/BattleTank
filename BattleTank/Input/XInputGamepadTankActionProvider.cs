@@ -30,14 +30,8 @@ namespace BattleTank.Input
         public TankControllerState GetTankControllerState()
         {
             GamePadState state = new GamePadState();
-            if (PadNumber.Equals(PlayerIndex.One))
-            {
-                 state = GamePad.GetState(PlayerIndex.One);
-            }
-            if (PadNumber.Equals(PlayerIndex.Two))
-            {
-                state = GamePad.GetState(PlayerIndex.Two);
-            }
+     
+            state = GamePad.GetState(PadNumber);
 
             if (!state.IsConnected)
             {
@@ -48,6 +42,10 @@ namespace BattleTank.Input
                float moveX = state.ThumbSticks.Left.X - (float)(state.DPad.Left) + (float)(state.DPad.Right);
               float moveY = state.ThumbSticks.Left.Y - (float)(state.DPad.Down) + (float)(state.DPad.Up);
 
+                if (Math.Abs(moveX) > 1)
+                    moveX = 1;
+                if (Math.Abs(moveY) > 1)
+                    moveY = 1;
 
             bool speedBost = state.IsButtonDown(SpeedBoostButton);
             bool plantMine = state.IsButtonDown(PlantMineButton);

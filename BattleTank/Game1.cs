@@ -540,6 +540,7 @@ namespace BattleTank
                             soundEffectInstance.Stop();
                             enemyTanks.Clear();
                             mines.Clear();
+                            tank1.lives = 0;
                             tank2.lives = 0;
                             Initialize();
 

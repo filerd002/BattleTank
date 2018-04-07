@@ -91,7 +91,7 @@ namespace BattleTank
         public PowerUp RandomPowerUp;
         string PowerUpSpriteName;
         public float timerPowerUp = 10f;
-        private float timerFrozen = 4f;
+      
         Random randy = new Random();
 
         bool keysStatus = false;
@@ -418,8 +418,6 @@ namespace BattleTank
             {
 
 
-
-
                 // Update our sprites position to the current cursor location
 
                 positionMouse.X = state.X;
@@ -542,7 +540,8 @@ namespace BattleTank
                             soundEffectInstance.Stop();
                             enemyTanks.Clear();
                             mines.Clear();
-                            tank2.Die();
+                            tank1.lives = 0;
+                            tank2.lives = 0;
                             Initialize();
 
                         }
@@ -638,6 +637,7 @@ namespace BattleTank
                         ButtonSettings = this.Content.Load<Texture2D>("Graphics//settings1");
                         if (state.LeftButton == ButtonState.Pressed)
                         {
+                            AvailableGamepads = GamePads.GetAllAvailableGamepads();
                             menuTexture = Content.Load<Texture2D>("Graphics//RamkaXL");
                             gameState = SETTINGS;
                             sound.PlaySound(Sound.Sounds.KLIK);

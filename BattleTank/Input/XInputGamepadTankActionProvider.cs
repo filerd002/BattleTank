@@ -29,7 +29,9 @@ namespace BattleTank.Input
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            GamePadState state = GamePad.GetState(PlayerIndex.One);
+            GamePadState state = new GamePadState();
+     
+            state = GamePad.GetState(PadNumber);
 
             if (!state.IsConnected)
             {
@@ -37,8 +39,13 @@ namespace BattleTank.Input
                 throw new Exception($"Próba pobrania danych z kontrolera ({PadNumber}), który najwidoczniej został odłączony!");
             }
 
-            float moveX = state.ThumbSticks.Left.X;
-            float moveY = state.ThumbSticks.Left.Y;
+               float moveX = state.ThumbSticks.Left.X - (float)(state.DPad.Left) + (float)(state.DPad.Right);
+              float moveY = state.ThumbSticks.Left.Y - (float)(state.DPad.Down) + (float)(state.DPad.Up);
+
+                if (Math.Abs(moveX) > 1)
+                    moveX = 1;
+                if (Math.Abs(moveY) > 1)
+                    moveY = 1;
 
             bool speedBost = state.IsButtonDown(SpeedBoostButton);
             bool plantMine = state.IsButtonDown(PlantMineButton);

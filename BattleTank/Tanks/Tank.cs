@@ -437,6 +437,11 @@ namespace BattleTank.Tanks
 
         public virtual void Hit()
         {
+               if (TankActionProvider is XInputGamepadTankActionProvider c)
+            {
+                c.Vibrate(0.5f);
+                _timeLeftForVibration = TimeSpan.FromMilliseconds(100);
+            }
             game.sound.PlaySound(Sound.Sounds.HIT);
             if (armor > 0)
                 armor -= 0.25f;
@@ -449,11 +454,7 @@ namespace BattleTank.Tanks
                 }
             }
             hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
-            if (TankActionProvider is XInputGamepadTankActionProvider c)
-            {
-                c.Vibrate(0.5f);
-                _timeLeftForVibration = TimeSpan.FromMilliseconds(100);
-            }
+         
 
         }
 
@@ -469,7 +470,7 @@ namespace BattleTank.Tanks
                 alive = false;
                 location = new Vector2(-100, -100);
             }
-            if (lives <= 0)
+            if (lives <= 0  )
             {
                 if (TankActionProvider is XInputGamepadTankActionProvider c)
                 {

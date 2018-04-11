@@ -21,20 +21,20 @@ namespace BattleTank.GUI
         void OnClickedRaised()
             => Clicked?.Invoke(this, EventArgs.Empty);
 
-        Button (Texture2D nonActiveTexture, Texture2D activeTexture, Rectangle destinationRectangle)
+        public Button (Texture2D nonActiveTexture, Texture2D activeTexture, Rectangle destinationRectangle)
         {
             NonActiveTexture = nonActiveTexture;
             ActiveTexture = activeTexture;
             DestinationRectangle = destinationRectangle;
         }
 
-        void Draw(ref SpriteBatch spriteBatch)
+        public void Draw(ref SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(IsActive ?
                 ActiveTexture : NonActiveTexture, DestinationRectangle, Color.White);
         }
 
-        bool IsMouseOver(ref MouseState mouseState)
+        public bool IsMouseOver(ref MouseState mouseState)
         {
             var mousePosition = new Rectangle((int)mouseState.X, (int)mouseState.Y, 1, 1);
 
@@ -46,7 +46,7 @@ namespace BattleTank.GUI
             return IsActive;
         }
 
-        bool IsClicked(ref MouseState mouseState)
+        public bool IsClicked(ref MouseState mouseState)
         {
             if (IsMouseOver(ref mouseState))
             {

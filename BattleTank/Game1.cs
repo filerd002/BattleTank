@@ -8,6 +8,7 @@ using System.Linq;
 using System.Timers;
 using BattleTank.Input;
 using BattleTank.Tanks;
+using BattleTank.GUI;
 
 namespace BattleTank
 {
@@ -53,7 +54,7 @@ namespace BattleTank
         Texture2D ButtonNowaGra;
         Texture2D ButtonPowrot;
         Texture2D ButtonKoniec;
-        Texture2D ButtonZagraj;
+        Button ButtonZagraj;
         Texture2D ButtonSettings;
         Texture2D SettingsTrybSterowania;
         Texture2D ButtonSettingsTrybSterowaniaKlawMysz;
@@ -189,7 +190,10 @@ namespace BattleTank
             ButtonPowrot = this.Content.Load<Texture2D>("Graphics//powrot");
             ButtonNowaGra = this.Content.Load<Texture2D>("Graphics//nowagra");
             ButtonKoniec = this.Content.Load<Texture2D>("Graphics//koniec");
-            ButtonZagraj = this.Content.Load<Texture2D>("Graphics//zagraj");
+            ButtonZagraj = new Button(
+                Content.Load<Texture2D>("Graphics//zagraj"),
+                Content.Load<Texture2D>("Graphics//zagraj1"),
+                new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50));
             ButtonSettings = this.Content.Load<Texture2D>("Graphics//settings");
             SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania");
             ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
@@ -604,26 +608,14 @@ namespace BattleTank
                     BattleTankTexture = this.Content.Load<Texture2D>("Graphics//battleTank");
                 }
 
-
-                if (LeftButtonStatus == false)
+                if (ButtonZagraj.IsClicked(ref state))
                 {
-
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50)))
-                    {
-
-                        ButtonZagraj = this.Content.Load<Texture2D>("Graphics//zagraj1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            sound.PlaySound(Sound.Sounds.KLIK);
-                            gameState = CHOICE_OF_GAME_TYPE;
-                            LeftButtonStatus = true;
-                        }
-                    }
-                    else
-                    {
-                        ButtonZagraj = this.Content.Load<Texture2D>("Graphics//zagraj");
-                    }
+                    
+                    sound.PlaySound(Sound.Sounds.KLIK);
+                    gameState = CHOICE_OF_GAME_TYPE;
+                    LeftButtonStatus = true;
+                        
+                }
 
 
 
@@ -671,8 +663,6 @@ namespace BattleTank
                     {
                         ButtonKoniec = this.Content.Load<Texture2D>("Graphics//koniec");
                     }
-
-                }
 
 
             }
@@ -1780,7 +1770,7 @@ namespace BattleTank
                 {
                     spriteBatch.Draw(BattleTankTexture, new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100), Color.White);
 
-                    spriteBatch.Draw(ButtonZagraj, new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50), Color.White);
+                    ButtonZagraj.Draw(ref spriteBatch);
                     spriteBatch.Draw(ButtonSettings, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50), Color.White);
                     spriteBatch.Draw(ButtonKoniec, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50), Color.White);
                 }

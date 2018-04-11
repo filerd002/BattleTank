@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -11,6 +12,7 @@ namespace BattleTank.GUI
 {
     class Button
     {
+        public static SoundEffect ClickSound { get; set; }
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
         Rectangle DestinationRectangle { get; set; }
@@ -52,6 +54,7 @@ namespace BattleTank.GUI
             {
                if (mouseState.LeftButton == ButtonState.Pressed)
                 {
+                    ClickSound?.Play();
                     OnClickedRaised();
                     return true;
                 }

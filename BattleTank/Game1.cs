@@ -165,6 +165,9 @@ namespace BattleTank
             tank2DebugRect = new Rectangle();
             sound = new Sound(this);
 
+            // Zainicjalizuj odłgos kliknięcia
+            Button.ClickSound = Content.Load<SoundEffect>("Sounds\\klik");
+
             menuSound = new Sound(this);
             soundEffectInstance = menuSound.deploySound(Sound.Sounds.MENU_SOUND).CreateInstance();
             soundOnOff = 0;
@@ -607,15 +610,13 @@ namespace BattleTank
                 {
                     BattleTankTexture = this.Content.Load<Texture2D>("Graphics//battleTank");
                 }
-
-                if (ButtonZagraj.IsClicked(ref state))
-                {
-                    
-                    sound.PlaySound(Sound.Sounds.KLIK);
-                    gameState = CHOICE_OF_GAME_TYPE;
-                    LeftButtonStatus = true;
-                        
-                }
+                if (!LeftButtonStatus)
+                { 
+                    if (ButtonZagraj.IsClicked(ref state))
+                    {
+                        gameState = CHOICE_OF_GAME_TYPE;
+                        LeftButtonStatus = true;
+                    }
 
 
 
@@ -664,7 +665,7 @@ namespace BattleTank
                         ButtonKoniec = this.Content.Load<Texture2D>("Graphics//koniec");
                     }
 
-
+                }
             }
 
             else if (gameState == SETTINGS)

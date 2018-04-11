@@ -16,7 +16,7 @@ namespace BattleTank.GUI
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
         Rectangle DestinationRectangle { get; set; }
-        bool IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         EventHandler Clicked;
 

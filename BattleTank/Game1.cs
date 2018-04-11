@@ -57,7 +57,7 @@ namespace BattleTank
         Button ButtonZagraj;
         Button ButtonSettings;
         Texture2D SettingsTrybSterowania;
-        Texture2D ButtonSettingsTrybSterowaniaKlawMysz;
+        Button ButtonSettingsTrybSterowaniaKlawMysz;
         Texture2D ButtonSettingsTrybSterowaniaPad;
         Texture2D ButtonSettingsTrybSterowaniaKlawMysz2;
         Texture2D ButtonSettingsTrybSterowaniaPad2;
@@ -205,7 +205,12 @@ namespace BattleTank
                 new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50));
 
             SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania");
-            ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
+
+            ButtonSettingsTrybSterowaniaKlawMysz = new Button(
+                Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz"),
+                Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1"),
+                new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50));
+
             ButtonSettingsTrybSterowaniaPad = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
             ButtonSettingsTrybSterowaniaKlawMysz2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
             ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
@@ -709,22 +714,13 @@ namespace BattleTank
                 #endregion
 
                 #region Set Keyboard control for players
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50)))
+                if (ButtonSettingsTrybSterowaniaKlawMysz.IsClicked(ref state))
                 {
-                    ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
-                    if (state.LeftButton == ButtonState.Pressed)
-                    {
-                        sound.PlaySound(Sound.Sounds.KLIK);
-                        PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
-                    }
+                    PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
                 }
                 else if (PlayerOneController.Equals(KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout))
                 {
-                    ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
-                }
-                else
-                {
-                    ButtonSettingsTrybSterowaniaKlawMysz = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
+                    ButtonSettingsTrybSterowaniaKlawMysz.IsActive = true;
                 }
 
                 if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50)))
@@ -1843,7 +1839,7 @@ namespace BattleTank
                     spriteBatch.Draw(SettingsTrybSterowania, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 195, 300, 70), Color.White);
                     spriteBatch.Draw(SukcesPorazka1Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 130, 300, 60), Color.White);
 
-                    spriteBatch.Draw(ButtonSettingsTrybSterowaniaKlawMysz, new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50), Color.White);
+                    ButtonSettingsTrybSterowaniaKlawMysz.Draw(ref spriteBatch);
                     spriteBatch.Draw(ButtonSettingsTrybSterowaniaPad, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50), Color.White);
 
                     spriteBatch.Draw(SukcesPorazka2Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 3, 300, 60), Color.White);

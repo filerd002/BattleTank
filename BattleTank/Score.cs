@@ -49,7 +49,7 @@ namespace BattleTank
         }
         public int getScore(int playerIndex)
         {
-            return score[playerIndex][0];
+            return score[playerIndex][3]*1000 + score[playerIndex][2] * 100 + score[playerIndex][1] * 10 + score[playerIndex][0];
         }
         public void addScore(int playerIndex, int pointsToAdd)
         {

@@ -59,8 +59,8 @@ namespace BattleTank
         Texture2D SettingsTrybSterowania;
         Button ButtonSettingsTrybSterowaniaKlawMysz;
         Button ButtonSettingsTrybSterowaniaPad;
-        Texture2D ButtonSettingsTrybSterowaniaKlawMysz2;
-        Texture2D ButtonSettingsTrybSterowaniaPad2;
+        Button ButtonSettingsTrybSterowaniaKlawMysz2;
+        Button ButtonSettingsTrybSterowaniaPad2;
         Texture2D wyborPoziomTrud;
         Texture2D Poziom1Trud;
         Texture2D Poziom2Trud;
@@ -212,12 +212,21 @@ namespace BattleTank
                 Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1"),
                 new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50));
 
-            ButtonSettingsTrybSterowaniaPad = new Button(Content.Load<Texture2D>("Graphics//trybSterowaniaPad"),
+            ButtonSettingsTrybSterowaniaPad = new Button(
+                Content.Load<Texture2D>("Graphics//trybSterowaniaPad"),
                 Content.Load<Texture2D>("Graphics//trybSterowaniaPad1"),
                 new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50));
 
-            ButtonSettingsTrybSterowaniaKlawMysz2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
-            ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
+            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button(
+                Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz"),
+                Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1"),
+                new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50));
+
+            ButtonSettingsTrybSterowaniaPad2 = new Button(
+                Content.Load<Texture2D>("Graphics//trybSterowaniaPad"),
+                Content.Load<Texture2D>("Graphics//trybSterowaniaPad1"),
+                new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 67, 250, 50));
+
             wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics//wyborPoziomTrud");
             Poziom1Trud = this.Content.Load<Texture2D>("Graphics//Poziom1Trud");
             Poziom2Trud = this.Content.Load<Texture2D>("Graphics//Poziom2Trud");
@@ -727,22 +736,13 @@ namespace BattleTank
                     ButtonSettingsTrybSterowaniaKlawMysz.IsActive = true;
                 }
 
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50)))
+                if (ButtonSettingsTrybSterowaniaKlawMysz2.IsClicked(ref state))
                 {
-                    ButtonSettingsTrybSterowaniaKlawMysz2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
-                    if (state.LeftButton == ButtonState.Pressed)
-                    {
-                        sound.PlaySound(Sound.Sounds.KLIK);
                         PlayerTwoController = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
-                    }
                 }
                 else if (PlayerTwoController.Equals(KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout))
                 {
-                    ButtonSettingsTrybSterowaniaKlawMysz2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1");
-                }
-                else
-                {
-                    ButtonSettingsTrybSterowaniaKlawMysz2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz");
+                    ButtonSettingsTrybSterowaniaKlawMysz2.IsActive = true;
                 }
                 #endregion
 
@@ -759,13 +759,8 @@ namespace BattleTank
                         ButtonSettingsTrybSterowaniaPad.IsActive = true;
                     }
                 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 67, 250, 50)))
+                    if (ButtonSettingsTrybSterowaniaPad2.IsClicked(ref state))
                     {
-                        ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
-
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            sound.PlaySound(Sound.Sounds.KLIK);
                             if (AvailableGamepads.Count > 1)
                                 PlayerTwoController = AvailableGamepads[1];
                             else if (AvailableGamepads.Count == 1)
@@ -773,21 +768,16 @@ namespace BattleTank
                                 PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
                                 PlayerTwoController = AvailableGamepads[0];
                             }
-                        }
                     }
                     else if (!PlayerTwoController.Equals(KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout))
                     {
-                        ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad1");
-                    }
-                    else
-                    {
-                        ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad");
+                        ButtonSettingsTrybSterowaniaPad2.IsActive = true;
                     }
                 }
                 else
                 {
                     ButtonSettingsTrybSterowaniaPad.IsEnabled = false;
-                    ButtonSettingsTrybSterowaniaPad2 = this.Content.Load<Texture2D>("Graphics//trybSterowaniaPad-unavailble");
+                    ButtonSettingsTrybSterowaniaPad2.IsEnabled = false;
                 }
 
 
@@ -1838,13 +1828,10 @@ namespace BattleTank
 
                     spriteBatch.Draw(SukcesPorazka2Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 3, 300, 60), Color.White);
 
-                    spriteBatch.Draw(ButtonSettingsTrybSterowaniaKlawMysz2, new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50), Color.White);
-                    spriteBatch.Draw(ButtonSettingsTrybSterowaniaPad2, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 67, 250, 50), Color.White);
-
-
+                    ButtonSettingsTrybSterowaniaKlawMysz2.Draw(ref spriteBatch);
+                    ButtonSettingsTrybSterowaniaPad2.Draw(ref spriteBatch);
 
                     spriteBatch.Draw(ButtonPowrot, new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 130, 250, 50), Color.White);
-
                 }
 
 

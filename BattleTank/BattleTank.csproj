@@ -265,6 +265,7 @@
     <Content Include="Content\Graphics\zagraj1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\Shaders\GreyscaleEffect.fx" />
     <Content Include="Content\Sounds\explosion.wav" />
     <Content Include="Content\Sounds\hit.wav" />
     <Content Include="Content\Sounds\klik.wav" />
@@ -280,11 +281,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Content\ArialBig.spritefont" />
-    <None Include="Content\Content.mgcb">
+    <MonoGameContentReference Include="Content\Content.mgcb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </MonoGameContentReference>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

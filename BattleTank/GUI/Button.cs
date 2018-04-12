@@ -15,8 +15,10 @@ namespace BattleTank.GUI
         public static SoundEffect ClickSound { get; set; }
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
+        public static Effect Effect;
         Rectangle DestinationRectangle { get; set; }
         public bool IsActive { get; set; }
+        public bool IsEnabled { get; set; } = true;
 
         EventHandler Clicked;
 
@@ -32,8 +34,20 @@ namespace BattleTank.GUI
 
         public void Draw(ref SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(IsActive ?
-                ActiveTexture : NonActiveTexture, DestinationRectangle, Color.White);
+            if (IsEnabled)
+            {
+                spriteBatch.Draw(IsActive ?
+                    ActiveTexture : NonActiveTexture, DestinationRectangle, Color.White);
+            }
+            else
+            {
+                spriteBatch.End();
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+                Effect.CurrentTechnique.Passes[0].Apply();
+                spriteBatch.Draw(NonActiveTexture, DestinationRectangle, Color.White);
+                spriteBatch.End();
+                spriteBatch.Begin();
+            }
         }
 
         public bool IsMouseOver(ref MouseState mouseState)

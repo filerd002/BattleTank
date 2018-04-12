@@ -62,10 +62,10 @@ namespace BattleTank
         Button ButtonSettingsTrybSterowaniaKlawMysz2;
         Button ButtonSettingsTrybSterowaniaPad2;
         Texture2D wyborPoziomTrud;
-        Texture2D Poziom1Trud;
-        Texture2D Poziom2Trud;
-        Texture2D Poziom3Trud;
-        Texture2D Poziom4Trud;
+        Button Poziom1Trud;
+        Button Poziom2Trud;
+        Button Poziom3Trud;
+        Button Poziom4Trud;
         Texture2D wyborCpuKlasyk;
         Texture2D wyborCpuKlasykIlosc0;
         Texture2D wyborCpuKlasykIlosc1;
@@ -194,6 +194,13 @@ namespace BattleTank
             ButtonPowrot = this.Content.Load<Texture2D>("Graphics//powrot");
             ButtonNowaGra = this.Content.Load<Texture2D>("Graphics//nowagra");
             ButtonKoniec = this.Content.Load<Texture2D>("Graphics//koniec");
+            wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics//wyborPoziomTrud");
+            wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics//wyborCpuKlasyk");
+            wyborCpuKlamikaze = this.Content.Load<Texture2D>("Graphics//wyborCpuKlamikaze");
+            wyborCzasGry = this.Content.Load<Texture2D>("Graphics//wyborCzasGry");
+            SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka1Gracza");
+            SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka2Gracza");
+            SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania");
 
             ButtonZagraj = new Button(
                 Content.Load<Texture2D>("Graphics//zagraj"),
@@ -205,7 +212,6 @@ namespace BattleTank
                 Content.Load<Texture2D>("Graphics//settings1"),
                 new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50));
 
-            SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics//trybSterowania");
 
             ButtonSettingsTrybSterowaniaKlawMysz = new Button(
                 Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz"),
@@ -227,27 +233,38 @@ namespace BattleTank
                 Content.Load<Texture2D>("Graphics//trybSterowaniaPad1"),
                 new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 67, 250, 50));
 
-            wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics//wyborPoziomTrud");
-            Poziom1Trud = this.Content.Load<Texture2D>("Graphics//Poziom1Trud");
-            Poziom2Trud = this.Content.Load<Texture2D>("Graphics//Poziom2Trud");
-            Poziom3Trud = this.Content.Load<Texture2D>("Graphics//Poziom3Trud");
-            Poziom4Trud = this.Content.Load<Texture2D>("Graphics//Poziom4Trud");
-            wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics//wyborCpuKlasyk");
+            Poziom1Trud = new Button(
+                Content.Load<Texture2D>("Graphics//Poziom1Trud"),
+                Content.Load<Texture2D>("Graphics//Poziom1Trud1"),
+                new Rectangle((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155, 250, 50));
+
+            Poziom2Trud = new Button(
+                Content.Load<Texture2D>("Graphics//Poziom2Trud"),
+                Content.Load<Texture2D>("Graphics//Poziom2Trud1"),
+                new Rectangle((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155, 250, 50));
+
+            Poziom3Trud = new Button(
+                Content.Load<Texture2D>("Graphics//Poziom3Trud"),
+                Content.Load<Texture2D>("Graphics//Poziom3Trud1"),
+                new Rectangle((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155, 250, 50));
+
+            Poziom4Trud = new Button(
+                Content.Load<Texture2D>("Graphics//Poziom4Trud"),
+                Content.Load<Texture2D>("Graphics//Poziom4Trud1"),
+                new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50));
+
             wyborCpuKlasykIlosc0 = this.Content.Load<Texture2D>("Graphics//0");
             wyborCpuKlasykIlosc1 = this.Content.Load<Texture2D>("Graphics//1");
             wyborCpuKlasykIlosc2 = this.Content.Load<Texture2D>("Graphics//2");
             wyborCpuKlasykIlosc3 = this.Content.Load<Texture2D>("Graphics//3");
-            wyborCpuKlamikaze = this.Content.Load<Texture2D>("Graphics//wyborCpuKlamikaze");
             wyborCpuKlamikazeIlosc0 = this.Content.Load<Texture2D>("Graphics//0");
             wyborCpuKlamikazeIlosc1 = this.Content.Load<Texture2D>("Graphics//1");
             wyborCpuKlamikazeIlosc2 = this.Content.Load<Texture2D>("Graphics//2");
             wyborCpuKlamikazeIlosc3 = this.Content.Load<Texture2D>("Graphics//3");
-            wyborCzasGry = this.Content.Load<Texture2D>("Graphics//wyborCzasGry");
             Czas1Gry = this.Content.Load<Texture2D>("Graphics//Czas1Gry");
             Czas2Gry = this.Content.Load<Texture2D>("Graphics//Czas2Gry");
             Czas3Gry = this.Content.Load<Texture2D>("Graphics//Czas3Gry");
-            SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka1Gracza");
-            SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics//SukcesPorazka2Gracza");
+            
             doBoju = this.Content.Load<Texture2D>("Graphics//doBoju");
 
 
@@ -1113,63 +1130,28 @@ namespace BattleTank
                     }
 
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 1)
+                    if (Poziom1Trud.IsClicked(ref state) || poziomTrudnosci == 1)
                     {
-
-                        Poziom1Trud = this.Content.Load<Texture2D>("Graphics//Poziom1Trud1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            poziomTrudnosci = 1;
-                        }
-
-                    }
-                    else
-                    {
-                        Poziom1Trud = this.Content.Load<Texture2D>("Graphics//Poziom1Trud");
+                        poziomTrudnosci = 1;
+                        Poziom1Trud.IsActive = true;
                     }
 
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 2)
+                    if (Poziom2Trud.IsClicked(ref state) || poziomTrudnosci == 2)
                     {
-
-                        Poziom2Trud = this.Content.Load<Texture2D>("Graphics//Poziom2Trud1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            poziomTrudnosci = 2;
-                        }
-                    }
-                    else
-                    {
-                        Poziom2Trud = this.Content.Load<Texture2D>("Graphics//Poziom2Trud");
+                        poziomTrudnosci = 2;
+                        Poziom2Trud.IsActive = true;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 3)
+                    if (Poziom3Trud.IsClicked(ref state) || poziomTrudnosci == 3)
                     {
-
-                        Poziom3Trud = this.Content.Load<Texture2D>("Graphics//Poziom3Trud1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            poziomTrudnosci = 3;
-                        }
-                    }
-                    else
-                    {
-                        Poziom3Trud = this.Content.Load<Texture2D>("Graphics//Poziom3Trud");
+                        poziomTrudnosci = 3;
+                        Poziom3Trud.IsActive = true;
                     }
 
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50)) || poziomTrudnosci == 4)
+                    if (Poziom4Trud.IsClicked(ref state) || poziomTrudnosci == 4)
                     {
-
-                        Poziom4Trud = this.Content.Load<Texture2D>("Graphics//Poziom4Trud1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            poziomTrudnosci = 4;
-                        }
-                    }
-                    else
-                    {
-                        Poziom4Trud = this.Content.Load<Texture2D>("Graphics//Poziom4Trud");
+                        poziomTrudnosci = 4;
+                        Poziom4Trud.IsActive = true;
                     }
 
 
@@ -1776,13 +1758,11 @@ namespace BattleTank
 
                 if (gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU)
                 {
-
-
                     spriteBatch.Draw(wyborPoziomTrud, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 220, 300, 60), Color.White);
-                    spriteBatch.Draw(Poziom1Trud, new Rectangle((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155, 250, 50), Color.White);
-                    spriteBatch.Draw(Poziom2Trud, new Rectangle((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155, 250, 50), Color.White);
-                    spriteBatch.Draw(Poziom3Trud, new Rectangle((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155, 250, 50), Color.White);
-                    spriteBatch.Draw(Poziom4Trud, new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50), Color.White);
+                    Poziom1Trud.Draw(ref spriteBatch);
+                    Poziom2Trud.Draw(ref spriteBatch);
+                    Poziom3Trud.Draw(ref spriteBatch);
+                    Poziom4Trud.Draw(ref spriteBatch);
 
                     spriteBatch.Draw(wyborCpuKlasyk, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 100, 300, 60), Color.White);
 
@@ -1798,11 +1778,7 @@ namespace BattleTank
                     spriteBatch.Draw(wyborCpuKlamikazeIlosc2, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90, 60, 50), Color.White);
                     spriteBatch.Draw(wyborCpuKlamikazeIlosc3, new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90, 60, 50), Color.White);
 
-
-
                     spriteBatch.Draw(doBoju, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, 300, 60), Color.White);
-
-
                 }
 
                 if (gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)

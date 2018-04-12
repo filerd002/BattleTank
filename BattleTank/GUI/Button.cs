@@ -52,6 +52,8 @@ namespace BattleTank.GUI
 
         public bool IsMouseOver(ref MouseState mouseState)
         {
+            if (!IsEnabled) return false;
+
             var mousePosition = new Rectangle((int)mouseState.X, (int)mouseState.Y, 1, 1);
 
             if (mousePosition.Intersects(DestinationRectangle))

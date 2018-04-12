@@ -16,7 +16,7 @@ namespace BattleTank.GUI
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
         public static Effect Effect;
-        Rectangle DestinationRectangle { get; set; }
+        public Rectangle Position { get; set; }
         public bool IsActive { get; set; }
         public bool IsEnabled { get; set; } = true;
 
@@ -25,11 +25,11 @@ namespace BattleTank.GUI
         void OnClickedRaised()
             => Clicked?.Invoke(this, EventArgs.Empty);
 
-        public Button (Texture2D nonActiveTexture, Texture2D activeTexture, Rectangle destinationRectangle)
+        public Button (Texture2D nonActiveTexture, Texture2D activeTexture, Rectangle position)
         {
             NonActiveTexture = nonActiveTexture;
             ActiveTexture = activeTexture;
-            DestinationRectangle = destinationRectangle;
+            Position = position;
         }
 
         public void Draw(ref SpriteBatch spriteBatch)
@@ -37,14 +37,14 @@ namespace BattleTank.GUI
             if (IsEnabled)
             {
                 spriteBatch.Draw(IsActive ?
-                    ActiveTexture : NonActiveTexture, DestinationRectangle, Color.White);
+                    ActiveTexture : NonActiveTexture, Position, Color.White);
             }
             else
             {
                 spriteBatch.End();
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
                 Effect.CurrentTechnique.Passes[0].Apply();
-                spriteBatch.Draw(NonActiveTexture, DestinationRectangle, Color.White);
+                spriteBatch.Draw(NonActiveTexture, Position, Color.White);
                 spriteBatch.End();
                 spriteBatch.Begin();
             }
@@ -56,7 +56,7 @@ namespace BattleTank.GUI
 
             var mousePosition = new Rectangle((int)mouseState.X, (int)mouseState.Y, 1, 1);
 
-            if (mousePosition.Intersects(DestinationRectangle))
+            if (mousePosition.Intersects(Position))
                 IsActive = true;
             else
                 IsActive = false;

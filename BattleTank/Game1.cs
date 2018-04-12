@@ -67,22 +67,22 @@ namespace BattleTank
         Button Poziom3Trud;
         Button Poziom4Trud;
         Texture2D wyborCpuKlasyk;
-        Texture2D wyborCpuKlasykIlosc0;
-        Texture2D wyborCpuKlasykIlosc1;
-        Texture2D wyborCpuKlasykIlosc2;
-        Texture2D wyborCpuKlasykIlosc3;
+        Button wyborCpuKlasykIlosc0;
+        Button wyborCpuKlasykIlosc1;
+        Button wyborCpuKlasykIlosc2;
+        Button wyborCpuKlasykIlosc3;
         Texture2D wyborCpuKlamikaze;
-        Texture2D wyborCpuKlamikazeIlosc0;
-        Texture2D wyborCpuKlamikazeIlosc1;
-        Texture2D wyborCpuKlamikazeIlosc2;
-        Texture2D wyborCpuKlamikazeIlosc3;
-        Texture2D Czas1Gry;
-        Texture2D Czas2Gry;
-        Texture2D Czas3Gry;
+        Button wyborCpuKlamikazeIlosc0;
+        Button wyborCpuKlamikazeIlosc1;
+        Button wyborCpuKlamikazeIlosc2;
+        Button wyborCpuKlamikazeIlosc3;
+        Button Czas1Gry;
+        Button Czas2Gry;
+        Button Czas3Gry;
         Texture2D wyborCzasGry;
         Texture2D SukcesPorazka1Gracza;
         Texture2D SukcesPorazka2Gracza;
-        Texture2D doBoju;
+        Button doBoju;
 
         Vector2 positionMouse;
 
@@ -212,12 +212,10 @@ namespace BattleTank
                 Content.Load<Texture2D>("Graphics//settings1"),
                 new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50));
 
-
             ButtonSettingsTrybSterowaniaKlawMysz = new Button(
                 Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz"),
                 Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1"),
                 new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50));
-
             ButtonSettingsTrybSterowaniaPad = new Button(
                 Content.Load<Texture2D>("Graphics//trybSterowaniaPad"),
                 Content.Load<Texture2D>("Graphics//trybSterowaniaPad1"),
@@ -227,7 +225,6 @@ namespace BattleTank
                 Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz"),
                 Content.Load<Texture2D>("Graphics//trybSterowaniaKlawMysz1"),
                 new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50));
-
             ButtonSettingsTrybSterowaniaPad2 = new Button(
                 Content.Load<Texture2D>("Graphics//trybSterowaniaPad"),
                 Content.Load<Texture2D>("Graphics//trybSterowaniaPad1"),
@@ -237,39 +234,70 @@ namespace BattleTank
                 Content.Load<Texture2D>("Graphics//Poziom1Trud"),
                 Content.Load<Texture2D>("Graphics//Poziom1Trud1"),
                 new Rectangle((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155, 250, 50));
-
             Poziom2Trud = new Button(
                 Content.Load<Texture2D>("Graphics//Poziom2Trud"),
                 Content.Load<Texture2D>("Graphics//Poziom2Trud1"),
                 new Rectangle((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155, 250, 50));
-
             Poziom3Trud = new Button(
                 Content.Load<Texture2D>("Graphics//Poziom3Trud"),
                 Content.Load<Texture2D>("Graphics//Poziom3Trud1"),
                 new Rectangle((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155, 250, 50));
-
             Poziom4Trud = new Button(
                 Content.Load<Texture2D>("Graphics//Poziom4Trud"),
                 Content.Load<Texture2D>("Graphics//Poziom4Trud1"),
                 new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50));
+            Poziom4Trud.IsEnabled = false;
 
-            wyborCpuKlasykIlosc0 = this.Content.Load<Texture2D>("Graphics//0");
-            wyborCpuKlasykIlosc1 = this.Content.Load<Texture2D>("Graphics//1");
-            wyborCpuKlasykIlosc2 = this.Content.Load<Texture2D>("Graphics//2");
-            wyborCpuKlasykIlosc3 = this.Content.Load<Texture2D>("Graphics//3");
-            wyborCpuKlamikazeIlosc0 = this.Content.Load<Texture2D>("Graphics//0");
-            wyborCpuKlamikazeIlosc1 = this.Content.Load<Texture2D>("Graphics//1");
-            wyborCpuKlamikazeIlosc2 = this.Content.Load<Texture2D>("Graphics//2");
-            wyborCpuKlamikazeIlosc3 = this.Content.Load<Texture2D>("Graphics//3");
-            Czas1Gry = this.Content.Load<Texture2D>("Graphics//Czas1Gry");
-            Czas2Gry = this.Content.Load<Texture2D>("Graphics//Czas2Gry");
-            Czas3Gry = this.Content.Load<Texture2D>("Graphics//Czas3Gry");
+            wyborCpuKlasykIlosc0 =  new Button(
+                Content.Load<Texture2D>("Graphics//0"), 
+                Content.Load<Texture2D>("Graphics//01"), 
+                new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30, 60, 50));
+            wyborCpuKlasykIlosc1 =  new Button(
+                Content.Load<Texture2D>("Graphics//1"), 
+                Content.Load<Texture2D>("Graphics//11"), 
+                new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30, 60, 50));
+            wyborCpuKlasykIlosc2 =  new Button(
+                Content.Load<Texture2D>("Graphics//2"), 
+                Content.Load<Texture2D>("Graphics//21"), 
+                new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30, 60, 50));
+            wyborCpuKlasykIlosc3 =  new Button(
+                Content.Load<Texture2D>("Graphics//3"), 
+                Content.Load<Texture2D>("Graphics//31"), 
+                new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30, 60, 50));
+
+            wyborCpuKlamikazeIlosc0 = new Button(
+                Content.Load<Texture2D>("Graphics//0"), 
+                Content.Load<Texture2D>("Graphics//01"), 
+                new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90, 60, 50));
+            wyborCpuKlamikazeIlosc1 = new Button(
+                Content.Load<Texture2D>("Graphics//1"), 
+                Content.Load<Texture2D>("Graphics//11"), 
+                new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90, 60, 50));
+            wyborCpuKlamikazeIlosc2 = new Button(
+                Content.Load<Texture2D>("Graphics//2"), 
+                Content.Load<Texture2D>("Graphics//21"), 
+                new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90, 60, 50));
+            wyborCpuKlamikazeIlosc3 = new Button(
+                Content.Load<Texture2D>("Graphics//3"), 
+                Content.Load<Texture2D>("Graphics//31"), 
+                new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90, 60, 50));
+
+            Czas1Gry = new Button(
+                Content.Load<Texture2D>("Graphics//Czas1Gry"), 
+                Content.Load<Texture2D>("Graphics//Czas1Gry1"),
+                new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90, 250, 50));
+            Czas2Gry = new Button(
+                Content.Load<Texture2D>("Graphics//Czas2Gry"),
+                Content.Load<Texture2D>("Graphics//Czas2Gry1"),
+                new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35, 250, 50));
+            Czas3Gry = new Button(
+                Content.Load<Texture2D>("Graphics//Czas3Gry"),
+                Content.Load<Texture2D>("Graphics//Czas3Gry1"),
+                new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20, 250, 50));
             
-            doBoju = this.Content.Load<Texture2D>("Graphics//doBoju");
-
-
-            // TODO: use this.Content to load your game content here
-
+            doBoju = new Button(Content.Load<Texture2D>("Graphics//doBoju"),
+                Content.Load<Texture2D>("Graphics//doBoju1"),
+                new Rectangle());
         }
 
         /// <summary>
@@ -1004,75 +1032,40 @@ namespace BattleTank
                         wyborCzasGry = this.Content.Load<Texture2D>("Graphics//wyborCzasGry");
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90, 250, 50)) || czasWyscigu == 120)
+                    if (Czas1Gry.IsClicked(ref state) || czasWyscigu == 120)
                     {
-
-                        Czas1Gry = this.Content.Load<Texture2D>("Graphics//Czas1Gry1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            czasWyscigu = 120;
-                        }
-                    }
-                    else
-                    {
-                        Czas1Gry = this.Content.Load<Texture2D>("Graphics//Czas1Gry");
+                        Czas1Gry.IsActive = true;
+                        czasWyscigu = 120;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35, 250, 50)) || czasWyscigu == 300)
+                    if (Czas2Gry.IsClicked(ref state) || czasWyscigu == 300)
                     {
-
-                        Czas2Gry = this.Content.Load<Texture2D>("Graphics//Czas2Gry1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            czasWyscigu = 300;
-                        }
-                    }
-                    else
-                    {
-                        Czas2Gry = this.Content.Load<Texture2D>("Graphics//Czas2Gry");
+                        Czas2Gry.IsActive = true;
+                        czasWyscigu = 300;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20, 250, 50)) || czasWyscigu == 600)
+                    if (Czas3Gry.IsClicked(ref state) || czasWyscigu == 600)
                     {
-
-                        Czas3Gry = this.Content.Load<Texture2D>("Graphics//Czas3Gry1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            czasWyscigu = 600;
-                        }
-                    }
-                    else
-                    {
-                        Czas3Gry = this.Content.Load<Texture2D>("Graphics//Czas3Gry");
+                        Czas3Gry.IsActive = true;
+                        czasWyscigu = 600;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80, 300, 60)))
+                    doBoju.Position = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80, 300, 60);
+                    if (doBoju.IsClicked(ref state))
                     {
-
-                        doBoju = this.Content.Load<Texture2D>("Graphics//doBoju1");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            LeftButtonStatus = true;
-                            tank1.lives = 1;
-                            tank2.lives = 1;
-                            tank1.mines = 10;
-                            tank2.mines = 10;
-                            map.WallBorder = randy.Next(5);
-                            WallInside = true;
-                            map.Reset();
-                            iloscCPUKlasyk = 0;
-                            iloscCPUKamikaze = 0;
-                            sound.PlaySound(Sound.Sounds.KLIK);
-                            soundOnOff = 1;
-                            gameState = gameRunningWyscig;
-
-
-                        }
-
-                    }
-                    else
-                    {
-                        doBoju = this.Content.Load<Texture2D>("Graphics//doBoju");
+                        LeftButtonStatus = true;
+                        tank1.lives = 1;
+                        tank2.lives = 1;
+                        tank1.mines = 10;
+                        tank2.mines = 10;
+                        map.WallBorder = randy.Next(5);
+                        WallInside = true;
+                        map.Reset();
+                        iloscCPUKlasyk = 0;
+                        iloscCPUKamikaze = 0;
+                        sound.PlaySound(Sound.Sounds.KLIK);
+                        soundOnOff = 1;
+                        gameState = gameRunningWyscig;
                     }
 
 
@@ -1118,7 +1111,8 @@ namespace BattleTank
                 {
 
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 220, 300, 60)))
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160,
+                        (map.screenHeight / 2) - 220, 300, 60)))
                     {
 
                         wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics//wyborPoziomTrud1");
@@ -1154,9 +1148,8 @@ namespace BattleTank
                         Poziom4Trud.IsActive = true;
                     }
 
-
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 100, 300, 60)))
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160,
+                        (map.screenHeight / 2) - 100, 300, 60)))
                     {
 
                         wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics//wyborCpuKlasyk1");
@@ -1167,322 +1160,385 @@ namespace BattleTank
                         wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics//wyborCpuKlasyk");
                     }
 
-
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30, 60, 50)) || iloscCPUKlasyk == 0)
+                    if (wyborCpuKlasykIlosc0.IsClicked(ref state) || iloscCPUKlasyk == 0)
                     {
-
-                        wyborCpuKlasykIlosc0 = this.Content.Load<Texture2D>("Graphics//01");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            iloscCPUKlasyk = 0;
-                        }
-                    }
-                    else
-                    {
-                        wyborCpuKlasykIlosc0 = this.Content.Load<Texture2D>("Graphics//0");
+                        wyborCpuKlasykIlosc0.IsActive = true;
+                        iloscCPUKlasyk = 0;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30, 60, 50)) || iloscCPUKlasyk == 1)
+                    if (wyborCpuKlasykIlosc1.IsClicked(ref state) || iloscCPUKlasyk == 1)
                     {
-
-                        wyborCpuKlasykIlosc1 = this.Content.Load<Texture2D>("Graphics//11");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            iloscCPUKlasyk = 1;
-                        }
-                    }
-                    else
-                    {
-                        wyborCpuKlasykIlosc1 = this.Content.Load<Texture2D>("Graphics//1");
+                        wyborCpuKlasykIlosc1.IsActive = true;
+                        iloscCPUKlasyk = 1;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30, 60, 50)) || iloscCPUKlasyk == 2)
+                    if (wyborCpuKlasykIlosc2.IsClicked(ref state) || iloscCPUKlasyk == 2)
                     {
-
-                        wyborCpuKlasykIlosc2 = this.Content.Load<Texture2D>("Graphics//21");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            iloscCPUKlasyk = 2;
-                        }
-                    }
-                    else
-                    {
-                        wyborCpuKlasykIlosc2 = this.Content.Load<Texture2D>("Graphics//2");
+                        wyborCpuKlasykIlosc2.IsActive = true;
+                        iloscCPUKlasyk = 2;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30, 60, 50)) || iloscCPUKlasyk == 3)
+                    if (wyborCpuKlasykIlosc3.IsClicked(ref state) || iloscCPUKlasyk == 3)
                     {
-
-                        wyborCpuKlasykIlosc3 = this.Content.Load<Texture2D>("Graphics//31");
-                        if (state.LeftButton == ButtonState.Pressed)
-                        {
-                            iloscCPUKlasyk = 3;
-                        }
-                    }
-                    else
-                    {
-                        wyborCpuKlasykIlosc3 = this.Content.Load<Texture2D>("Graphics//3");
+                        wyborCpuKlasykIlosc3.IsActive = true;
+                        iloscCPUKlasyk = 3;
                     }
 
                     //
                     //
                     //
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 20, 300, 60)))
+                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160,
+                        (map.screenHeight / 2) + 20, 300, 60)))
                     {
-
                         wyborCpuKlamikaze = this.Content.Load<Texture2D>("Graphics//wyborCpuKlamikaze1");
-
                     }
                     else
                     {
                         wyborCpuKlamikaze = this.Content.Load<Texture2D>("Graphics//wyborCpuKlamikaze");
                     }
 
-
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90, 60, 50)) || iloscCPUKamikaze == 0)
+                    if (wyborCpuKlamikazeIlosc0.IsClicked(ref state) || iloscCPUKamikaze == 0)
                     {
+                        wyborCpuKlamikazeIlosc0.IsActive = true;
+                        iloscCPUKamikaze = 0;
+                    }
 
-                        wyborCpuKlamikazeIlosc0 = this.Content.Load<Texture2D>("Graphics//01");
-                        if (state.LeftButton == ButtonState.Pressed)
+                    if (wyborCpuKlamikazeIlosc1.IsClicked(ref state) || iloscCPUKamikaze == 1)
+                    {
+                        wyborCpuKlamikazeIlosc1.IsActive = true;
+                        iloscCPUKamikaze = 1;
+                    }
+
+                    if (wyborCpuKlamikazeIlosc2.IsClicked(ref state) || iloscCPUKamikaze == 2)
+                    {
+                        wyborCpuKlamikazeIlosc2.IsActive = true;
+                        iloscCPUKamikaze = 2;
+                    }
+
+                    if (wyborCpuKlamikazeIlosc3.IsClicked(ref state) || iloscCPUKamikaze == 3)
+                    {
+                        wyborCpuKlamikazeIlosc3.IsActive = true;
+                        iloscCPUKamikaze = 3;
+                    }
+
+                    doBoju.Position = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, 300, 60);
+                    if (doBoju.IsClicked(ref state))
+                    {
+                        LeftButtonStatus = true;
+                        menuTexture = Content.Load<Texture2D>("Graphics//Ramka");
+                        Vector2 speedCPU;
+
+                        if (poziomTrudnosci == 3)
+                            speedCPU = new Vector2(4, 4);
+                        else
+                            speedCPU = new Vector2(3, 3);
+
+                        if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 0)
                         {
-                            iloscCPUKamikaze = 0;
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
                         }
-                    }
-                    else
-                    {
-                        wyborCpuKlamikazeIlosc0 = this.Content.Load<Texture2D>("Graphics//0");
-                    }
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90, 60, 50)) || iloscCPUKamikaze == 1)
-                    {
-
-                        wyborCpuKlamikazeIlosc1 = this.Content.Load<Texture2D>("Graphics//11");
-                        if (state.LeftButton == ButtonState.Pressed)
+                        else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 1)
                         {
-                            iloscCPUKamikaze = 1;
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
                         }
-                    }
-                    else
-                    {
-                        wyborCpuKlamikazeIlosc1 = this.Content.Load<Texture2D>("Graphics//1");
-                    }
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90, 60, 50)) || iloscCPUKamikaze == 2)
-                    {
-
-                        wyborCpuKlamikazeIlosc2 = this.Content.Load<Texture2D>("Graphics//21");
-                        if (state.LeftButton == ButtonState.Pressed)
+                        else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 2)
                         {
-                            iloscCPUKamikaze = 2;
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
                         }
-                    }
-                    else
-                    {
-                        wyborCpuKlamikazeIlosc2 = this.Content.Load<Texture2D>("Graphics//2");
-                    }
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90, 60, 50)) || iloscCPUKamikaze == 3)
-                    {
-
-                        wyborCpuKlamikazeIlosc3 = this.Content.Load<Texture2D>("Graphics//31");
-                        if (state.LeftButton == ButtonState.Pressed)
+                        else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 3)
                         {
-                            iloscCPUKamikaze = 3;
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
+                                whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
                         }
-                    }
-                    else
-                    {
-                        wyborCpuKlamikazeIlosc3 = this.Content.Load<Texture2D>("Graphics//3");
-                    }
 
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, 300, 60)))
-                    {
-
-                        doBoju = this.Content.Load<Texture2D>("Graphics//doBoju1");
-
-                        if (state.LeftButton == ButtonState.Pressed && ((iloscCPUKamikaze + iloscCPUKlasyk) > 0))
+                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 0)
                         {
-                            LeftButtonStatus = true;
-                            menuTexture = Content.Load<Texture2D>("Graphics//Ramka");
-                            Vector2 speedCPU;
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                        }
+                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 1)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                        }
+                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 2)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1,
+                                false, false, 0, poziomTrudnosci, true));
+                        }
+                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 3)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1,
+                                false, false, 0, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 7, 1f,
+                                whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci,
+                                true));
+                        }
 
-                            if (poziomTrudnosci == 3)
-                                speedCPU = new Vector2(4, 4);
-                            else
-                                speedCPU = new Vector2(3, 3);
+                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 0)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                        }
+                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 1)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                        }
+                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 2)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver4, poziomTrudnosci, true));
+                        }
+                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 3)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi - MathHelper.PiOver4, poziomTrudnosci,
+                                false));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1,
+                                false, false, 0, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 8, 1f,
+                                whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci,
+                                true));
+                        }
+                        else if (iloscCPUKamikaze == 3 && iloscCPUKlasyk == 0)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
+                        }
+                        else if (iloscCPUKamikaze == 2 && iloscCPUKlasyk == 0)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
+                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
+                        }
+                        else if (iloscCPUKamikaze == 1 && iloscCPUKlasyk == 0)
+                        {
+                            enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank",
+                                new Vector2(graphics.PreferredBackBufferWidth / 2,
+                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
+                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
+                        }
+
+
+                        if (poziomTrudnosci == 3)
+                        {
+                            tank1.mines = 1;
+                            tank1.lives = 1;
+
+                            if (gameReturn != gameRunningPlayer1)
+                            {
+                                tank2.mines = 1;
+                                tank2.lives = 1;
+                            }
+                        }
+                        else if (poziomTrudnosci == 2)
+                        {
+                            tank1.mines = 3;
+                            tank1.lives = 2;
+                            tank1.armor = 2;
+                            if (gameReturn != gameRunningPlayer1)
+                            {
+                                tank2.mines = 3;
+                                tank2.lives = 2;
+                                tank2.armor = 2;
+                            }
+                        }
+                        else
+                        {
+                            tank1.mines = 5;
+                            tank1.lives = 3;
+                            tank1.armor = 3;
+                            if (gameReturn != gameRunningPlayer1)
+                            {
+                                tank2.mines = 5;
+                                tank2.lives = 3;
+                                tank2.armor = 3;
+                            }
+                        }
 
 
 
 
-                            if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 0)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false,false, MathHelper.Pi, poziomTrudnosci, false));
-                            }
-                            else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 1)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 2)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 3)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
-                            }
 
-                            else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 0)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            }
-                            else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 1)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 2)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 3)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 7, 1f, whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci, true));
-                            }
+                        map.WallBorder = randy.Next(5);
+                        WallInside = true;
+                        map.Reset();
+                        sound.PlaySound(Sound.Sounds.KLIK);
+                        soundOnOff = 1;
 
-                            else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 0)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            }
-                            else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 1)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 2)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver4, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 3)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, MathHelper.Pi - MathHelper.PiOver4, poziomTrudnosci, false));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 8, 1f, whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKamikaze == 3 && iloscCPUKlasyk == 0)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKamikaze == 2 && iloscCPUKlasyk == 0)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//PinkTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//YellowTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                            }
-                            else if (iloscCPUKamikaze == 1 && iloscCPUKlasyk == 0)
-                            {
-                                enemyTanks.Add(new AI_Tank(this, "Graphics//BlueTank", new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f, whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
-                            }
-
-
-                            if (poziomTrudnosci == 3)
-                            {
-                                tank1.mines = 1;
-                                tank1.lives = 1;
-
-                                if (gameReturn != gameRunningPlayer1)
-                                {
-                                    tank2.mines = 1;
-                                    tank2.lives = 1;
-                                }
-                            }
-                            else if (poziomTrudnosci == 2)
-                            {
-                                tank1.mines = 3;
-                                tank1.lives = 2;
-                                tank1.armor = 2;
-                                if (gameReturn != gameRunningPlayer1)
-                                {
-                                    tank2.mines = 3;
-                                    tank2.lives = 2;
-                                    tank2.armor = 2;
-                                }
-                            }
-                            else
-                            {
-                                tank1.mines = 5;
-                                tank1.lives = 3;
-                                tank1.armor = 3;
-                                if (gameReturn != gameRunningPlayer1)
-                                {
-                                    tank2.mines = 5;
-                                    tank2.lives = 3;
-                                    tank2.armor = 3;
-                                }
-                            }
-
-
-
-
-
-                            map.WallBorder = randy.Next(5);
-                            WallInside = true;
-                            map.Reset();
-                            sound.PlaySound(Sound.Sounds.KLIK);
-                            soundOnOff = 1;
-
-                            if (gameReturn == gameRunningPlayer1)
-                            {
-                                gameState = gameRunningPlayer1;
-
-                            }
-
-
-                            if (gameReturn == gameRunningPlayers2andCPU)
-                            {
-                                gameState = gameRunningPlayers2andCPU;
-
-                            }
+                        if (gameReturn == gameRunningPlayer1)
+                        {
+                            gameState = gameRunningPlayer1;
 
                         }
-                    }
-                    else
-                    {
-                        doBoju = this.Content.Load<Texture2D>("Graphics//doBoju");
-                    }
 
+
+                        if (gameReturn == gameRunningPlayers2andCPU)
+                        {
+                            gameState = gameRunningPlayers2andCPU;
+
+                        }
+
+                    }
                 }
-
             }
 
             else
@@ -1765,33 +1821,27 @@ namespace BattleTank
                     Poziom4Trud.Draw(ref spriteBatch);
 
                     spriteBatch.Draw(wyborCpuKlasyk, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 100, 300, 60), Color.White);
-
-                    spriteBatch.Draw(wyborCpuKlasykIlosc0, new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30, 60, 50), Color.White);
-                    spriteBatch.Draw(wyborCpuKlasykIlosc1, new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30, 60, 50), Color.White);
-                    spriteBatch.Draw(wyborCpuKlasykIlosc2, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30, 60, 50), Color.White);
-                    spriteBatch.Draw(wyborCpuKlasykIlosc3, new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30, 60, 50), Color.White);
+                    wyborCpuKlasykIlosc0.Draw(ref spriteBatch);
+                    wyborCpuKlasykIlosc1.Draw(ref spriteBatch);
+                    wyborCpuKlasykIlosc2.Draw(ref spriteBatch);
+                    wyborCpuKlasykIlosc3.Draw(ref spriteBatch);
 
                     spriteBatch.Draw(wyborCpuKlamikaze, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 20, 300, 60), Color.White);
-
-                    spriteBatch.Draw(wyborCpuKlamikazeIlosc0, new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90, 60, 50), Color.White);
-                    spriteBatch.Draw(wyborCpuKlamikazeIlosc1, new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90, 60, 50), Color.White);
-                    spriteBatch.Draw(wyborCpuKlamikazeIlosc2, new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90, 60, 50), Color.White);
-                    spriteBatch.Draw(wyborCpuKlamikazeIlosc3, new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90, 60, 50), Color.White);
-
-                    spriteBatch.Draw(doBoju, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, 300, 60), Color.White);
+                    wyborCpuKlamikazeIlosc0.Draw(ref spriteBatch);
+                    wyborCpuKlamikazeIlosc1.Draw(ref spriteBatch);
+                    wyborCpuKlamikazeIlosc2.Draw(ref spriteBatch);
+                    wyborCpuKlamikazeIlosc3.Draw(ref spriteBatch);
+                    doBoju.Draw(ref spriteBatch);
                 }
 
                 if (gameState == CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
                 {
-
                     spriteBatch.Draw(wyborCzasGry, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 150, 300, 60), Color.White);
+                    Czas1Gry.Draw(ref spriteBatch);
+                    Czas2Gry.Draw(ref spriteBatch);
+                    Czas3Gry.Draw(ref spriteBatch);
 
-                    spriteBatch.Draw(Czas1Gry, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90, 250, 50), Color.White);
-                    spriteBatch.Draw(Czas2Gry, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35, 250, 50), Color.White);
-                    spriteBatch.Draw(Czas3Gry, new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20, 250, 50), Color.White);
-
-                    spriteBatch.Draw(doBoju, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80, 300, 60), Color.White);
-
+                    doBoju.Draw(ref spriteBatch);
                 }
 
                 if (gameState == SETTINGS)

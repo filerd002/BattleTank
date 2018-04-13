@@ -16,6 +16,10 @@ namespace BattleTank.Tanks
         private readonly List<Bullet> _enemyBullets = new List<Bullet>();
         private readonly bool _kamikazeMode = false;
 
+        private readonly TimeSpan MAX_AGGRESSIVE_TIME = new TimeSpan(0, 0,0, 5);
+        private TimeSpan _aggressiveTimeLeft = TimeSpan.Zero;
+        private bool _isAggressive => _aggressiveTimeLeft.TotalMilliseconds > 0;
+
         public AI_Tank(Game1 game, string tankSpriteName, Vector2 location, Vector2 maxSpeed,
             float rotation, int player, float scale, Texture2D whiteRectangle, int strong,
             bool barrier,bool frozen, float targetDirection, int aiLevel, bool kamikazeMode = false)
@@ -49,8 +53,8 @@ namespace BattleTank.Tanks
 
         public override void Update(GameTime gameTime)
         {
-     
 
+            _aggressiveTimeLeft -= gameTime.ElapsedGameTime;
             if (_timeLeftToNextShot <= TimeSpan.Zero)
             {
                 if (!frozen)
@@ -177,6 +181,13 @@ namespace BattleTank.Tanks
             }
         }
 
+        /// <inheritdoc />
+        public override void Hit()
+        {
+            _aggressiveTimeLeft = MAX_AGGRESSIVE_TIME;
+            base.Hit();
+        }
+
         private void ExperimentalAI()
         {
             Random random = new Random(DateTimeOffset.Now.Millisecond);
@@ -215,6 +226,8 @@ namespace BattleTank.Tanks
                 _targetDirection = _targetDirection.SafelySpeedUp(1.1f).Rotate(MathHelper.PiOver4 / 10 * (random.NextDouble() - 0.5));
             }
 
+            float sightDistance = _isAggressive ? float.PositiveInfinity : 150;
+
             if (_kamikazeMode)
             {
                 if (distanceToNearestUserTank <= (_aiLevel * 10))
@@ -225,11 +238,11 @@ namespace BattleTank.Tanks
                         nearestUserTank.Explode();
                     }
                 }
-                if (distanceToNearestUserTank < (_aiLevel * 150))
+                if (distanceToNearestUserTank < (_aiLevel * sightDistance))
                 {
 
-                    var xDifference = -(differenceToUserTank.X / (_aiLevel * 150*1.5));
-                    var yDifference = (differenceToUserTank.Y / (_aiLevel * 150*1.5));
+                    var xDifference = -(differenceToUserTank.X / (_aiLevel * 150 * 1.5));
+                    var yDifference = (differenceToUserTank.Y / (_aiLevel * 150 * 1.5));
 
                     if (Math.Abs(xDifference) < 0.003) xDifference = 0;
                     if (Math.Abs(yDifference) < 0.003) yDifference = 0;
@@ -240,18 +253,19 @@ namespace BattleTank.Tanks
                     System.Diagnostics.Debug.WriteLine($"Before addition: {xDifference} x {yDifference}");
 #endif
                     _targetDirection = new TankControllerState(
-                        moveX: (float)(xDifference + xAddition),
-                        moveY: (float)(yDifference + yAddition));
+                        moveX: (float) (xDifference + xAddition),
+                        moveY: (float) (yDifference + yAddition),
+                        safely: true);
                 }
             }
             else
             {
-                if (distanceToNearestUserTank < (_aiLevel * 150) && distanceToNearestUserTank > 50)
+                if (distanceToNearestUserTank < (_aiLevel * sightDistance))
                 {
                     _targetDirection = new TankControllerState(
                         moveX: (nearestUserTank.location.X - location.X) / (_aiLevel * 150),
                         moveY: (location.Y - nearestUserTank.location.Y) / (_aiLevel * 150),
-                        fire: false, speedBoost: false, plantMine: false);
+                        fire: false, speedBoost: false, plantMine: false, safely: true);
                 }
             }
 

@@ -11,9 +11,13 @@ namespace BattleTank.Input
         public bool Fire { get; }
         public bool SpeedBoost { get; }
         public bool PlantMine { get; }
-        public TankControllerState(float moveX, float moveY, bool fire = false, bool speedBoost = false, bool plantMine = false) : this()
+        public TankControllerState(float moveX, float moveY, bool fire = false, bool speedBoost = false, bool plantMine = false, bool safely = false) : this()
         {
-           
+            if (safely)
+            {
+                if (Math.Abs(moveX) > 1) moveX = 1 * Math.Sign(moveX);
+                if (Math.Abs(moveY) > 1) moveY = 1 * Math.Sign(moveY);
+            }
             if (Math.Abs(moveY) > 1)
                throw new ArgumentOutOfRangeException(nameof(moveY), moveY, "Wartość musi byc w zakresie -1 <= Y <= 1");
             if (Math.Abs(moveX) > 1)
@@ -46,14 +50,7 @@ namespace BattleTank.Input
         /// <param name="percent"></param>
         /// <returns></returns>
         public TankControllerState SafelySpeedUp(float percent)
-        {
-            float X = MoveX * percent;
-            float Y = MoveY * percent;
-            if (Math.Abs(X) > 1) X = 1 * Math.Sign(X);
-            if (Math.Abs(Y) > 1) Y = 1 * Math.Sign(Y);
-
-            return new TankControllerState(X, Y, Fire, SpeedBoost, PlantMine);
-        }
+            => new TankControllerState(MoveX * percent, MoveY * percent, Fire, SpeedBoost, PlantMine, true);
 
 #if DEBUG
         /// <inheritdoc />

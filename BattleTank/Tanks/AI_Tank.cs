@@ -188,10 +188,11 @@ namespace BattleTank.Tanks
                 return;
             }
 
-
             Tank nearestUserTank = game.tank1;
-            float distanceToNearestUserTank = (location - game.tank1.location).Length();
+            Vector2 differenceToUserTank = (location - game.tank1.location);
+            float distanceToNearestUserTank = differenceToUserTank.Length();
 
+            // Sprawdź jaki czołg gracza jest najbliżej
             foreach (Tank tank in new[] { game.tank1, game.tank2 })
             {
                 float distanceToCurrentTank = (location - tank.location).Length();
@@ -199,17 +200,19 @@ namespace BattleTank.Tanks
                 if (distanceToCurrentTank <= distanceToNearestUserTank)
                 {
                     distanceToNearestUserTank = distanceToCurrentTank;
+                    differenceToUserTank = (location - tank.location);
                     nearestUserTank = tank;
                 }
             }
 
+            // Jeżeli prędkość czołgu jest bliska zero nadaj maksymalną prędkośc w losowym kierunku.
             if (Math.Abs(_targetDirection.MoveX) < float.Epsilon && Math.Abs(_targetDirection.MoveY) < float.Epsilon)
             {
                 _targetDirection = new TankControllerState(1, 0).Rotate(MathHelper.TwoPi * random.NextDouble());
             }
             else
             {
-                _targetDirection = _targetDirection.Rotate(MathHelper.PiOver4 / 10 * (random.NextDouble() - 0.5));
+                _targetDirection = _targetDirection.SafelySpeedUp(1.1f).Rotate(MathHelper.PiOver4 / 10 * (random.NextDouble() - 0.5));
             }
 
             if (_kamikazeMode)
@@ -224,9 +227,9 @@ namespace BattleTank.Tanks
                 }
                 if (distanceToNearestUserTank < (_aiLevel * 150))
                 {
-                    Vector2 diffrenceToUserTank = nearestUserTank.location - location;
-                    var xDifference = (diffrenceToUserTank.X / (_aiLevel * 150));
-                    var yDifference = -(diffrenceToUserTank.Y / (_aiLevel * 150));
+
+                    var xDifference = -(differenceToUserTank.X / (_aiLevel * 150*1.5));
+                    var yDifference = (differenceToUserTank.Y / (_aiLevel * 150*1.5));
 
                     if (Math.Abs(xDifference) < 0.003) xDifference = 0;
                     if (Math.Abs(yDifference) < 0.003) yDifference = 0;
@@ -234,7 +237,7 @@ namespace BattleTank.Tanks
                     var xAddition = (1 - Math.Abs(xDifference)) * 0.8 * Math.Sign(xDifference);
                     var yAddition = (1 - Math.Abs(yDifference)) * 0.8 * Math.Sign(yDifference);
 #if DEBUG
-                    System.Diagnostics.Debug.WriteLine($"{xDifference} x {yDifference}");
+                    System.Diagnostics.Debug.WriteLine($"Before addition: {xDifference} x {yDifference}");
 #endif
                     _targetDirection = new TankControllerState(
                         moveX: (float)(xDifference + xAddition),

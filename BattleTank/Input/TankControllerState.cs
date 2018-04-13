@@ -38,5 +38,20 @@ namespace BattleTank.Input
                 (float)Y,
                 Fire, SpeedBoost, PlantMine);
         }
+        /// <summary>
+        /// Powoduje, że wartości X, Y są zmieniane o zadany procent.
+        /// Gwarantuje ona, że wartości X i Y nie przekroczą wartości maksymalnych MoveX i MoveY, czyli będą w zakresie -1:1.
+        /// </summary>
+        /// <param name="percent"></param>
+        /// <returns></returns>
+        public TankControllerState SafelySpeedUp(float percent)
+        {
+            float X = MoveX * percent;
+            float Y = MoveY * percent;
+            if (Math.Abs(X) > 1) X = 1 * Math.Sign(X);
+            if (Math.Abs(Y) > 1) Y = 1 * Math.Sign(Y);
+
+            return new TankControllerState(X, Y, Fire, SpeedBoost, PlantMine);
+        }
     }
 }

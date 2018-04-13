@@ -4,7 +4,6 @@ using System.Linq;
 using BattleTank.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
 namespace BattleTank.Tanks
 {
@@ -16,15 +15,15 @@ namespace BattleTank.Tanks
         private readonly List<Bullet> _enemyBullets = new List<Bullet>();
         private readonly bool _kamikazeMode = false;
 
-        private readonly TimeSpan MAX_AGGRESSIVE_TIME = new TimeSpan(0, 0,0, 5);
+        private readonly TimeSpan MAX_AGGRESSIVE_TIME = new TimeSpan(0, 0, 0, 5);
         private TimeSpan _aggressiveTimeLeft = TimeSpan.Zero;
         private bool _isAggressive => _aggressiveTimeLeft.TotalMilliseconds > 0;
 
         public AI_Tank(Game1 game, string tankSpriteName, Vector2 location, Vector2 maxSpeed,
             float rotation, int player, float scale, Texture2D whiteRectangle, int strong,
-            bool barrier,bool frozen, float targetDirection, int aiLevel, bool kamikazeMode = false)
+            bool barrier, bool frozen, float targetDirection, int aiLevel, bool kamikazeMode = false)
             : base(game, tankSpriteName, location, maxSpeed, rotation, player, scale,
-                  whiteRectangle, strong, 0, barrier,frozen, null)
+                  whiteRectangle, strong, 0, barrier, frozen, null)
         {
             enemy = true;
             _aiLevel = aiLevel;
@@ -70,7 +69,7 @@ namespace BattleTank.Tanks
                 {
                     b.Update();
                 }
-            
+
             }
         }
 
@@ -226,8 +225,6 @@ namespace BattleTank.Tanks
                 _targetDirection = _targetDirection.SafelySpeedUp(1.1f).Rotate(MathHelper.PiOver4 / 10 * (random.NextDouble() - 0.5));
             }
 
-            float sightDistance = _isAggressive ? float.PositiveInfinity : 150;
-
             if (_kamikazeMode)
             {
                 if (distanceToNearestUserTank <= (_aiLevel * 10))
@@ -238,35 +235,35 @@ namespace BattleTank.Tanks
                         nearestUserTank.Explode();
                     }
                 }
-                if (distanceToNearestUserTank < (_aiLevel * sightDistance))
-                {
-
-                    var xDifference = -(differenceToUserTank.X / (_aiLevel * 150 * 1.5));
-                    var yDifference = (differenceToUserTank.Y / (_aiLevel * 150 * 1.5));
-
-                    if (Math.Abs(xDifference) < 0.003) xDifference = 0;
-                    if (Math.Abs(yDifference) < 0.003) yDifference = 0;
-
-                    var xAddition = (1 - Math.Abs(xDifference)) * 0.8 * Math.Sign(xDifference);
-                    var yAddition = (1 - Math.Abs(yDifference)) * 0.8 * Math.Sign(yDifference);
-#if DEBUG
-                    System.Diagnostics.Debug.WriteLine($"Before addition: {xDifference} x {yDifference}");
-#endif
-                    _targetDirection = new TankControllerState(
-                        moveX: (float) (xDifference + xAddition),
-                        moveY: (float) (yDifference + yAddition),
-                        safely: true);
-                }
             }
-            else
+
+            float sightDistance = _isAggressive ? float.PositiveInfinity : 150;
+            if (distanceToNearestUserTank < (_aiLevel * sightDistance))
             {
-                if (distanceToNearestUserTank < (_aiLevel * sightDistance))
+
+                double xDifference = -(differenceToUserTank.X / (_aiLevel * 150 * 1.5));
+                double yDifference = (differenceToUserTank.Y / (_aiLevel * 150 * 1.5));
+
+                if (Math.Abs(xDifference) < 0.003) xDifference = 0;
+                if (Math.Abs(yDifference) < 0.003) yDifference = 0;
+
+#if DEBUG
+                System.Diagnostics.Debug.WriteLine($"Before addition: {xDifference} x {yDifference}");
+#endif
+
+                if (_kamikazeMode)
                 {
-                    _targetDirection = new TankControllerState(
-                        moveX: (nearestUserTank.location.X - location.X) / (_aiLevel * 150),
-                        moveY: (location.Y - nearestUserTank.location.Y) / (_aiLevel * 150),
-                        fire: false, speedBoost: false, plantMine: false, safely: true);
+                    // To normalnie mogą być dwie linijki, ale rozbito na cztery aby ułatwić debugowanie.
+                    double xAddition = (1 - Math.Abs(xDifference)) * 0.8 * Math.Sign(xDifference);
+                    double yAddition = (1 - Math.Abs(yDifference)) * 0.8 * Math.Sign(yDifference);
+                    xDifference += xAddition;
+                    yDifference += yAddition;
                 }
+
+                _targetDirection = new TankControllerState(
+                    moveX: (float)(xDifference),
+                    moveY: (float)(yDifference),
+                    safely: true);
             }
 
             base.MoveTank(_targetDirection);

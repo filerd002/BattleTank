@@ -269,7 +269,6 @@ namespace BattleTank
                 Content.Load<Texture2D>("Graphics//Poziom4Trud"),
                 Content.Load<Texture2D>("Graphics//Poziom4Trud1"),
                 new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50));
-            Poziom4Trud.IsEnabled = false;
 
             wyborCpuKlasykIlosc0 =  new Button(
                 Content.Load<Texture2D>("Graphics//0"), 

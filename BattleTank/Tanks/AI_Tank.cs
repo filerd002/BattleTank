@@ -71,6 +71,14 @@ namespace BattleTank.Tanks
 
         public override void Move()
         {
+            if (_aiLevel < 4)
+                StandardAI();
+            else
+                ExperimentalAI();
+        }
+
+        private void StandardAI()
+        {
             if (colliding)
             {
                 switch ((int)_targetDirection)
@@ -142,7 +150,7 @@ namespace BattleTank.Tanks
                         }
                     }
                 }
-                
+
                 var toUserTankXDistance = Math.Abs(location.X - userTank.location.X);
                 var toUserTankYDistance = Math.Abs(location.Y - userTank.location.Y);
 
@@ -166,6 +174,11 @@ namespace BattleTank.Tanks
                     _targetDirection = RIGHT;
                 }
             }
+        }
+
+        private void ExperimentalAI()
+        {
+
         }
     }
 }

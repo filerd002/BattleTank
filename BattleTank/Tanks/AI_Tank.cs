@@ -222,7 +222,7 @@ namespace BattleTank.Tanks
                     Explode();
                     if (nearestUserTank.barrier == false)
                     {
-                        nearestUserTank.Die();
+                        nearestUserTank.Explode();
                     }
                 }
                 if (distanceToNearestUserTank < (_aiLevel * 150))

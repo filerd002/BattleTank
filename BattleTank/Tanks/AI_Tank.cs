@@ -182,7 +182,7 @@ namespace BattleTank.Tanks
             Random random = new Random(DateTimeOffset.Now.Millisecond);
             if (colliding)
             {
-                _targetDirection = _targetDirection.Rotate(MathHelper.PiOver4);
+                _targetDirection = _targetDirection.Rotate(0.1);
                 base.MoveTank(_targetDirection);
 
                 return;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace BattleTank.Input
 {
@@ -53,5 +54,12 @@ namespace BattleTank.Input
 
             return new TankControllerState(X, Y, Fire, SpeedBoost, PlantMine);
         }
+
+#if DEBUG
+        /// <inheritdoc />
+        public override string ToString()
+            => MoveX + " x " + MoveY + " F:" + (Fire ? "Y" : "N") + " S:" + (SpeedBoost ? "Y" : "N") + " P:" +
+               (PlantMine ? "Y" : "N");
+#endif
     }
 }

@@ -11,7 +11,8 @@ namespace BattleTank.Tanks
     public class AI_Tank : Tank
     {
         private readonly int _aiLevel;  //Można wykorzystać do ustawienia poziomu trudności
-        private float _targetDirection;
+        private TankControllerState _targetDirection;
+        private float _oldTargetDirection;
         private readonly List<Bullet> _enemyBullets = new List<Bullet>();
         private readonly bool _kamikazeMode = false;
 
@@ -24,7 +25,7 @@ namespace BattleTank.Tanks
             enemy = true;
             _aiLevel = aiLevel;
 
-            _targetDirection = targetDirection;
+            _oldTargetDirection = targetDirection;
 
             _kamikazeMode = kamikazeMode;
 
@@ -69,7 +70,7 @@ namespace BattleTank.Tanks
             }
         }
 
-        public override void Move()
+        public override void MoveTank(TankControllerState? state = null)
         {
             if (_aiLevel < 4)
                 StandardAI();
@@ -81,31 +82,31 @@ namespace BattleTank.Tanks
         {
             if (colliding)
             {
-                switch ((int)_targetDirection)
+                switch ((int)_oldTargetDirection)
                 {
                     case (int)UP:
-                        _targetDirection = RIGHT;
+                        _oldTargetDirection = RIGHT;
                         break;
                     case (int)RIGHT:
-                        _targetDirection = DOWN;
+                        _oldTargetDirection = DOWN;
                         break;
                     case (int)LEFT:
-                        _targetDirection = UP;
+                        _oldTargetDirection = UP;
                         break;
                     case (int)DOWN:
-                        _targetDirection = LEFT;
+                        _oldTargetDirection = LEFT;
                         break;
                     case (int)UP_LEFT:
-                        _targetDirection = LEFT;
+                        _oldTargetDirection = LEFT;
                         break;
                     case (int)DOWN_LEFT:
-                        _targetDirection = LEFT;
+                        _oldTargetDirection = LEFT;
                         break;
                     default:
                         break;
                 }
             }
-            switch ((int)_targetDirection)
+            switch ((int)_oldTargetDirection)
             {
                 case (int)UP:
                     MoveUp(false);
@@ -156,28 +157,102 @@ namespace BattleTank.Tanks
 
                 if (toUserTankXDistance <= _aiLevel && location.Y >= userTank.location.Y)
                 {
-                    _targetDirection = UP;
+                    _oldTargetDirection = UP;
                 }
 
                 if (toUserTankXDistance <= _aiLevel && location.Y <= userTank.location.Y)
                 {
-                    _targetDirection = DOWN;
+                    _oldTargetDirection = DOWN;
                 }
 
                 if (toUserTankYDistance <= _aiLevel && location.X >= userTank.location.X)
                 {
-                    _targetDirection = LEFT;
+                    _oldTargetDirection = LEFT;
                 }
 
                 if (toUserTankYDistance <= _aiLevel && location.X <= userTank.location.X)
                 {
-                    _targetDirection = RIGHT;
+                    _oldTargetDirection = RIGHT;
                 }
             }
         }
 
         private void ExperimentalAI()
         {
+            Random random = new Random(DateTimeOffset.Now.Millisecond);
+            if (colliding)
+            {
+                _targetDirection = _targetDirection.Rotate(MathHelper.PiOver4);
+                base.MoveTank(_targetDirection);
+
+                return;
+            }
+
+
+            Tank nearestUserTank = game.tank1;
+            float distanceToNearestUserTank = (location - game.tank1.location).Length();
+
+            foreach (Tank tank in new[] { game.tank1, game.tank2 })
+            {
+                float distanceToCurrentTank = (location - tank.location).Length();
+
+                if (distanceToCurrentTank <= distanceToNearestUserTank)
+                {
+                    distanceToNearestUserTank = distanceToCurrentTank;
+                    nearestUserTank = tank;
+                }
+            }
+
+            if (Math.Abs(_targetDirection.MoveX) < float.Epsilon && Math.Abs(_targetDirection.MoveY) < float.Epsilon)
+            {
+                _targetDirection = new TankControllerState(1, 0).Rotate(MathHelper.TwoPi * random.NextDouble());
+            }
+            else
+            {
+                _targetDirection = _targetDirection.Rotate(MathHelper.PiOver4 / 10 * (random.NextDouble() - 0.5));
+            }
+
+            if (_kamikazeMode)
+            {
+                if (distanceToNearestUserTank <= (_aiLevel * 10))
+                {
+                    Explode();
+                    if (nearestUserTank.barrier == false)
+                    {
+                        nearestUserTank.Die();
+                    }
+                }
+                if (distanceToNearestUserTank < (_aiLevel * 150))
+                {
+                    Vector2 diffrenceToUserTank = nearestUserTank.location - location;
+                    var xDifference = (diffrenceToUserTank.X / (_aiLevel * 150));
+                    var yDifference = -(diffrenceToUserTank.Y / (_aiLevel * 150));
+
+                    if (Math.Abs(xDifference) < 0.003) xDifference = 0;
+                    if (Math.Abs(yDifference) < 0.003) yDifference = 0;
+
+                    var xAddition = (1 - Math.Abs(xDifference)) * 0.8 * Math.Sign(xDifference);
+                    var yAddition = (1 - Math.Abs(yDifference)) * 0.8 * Math.Sign(yDifference);
+#if DEBUG
+                    System.Diagnostics.Debug.WriteLine($"{xDifference} x {yDifference}");
+#endif
+                    _targetDirection = new TankControllerState(
+                        moveX: (float)(xDifference + xAddition),
+                        moveY: (float)(yDifference + yAddition));
+                }
+            }
+            else
+            {
+                if (distanceToNearestUserTank < (_aiLevel * 150) && distanceToNearestUserTank > 50)
+                {
+                    _targetDirection = new TankControllerState(
+                        moveX: (nearestUserTank.location.X - location.X) / (_aiLevel * 150),
+                        moveY: (location.Y - nearestUserTank.location.Y) / (_aiLevel * 150),
+                        fire: false, speedBoost: false, plantMine: false);
+                }
+            }
+
+            base.MoveTank(_targetDirection);
 
         }
     }

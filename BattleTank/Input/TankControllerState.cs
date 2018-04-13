@@ -10,7 +10,7 @@ namespace BattleTank.Input
         public bool Fire { get; }
         public bool SpeedBoost { get; }
         public bool PlantMine { get; }
-        public TankControllerState(float moveY, float moveX, bool fire, bool speedBoost, bool plantMine) : this()
+        public TankControllerState(float moveX, float moveY, bool fire = false, bool speedBoost = false, bool plantMine = false) : this()
         {
            
             if (Math.Abs(moveY) > 1)
@@ -23,6 +23,20 @@ namespace BattleTank.Input
             Fire = fire;
             SpeedBoost = speedBoost;
             PlantMine = plantMine;
+        }
+
+        public TankControllerState Rotate(double angle)
+        {
+            double X = (double)(MoveX * Math.Cos(angle) - MoveY * Math.Sin(angle));
+            double Y = (double)(MoveX * Math.Sin(angle) + MoveY * Math.Cos(angle));
+
+            X = Math.Abs(X) > 1 ? Math.Truncate(X) : X;
+            Y = Math.Abs(Y) > 1 ? Math.Truncate(Y) : Y;
+
+            return new TankControllerState(
+                (float)X,
+                (float)Y,
+                Fire, SpeedBoost, PlantMine);
         }
     }
 }

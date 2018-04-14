@@ -180,7 +180,7 @@ namespace BattleTank.Tanks
 
                 if (!frozen)
                 {
-                    Move();
+                    MoveTank();
                 }
 
                 tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
@@ -259,9 +259,9 @@ namespace BattleTank.Tanks
 
         }
 
-        public virtual void Move()
+        public virtual void MoveTank(TankControllerState? state = null)
         {
-            TankControllerState controller = TankActionProvider.GetTankControllerState();
+            TankControllerState controller = state ?? TankActionProvider.GetTankControllerState();
             float xMovement = controller.MoveX;
             float yMovement = controller.MoveY;
 

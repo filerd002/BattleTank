@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank", "BattleTank\BattleTank.csproj", "{2E2DD132-8189-4292-A34F-8D54C8510D4B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank.Windows", "BattleTank\BattleTank.Windows.csproj", "{2E2DD132-8189-4292-A34F-8D54C8510D4B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank.Core", "BattleTank.Core\BattleTank.Core.csproj", "{12506D46-D5C2-4D25-BF6E-DA431471949E}"
 EndProject

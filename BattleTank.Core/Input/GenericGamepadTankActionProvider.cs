@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+#if WINDOWS
 using SlimDX.DirectInput;
 
 namespace BattleTank.Core.Input
@@ -91,7 +92,7 @@ namespace BattleTank.Core.Input
             return devices;
         }
 
-        #region Overrides
+#region Overrides
         /// <inheritdoc />
         public override bool Equals(object obj)
         {
@@ -102,6 +103,7 @@ namespace BattleTank.Core.Input
                    && provider.PlantMineButtonNumber == this.PlantMineButtonNumber
                    && provider.SpeedBoostButtonNumber == this.SpeedBoostButtonNumber;
         }
-        #endregion
+#endregion
     }
 }
+#endif

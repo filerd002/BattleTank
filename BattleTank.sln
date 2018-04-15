@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank", "BattleTank\Ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank.Core", "BattleTank.Core\BattleTank.Core.csproj", "{12506D46-D5C2-4D25-BF6E-DA431471949E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank.Android", "BattleTank.Android\BattleTank.Android.csproj", "{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,18 @@ Global
 		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Release|x86.ActiveCfg = Release|Any CPU
 		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Release|x86.Build.0 = Release|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Debug|x86.Build.0 = Debug|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Debug|x86.Deploy.0 = Debug|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Release|x86.ActiveCfg = Release|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Release|x86.Build.0 = Release|Any CPU
+		{9609EF1B-B4BB-4FC3-BE35-F195A4C101E4}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

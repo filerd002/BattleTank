@@ -11,10 +11,12 @@ namespace BattleTank.Core.Input
             {
                 retVal.AddRange(XInputGamepadTankActionProvider.GetAllAvailable());
             }
+#if WINDOWS
             if (GenericGamepadTankActionProvider.HowManyAvailable() > 0)
             {
                 retVal.AddRange(GenericGamepadTankActionProvider.GetAllAvailable());
             }
+#endif
             return retVal;
         }
     }

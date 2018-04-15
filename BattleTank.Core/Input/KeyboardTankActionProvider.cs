@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 
-namespace BattleTank.Input
+namespace BattleTank.Core.Input
 {
     public class KeyboardTankActionProvider : ITankActionProvider
     {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Audio;
 
-
-namespace BattleTank
+namespace BattleTank.Core
 {
     public class Sound
     {

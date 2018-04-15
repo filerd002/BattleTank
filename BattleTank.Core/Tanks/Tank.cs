@@ -1,11 +1,10 @@
 ﻿using System;
-using BattleTank.Extensions;
-using BattleTank.Input;
+using BattleTank.Core.Extensions;
+using BattleTank.Core.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 
-namespace BattleTank.Tanks
+namespace BattleTank.Core.Tanks
 {
     public class Tank
     {

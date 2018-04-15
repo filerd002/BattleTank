@@ -1,4 +1,4 @@
-﻿namespace BattleTank.Input
+﻿namespace BattleTank.Core.Input
 {
     public interface ITankActionProvider
     {

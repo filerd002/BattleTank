@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BattleTank.Input;
+using BattleTank.Core.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace BattleTank.Tanks
+namespace BattleTank.Core.Tanks
 {
     public class AI_Tank : Tank
     {

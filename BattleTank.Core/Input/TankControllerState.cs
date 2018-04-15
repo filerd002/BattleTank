@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 
-namespace BattleTank.Input
+namespace BattleTank.Core.Input
 {
     public struct TankControllerState
     {

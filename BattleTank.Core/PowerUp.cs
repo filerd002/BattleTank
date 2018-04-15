@@ -1,10 +1,9 @@
-﻿using BattleTank.Tanks;
+﻿using System;
+using BattleTank.Core.Tanks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using System;
 
-namespace BattleTank
+namespace BattleTank.Core
 {
     public class PowerUp
     {

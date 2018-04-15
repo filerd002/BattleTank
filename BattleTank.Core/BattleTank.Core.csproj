@@ -1,0 +1,332 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Content\Graphics\0.png" />
+    <None Remove="Content\Graphics\01.png" />
+    <None Remove="Content\Graphics\1.png" />
+    <None Remove="Content\Graphics\11.png" />
+    <None Remove="Content\Graphics\2.png" />
+    <None Remove="Content\Graphics\21.png" />
+    <None Remove="Content\Graphics\3.png" />
+    <None Remove="Content\Graphics\31.png" />
+    <None Remove="Content\Graphics\Ammo.png" />
+    <None Remove="Content\Graphics\Background.png" />
+    <None Remove="Content\Graphics\barrier.png" />
+    <None Remove="Content\Graphics\BattleTank.png" />
+    <None Remove="Content\Graphics\BattleTank1.png" />
+    <None Remove="Content\Graphics\BlueTank.png" />
+    <None Remove="Content\Graphics\bush.png" />
+    <None Remove="Content\Graphics\cursor.png" />
+    <None Remove="Content\Graphics\Czas1Gry.png" />
+    <None Remove="Content\Graphics\Czas1Gry1.png" />
+    <None Remove="Content\Graphics\Czas2Gry.png" />
+    <None Remove="Content\Graphics\Czas2Gry1.png" />
+    <None Remove="Content\Graphics\Czas3Gry.png" />
+    <None Remove="Content\Graphics\Czas3Gry1.png" />
+    <None Remove="Content\Graphics\doBoju.png" />
+    <None Remove="Content\Graphics\doBoju1.png" />
+    <None Remove="Content\Graphics\FrozenEfekt.png" />
+    <None Remove="Content\Graphics\GreenTank.png" />
+    <None Remove="Content\Graphics\koniec.png" />
+    <None Remove="Content\Graphics\koniec1.png" />
+    <None Remove="Content\Graphics\MenuWinAndLoss.png" />
+    <None Remove="Content\Graphics\mineGreen.png" />
+    <None Remove="Content\Graphics\mineRed.png" />
+    <None Remove="Content\Graphics\nowagra.png" />
+    <None Remove="Content\Graphics\nowagra1.png" />
+    <None Remove="Content\Graphics\oprawaGraficzna.png" />
+    <None Remove="Content\Graphics\oprawaGraficzna1.png" />
+    <None Remove="Content\Graphics\oprawaGraficznaKlasyk.png" />
+    <None Remove="Content\Graphics\oprawaGraficznaKlasyk1.png" />
+    <None Remove="Content\Graphics\oprawaGraficznaModern.png" />
+    <None Remove="Content\Graphics\oprawaGraficznaModern1.png" />
+    <None Remove="Content\Graphics\PinkTank.png" />
+    <None Remove="Content\Graphics\player2VScpu.png" />
+    <None Remove="Content\Graphics\player2VScpu1.png" />
+    <None Remove="Content\Graphics\playerVScpu.png" />
+    <None Remove="Content\Graphics\playerVScpu1.png" />
+    <None Remove="Content\Graphics\playerVSplayer.png" />
+    <None Remove="Content\Graphics\playerVSplayer1.png" />
+    <None Remove="Content\Graphics\PowerUpAmmo.png" />
+    <None Remove="Content\Graphics\PowerUpArmor.png" />
+    <None Remove="Content\Graphics\PowerUpBarrier.png" />
+    <None Remove="Content\Graphics\PowerUpHeart.png" />
+    <None Remove="Content\Graphics\PowerUpMatrix.png" />
+    <None Remove="Content\Graphics\PowerUpMine.png" />
+    <None Remove="Content\Graphics\powrot.png" />
+    <None Remove="Content\Graphics\powrot1.png" />
+    <None Remove="Content\Graphics\Poziom1Trud.png" />
+    <None Remove="Content\Graphics\Poziom1Trud1.png" />
+    <None Remove="Content\Graphics\Poziom2Trud.png" />
+    <None Remove="Content\Graphics\Poziom2Trud1.png" />
+    <None Remove="Content\Graphics\Poziom3Trud.png" />
+    <None Remove="Content\Graphics\Poziom3Trud1.png" />
+    <None Remove="Content\Graphics\Poziom4Trud.png" />
+    <None Remove="Content\Graphics\Poziom4Trud1.png" />
+    <None Remove="Content\Graphics\przegrana.png" />
+    <None Remove="Content\Graphics\przegrana1.png" />
+    <None Remove="Content\Graphics\przerwa.png" />
+    <None Remove="Content\Graphics\przerwa1.png" />
+    <None Remove="Content\Graphics\Ramka.png" />
+    <None Remove="Content\Graphics\Ramka1.png" />
+    <None Remove="Content\Graphics\Ramka2.png" />
+    <None Remove="Content\Graphics\Ramka3.png" />
+    <None Remove="Content\Graphics\Ramka4.png" />
+    <None Remove="Content\Graphics\RamkaXL.png" />
+    <None Remove="Content\Graphics\RamkaXXL.png" />
+    <None Remove="Content\Graphics\RedTank.png" />
+    <None Remove="Content\Graphics\settings.png" />
+    <None Remove="Content\Graphics\settings1.png" />
+    <None Remove="Content\Graphics\sukces.png" />
+    <None Remove="Content\Graphics\sukces1.png" />
+    <None Remove="Content\Graphics\SukcesPorazka1Gracza.png" />
+    <None Remove="Content\Graphics\SukcesPorazka1Gracza1.png" />
+    <None Remove="Content\Graphics\SukcesPorazka2Gracza.png" />
+    <None Remove="Content\Graphics\SukcesPorazka2Gracza1.png" />
+    <None Remove="Content\Graphics\trybSterowania.png" />
+    <None Remove="Content\Graphics\trybSterowania1.png" />
+    <None Remove="Content\Graphics\trybSterowaniaKlawMysz.png" />
+    <None Remove="Content\Graphics\trybSterowaniaKlawMysz1.png" />
+    <None Remove="Content\Graphics\trybSterowaniaPad.png" />
+    <None Remove="Content\Graphics\trybSterowaniaPad1.png" />
+    <None Remove="Content\Graphics\wall.jpg" />
+    <None Remove="Content\Graphics\water.gif" />
+    <None Remove="Content\Graphics\wyborCpuKlamikaze.png" />
+    <None Remove="Content\Graphics\wyborCpuKlamikaze1.png" />
+    <None Remove="Content\Graphics\wyborCpuKlasyk.png" />
+    <None Remove="Content\Graphics\wyborCpuKlasyk1.png" />
+    <None Remove="Content\Graphics\wyborCzasGry1.png" />
+    <None Remove="Content\Graphics\wyborPoziomTrud.png" />
+    <None Remove="Content\Graphics\wyborPoziomTrud1.png" />
+    <None Remove="Content\Graphics\wyborTrybGry.png" />
+    <None Remove="Content\Graphics\wyborTrybGry1.png" />
+    <None Remove="Content\Graphics\wyscig.png" />
+    <None Remove="Content\Graphics\wyscig1.png" />
+    <None Remove="Content\Graphics\YellowTank.png" />
+    <None Remove="Content\Graphics\zagraj.png" />
+    <None Remove="Content\Graphics\zagraj1.png" />
+    <None Remove="Content\Shaders\GreyscaleEffect.fx" />
+    <None Remove="Content\Sounds\explosion.wav" />
+    <None Remove="Content\Sounds\hit.wav" />
+    <None Remove="Content\Sounds\klik.wav" />
+    <None Remove="Content\Sounds\menu_sound.wav" />
+    <None Remove="Content\Sounds\respawn.wav" />
+    <None Remove="Content\Sounds\rustling.wav" />
+    <None Remove="Content\Sounds\shot.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Content\Graphics\0.png" />
+    <Content Include="Content\Graphics\01.png" />
+    <Content Include="Content\Graphics\1.png" />
+    <Content Include="Content\Graphics\11.png" />
+    <Content Include="Content\Graphics\2.png" />
+    <Content Include="Content\Graphics\21.png" />
+    <Content Include="Content\Graphics\3.png" />
+    <Content Include="Content\Graphics\31.png" />
+    <Content Include="Content\Graphics\Ammo.png" />
+    <Content Include="Content\Graphics\Background.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\barrier.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\BattleTank.png" />
+    <Content Include="Content\Graphics\BattleTank1.png" />
+    <Content Include="Content\Graphics\BlueTank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\bush.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\cursor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\Czas1Gry.png" />
+    <Content Include="Content\Graphics\Czas1Gry1.png" />
+    <Content Include="Content\Graphics\Czas2Gry.png" />
+    <Content Include="Content\Graphics\Czas2Gry1.png" />
+    <Content Include="Content\Graphics\Czas3Gry.png" />
+    <Content Include="Content\Graphics\Czas3Gry1.png" />
+    <Content Include="Content\Graphics\doBoju.png" />
+    <Content Include="Content\Graphics\doBoju1.png" />
+    <Content Include="Content\Graphics\FrozenEfekt.png" />
+    <Content Include="Content\Graphics\GreenTank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\koniec.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\koniec1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\MenuWinAndLoss.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\mineGreen.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\mineRed.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\nowagra.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\nowagra1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\oprawaGraficzna.png" />
+    <Content Include="Content\Graphics\oprawaGraficzna1.png" />
+    <Content Include="Content\Graphics\oprawaGraficznaKlasyk.png" />
+    <Content Include="Content\Graphics\oprawaGraficznaKlasyk1.png" />
+    <Content Include="Content\Graphics\oprawaGraficznaModern.png" />
+    <Content Include="Content\Graphics\oprawaGraficznaModern1.png" />
+    <Content Include="Content\Graphics\PinkTank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\player2VScpu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\player2VScpu1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\playerVScpu.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\playerVScpu1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\playerVSplayer.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\playerVSplayer1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\PowerUpAmmo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\PowerUpArmor.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\PowerUpBarrier.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\PowerUpHeart.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\PowerUpMatrix.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\PowerUpMine.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\powrot.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\powrot1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\Poziom1Trud.png" />
+    <Content Include="Content\Graphics\Poziom1Trud1.png" />
+    <Content Include="Content\Graphics\Poziom2Trud.png" />
+    <Content Include="Content\Graphics\Poziom2Trud1.png" />
+    <Content Include="Content\Graphics\Poziom3Trud.png" />
+    <Content Include="Content\Graphics\Poziom3Trud1.png" />
+    <Content Include="Content\Graphics\Poziom4Trud.png" />
+    <Content Include="Content\Graphics\Poziom4Trud1.png" />
+    <Content Include="Content\Graphics\przegrana.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\przegrana1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\przerwa.png" />
+    <Content Include="Content\Graphics\przerwa1.png" />
+    <Content Include="Content\Graphics\Ramka.png" />
+    <Content Include="Content\Graphics\Ramka1.png" />
+    <Content Include="Content\Graphics\Ramka2.png" />
+    <Content Include="Content\Graphics\Ramka3.png" />
+    <Content Include="Content\Graphics\Ramka4.png" />
+    <Content Include="Content\Graphics\RamkaXL.png" />
+    <Content Include="Content\Graphics\RamkaXXL.png" />
+    <Content Include="Content\Graphics\RedTank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\settings.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\settings1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\sukces.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\sukces1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\SukcesPorazka1Gracza.png" />
+    <Content Include="Content\Graphics\SukcesPorazka1Gracza1.png" />
+    <Content Include="Content\Graphics\SukcesPorazka2Gracza.png" />
+    <Content Include="Content\Graphics\SukcesPorazka2Gracza1.png" />
+    <Content Include="Content\Graphics\trybSterowania.png" />
+    <Content Include="Content\Graphics\trybSterowania1.png" />
+    <Content Include="Content\Graphics\trybSterowaniaKlawMysz.png" />
+    <Content Include="Content\Graphics\trybSterowaniaKlawMysz1.png" />
+    <Content Include="Content\Graphics\trybSterowaniaPad.png" />
+    <Content Include="Content\Graphics\trybSterowaniaPad1.png" />
+    <Content Include="Content\Graphics\wall.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\water.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\wyborCpuKlamikaze.png" />
+    <Content Include="Content\Graphics\wyborCpuKlamikaze1.png" />
+    <Content Include="Content\Graphics\wyborCpuKlasyk.png" />
+    <Content Include="Content\Graphics\wyborCpuKlasyk1.png" />
+    <Content Include="Content\Graphics\wyborCzasGry1.png" />
+    <Content Include="Content\Graphics\wyborPoziomTrud.png" />
+    <Content Include="Content\Graphics\wyborPoziomTrud1.png" />
+    <Content Include="Content\Graphics\wyborTrybGry.png" />
+    <Content Include="Content\Graphics\wyborTrybGry1.png" />
+    <Content Include="Content\Graphics\wyscig.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\wyscig1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\YellowTank.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\zagraj.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Graphics\zagraj1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Shaders\GreyscaleEffect.fx" />
+    <Content Include="Content\Sounds\explosion.wav" />
+    <Content Include="Content\Sounds\hit.wav" />
+    <Content Include="Content\Sounds\klik.wav" />
+    <Content Include="Content\Sounds\menu_sound.wav" />
+    <Content Include="Content\Sounds\respawn.wav" />
+    <Content Include="Content\Sounds\rustling.wav" />
+    <Content Include="Content\Sounds\shot.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.Portable" Version="3.6.0.1625" />
+    <PackageReference Include="SlimDX" Version="4.0.13.44" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Content\Arial.spritefont">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

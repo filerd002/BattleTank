@@ -5,16 +5,30 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank", "BattleTank\BattleTank.csproj", "{2E2DD132-8189-4292-A34F-8D54C8510D4B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleTank.Core", "BattleTank.Core\BattleTank.Core.csproj", "{12506D46-D5C2-4D25-BF6E-DA431471949E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E2DD132-8189-4292-A34F-8D54C8510D4B}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{2E2DD132-8189-4292-A34F-8D54C8510D4B}.Debug|x86.ActiveCfg = Debug|x86
 		{2E2DD132-8189-4292-A34F-8D54C8510D4B}.Debug|x86.Build.0 = Debug|x86
+		{2E2DD132-8189-4292-A34F-8D54C8510D4B}.Release|Any CPU.ActiveCfg = Release|x86
 		{2E2DD132-8189-4292-A34F-8D54C8510D4B}.Release|x86.ActiveCfg = Release|x86
 		{2E2DD132-8189-4292-A34F-8D54C8510D4B}.Release|x86.Build.0 = Release|x86
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Debug|x86.Build.0 = Debug|Any CPU
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Release|x86.ActiveCfg = Release|Any CPU
+		{12506D46-D5C2-4D25-BF6E-DA431471949E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

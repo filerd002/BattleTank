@@ -1,16 +1,15 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using BattleTank.Core.GUI;
+using BattleTank.Core.Input;
+using BattleTank.Core.Tanks;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Timers;
-using BattleTank.Input;
-using BattleTank.Tanks;
-using BattleTank.GUI;
 
-namespace BattleTank
+namespace BattleTank.Core
 {
     /// <summary>
     /// This is the main type for your game.

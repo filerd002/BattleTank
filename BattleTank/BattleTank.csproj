@@ -9,8 +9,8 @@
     <ProjectGuid>{2E2DD132-8189-4292-A34F-8D54C8510D4B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BattleTank</RootNamespace>
-    <AssemblyName>BattleTank</AssemblyName>
+    <RootNamespace>BattleTank.Windows</RootNamespace>
+    <AssemblyName>BattleTank.Windows</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MonoGamePlatform>Windows</MonoGamePlatform>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>

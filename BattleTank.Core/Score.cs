@@ -100,32 +100,32 @@ namespace BattleTank.Core
             if (game.tank1.mines < 4)
             {
                 if (game.tank1.mines >= 1)
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X-22, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineGreen"), new Rectangle((int)game.tank1.location.X-22, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
                 if (game.tank1.mines >= 2)
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X-8, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineGreen"), new Rectangle((int)game.tank1.location.X-8, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
                 if (game.tank1.mines >= 3)
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X+6, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineGreen"), new Rectangle((int)game.tank1.location.X+6, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
             }
             else
             {
                 spriteBatch.DrawString(spriteFont, game.tank1.mines + "x", new Vector2((int)game.tank1.location.X -19, (int)game.tank1.location.Y - 50), Color.White);
 
-                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineGreen"), new Rectangle((int)game.tank1.location.X -2, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineGreen"), new Rectangle((int)game.tank1.location.X -2, (int)game.tank1.location.Y - 50, 12, 12), Color.White);
             }
             if (game.tank1.strong < 4)
             {
                 if (game.tank1.strong >= 1)
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X-22, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank1.location.X-22, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
                 if (game.tank1.strong >= 2)
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X -8, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank1.location.X -8, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
                 if (game.tank1.strong >= 3)
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X + 6, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank1.location.X + 6, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
             }
             else
             {
                 spriteBatch.DrawString(spriteFont, game.tank1.strong + "x", new Vector2((int)game.tank1.location.X - 19, (int)game.tank1.location.Y - 40), Color.White);
 
-                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank1.location.X -2, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
+                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank1.location.X -2, (int)game.tank1.location.Y - 40, 12, 12), Color.White);
             }
 
             
@@ -168,32 +168,32 @@ namespace BattleTank.Core
                 if (game.tank2.mines < 4)
                 {
                     if (game.tank2.mines >= 1)
-                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X - 22, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineRed"), new Rectangle((int)game.tank2.location.X - 22, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
                     if (game.tank2.mines >= 2)
-                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X - 8, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineRed"), new Rectangle((int)game.tank2.location.X - 8, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
                     if (game.tank2.mines >= 3)
-                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X + 6, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineRed"), new Rectangle((int)game.tank2.location.X + 6, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
                 }
                 else
                 {
                     spriteBatch.DrawString(spriteFont, game.tank2.mines + "x", new Vector2((int)game.tank2.location.X - 19, (int)game.tank2.location.Y - 50), Color.White);
 
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//mineRed"), new Rectangle((int)game.tank2.location.X - 2, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/mineRed"), new Rectangle((int)game.tank2.location.X - 2, (int)game.tank2.location.Y - 50, 12, 12), Color.White);
                 }
                 if (game.tank2.strong < 4)
                 {
                     if (game.tank2.strong >= 1)
-                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X - 22, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank2.location.X - 22, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
                     if (game.tank2.strong >= 2)
-                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X - 8, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank2.location.X - 8, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
                     if (game.tank2.strong >= 3)
-                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X + 6, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
+                        spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank2.location.X + 6, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
                 }
                 else
                 {
                     spriteBatch.DrawString(spriteFont, game.tank2.strong + "x", new Vector2((int)game.tank2.location.X - 19, (int)game.tank2.location.Y - 40), Color.White);
 
-                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics//Ammo"), new Rectangle((int)game.tank2.location.X - 2, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
+                    spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/Ammo"), new Rectangle((int)game.tank2.location.X - 2, (int)game.tank2.location.Y - 40, 12, 12), Color.White);
                 }
 
 

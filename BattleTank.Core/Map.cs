@@ -32,9 +32,9 @@ namespace BattleTank.Core
                 map[i] = new Tile[columnHeight];
             }
         
-            wallTexture = game.Content.Load<Texture2D>("Graphics//wall");
-            bushTexture = game.Content.Load<Texture2D>("Graphics//bush");
-            waterTexture = game.Content.Load<Texture2D>("Graphics//water");
+            wallTexture = game.Content.Load<Texture2D>("Graphics/wall");
+            bushTexture = game.Content.Load<Texture2D>("Graphics/bush");
+            waterTexture = game.Content.Load<Texture2D>("Graphics/water");
 
             Reset();
         }

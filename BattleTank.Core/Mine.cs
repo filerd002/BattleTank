@@ -11,8 +11,8 @@ namespace BattleTank.Core
 
         public Mine(Game1 _game, Rectangle _bulletRect, Vector2 _speed, Color _color, int _player, float _rotation)
         {
-            if (mineTextureGreen is null) mineTextureGreen = _game.Content.Load<Texture2D>("Graphics//mineGreen");
-            if (mineTextureRed is null) mineTextureRed = _game.Content.Load<Texture2D>("Graphics//mineRed");
+            if (mineTextureGreen is null) mineTextureGreen = _game.Content.Load<Texture2D>("Graphics/mineGreen");
+            if (mineTextureRed is null) mineTextureRed = _game.Content.Load<Texture2D>("Graphics/mineRed");
 
             game = _game;
             bulletRect = _bulletRect;

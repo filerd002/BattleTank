@@ -67,7 +67,7 @@ namespace BattleTank.Core
                             game.tank1.armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.tank1.Barrier();
+                            game.tank1.StartBarrier();
                             break;
                         case AMMO:
                             game.tank1.strong++;
@@ -104,7 +104,7 @@ namespace BattleTank.Core
                             game.tank2.armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.tank2.Barrier();
+                            game.tank2.StartBarrier();
                             break;
                         case AMMO:
                             game.tank2.strong++;
@@ -140,7 +140,7 @@ namespace BattleTank.Core
                             game.enemyTanks[0].armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.enemyTanks[0].Barrier();
+                            game.enemyTanks[0].StartBarrier();
                             break;
                         case AMMO:
                             game.enemyTanks[0].strong++;
@@ -175,7 +175,7 @@ namespace BattleTank.Core
                             game.enemyTanks[1].armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.enemyTanks[1].Barrier();
+                            game.enemyTanks[1].StartBarrier();
                             break;
                         case AMMO:
                             game.enemyTanks[1].strong++;
@@ -210,7 +210,7 @@ namespace BattleTank.Core
                             game.enemyTanks[2].armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.enemyTanks[2].Barrier();
+                            game.enemyTanks[2].StartBarrier();
                             break;
                         case AMMO:
                             game.enemyTanks[2].strong++;
@@ -246,7 +246,7 @@ namespace BattleTank.Core
                             game.enemyTanks[3].armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.enemyTanks[3].Barrier();
+                            game.enemyTanks[3].StartBarrier();
                             break;
                         case AMMO:
                             game.enemyTanks[3].strong++;
@@ -281,7 +281,7 @@ namespace BattleTank.Core
                             game.enemyTanks[4].armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.enemyTanks[4].Barrier();
+                            game.enemyTanks[4].StartBarrier();
                             break;
                         case AMMO:
                             game.enemyTanks[4].strong++;
@@ -316,7 +316,7 @@ namespace BattleTank.Core
                             game.enemyTanks[5].armor += 0.25f;
                             break;
                         case BARRIER:
-                            game.enemyTanks[5].Barrier();
+                            game.enemyTanks[5].StartBarrier();
                             break;
                         case AMMO:
                             game.enemyTanks[5].strong++;

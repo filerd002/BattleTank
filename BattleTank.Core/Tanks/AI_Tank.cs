@@ -19,7 +19,7 @@ namespace BattleTank.Core.Tanks
         private TimeSpan _aggressiveTimeLeft = TimeSpan.Zero;
         private bool _isAggressive => _aggressiveTimeLeft.TotalMilliseconds > 0;
 
-        public AI_Tank(Game1 game, string tankSpriteName, Vector2 location, Vector2 maxSpeed,
+        public AI_Tank(Game1 game, TankColors tankSpriteName, Vector2 location, Vector2 maxSpeed,
             float rotation, int player, float scale, Texture2D whiteRectangle, int strong,
             bool barrier, bool frozen, float targetDirection, int aiLevel, bool kamikazeMode = false)
             : base(game, tankSpriteName, location, maxSpeed, rotation, player, scale,

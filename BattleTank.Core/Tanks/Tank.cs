@@ -8,6 +8,15 @@ namespace BattleTank.Core.Tanks
 {
     public class Tank
     {
+        public enum TankColors
+        {
+            BLUE,
+            GREEN,
+            PINK,
+            RED,
+            YELLOW
+        }
+        public TankColors TankColor { get; set; }
         //data members
         public Vector2 location;
         public Vector2 startingLocation;
@@ -86,11 +95,31 @@ namespace BattleTank.Core.Tanks
         private TimeSpan _timeLeftForVibration = TimeSpan.Zero;
 
         //overloaded constructor(s)
-        public Tank(Game1 _game, string _tankSpriteName, Vector2 _location, Vector2 _speed,
+        public Tank(Game1 _game, TankColors tankColor, Vector2 _location, Vector2 _speed,
                     float _rotation, int _player, float _scale, Texture2D _whiteRectangle,
                     int _strong, int _mines, bool _barrier, bool _frozen, ITankActionProvider tankActionProvider)
         {
-            tankTexture = _game.Content.Load<Texture2D>(_tankSpriteName);
+            TankColor = tankColor;
+
+            switch (TankColor)
+            {
+                case TankColors.BLUE:
+                    tankTexture = _game.Content.Load<Texture2D>("Graphics/BlueTank");
+                    break;
+                case TankColors.GREEN:
+                    tankTexture = _game.Content.Load<Texture2D>("Graphics/GreenTank");
+                    break;
+                case TankColors.PINK:
+                    tankTexture = _game.Content.Load<Texture2D>("Graphics/PinkTank");
+                    break;
+                case TankColors.RED:
+                    tankTexture = _game.Content.Load<Texture2D>("Graphics/RedTank");
+                    break;
+                case TankColors.YELLOW:
+                    tankTexture = _game.Content.Load<Texture2D>("Graphics/YellowTank");
+                    break;
+            }
+            
             barrierTexture = _game.Content.Load<Texture2D>("Graphics/barrier");
 
             location = _location;
@@ -122,15 +151,34 @@ namespace BattleTank.Core.Tanks
         {
             if (barrier)
             {
+                Color barrierColor = Color.White;
+                switch (TankColor)
+                {
+                    case TankColors.BLUE:
+                        barrierColor = Color.Blue;
+                        break;
+                    case TankColors.GREEN:
+                        barrierColor = Color.Green;
+                        break;
+                    case TankColors.PINK:
+                        barrierColor = Color.DeepPink;
+                        break;
+                    case TankColors.RED:
+                        barrierColor = Color.Red;
+                        break;
+                    case TankColors.YELLOW:
+                        barrierColor = Color.Yellow;
+                        break;
+                }
                 barrierLocation = new Vector2((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2));
                 if (_timeLeftForBarrier.Seconds <= 3)
                 {
                     if (_timeLeftForBarrier.Milliseconds.IsWithin(500, 750) || _timeLeftForBarrier.Milliseconds.IsWithin(0, 250))
-                        spriteBatch.Draw(barrierTexture, barrierLocation, Color.Green);
+                        spriteBatch.Draw(barrierTexture, barrierLocation, barrierColor);
                 }
                 else
                 {
-                    spriteBatch.Draw(barrierTexture, barrierLocation, Color.Green);
+                    spriteBatch.Draw(barrierTexture, barrierLocation, barrierColor);
                 }
             }
 
@@ -435,7 +483,7 @@ namespace BattleTank.Core.Tanks
 
         public virtual void Hit()
         {
-               if (TankActionProvider is XInputGamepadTankActionProvider c)
+            if (TankActionProvider is XInputGamepadTankActionProvider c)
             {
                 c.Vibrate(0.5f);
                 _timeLeftForVibration = TimeSpan.FromMilliseconds(100);
@@ -452,7 +500,7 @@ namespace BattleTank.Core.Tanks
                 }
             }
             hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
-         
+
 
         }
 
@@ -468,7 +516,7 @@ namespace BattleTank.Core.Tanks
                 alive = false;
                 location = new Vector2(-100, -100);
             }
-            if (lives <= 0  )
+            if (lives <= 0)
             {
                 if (TankActionProvider is XInputGamepadTankActionProvider c)
                 {
@@ -508,11 +556,11 @@ namespace BattleTank.Core.Tanks
             armor = 0;
 
             // czyli kiedy pozostała wartość życia jest wartością całkowitą
-            if (Math.Abs(lives - (int) lives) <= float.Epsilon) 
+            if (Math.Abs(lives - (int)lives) <= float.Epsilon)
                 lives--;
             // Jeżeli pozostała ilosć życia jest większa niż część całkowita, odejmij część ułamkową
             else
-                lives -= lives - (int) lives;
+                lives -= lives - (int)lives;
 
             Die();
 

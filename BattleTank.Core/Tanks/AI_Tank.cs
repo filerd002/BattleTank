@@ -148,7 +148,7 @@ namespace BattleTank.Core.Tanks
                     if ((location - userTank.location).Length() <= _aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
                     {
                         Explode();
-                        if (userTank.barrier == false)
+                        if (userTank.Barrier == false)
                         {
                             userTank.Explode();
                         }
@@ -230,7 +230,7 @@ namespace BattleTank.Core.Tanks
                 if (distanceToNearestUserTank <= (_aiLevel * 10))
                 {
                     Explode();
-                    if (nearestUserTank.barrier == false)
+                    if (nearestUserTank.Barrier == false)
                     {
                         nearestUserTank.Explode();
                     }

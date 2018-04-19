@@ -56,7 +56,7 @@ namespace BattleTank.Core.Tanks
 
         private float timerBush = 0f;
 
-        public bool barrier => _timeLeftForBarrier > TimeSpan.Zero;
+        public bool Barrier => _timeLeftForBarrier > TimeSpan.Zero;
         public bool frozen => _timeLeftForFrozen > TimeSpan.Zero;
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace BattleTank.Core.Tanks
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            if (barrier)
+            if (Barrier)
             {
                 Color barrierColor = Color.White;
                 switch (TankColor)
@@ -551,7 +551,7 @@ namespace BattleTank.Core.Tanks
         {
             if (!alive) return;
 
-            if (barrier) return;
+            if (Barrier) return;
 
             armor = 0;
 

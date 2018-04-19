@@ -1,6 +1,7 @@
 ﻿using System;
+using BattleTank.Core;
 
-namespace BattleTank
+namespace BattleTank.Windows
 {
 #if WINDOWS || LINUX
     /// <summary>

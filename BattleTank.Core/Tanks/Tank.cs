@@ -143,7 +143,7 @@ namespace BattleTank.Core.Tanks
             hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
             tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
 
-            if (_barrier) Barrier();
+            if (_barrier) StartBarrier();
             if (_frozen) Frozen();
         }
 
@@ -471,7 +471,7 @@ namespace BattleTank.Core.Tanks
             return true;
         }
 
-        public virtual void Barrier()
+        public virtual void StartBarrier()
         {
             _timeLeftForBarrier = BARRIER_TIME;
         }

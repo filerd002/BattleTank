@@ -43,7 +43,7 @@ namespace BattleTank.Core.Tanks
             base.Draw(spriteBatch);
             foreach (Bullet b in _enemyBullets)
             {
-                if (b != null && b.alive)
+                if (b != null && b.IsAlive)
                 {
                     b.Draw(spriteBatch);
                 }
@@ -65,7 +65,7 @@ namespace BattleTank.Core.Tanks
             base.Update(gameTime);
             foreach (Bullet b in _enemyBullets)
             {
-                if (b != null && b.alive)
+                if (b != null && b.IsAlive)
                 {
                     b.Update();
                 }

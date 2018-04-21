@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BattleTank.Core.GUI;
 using BattleTank.Core.Input;
 using BattleTank.Core.Tanks;
@@ -1463,45 +1464,21 @@ namespace BattleTank.Core
                 {
                     soundOnOff = 0;
                     gameState = pause;
-
                 }
 
                 if (gameState != pause)
                 {
                     map.Update(gameTime);
+
                     mines.ForEach(c => c.Update());
+                    mines.RemoveAll(d => !d.IsAlive);
+
                     bullets.ForEach(c => c?.Update());
+                    bullets.RemoveAll(d => !d.IsAlive);
 
                     foreach (Tank tank in enemyTanks.Concat(new [] {tank1, tank2}))
                     {
                         tank.Update(gameTime);
-
-                        if (tank.CanRespawn)
-                        { 
-                            bool colliding = false;
-                            do
-                            {
-                                int startingLocationX = randy.Next(100, graphics.PreferredBackBufferWidth - 100);
-                                int startingLocationY = randy.Next(100, graphics.PreferredBackBufferHeight - 100);
-
-                                tank.location = new Vector2(startingLocationX, startingLocationY);
-
-                                Rectangle startingtankRect = new Rectangle(startingLocationX, startingLocationY, 32, 32);
-
-                                colliding = false;
-                                foreach (Tile[] tiles in map.map)
-                                {
-                                    foreach (Tile tile in tiles)
-                                    {
-                                        if (tile is null) continue;
-                                        if ((!(tile.isColliding(startingtankRect).depth > 0))) continue;
-
-                                        colliding = true;
-                                    }
-                                }
-                            } while (colliding);
-                            tank.Respawn();
-                        }
 
                         if (!tank.alive) continue;
 
@@ -1516,21 +1493,15 @@ namespace BattleTank.Core
                         }
                     }
 
-                    bullets.RemoveAll(d => !d.IsAlive);
-                    mines.RemoveAll(d => !d.IsAlive);
-
                     // Zastanów się Filipie czy tego potrzebujesz, skoro jest to nie używane akutalnie.
                     debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
                     tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
-
                 }
             }
 
-
-
             base.Update(gameTime);
-
         }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>

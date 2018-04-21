@@ -319,6 +319,10 @@ namespace BattleTank.Core.Tanks
             else
             {
                 _timeLeftToRespawn -= gameTime.ElapsedGameTime;
+                if (CanRespawn)
+                {
+                    Respawn();
+                }
             }
             respawnParticles.Update(gameTime);
             deathParticles.Update(gameTime);
@@ -326,8 +330,6 @@ namespace BattleTank.Core.Tanks
             {
                 hitParticles.Update(gameTime);
             }
-
-
         }
 
         public virtual void MoveTank(TankControllerState? state = null)
@@ -563,17 +565,14 @@ namespace BattleTank.Core.Tanks
             }
         }
 
-        public virtual void Respawn()
+        private void Respawn()
         {
-            if (_timeLeftToRespawn > TimeSpan.Zero) return;
-            if (!alive && lives > 0)
-            {
-                game.sound.PlaySound(Sound.Sounds.RESPAWN);
-                armor = 1;
-                strong = 1;
-                respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Green, 2);
-                alive = true;
-            }
+            location = game.map.FindNonColidingPosition(tankRect.Width, tankRect.Height);
+            game.sound.PlaySound(Sound.Sounds.RESPAWN);
+            armor = 1;
+            strong = 1;
+            respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Green, 2);
+            alive = true;
         }
 
         public void Explode()

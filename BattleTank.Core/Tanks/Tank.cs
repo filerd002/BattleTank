@@ -401,7 +401,7 @@ namespace BattleTank.Core.Tanks
             this.rotation = angle;
         }
 
-        public bool TryFire(out Bullet[] bullets)
+        public virtual bool TryFire(out Bullet[] bullets)
         {
             TankControllerState controller = TankActionProvider.GetTankControllerState();
             if (controller.Fire)
@@ -413,9 +413,12 @@ namespace BattleTank.Core.Tanks
             bullets = new Bullet[0];
             return false;
         }
-        public Bullet[] Fire()
+
+        protected Bullet[] Fire()
         {
             if (!alive) return new Bullet[0];
+
+            if (frozen) return new Bullet[0];
 
             if (_timeLeftToNextShot > TimeSpan.Zero) return new Bullet[0];
 
@@ -438,7 +441,7 @@ namespace BattleTank.Core.Tanks
 
             float bulletShowDistance = 5; // Odległość od czołgu w jakiej ma się pojawić pocisk, zbyt mała może powodować kolizje z strzelającym
             Rectangle bulletStartPosition = new Rectangle((int)(location.X + xFraction * bulletShowDistance),
-                                                           (int)(location.Y + yFraction * bulletShowDistance), 5, 5);
+                                                           (int)(location.Y + yFraction * bulletShowDistance), 5, 7);
 
             var bullets = new Bullet[strong];
 

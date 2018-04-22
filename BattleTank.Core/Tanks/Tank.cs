@@ -56,9 +56,15 @@ namespace BattleTank.Core.Tanks
 
         private float timerBush = 0f;
 
-        public bool Barrier => _timeLeftForBarrier > TimeSpan.Zero;
-        public bool frozen => _timeLeftForFrozen > TimeSpan.Zero;
 
+        #region Respawn
+        public bool CanRespawn => !alive && lives > 0 && _timeLeftToRespawn <= TimeSpan.Zero;
+        private readonly TimeSpan BACK_ALIVE_DELAY = TimeSpan.FromSeconds(2);
+        private TimeSpan _timeLeftToRespawn = TimeSpan.Zero;
+        #endregion
+
+        #region Frozen
+        public bool frozen => _timeLeftForFrozen > TimeSpan.Zero;
         /// <summary>
         /// Czas po jakim czolg zostanie rozmrozony
         /// </summary>
@@ -67,6 +73,10 @@ namespace BattleTank.Core.Tanks
         /// Czas jaki został do rozmrozenia
         /// </summary>
         protected TimeSpan _timeLeftForFrozen = TimeSpan.Zero;
+        #endregion
+
+        #region Barrier
+        public bool Barrier => _timeLeftForBarrier > TimeSpan.Zero;
         /// <summary>
         /// Czas po jakim osłona zostanie zdjęcia
         /// </summary>
@@ -75,6 +85,9 @@ namespace BattleTank.Core.Tanks
         /// Czas jaki został do zniknięcie osłony
         /// </summary>
         protected TimeSpan _timeLeftForBarrier = TimeSpan.Zero;
+        #endregion
+
+        #region Fire
         /// <summary>
         /// Opóźnienie pomiędzy kolejnymi strzałami w milisekundach
         /// </summary>
@@ -86,11 +99,15 @@ namespace BattleTank.Core.Tanks
         /// <summary>
         /// Opóźnienie pomiędzy kolejnymi strzałami w miliseksundach
         /// </summary>
+        #endregion
+
+        #region PlantMine
         public readonly TimeSpan PLANT_MINE_DELAY = TimeSpan.FromMilliseconds(2000);
         /// <summary>
         /// Okresla ile zcasu zostało do następnego strzału
         /// </summary>
         private TimeSpan _timeLeftToPlantMine = TimeSpan.Zero;
+        #endregion
 
         private TimeSpan _timeLeftForVibration = TimeSpan.Zero;
 
@@ -119,7 +136,7 @@ namespace BattleTank.Core.Tanks
                     tankTexture = _game.Content.Load<Texture2D>("Graphics/YellowTank");
                     break;
             }
-            
+
             barrierTexture = _game.Content.Load<Texture2D>("Graphics/barrier");
 
             location = _location;
@@ -229,7 +246,8 @@ namespace BattleTank.Core.Tanks
                     MoveTank();
                 }
 
-                tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
+                tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2),
+                    (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
 
                 colliding = false;
                 foreach (Tile[] tiles in game.map.map)
@@ -288,12 +306,23 @@ namespace BattleTank.Core.Tanks
                             }
                         }
 
-                        else { continue; }
+                        else
+                        {
+                            continue;
+                        }
 
                     }
                 }
 
 
+            }
+            else
+            {
+                _timeLeftToRespawn -= gameTime.ElapsedGameTime;
+                if (CanRespawn)
+                {
+                    Respawn();
+                }
             }
             respawnParticles.Update(gameTime);
             deathParticles.Update(gameTime);
@@ -301,8 +330,6 @@ namespace BattleTank.Core.Tanks
             {
                 hitParticles.Update(gameTime);
             }
-
-
         }
 
         public virtual void MoveTank(TankControllerState? state = null)
@@ -518,6 +545,7 @@ namespace BattleTank.Core.Tanks
                 deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2);
                 alive = false;
                 location = new Vector2(-100, -100);
+                _timeLeftToRespawn = BACK_ALIVE_DELAY;
             }
             if (lives <= 0)
             {
@@ -537,17 +565,14 @@ namespace BattleTank.Core.Tanks
             }
         }
 
-        public virtual void Respawn(Vector2 _location)
+        private void Respawn()
         {
-            if (!alive && lives > 0)
-            {
-                game.sound.PlaySound(Sound.Sounds.RESPAWN);
-                location = _location;
-                armor = 1;
-                strong = 1;
-                respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Green, 2);
-                alive = true;
-            }
+            location = game.map.FindNonColidingPosition(tankRect.Width, tankRect.Height);
+            game.sound.PlaySound(Sound.Sounds.RESPAWN);
+            armor = 1;
+            strong = 1;
+            respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Green, 2);
+            alive = true;
         }
 
         public void Explode()

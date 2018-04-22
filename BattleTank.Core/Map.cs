@@ -216,13 +216,37 @@ namespace BattleTank.Core
 
                 
             }
+        }
 
 
-          //  map[map.Length/2][map.Length/2] = new Tile(Tile.WALL, new Rectangle((screenWidth/2)-24,(screenHeight/2)-24, 48, 48), wallTexture);
-          //     map[map.Length / 2][(map.Length / 2)-1] = new Tile(Tile.WALL, new Rectangle((screenWidth / 2) - 72, (screenHeight / 2) - 24, 48, 48), wallTexture);
-           //   map[map.Length / 2][(map.Length / 2) - 2] = new Tile(Tile.WALL, new Rectangle((screenWidth / 2) + 24, (screenHeight / 2) - 24, 48, 48), wallTexture);
-         //    map[map.Length / 2][(map.Length / 2) - 3] = new Tile(Tile.WALL, new Rectangle((screenWidth / 2) - 24, (screenHeight / 2) + 24, 48, 48), wallTexture);
-         //   map[map.Length / 2][(map.Length / 2) - 4] = new Tile(Tile.WALL, new Rectangle((screenWidth / 2) - 24, (screenHeight / 2) - 72, 48, 48), wallTexture);
+        public Vector2 FindNonColidingPosition(int width, int height)
+        {
+            Random randy = new Random();
+
+            Vector2 respawnLocation;
+            bool colliding = false;
+            do
+            {
+                int startingLocationX = randy.Next(100, screenWidth - 100);
+                int startingLocationY = randy.Next(100, screenHeight - 100);
+
+                respawnLocation = new Vector2(startingLocationX, startingLocationY);
+
+                Rectangle startingtankRect = new Rectangle(startingLocationX, startingLocationY, width, height);
+
+                colliding = false;
+                foreach (Tile[] tiles in map)
+                {
+                    foreach (Tile tile in tiles)
+                    {
+                        if (tile is null) continue;
+                        if ((!(tile.isColliding(startingtankRect).depth > 0))) continue;
+
+                        colliding = true;
+                    }
+                }
+            } while (colliding);
+            return respawnLocation;
         }
     }
 }

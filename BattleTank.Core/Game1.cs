@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using BattleTank.Core.GUI;
 using BattleTank.Core.Input;
 using BattleTank.Core.Tanks;
@@ -34,7 +35,6 @@ namespace BattleTank.Core
         private float tank1TimeToBackAlive = 2f;
         private float tank2TimeToBackAlive = 2f;
         private float tankAITimeToBackAlive = 2f;
-        private const float BACK_ALIVE_DELAY = 2f;
 
         int timer1control = 0;
   
@@ -1460,179 +1460,28 @@ namespace BattleTank.Core
             else
             {
 
-
-
-
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     soundOnOff = 0;
                     gameState = pause;
-
                 }
+
                 if (gameState != pause)
                 {
                     map.Update(gameTime);
 
-                    //Update delays
-                    float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-
-                    //if tanks are dead, decrease their time until they respawn
-                    if (!tank1.alive)
-                    {
-                        tank1TimeToBackAlive -= timer;
-                        if (tank1TimeToBackAlive < 0)
-                        {
-
-                            tank1.colliding = true;
-                            while (tank1.colliding)
-                            {
-                                int startingLocationX = randy.Next(100, graphics.PreferredBackBufferWidth - 100);
-                                int startingLocationY = randy.Next(100, graphics.PreferredBackBufferHeight - 100);
-
-                                tank1.startingLocation = new Vector2(startingLocationX, startingLocationY);
-
-                                Rectangle startingtankRect = new Rectangle(startingLocationX, startingLocationY, 32, 32);
-
-
-
-
-                                tank1.colliding = false;
-                                foreach (Tile[] tiles in map.map)
-                                {
-                                    foreach (Tile tile in tiles)
-                                    {
-                                        if (tile != null)
-                                        {
-                                            if ((tile.isColliding(startingtankRect).depth > 0))
-                                            {
-                                                tank1.colliding = true;
-
-
-                                            }
-
-                                        }
-                                        else { continue; }
-
-                                    }
-                                }
-
-
-                            }
-                            tank1.Respawn(tank1.startingLocation);
-                            tank1TimeToBackAlive = BACK_ALIVE_DELAY;
-                        }
-                    }
-                    if (!tank2.alive)
-                    {
-                        tank2TimeToBackAlive -= timer;
-                        if (tank2TimeToBackAlive < 0)
-                        {
-
-                            tank2.colliding = true;
-                            while (tank2.colliding)
-                            {
-                                int startingLocationX = randy.Next(100, graphics.PreferredBackBufferWidth - 100);
-                                int startingLocationY = randy.Next(100, graphics.PreferredBackBufferHeight - 100);
-
-                                tank2.startingLocation = new Vector2(startingLocationX, startingLocationY);
-
-                                Rectangle startingtankRect = new Rectangle(startingLocationX, startingLocationY, 32, 32);
-
-
-
-
-                                tank2.colliding = false;
-                                foreach (Tile[] tiles in map.map)
-                                {
-                                    foreach (Tile tile in tiles)
-                                    {
-                                        if (tile != null)
-                                        {
-                                            if ((tile.isColliding(startingtankRect).depth > 0))
-                                            {
-                                                tank1.colliding = true;
-
-
-                                            }
-
-                                        }
-                                        else { continue; }
-
-                                    }
-                                }
-
-
-                            }
-                            tank2.Respawn(tank2.startingLocation);
-                            tank2TimeToBackAlive = BACK_ALIVE_DELAY;
-                        }
-                    }
-
-
-
-                    foreach (AI_Tank et in enemyTanks)
-                    {
-
-
-
-                        if (!et.alive && et.lives > 0)
-                        {
-                            tankAITimeToBackAlive -= timer;
-                            if (tankAITimeToBackAlive < 0)
-                            {
-
-                                et.colliding = true;
-                                while (et.colliding)
-                                {
-                                    int startingLocationX = randy.Next(100, graphics.PreferredBackBufferWidth - 100);
-                                    int startingLocationY = randy.Next(100, graphics.PreferredBackBufferHeight - 100);
-
-                                    et.startingLocation = new Vector2(startingLocationX, startingLocationY);
-
-                                    Rectangle startingtankRect = new Rectangle(startingLocationX, startingLocationY, 32, 32);
-
-
-
-
-                                    et.colliding = false;
-                                    foreach (Tile[] tiles in map.map)
-                                    {
-                                        foreach (Tile tile in tiles)
-                                        {
-                                            if (tile != null)
-                                            {
-                                                if ((tile.isColliding(startingtankRect).depth > 0))
-                                                {
-                                                    et.colliding = true;
-
-
-                                                }
-
-                                            }
-                                            else { continue; }
-
-                                        }
-                                    }
-
-
-                                }
-
-                                et.Respawn(et.startingLocation);
-                                tankAITimeToBackAlive = BACK_ALIVE_DELAY;
-                            }
-                        }
-                    }
-
-                    // TODO: Add your update logic here
-                    
-
                     mines.ForEach(c => c.Update());
+                    mines.RemoveAll(d => !d.IsAlive);
+
                     bullets.ForEach(c => c?.Update());
-                    
-                    foreach (Tank tank in enemyTanks.Concat(new[] {tank1, tank2}))
+                    bullets.RemoveAll(d => !d.IsAlive);
+
+                    foreach (Tank tank in enemyTanks.Concat(new [] {tank1, tank2}))
                     {
                         tank.Update(gameTime);
-                        
+
+                        if (!tank.alive) continue;
+
                         if (tank.TryFire(out Bullet[] newBullets))
                         {
                             bullets.AddRange(newBullets);
@@ -1644,21 +1493,15 @@ namespace BattleTank.Core
                         }
                     }
 
-                    bullets.RemoveAll(d => !d.IsAlive);
-                    mines.RemoveAll(d => !d.IsAlive);
-
                     // Zastanów się Filipie czy tego potrzebujesz, skoro jest to nie używane akutalnie.
                     debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
                     tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
-
                 }
             }
 
-
-
             base.Update(gameTime);
-
         }
+
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>

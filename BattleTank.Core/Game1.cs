@@ -1150,19 +1150,14 @@ namespace BattleTank.Core
                         else
                             speedCPU = new Vector2(3, 3);
 
-                        TankColors[] availableTankColors = new[] {TankColors.BLUE, TankColors.PINK, TankColors.YELLOW};
+                        TankColors[] availableTankColors = new[] {TankColors.BLUE, TankColors.PINK, TankColors.YELLOW}; 
 
-                        int totalEnemiesCount = iloscCPUKamikaze + iloscCPUKlasyk;
-
-                        for (int i = 0; i < totalEnemiesCount; i++)
+                        for (int i = 0; i < (iloscCPUKamikaze + iloscCPUKlasyk); i++)
                         {
                             enemyTanks.Add(new AI_Tank(this, 
                                 availableTankColors[i % availableTankColors.Length],
-                                new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), 
-                                speedCPU, 
-                                0, 
-                                3 + i, 1f,
-                                whiteRectangle, 1, false, false, 
+                                new Vector2(map.screenWidth / 2f, (int)map.screenHeight / 2f), 
+                                speedCPU, 0, 3 + i, 1f, whiteRectangle, 1, false, false, 
                                 MathHelper.WrapAngle(MathHelper.PiOver4 * 3 * i), poziomTrudnosci, i >= iloscCPUKlasyk));
                         }
 
@@ -1210,7 +1205,6 @@ namespace BattleTank.Core
                         map.WallBorder = randy.Next(5);
                         WallInside = true;
                         map.Reset();
-                        sound.PlaySound(Sound.Sounds.KLIK);
                         soundOnOff = 1;
 
                         if (gameReturn == gameRunningPlayer1)

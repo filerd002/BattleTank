@@ -1624,31 +1624,28 @@ namespace BattleTank.Core
                     }
 
                     // TODO: Add your update logic here
-                    tank1.Update(gameTime);
-                    tank2.Update(gameTime);
-
-                    enemyTanks.ForEach(c => c.Update(gameTime));
+                    
 
                     mines.ForEach(c => c.Update());
                     bullets.ForEach(c => c?.Update());
+                    
+                    foreach (Tank tank in enemyTanks.Concat(new[] {tank1, tank2}))
+                    {
+                        tank.Update(gameTime);
+                        
+                        if (tank.TryFire(out Bullet[] newBullets))
+                        {
+                            bullets.AddRange(newBullets);
+                        }
 
-                    if (tank1.TryFire(out Bullet[] newBullets))
-                    {
-                        bullets.AddRange(newBullets);
-                    }
-                    if (tank2.TryFire(out newBullets))
-                    {
-                        bullets.AddRange(newBullets);
+                        if (tank.TryPlantMine(out Mine mine))
+                        {
+                            mines.Add(mine);
+                        }
                     }
 
-                    if (tank1.TryPlantMine(out Mine mine))
-                    {
-                        mines.Add(mine);
-                    }
-                    if (tank2.TryPlantMine(out mine))
-                    {
-                        mines.Add(mine);
-                    }
+                    bullets.RemoveAll(d => !d.IsAlive);
+                    mines.RemoveAll(d => !d.IsAlive);
 
                     // Zastanów się Filipie czy tego potrzebujesz, skoro jest to nie używane akutalnie.
                     debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);

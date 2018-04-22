@@ -38,39 +38,28 @@ namespace BattleTank.Core.Tanks
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
-        {
-            base.Draw(spriteBatch);
-            foreach (Bullet b in _enemyBullets)
-            {
-                if (b != null && b.alive)
-                {
-                    b.Draw(spriteBatch);
-                }
-            }
-        }
-
         public override void Update(GameTime gameTime)
         {
-
             _aggressiveTimeLeft -= gameTime.ElapsedGameTime;
-            if (_timeLeftToNextShot <= TimeSpan.Zero)
-            {
-                if (!frozen)
-                {
-                    _enemyBullets.AddRange(Fire());
-                }
-            }
 
             base.Update(gameTime);
-            foreach (Bullet b in _enemyBullets)
-            {
-                if (b != null && b.alive)
-                {
-                    b.Update();
-                }
+        }
 
-            }
+        public override bool TryFire(out Bullet[] bullets)
+        {
+            bullets = Fire();
+
+            if (bullets?.Length > 0 )
+                return true;
+
+            return false;
+        }
+
+        /// <inheritdoc />
+        public override void Hit()
+        {
+            _aggressiveTimeLeft = MAX_AGGRESSIVE_TIME;
+            base.Hit();
         }
 
         public override void MoveTank(TankControllerState? state = null)
@@ -178,13 +167,6 @@ namespace BattleTank.Core.Tanks
                     _oldTargetDirection = RIGHT;
                 }
             }
-        }
-
-        /// <inheritdoc />
-        public override void Hit()
-        {
-            _aggressiveTimeLeft = MAX_AGGRESSIVE_TIME;
-            base.Hit();
         }
 
         private void ExperimentalAI()

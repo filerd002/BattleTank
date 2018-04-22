@@ -74,57 +74,71 @@ namespace BattleTank.Core.Tanks
         {
             if (colliding)
             {
-                switch ((int)_oldTargetDirection)
+                switch ((int)(_oldTargetDirection * 10))
                 {
-                    case (int)UP:
+                    case (int)(UP * 10):
+                        _oldTargetDirection = UP_RIGHT;
+                        break;
+                    case (int)(UP_RIGHT * 10):
                         _oldTargetDirection = RIGHT;
                         break;
-                    case (int)RIGHT:
+                    case (int)(RIGHT * 10):
+                        _oldTargetDirection = DOWN_RIGHT;
+                        break;
+                    case (int)(DOWN_RIGHT * 10):
                         _oldTargetDirection = DOWN;
                         break;
-                    case (int)LEFT:
+                    case (int)(DOWN * 10):
+                        _oldTargetDirection = DOWN_LEFT;
+                        break;
+                    case (int)(DOWN_LEFT * 10):
+                        _oldTargetDirection = LEFT;
+                        break;
+                    case (int)(LEFT * 10):
+                        _oldTargetDirection = UP_LEFT;
+                        break;
+                    case (int)(UP_LEFT * 10):
                         _oldTargetDirection = UP;
-                        break;
-                    case (int)DOWN:
-                        _oldTargetDirection = LEFT;
-                        break;
-                    case (int)UP_LEFT:
-                        _oldTargetDirection = LEFT;
-                        break;
-                    case (int)DOWN_LEFT:
-                        _oldTargetDirection = LEFT;
-                        break;
-                    default:
                         break;
                 }
             }
-            switch ((int)_oldTargetDirection)
+            switch ((int)(_oldTargetDirection * 10))
             {
-                case (int)UP:
+                case (int)(UP * 10):
                     MoveUp(false);
-                    Rotate(UP);
+                    Rotate(UP);         
                     break;
-                case (int)RIGHT:
+                case (int)(RIGHT * 10):
                     MoveRight(false);
                     Rotate(RIGHT);
                     break;
-                case (int)LEFT:
+                case (int)(LEFT * 10):
                     MoveLeft(false);
                     Rotate(LEFT);
                     break;
-                case (int)DOWN:
+                case (int)(DOWN * 10):
                     MoveDown(false);
                     Rotate(DOWN);
                     break;
-                case (int)UP_LEFT:
+                case (int)(UP_LEFT * 10):
                     MoveUp(false);
                     MoveLeft(false);
                     Rotate(UP_LEFT);
                     break;
-                case (int)DOWN_LEFT:
+                case (int)(DOWN_LEFT * 10):
                     MoveDown(false);
                     MoveLeft(false);
                     Rotate(DOWN_LEFT);
+                    break;
+                case (int)(UP_RIGHT * 10):
+                    MoveUp(false);
+                    MoveRight(false);
+                    Rotate(UP_RIGHT);
+                    break;
+                case (int)(DOWN_RIGHT * 10):
+                    MoveDown(false);
+                    MoveRight(false);
+                    Rotate(DOWN_RIGHT);
                     break;
                 default:
                     break;

@@ -1157,7 +1157,7 @@ namespace BattleTank.Core
                         for (int i = 0; i < totalEnemiesCount; i++)
                         {
                             enemyTanks.Add(new AI_Tank(this, 
-                                availableTankColors[enemyTanks.Capacity % availableTankColors.Length],
+                                availableTankColors[i % availableTankColors.Length],
                                 new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), 
                                 speedCPU, 
                                 0, 

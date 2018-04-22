@@ -1150,247 +1150,20 @@ namespace BattleTank.Core
                         else
                             speedCPU = new Vector2(3, 3);
 
-                        if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 0)
-                        {
-                            enemyTanks.Add(new AI_Tank(this, TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                        }
-                        else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 1)
-                        {
-                            enemyTanks.Add(new AI_Tank(this, TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 2)
-                        {
-                            enemyTanks.Add(new AI_Tank(this, TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKlasyk == 1 && iloscCPUKamikaze == 3)
-                        {
-                            enemyTanks.Add(new AI_Tank(this, TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 4, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 5, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
-                                whiteRectangle, 1, false, false, 0, poziomTrudnosci, true));
-                        }
+                        TankColors[] availableTankColors = new[] {TankColors.BLUE, TankColors.PINK, TankColors.YELLOW};
 
-                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 0)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                        }
-                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 1)
-                        {
-                            enemyTanks.Add(new AI_Tank(this, TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 2)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1,
-                                false, false, 0, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKlasyk == 2 && iloscCPUKamikaze == 3)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 6, 1f, whiteRectangle, 1,
-                                false, false, 0, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 7, 1f,
-                                whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci,
-                                true));
-                        }
+                        int totalEnemiesCount = iloscCPUKamikaze + iloscCPUKlasyk;
 
-                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 0)
+                        for (int i = 0; i < totalEnemiesCount; i++)
                         {
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                        }
-                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 1)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 2)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, 0, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver4, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKlasyk == 3 && iloscCPUKamikaze == 3)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, false));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi - MathHelper.PiOver4, poziomTrudnosci,
-                                false));
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 6, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 7, 1f, whiteRectangle, 1,
-                                false, false, 0, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 8, 1f,
-                                whiteRectangle, 1, false, false, -(MathHelper.Pi - MathHelper.PiOver4), poziomTrudnosci,
-                                true));
-                        }
-                        else if (iloscCPUKamikaze == 3 && iloscCPUKlasyk == 0)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 5, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKamikaze == 2 && iloscCPUKlasyk == 0)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,  TankColors.PINK,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, -MathHelper.PiOver2, poziomTrudnosci, true));
-                            enemyTanks.Add(new AI_Tank(this, TankColors.YELLOW,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, 0, 4, 1f, whiteRectangle, 1,
-                                false, false, MathHelper.PiOver2, poziomTrudnosci, true));
-                        }
-                        else if (iloscCPUKamikaze == 1 && iloscCPUKlasyk == 0)
-                        {
-                            enemyTanks.Add(new AI_Tank(this,TankColors.BLUE,
-                                new Vector2(graphics.PreferredBackBufferWidth / 2,
-                                    graphics.PreferredBackBufferHeight / 2), speedCPU, MathHelper.Pi, 3, 1f,
-                                whiteRectangle, 1, false, false, MathHelper.Pi, poziomTrudnosci, true));
+                            enemyTanks.Add(new AI_Tank(this, 
+                                availableTankColors[enemyTanks.Capacity % availableTankColors.Length],
+                                new Vector2(graphics.PreferredBackBufferWidth / 2, graphics.PreferredBackBufferHeight / 2), 
+                                speedCPU, 
+                                0, 
+                                3 + i, 1f,
+                                whiteRectangle, 1, false, false, 
+                                MathHelper.WrapAngle(MathHelper.PiOver4 * 3 * i), poziomTrudnosci, i >= iloscCPUKlasyk));
                         }
 
 
@@ -1473,7 +1246,7 @@ namespace BattleTank.Core
                     mines.ForEach(c => c.Update());
                     mines.RemoveAll(d => !d.IsAlive);
 
-                    bullets.ForEach(c => c?.Update());
+                    bullets.ForEach(c => c.Update());
                     bullets.RemoveAll(d => !d.IsAlive);
 
                     foreach (Tank tank in enemyTanks.Concat(new [] {tank1, tank2}))

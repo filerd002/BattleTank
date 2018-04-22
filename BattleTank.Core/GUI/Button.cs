@@ -1,4 +1,5 @@
 ﻿using System;
+using BattleTank.Core.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,11 +47,11 @@ namespace BattleTank.Core.GUI
             }
         }
 
-        public bool IsMouseOver(ref MouseState mouseState)
+        public bool IsMouseOver(ref PointerState mouseState)
         {
             if (!IsEnabled) return false;
 
-            var mousePosition = new Rectangle((int)mouseState.X, (int)mouseState.Y, 1, 1);
+            var mousePosition = new Rectangle(mouseState.Location, new Point(1));
 
             if (mousePosition.Intersects(Position))
                 IsActive = true;
@@ -60,11 +61,11 @@ namespace BattleTank.Core.GUI
             return IsActive;
         }
 
-        public bool IsClicked(ref MouseState mouseState)
+        public bool IsClicked(ref PointerState mouseState)
         {
             if (IsMouseOver(ref mouseState))
             {
-               if (mouseState.LeftButton == ButtonState.Pressed)
+               if (mouseState.MainAction == ButtonState.Pressed)
                 {
                     ClickSound?.Play();
                     OnClickedRaised();

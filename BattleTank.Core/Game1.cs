@@ -338,8 +338,7 @@ namespace BattleTank.Core
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            MouseState state = Mouse.GetState();
-
+            PointerState state =  PointerState.GetState();
 
 
             if (Keyboard.GetState().IsKeyUp(Keys.Escape))
@@ -348,7 +347,7 @@ namespace BattleTank.Core
                 keysStatus = false;
             }
 
-            if (state.LeftButton == ButtonState.Released)
+            if (state.MainAction == ButtonState.Released)
             {
                 LeftButtonStatus = false;
             }

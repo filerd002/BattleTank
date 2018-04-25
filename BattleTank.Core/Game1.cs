@@ -32,10 +32,7 @@ namespace BattleTank.Core
         Rectangle debugRect;
         Rectangle tank2DebugRect;
 
-        private float tank1TimeToBackAlive = 2f;
-        private float tank2TimeToBackAlive = 2f;
-        private float tankAITimeToBackAlive = 2f;
-
+    
         int timer1control = 0;
   
         Texture2D background;

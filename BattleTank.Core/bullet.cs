@@ -129,7 +129,7 @@ namespace BattleTank.Core
                         if ((tile.isColliding(_bulletRect).depth > 0)) //If collision is not an empty collision
                         {
                             Collision collision = tile.isColliding(_bulletRect);
-                            if (tile.type == 1)
+                            if (tile.type == Tile.TileType.WALL)
                                 this.Die();
                         }
                     }

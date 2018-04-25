@@ -14,16 +14,6 @@ namespace BattleTank.Core
         private SpriteFont spriteFontBig;
         public Score() { }
 
-
-
-        String locationScoreTank1 = "TOP";
-        String locationScoreTank2 = "RIGHT";
-        String locationScoreenemyTanks0 = "TOP";
-        String locationScoreenemyTanks1 = "TOP";
-        String locationScoreenemyTanks2 = "TOP";
-        String locationScoreenemyTanks3 = "TOP";
-        String locationScoreenemyTanks4 = "TOP";
-        String locationScoreenemyTanks5 = "TOP";
         public Score(Game1 _game, int _numOfPlayers)
         {
             game = _game;

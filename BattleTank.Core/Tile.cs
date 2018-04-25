@@ -6,15 +6,21 @@ namespace BattleTank.Core
 {
     public class Tile
     {
-        public const int AIR = 0;
-        public const int WALL = 1;
-        public const int BUSH = 2;
-        public const int WATER = 3;
+
+
+       public  enum TileType
+        {
+            AIR,
+            WALL,
+            BUSH,
+            WATER
+        }
+
         public Rectangle collisionRect;
         public Texture2D texture;
  
-        public int type;
-        public Tile(int _type, Rectangle _collisionRect, Texture2D _texture)
+         public TileType type;
+         public Tile(TileType _type, Rectangle _collisionRect, Texture2D _texture)
         {
             collisionRect = _collisionRect;
             texture = _texture;
@@ -24,13 +30,13 @@ namespace BattleTank.Core
         {
             switch (type)
             {
-                case AIR:
+                case TileType.AIR:
                     break;
-                case WALL:
+                case TileType.WALL:
                     break;
-                case BUSH:
+                case TileType.BUSH:
                     break;
-                case WATER:
+                case TileType.WATER:
                     break;
 
             }
@@ -39,16 +45,15 @@ namespace BattleTank.Core
         {
             switch (type)
             {
-                case AIR:
-
+                case TileType.AIR:
                     break;
-                case WALL:
+                case TileType.WALL:
                     spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
                     break;
-                case BUSH:
+                case TileType.BUSH:
                     spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
                     break;
-                case WATER:
+                case TileType.WATER:
                     spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
                     break;
             }
@@ -56,7 +61,7 @@ namespace BattleTank.Core
         public Collision isColliding(Rectangle possibleCollisionRect)
         {
             Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, collisionRect);
-            if (type == WALL || type ==WATER || type == BUSH)
+            if (type == TileType.WALL || type == TileType.WATER || type == TileType.BUSH)
             {
                 if (intersect.Width > 0 || intersect.Height > 0)
                 {

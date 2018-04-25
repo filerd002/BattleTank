@@ -45,7 +45,7 @@ namespace BattleTank.Core
                 for (int e = 0; e < map[i].Length; ++e)
                 {
 
-                    map[i][e] = new Tile(Tile.AIR, new Rectangle(e * 48, i * 48, 48, 48), null);
+                    map[i][e] = new Tile(Tile.TileType.AIR, new Rectangle(e * 48, i * 48, 48, 48), null);
 
 
                 }
@@ -87,20 +87,20 @@ namespace BattleTank.Core
                     //First row
                     for (int i = 0; i < map.Length; ++i)
                     {
-                        map[i][0] = new Tile(Tile.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
+                        map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
                     }
                     //Middle rows
                     for (int i = 1; i < map[0].Length - 1; ++i)
                     {
 
-                        map[0][i] = new Tile(Tile.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
-                        map[rowWidth - 1][i] = new Tile(Tile.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
+                        map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
+                        map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
 
                     }
                     //Bottom row
                     for (int i = 0; i < map.Length; ++i)
                     {
-                        map[i][columnHeight - 1] = new Tile(Tile.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
+                        map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
                     }   
             break;
                 case 1:
@@ -108,7 +108,7 @@ namespace BattleTank.Core
                     for (int i = 0; i < map.Length; ++i)
                     {
                         if (i != 6 && i != map.Length - 7)
-                            map[i][0] = new Tile(Tile.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
+                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
                     }
                     //Middle rows
                     for (int i = 1; i < map[0].Length - 1; ++i)
@@ -116,15 +116,15 @@ namespace BattleTank.Core
 
                         if (i != 5 && i != 10)
                         {
-                            map[0][i] = new Tile(Tile.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
+                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
+                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
                         }
                     }
                     //Bottom row
                     for (int i = 0; i < map.Length; ++i)
                     {
                         if (i != 6 && i != map.Length - 7)
-                            map[i][columnHeight - 1] = new Tile(Tile.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
+                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
                     }
 
                     break;
@@ -133,7 +133,7 @@ namespace BattleTank.Core
                     for (int i = 0; i < map.Length; ++i)
                     {
                         if (i != map.Length / 2 && i != (map.Length / 2) - 1)
-                            map[i][0] = new Tile(Tile.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
+                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
                     }
                     //Middle rows
                     for (int i = 1; i < map[0].Length - 1; ++i)
@@ -141,15 +141,15 @@ namespace BattleTank.Core
 
                         if (i != (map[0].Length / 2) && i != (map[0].Length / 2) - 1)
                         {
-                            map[0][i] = new Tile(Tile.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
+                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
+                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
                         }
                     }
                     //Bottom row
                     for (int i = 0; i < map.Length; ++i)
                     {
                         if (i != map.Length / 2 && i != (map.Length / 2) - 1)
-                            map[i][columnHeight - 1] = new Tile(Tile.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
+                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
                     }
 
                     break;
@@ -158,7 +158,7 @@ namespace BattleTank.Core
                     for (int i = 0; i < map.Length; ++i)
                     {
                         if (i <= 1 || i >= map.Length - 2)
-                            map[i][0] = new Tile(Tile.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
+                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, 0, 48, 48), wallTexture);
                     }
                     //Middle rows
                     for (int i = 1; i < map[0].Length - 1; ++i)
@@ -166,15 +166,15 @@ namespace BattleTank.Core
 
                         if (i <= 1 || i >= map[0].Length - 2)
                         {
-                            map[0][i] = new Tile(Tile.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
+                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * 48, 48, 48), wallTexture);
+                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * 48, i * 48, 48, 48), wallTexture);
                         }
                     }
                     //Bottom row
                     for (int i = 0; i < map.Length; ++i)
                     {
                         if (i <= 1 || i >= map.Length - 2)
-                            map[i][columnHeight - 1] = new Tile(Tile.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
+                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * 48, (columnHeight - 1) * 48, 48, 48), wallTexture);
                     }
 
                     break;
@@ -201,17 +201,17 @@ namespace BattleTank.Core
                 if (i <30)
                 {
                     if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                        map[x][y] = new Tile(Tile.WALL, new Rectangle(x * 48, y * 48, 48, 48), wallTexture);
+                        map[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * 48, y * 48, 48, 48), wallTexture);
                 }
                else  if (i < 60)
                 {
                     if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                        map[x][y] = new Tile(Tile.BUSH, new Rectangle(x * 48, y * 48, 48, 48), bushTexture);
+                        map[x][y] = new Tile(Tile.TileType.BUSH, new Rectangle(x * 48, y * 48, 48, 48), bushTexture);
                 }
                 else if (i < 90)
                 {
                     if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                        map[x][y] = new Tile(Tile.WATER, new Rectangle(x * 48, y * 48, 48, 48), waterTexture);
+                        map[x][y] = new Tile(Tile.TileType.WATER, new Rectangle(x * 48, y * 48, 48, 48), waterTexture);
                 }
 
                 

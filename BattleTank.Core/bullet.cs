@@ -64,7 +64,7 @@ namespace BattleTank.Core
                 }
             }
 
-            if ((_player == 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank1.location.X - (_game.tank1.tankTexture.Width / 2), (int)_game.tank1.location.Y - (_game.tank1.tankTexture.Height / 2), _game.tank1.tankTexture.Width, _game.tank1.tankTexture.Height)).Width != 0) && _game.tank1.alive) && (_game.gameState != _game.gameRunningPlayers2andCPU))
+            if ((_player == 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank1.location.X - (_game.tank1.tankTexture.Width / 2), (int)_game.tank1.location.Y - (_game.tank1.tankTexture.Height / 2), _game.tank1.tankTexture.Width, _game.tank1.tankTexture.Height)).Width != 0) && _game.tank1.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
             {
                 if (_game.tank1.Barrier == false)
                 {
@@ -77,7 +77,7 @@ namespace BattleTank.Core
                 }
                 this.Die();
             }
-            if ((_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive) && (_game.gameState != _game.gameRunningPlayers2andCPU))
+            if ((_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
             {
                 if (_game.tank2.Barrier == false)
                 {
@@ -129,7 +129,7 @@ namespace BattleTank.Core
                         if ((tile.isColliding(_bulletRect).depth > 0)) //If collision is not an empty collision
                         {
                             Collision collision = tile.isColliding(_bulletRect);
-                            if (tile.type == 1)
+                            if (tile.type == Tile.TileType.WALL)
                                 this.Die();
                         }
                     }

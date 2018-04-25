@@ -14,16 +14,6 @@ namespace BattleTank.Core
         private SpriteFont spriteFontBig;
         public Score() { }
 
-
-
-        String locationScoreTank1 = "TOP";
-        String locationScoreTank2 = "RIGHT";
-        String locationScoreenemyTanks0 = "TOP";
-        String locationScoreenemyTanks1 = "TOP";
-        String locationScoreenemyTanks2 = "TOP";
-        String locationScoreenemyTanks3 = "TOP";
-        String locationScoreenemyTanks4 = "TOP";
-        String locationScoreenemyTanks5 = "TOP";
         public Score(Game1 _game, int _numOfPlayers)
         {
             game = _game;
@@ -131,14 +121,14 @@ namespace BattleTank.Core
             
 
 
-                if (game.gameState == game.gameRunningPlayers2 || game.gameState == game.gameRunningPlayers2andCPU || game.gameState == game.gameRunningWyscig)
+                if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2 || game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU || game.gameState == Game1.GameState.GAME_RUNNING_RACE)
             {
 
               
 
 
 
-                    if (game.gameState == game.gameRunningWyscig)
+                    if (game.gameState == Game1.GameState.GAME_RUNNING_RACE)
                 {
 
                     TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);

@@ -254,48 +254,48 @@ namespace BattleTank.Core.Tanks
                 {
                     foreach (Tile tile in tiles)
                     {
-                        if (tile.type == Tile.WALL || tile.type == Tile.WATER || tile.type == Tile.BUSH)
+                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER || tile.type == Tile.TileType.BUSH)
                         {
                             if ((tile.isColliding(tankRect).depth > 0))
                             {
                                 float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
                                 timerBush -= timer;
-                                if (tile.type != Tile.BUSH)
+                                if (tile.type != Tile.TileType.BUSH)
                                     colliding = true;
                                 Collision collision = tile.isColliding(tankRect);
                                 switch (collision.side)
                                 {
                                     case Collision.Side.TOP:
-                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
                                             location.Y += collision.depth;
-                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             game.sound.PlaySound(Sound.Sounds.RUSTLING);
                                             timerBush = 0.5f;
                                         }
                                         break;
                                     case Collision.Side.BOTTOM:
-                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
                                             location.Y -= collision.depth;
-                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             game.sound.PlaySound(Sound.Sounds.RUSTLING);
                                             timerBush = 0.5f;
                                         }
                                         break;
                                     case Collision.Side.LEFT:
-                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
                                             location.X += collision.depth;
-                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             game.sound.PlaySound(Sound.Sounds.RUSTLING);
                                             timerBush = 0.5f;
                                         }
                                         break;
                                     case Collision.Side.RIGHT:
-                                        if (tile.type == Tile.WALL || tile.type == Tile.WATER)
+                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
                                             location.X -= collision.depth;
-                                        if (tile.type == Tile.BUSH && timerBush <= 0)
+                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             game.sound.PlaySound(Sound.Sounds.RUSTLING);
                                             timerBush = 0.5f;
@@ -539,7 +539,7 @@ namespace BattleTank.Core.Tanks
             game.sound.PlaySound(Sound.Sounds.EXPLOSION);
             if (alive)
             {
-                if (game.gameState == game.gameRunningWyscig)
+                if (game.gameState == Game1.GameState.GAME_RUNNING_RACE)
                 { lives++; }
 
                 deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2);

@@ -96,7 +96,7 @@ namespace BattleTank.Core
         bool LeftButtonStatus = false;
 
 
-        int typePowerUp;
+        PowerUp.PowerUpType typePowerUp;
        
  
 
@@ -397,25 +397,25 @@ namespace BattleTank.Core
 
                     Vector2 positionPowerUp = new Vector2(randy.Next(50, graphics.PreferredBackBufferWidth - 50), randy.Next(50, graphics.PreferredBackBufferHeight - 50));
 
-                    typePowerUp = randy.Next(6);
+                    typePowerUp = (PowerUp.PowerUpType)randy.Next(Enum.GetNames(typeof(PowerUp.PowerUpType)).Length);
                     switch (typePowerUp)
                     {
-                        case PowerUp.HEART:
+                        case PowerUp.PowerUpType.HEART:
                             PowerUpSpriteName = "Graphics/PowerUpHeart";
                             break;
-                        case PowerUp.ARMOR:
+                        case PowerUp.PowerUpType.ARMOR:
                             PowerUpSpriteName = "Graphics/PowerUpArmor";
                             break;
-                        case PowerUp.BARRIER:
+                        case PowerUp.PowerUpType.BARRIER:
                             PowerUpSpriteName = "Graphics/PowerUpBarrier";
                             break;
-                        case PowerUp.AMMO:
+                        case PowerUp.PowerUpType.AMMO:
                             PowerUpSpriteName = "Graphics/PowerUpAmmo";
                             break;
-                        case PowerUp.MINE:
+                        case PowerUp.PowerUpType.MINE:
                             PowerUpSpriteName = "Graphics/PowerUpMine";
                             break;
-                        case PowerUp.MATRIX:
+                        case PowerUp.PowerUpType.MATRIX:
                             PowerUpSpriteName = "Graphics/PowerUpMatrix";
                             break;
                     }

@@ -7,18 +7,20 @@ namespace BattleTank.Core
 {
     public class PowerUp
     {
-
+        public enum PowerUpType
+        {
+            HEART,
+            ARMOR,
+            BARRIER,
+            AMMO,
+            MINE,
+            MATRIX,
+        }
 
         public string PowerUpSpriteName;
         public Vector2 location;
-        public int type;
+        public PowerUpType type;
         public Rectangle PowerUpkRect;
-        public const int HEART = 0;
-        public const int ARMOR = 1;
-        public const int BARRIER = 2;
-        public const int AMMO = 3;
-        public const int MINE = 4;
-        public const int MATRIX = 5;
         public bool alive;
         public Particlecloud respawnParticles;
         public Particlecloud deathParticles;
@@ -28,7 +30,7 @@ namespace BattleTank.Core
         public Game1 game { get; set; }
         public Vector2 origin { get; set; }
         public Texture2D PowerUpTexture { get; set; }
-        public PowerUp(Game1 _game, int _type, Vector2 _location, String _PowerUpSpriteName, Texture2D _whiteRectangle)
+        public PowerUp(Game1 _game, PowerUpType _type, Vector2 _location, String _PowerUpSpriteName, Texture2D _whiteRectangle)
         {
             game = _game;
             location = _location;
@@ -60,22 +62,22 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.tank1.lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.tank1.armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.tank1.StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.tank1.strong++;
                             break;
-                        case MINE:
+                        case PowerUpType.MINE:
                             game.tank1.mines++;
                             break;
-                        case MATRIX:                         
+                        case PowerUpType.MATRIX:                         
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     et.Frozen();
@@ -97,22 +99,22 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.tank2.lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.tank2.armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.tank2.StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.tank2.strong++;
                             break;
-                        case MINE:
+                        case PowerUpType.MINE:
                             game.tank2.mines++;
                             break;
-                        case MATRIX:
+                        case PowerUpType.MATRIX:
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     et.Frozen();
@@ -133,19 +135,19 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.enemyTanks[0].lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.enemyTanks[0].armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.enemyTanks[0].StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.enemyTanks[0].strong++;
                             break;
-                        case MATRIX:
+                        case PowerUpType.MATRIX:
                              foreach (AI_Tank et in game.enemyTanks)
                                 { 
                                     if(!et.Equals(game.enemyTanks[0]))
@@ -168,19 +170,19 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.enemyTanks[1].lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.enemyTanks[1].armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.enemyTanks[1].StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.enemyTanks[1].strong++;
                             break;
-                        case MATRIX:
+                        case PowerUpType.MATRIX:
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     if (!et.Equals(game.enemyTanks[1]))
@@ -203,19 +205,19 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.enemyTanks[2].lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.enemyTanks[2].armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.enemyTanks[2].StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.enemyTanks[2].strong++;
                             break;
-                        case MATRIX:
+                        case PowerUpType.MATRIX:
                             foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     if (!et.Equals(game.enemyTanks[2]))
@@ -239,19 +241,19 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.enemyTanks[3].lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.enemyTanks[3].armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.enemyTanks[3].StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.enemyTanks[3].strong++;
                             break;
-                        case MATRIX:
+                        case PowerUpType.MATRIX:
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     if (!et.Equals(game.enemyTanks[3]))
@@ -274,19 +276,19 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.enemyTanks[4].lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.enemyTanks[4].armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.enemyTanks[4].StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.enemyTanks[4].strong++;
                             break;
-                        case MATRIX:
+                        case PowerUpType.MATRIX:
                                 foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     if (!et.Equals(game.enemyTanks[4]))
@@ -309,19 +311,19 @@ namespace BattleTank.Core
 
                     switch (game.RandomPowerUp.type)
                     {
-                        case HEART:
+                        case PowerUpType.HEART:
                             game.enemyTanks[5].lives += 0.25f;
                             break;
-                        case ARMOR:
+                        case PowerUpType.ARMOR:
                             game.enemyTanks[5].armor += 0.25f;
                             break;
-                        case BARRIER:
+                        case PowerUpType.BARRIER:
                             game.enemyTanks[5].StartBarrier();
                             break;
-                        case AMMO:
+                        case PowerUpType.AMMO:
                             game.enemyTanks[5].strong++;
                             break;
-                        case MATRIX:
+                        case PowerUpType.MATRIX:
                            foreach (AI_Tank et in game.enemyTanks)
                                 {
                                     if (!et.Equals(game.enemyTanks[5]))

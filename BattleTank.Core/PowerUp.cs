@@ -127,7 +127,7 @@ namespace BattleTank.Core
 
                     alive = false;
                 }
-                else if ((game.gameState == game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 1 && (game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
+                else if ((game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 || game.gameState == Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 1 && (game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -162,7 +162,7 @@ namespace BattleTank.Core
 
                     alive = false;
                 }
-                else if ((game.gameState == game.gameRunningPlayer1 || game.gameState == game.gameRunningPlayers2andCPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 2 && (game.RandomPowerUp.isColliding(game.enemyTanks[1].tankRect).depth > 0))
+                else if ((game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 || game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 2 && (game.RandomPowerUp.isColliding(game.enemyTanks[1].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -197,7 +197,7 @@ namespace BattleTank.Core
 
                     alive = false;
                 }
-                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 3 && (game.RandomPowerUp.isColliding(game.enemyTanks[2].tankRect).depth > 0))
+                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 3 && (game.RandomPowerUp.isColliding(game.enemyTanks[2].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -233,7 +233,7 @@ namespace BattleTank.Core
                     alive = false;
                 }
 
-                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 4 && (game.RandomPowerUp.isColliding(game.enemyTanks[3].tankRect).depth > 0))
+                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 4 && (game.RandomPowerUp.isColliding(game.enemyTanks[3].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -268,7 +268,7 @@ namespace BattleTank.Core
 
                     alive = false;
                 }
-                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 5 && (game.RandomPowerUp.isColliding(game.enemyTanks[4].tankRect).depth > 0))
+                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 5 && (game.RandomPowerUp.isColliding(game.enemyTanks[4].tankRect).depth > 0))
                 {
                     colliding = true;
 
@@ -303,7 +303,7 @@ namespace BattleTank.Core
 
                     alive = false;
                 }
-                else if (game.gameState == game.gameRunningPlayer1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 6 && (game.RandomPowerUp.isColliding(game.enemyTanks[5].tankRect).depth > 0))
+                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 6 && (game.RandomPowerUp.isColliding(game.enemyTanks[5].tankRect).depth > 0))
                 {
                     colliding = true;
 

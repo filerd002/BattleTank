@@ -539,7 +539,7 @@ namespace BattleTank.Core.Tanks
             game.sound.PlaySound(Sound.Sounds.EXPLOSION);
             if (alive)
             {
-                if (game.gameState == game.gameRunningWyscig)
+                if (game.gameState == Game1.GameState.GAME_RUNNING_RACE)
                 { lives++; }
 
                 deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2);

@@ -131,14 +131,14 @@ namespace BattleTank.Core
             
 
 
-                if (game.gameState == game.gameRunningPlayers2 || game.gameState == game.gameRunningPlayers2andCPU || game.gameState == game.gameRunningWyscig)
+                if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2 || game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU || game.gameState == Game1.GameState.GAME_RUNNING_RACE)
             {
 
               
 
 
 
-                    if (game.gameState == game.gameRunningWyscig)
+                    if (game.gameState == Game1.GameState.GAME_RUNNING_RACE)
                 {
 
                     TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);

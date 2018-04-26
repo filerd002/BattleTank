@@ -196,6 +196,15 @@ namespace BattleTank.Core
 
             ButtonSettings = new Button("UsTaWiEnIa", new Vector2(0, (map.screenHeight / 2) + 20), null, 60);
             ButtonSettings.CenterHorizontal();
+
+            ButtonPlayer1 = new Button("GrAcZ vS cPu", new Vector2((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 60), null, 50);
+            ButtonPlayer1.CenterHorizontal();
+            ButtonPlayer2 = new Button("GrAcZ vS gRaCz", new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) - 10), null, 50);
+            ButtonPlayer2.CenterHorizontal();
+            ButtonPlayer3 = new Button("2 GrAcZy Vs CpU", new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 40), null, 50);
+            ButtonPlayer3.CenterHorizontal();
+            ButtonPlayer4 = new Button("WyScIg Z cZaSeM", new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 90), null, 50);
+            ButtonPlayer4.CenterHorizontal();
         }
 
         /// <summary>
@@ -221,22 +230,7 @@ namespace BattleTank.Core
 
             UIElement.GraphicsDevice = GraphicsDevice;
 
-            ButtonPlayer1 = new Button(
-                Content.Load<Texture2D>("Graphics/playerVScpu"), 
-                Content.Load<Texture2D>("Graphics/playerVScpu1"), 
-                new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 60, 250, 50));
-            ButtonPlayer2 = new Button(
-                Content.Load<Texture2D>("Graphics/playerVSplayer"),
-                Content.Load<Texture2D>("Graphics/playerVSplayer1"),
-                new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) - 10, 250, 50));
-            ButtonPlayer3 = new Button(
-                Content.Load<Texture2D>("Graphics/player2VScpu"),
-                Content.Load<Texture2D>("Graphics/player2VScpu1"),
-                new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 40, 250, 50));
-            ButtonPlayer4 = new Button(
-                Content.Load<Texture2D>("Graphics/wyscig"),
-                Content.Load<Texture2D>("Graphics/wyscig1"),
-                new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 90, 250, 50));
+             
             ButtonPowrot = new Button(
                 Content.Load<Texture2D>("Graphics/powrot"),
                 Content.Load<Texture2D>("Graphics/powrot1"),

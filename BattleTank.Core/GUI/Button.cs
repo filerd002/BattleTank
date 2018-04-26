@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using BattleTank.Core.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -25,19 +26,36 @@ namespace BattleTank.Core.GUI
 
         public Button(string text, Vector2 position, int? width, int? height) : base(null)
         {
-            var foo = UIElement.InActiveFont.MeasureString(text);
-                RenderTarget2D renderTarget = new RenderTarget2D(
+            var stringDiamensions = UIElement.InActiveFont.MeasureString(text);
+                RenderTarget2D renderTargetForInActive = new RenderTarget2D(
                 GraphicsDevice,
-                (int)foo.X,
-                (int)foo.Y);
+                (int)stringDiamensions.X,
+                (int)stringDiamensions.Y);
+            GraphicsDevice.Clear(Color.White);
 
             var spriteBatch = new SpriteBatch(GraphicsDevice);
-            spriteBatch.GraphicsDevice.SetRenderTarget(renderTarget);
+            spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetForInActive);
+            GraphicsDevice.Clear(Color.Transparent);
             spriteBatch.Begin();
             spriteBatch.DrawString(InActiveFont, text, Vector2.Zero, Color.White);
             spriteBatch.End();
+
+            NonActiveTexture = renderTargetForInActive;
+
+            RenderTarget2D renderTargetForActive = new RenderTarget2D(
+                GraphicsDevice,
+                (int)stringDiamensions.X,
+                (int)stringDiamensions.Y);
+            spriteBatch.GraphicsDevice.SetRenderTarget(renderTargetForActive);
+            GraphicsDevice.Clear(Color.Transparent);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(ActiveFont, text, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(InActiveFont, text, Vector2.Zero, Color.White);
+            spriteBatch.End();
+            ActiveTexture = renderTargetForActive;
+
+
             spriteBatch.GraphicsDevice.SetRenderTarget(null);
-            NonActiveTexture = renderTarget;
 
             UIElementRectangle.Location = position.ToPoint();
             base.Width = width ?? NonActiveTexture.Width;

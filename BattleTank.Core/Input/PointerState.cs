@@ -47,5 +47,11 @@ namespace BattleTank.Core.Input
 
             return retVal;
         }
+
+        public Vector2 ToVector2()
+            => new Vector2(X, Y);
+        
+        public Point ToPoint()
+            => new Point((int)X, (int)Y);
     }
 }

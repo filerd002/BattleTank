@@ -31,8 +31,6 @@
     <None Remove="Content\Graphics\doBoju1.png" />
     <None Remove="Content\Graphics\FrozenEfekt.png" />
     <None Remove="Content\Graphics\GreenTank.png" />
-    <None Remove="Content\Graphics\koniec.png" />
-    <None Remove="Content\Graphics\koniec1.png" />
     <None Remove="Content\Graphics\MenuWinAndLoss.png" />
     <None Remove="Content\Graphics\mineGreen.png" />
     <None Remove="Content\Graphics\mineRed.png" />
@@ -79,8 +77,6 @@
     <None Remove="Content\Graphics\RamkaXL.png" />
     <None Remove="Content\Graphics\RamkaXXL.png" />
     <None Remove="Content\Graphics\RedTank.png" />
-    <None Remove="Content\Graphics\settings.png" />
-    <None Remove="Content\Graphics\settings1.png" />
     <None Remove="Content\Graphics\sukces.png" />
     <None Remove="Content\Graphics\sukces1.png" />
     <None Remove="Content\Graphics\SukcesPorazka1Gracza.png" />
@@ -107,8 +103,6 @@
     <None Remove="Content\Graphics\wyscig.png" />
     <None Remove="Content\Graphics\wyscig1.png" />
     <None Remove="Content\Graphics\YellowTank.png" />
-    <None Remove="Content\Graphics\zagraj.png" />
-    <None Remove="Content\Graphics\zagraj1.png" />
     <None Remove="Content\Shaders\GreyscaleEffect.fx" />
     <None Remove="Content\Sounds\explosion.wav" />
     <None Remove="Content\Sounds\hit.wav" />
@@ -156,12 +150,6 @@
     <Content Include="Content\Graphics\doBoju1.png" />
     <Content Include="Content\Graphics\FrozenEfekt.png" />
     <Content Include="Content\Graphics\GreenTank.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\koniec.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\koniec1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Graphics\MenuWinAndLoss.png">
@@ -256,12 +244,6 @@
     <Content Include="Content\Graphics\RedTank.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Graphics\settings.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\settings1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Content\Graphics\sukces.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -300,12 +282,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Graphics\YellowTank.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\zagraj.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\zagraj1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Shaders\GreyscaleEffect.fx" />

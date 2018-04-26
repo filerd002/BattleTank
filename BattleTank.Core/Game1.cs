@@ -177,7 +177,7 @@ namespace BattleTank.Core
                                     graphics.GraphicsDevice.Viewport.Height / 2);
 
             ButtonKoniec = new Button("KoNiEc", new Vector2(), null, 60);
-
+            
             ButtonZagraj = new Button("ZaGrAj", new Vector2(0, (map.screenHeight / 2) - 40), null, 60);
             ButtonZagraj.CenterHorizontal();
 

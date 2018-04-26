@@ -83,7 +83,6 @@ namespace BattleTank.Core
         Texture2D SukcesPorazka1Gracza;
         Texture2D SukcesPorazka2Gracza;
         Button doBoju;
-        private Button aa;
         Vector2 positionMouse;
 
         public Sound menuSound;
@@ -176,14 +175,14 @@ namespace BattleTank.Core
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                     graphics.GraphicsDevice.Viewport.Height / 2);
-            UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/Activefont");
-            UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
-            UIElement.ActiveFont.Spacing = -40;
-            UIElement.InActiveFont.Spacing = -40;
 
-            UIElement.GraphicsDevice = GraphicsDevice;
-            aa = new GUI.Button("ZaGrAj", new Vector2(100, 150), 150);
+            ButtonKoniec = new Button("KoNiEc", new Vector2(), null, 60);
 
+            ButtonZagraj = new Button("ZaGrAj", new Vector2(0, (map.screenHeight / 2) - 40), null, 60);
+            ButtonZagraj.CenterHorizontal();
+
+            ButtonSettings = new Button("UsTaWiEnIa", new Vector2(0, (map.screenHeight / 2) + 20), null, 60);
+            ButtonSettings.CenterHorizontal();
         }
 
         /// <summary>
@@ -192,6 +191,13 @@ namespace BattleTank.Core
         /// </summary>
         protected override void LoadContent()
         {
+            UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/Activefont");
+            UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
+            UIElement.ActiveFont.Spacing = -40;
+            UIElement.InActiveFont.Spacing = -40;
+
+            UIElement.GraphicsDevice = GraphicsDevice;
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics/wyborPoziomTrud");
@@ -226,20 +232,6 @@ namespace BattleTank.Core
             ButtonNowaGra = new Button(
                 Content.Load<Texture2D>("Graphics/nowagra"),
                 Content.Load<Texture2D>("Graphics/nowagra1"),
-                new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50));
-            ButtonKoniec = new Button(
-                Content.Load<Texture2D>("Graphics/koniec"),
-                Content.Load<Texture2D>("Graphics/koniec1"),
-                new Rectangle());
-
-            ButtonZagraj = new Button(
-                Content.Load<Texture2D>("Graphics/zagraj"),
-                Content.Load<Texture2D>("Graphics/zagraj1"),
-                new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50));
-
-            ButtonSettings = new Button(
-                Content.Load<Texture2D>("Graphics/settings"),
-                Content.Load<Texture2D>("Graphics/settings1"),
                 new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50));
 
             ButtonSettingsTrybSterowaniaKlawMysz = new Button(
@@ -346,8 +338,7 @@ namespace BattleTank.Core
         protected override void Update(GameTime gameTime)
         {
             PointerState state =  PointerState.GetState();
-
-            aa.CheckIsMouseOver(ref state);
+            
             if (Keyboard.GetState().IsKeyUp(Keys.Escape))
             {
 
@@ -630,7 +621,7 @@ namespace BattleTank.Core
                     }
                 }
 
-                ButtonKoniec.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50);
+                ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80);
                 if (ButtonKoniec.IsClicked(ref state))
                 {
                     Exit();
@@ -679,7 +670,7 @@ namespace BattleTank.Core
                         gameState = SETTINGS;
                     }
 
-                    ButtonKoniec.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50);
+                    ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - (float)(ButtonKoniec.Width /2), (map.screenHeight / 2) + 80);
                     if (ButtonKoniec.IsClicked(ref state))
                     {
                         Exit();
@@ -1305,7 +1296,6 @@ namespace BattleTank.Core
                 {
                     spriteBatch.Draw(BattleTankTexture, new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100), Color.White);
 
-                    ButtonZagraj.IsMouseOver = true;
                     ButtonZagraj.Draw(ref spriteBatch);
                     ButtonSettings.Draw(ref spriteBatch);
                     ButtonKoniec.Draw(ref spriteBatch);
@@ -1493,13 +1483,6 @@ namespace BattleTank.Core
                     }
                 }
             }
-            string text;
-            text = "!  \"  #  $  %  &  '  (  )  *  +  ,  -  .  /  0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?  @ \n A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  [  \\  ]  ^  _  ` \n  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  ";
-            text = "ZaGrAj";
-            aa.Draw(ref spriteBatch);
-            spriteBatch.DrawString(UIElement.ActiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
-            spriteBatch.DrawString(UIElement.InActiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
-            spriteBatch.DrawString(UIElement.InActiveFont, text, new Vector2(100, 200), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
 
             spriteBatch.End();
 

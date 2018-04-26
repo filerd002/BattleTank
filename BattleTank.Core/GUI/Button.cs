@@ -66,5 +66,9 @@ namespace BattleTank.Core.GUI
             ClickSound?.Play();
             base.OnClickedRaised();
         }
+
+        public void CenterHorizontal()
+            => Position = new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth/ 2 - (float)Width /2 , Position.Y);
+        
     }
 }

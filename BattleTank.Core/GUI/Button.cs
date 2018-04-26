@@ -23,8 +23,16 @@ namespace BattleTank.Core.GUI
             Width = elementRectangle.Width;
             Height = elementRectangle.Height;
         }
-
-        public Button(string text, Vector2 position, int? width, int? height) : base(null)
+        /// <summary>
+        /// Tworzy nowy przycisk na podstawie podanego tekstu w zadanym miejscu o dane szerokości i wysokosci.
+        /// Jeżeli jeden z parametrów width lub height jest null a drugi liczbą przycisk zostanie automatycznie 
+        /// wyskalowany proporcjonalnie.
+        /// </summary>
+        /// <param name="text">Tekst dla przycisku</param>
+        /// <param name="position">Położenie przycisku</param>
+        /// <param name="width">Szerokosć przyicsku</param>
+        /// <param name="height">Wysokość przycisku</param>
+        public Button(string text, Vector2 position, int? width = null, int? height = null) : base(null)
         {
             NonActiveTexture = GUIHelper.DrawStringOnTexture2D(text, UIElement.InActiveFont, null, GraphicsDevice);
             
@@ -32,15 +40,14 @@ namespace BattleTank.Core.GUI
 
             UIElementRectangle.Location = position.ToPoint();
 
-            base.Width = width ?? NonActiveTexture.Width;
-            base.Height = height ?? NonActiveTexture.Height;
-        }
+            double proportion = 1;
+            if (width != null && height == null)
+                proportion = (double)width / NonActiveTexture.Width;
+            else if (width == null && height != null)
+                proportion = (double)height / NonActiveTexture.Height;
 
-        public Button(string text, Vector2 position, int width) : this(text, position, null, null)
-        {
-            var proportion = width / base.Width;
-            base.Width *= proportion;
-            base.Height *= proportion;
+            base.Width = width ?? NonActiveTexture.Width * proportion;
+            base.Height = height ?? NonActiveTexture.Height * proportion;
         }
 
         /// <inheritdoc />

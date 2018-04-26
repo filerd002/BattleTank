@@ -35,8 +35,11 @@ namespace BattleTank.Core.GUI
         public Button(string text, Vector2 position, int? width = null, int? height = null) : base(null)
         {
             NonActiveTexture = GUIHelper.DrawStringOnTexture2D(text, UIElement.InActiveFont, null, GraphicsDevice);
-            
-            ActiveTexture = GUIHelper.DrawStringOnTexture2D(text, UIElement.InActiveFont, UIElement.ActiveFont, GraphicsDevice);
+
+            var newText = new String(text.ToCharArray().Select(d => Char.IsUpper(d) ? Char.ToLower(d) : Char.ToUpper(d))
+                .ToArray());
+                
+            ActiveTexture = GUIHelper.DrawStringOnTexture2D(newText, UIElement.InActiveFont, UIElement.ActiveFont, GraphicsDevice);
 
             UIElementRectangle.Location = position.ToPoint();
 

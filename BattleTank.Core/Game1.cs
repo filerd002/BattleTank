@@ -83,7 +83,8 @@ namespace BattleTank.Core
         Texture2D SukcesPorazka1Gracza;
         Texture2D SukcesPorazka2Gracza;
         Button doBoju;
-
+        private SpriteFont ActiveFont;
+        private SpriteFont InactiveFont;
         Vector2 positionMouse;
 
         public Sound menuSound;
@@ -176,7 +177,8 @@ namespace BattleTank.Core
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                     graphics.GraphicsDevice.Viewport.Height / 2);
-
+            ActiveFont = Content.Load<SpriteFont>("Fonts/Activefont");
+            InactiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
         }
 
         /// <summary>
@@ -1282,7 +1284,6 @@ namespace BattleTank.Core
             spriteBatch.Begin();
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
 
-
             map.Draw(spriteBatch);
 
             foreach (Mine mine in mines)
@@ -1299,6 +1300,7 @@ namespace BattleTank.Core
                 {
                     spriteBatch.Draw(BattleTankTexture, new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100), Color.White);
 
+                    ButtonZagraj.IsActive = true;
                     ButtonZagraj.Draw(ref spriteBatch);
                     ButtonSettings.Draw(ref spriteBatch);
                     ButtonKoniec.Draw(ref spriteBatch);
@@ -1486,7 +1488,14 @@ namespace BattleTank.Core
                     }
                 }
             }
-
+            string text;
+            text = "!  \"  #  $  %  &  '  (  )  *  +  ,  -  .  /  0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?  @ \n A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  [  \\  ]  ^  _  ` \n  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  ";
+            text = "ZaGrAj";
+            ActiveFont.Spacing = -40;
+            InactiveFont.Spacing = -40;
+            spriteBatch.DrawString(ActiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(InactiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(InactiveFont, text, new Vector2(100, 200), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
 
             spriteBatch.End();
 

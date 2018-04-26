@@ -205,6 +205,14 @@ namespace BattleTank.Core
             ButtonPlayer3.CenterHorizontal();
             ButtonPlayer4 = new Button("WyScIg Z cZaSeM", new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 90), null, 50);
             ButtonPlayer4.CenterHorizontal();
+            ButtonSettingsTrybSterowaniaKlawMysz = new Button("KlAwIaTuRa/MySz", new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) - 60), 300, 50);
+            ButtonSettingsTrybSterowaniaPad = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 80, (map.screenHeight / 2) - 60), 160, 50);
+            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz",  new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) + 67), 300, 50);
+            ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 80, (map.screenHeight / 2) + 67), 160, 50);
+            ButtonPowrot = new Button("PoWrOt", new Vector2());
+            ButtonPowrot.CenterHorizontal();
+
+
         }
 
         /// <summary>
@@ -231,34 +239,14 @@ namespace BattleTank.Core
             UIElement.GraphicsDevice = GraphicsDevice;
 
              
-            ButtonPowrot = new Button(
-                Content.Load<Texture2D>("Graphics/powrot"),
-                Content.Load<Texture2D>("Graphics/powrot1"),
-                new Rectangle());
+           
 
             ButtonNowaGra = new Button(
                 Content.Load<Texture2D>("Graphics/nowagra"),
                 Content.Load<Texture2D>("Graphics/nowagra1"),
                 new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50));
 
-            ButtonSettingsTrybSterowaniaKlawMysz = new Button(
-                Content.Load<Texture2D>("Graphics/trybSterowaniaKlawMysz"),
-                Content.Load<Texture2D>("Graphics/trybSterowaniaKlawMysz1"),
-                new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) - 60, 250, 50));
-            ButtonSettingsTrybSterowaniaPad = new Button(
-                Content.Load<Texture2D>("Graphics/trybSterowaniaPad"),
-                Content.Load<Texture2D>("Graphics/trybSterowaniaPad1"),
-                new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 60, 250, 50));
-
-            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button(
-                Content.Load<Texture2D>("Graphics/trybSterowaniaKlawMysz"),
-                Content.Load<Texture2D>("Graphics/trybSterowaniaKlawMysz1"),
-                new Rectangle((map.screenWidth / 2) - 240, (map.screenHeight / 2) + 67, 250, 50));
-            ButtonSettingsTrybSterowaniaPad2 = new Button(
-                Content.Load<Texture2D>("Graphics/trybSterowaniaPad"),
-                Content.Load<Texture2D>("Graphics/trybSterowaniaPad1"),
-                new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 67, 250, 50));
-
+           
             Poziom1Trud = new Button(
                 Content.Load<Texture2D>("Graphics/Poziom1Trud"),
                 Content.Load<Texture2D>("Graphics/Poziom1Trud1"),

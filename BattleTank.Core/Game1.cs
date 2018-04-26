@@ -190,7 +190,7 @@ namespace BattleTank.Core
                                     graphics.GraphicsDevice.Viewport.Height / 2);
 
             ButtonKoniec = new Button("KoNiEc", new Vector2(), null, 60);
-            
+            ButtonKoniec.CenterHorizontal();
             ButtonZagraj = new Button("ZaGrAj", new Vector2(0, (map.screenHeight / 2) - 40), null, 60);
             ButtonZagraj.CenterHorizontal();
 
@@ -211,6 +211,36 @@ namespace BattleTank.Core
             ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 80, (map.screenHeight / 2) + 67), 160, 50);
             ButtonPowrot = new Button("PoWrOt", new Vector2());
             ButtonPowrot.CenterHorizontal();
+
+
+
+
+            ButtonNowaGra = new Button("NoWa GrA", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), 250, 50);
+
+
+            Poziom1Trud = new Button("BaNaLnY", new Vector2((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155), 250, 50);
+            Poziom2Trud = new Button("PrZyZwOiTy", new Vector2((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155), 250, 50);
+            Poziom3Trud = new Button("ZaBoJcZy", new Vector2((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155), 250, 50);
+            Poziom4Trud = new Button("SzAlOnY", new Vector2((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155), 250, 50);
+
+            wyborCpuKlasykIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30), 60, 50);
+            wyborCpuKlasykIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30), 60, 50);
+            wyborCpuKlasykIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30), 60, 50);
+            wyborCpuKlasykIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30), 60, 50);
+
+            wyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90), 60, 50);
+            wyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90), 60, 50);
+            wyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90), 60, 50);
+            wyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90), 60, 50);
+
+            Czas1Gry = new Button("2 MiNuTy", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90), null, 50);
+            Czas1Gry.CenterHorizontal();
+            Czas2Gry = new Button("5 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35), null, 50);
+            Czas2Gry.CenterHorizontal();
+            Czas3Gry = new Button("10 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 50);
+            Czas3Gry.CenterHorizontal();
+            doBoju = new Button("Do BoJu!!!",  new Vector2());
+            doBoju.CenterHorizontal();
 
 
         }
@@ -238,82 +268,7 @@ namespace BattleTank.Core
 
             UIElement.GraphicsDevice = GraphicsDevice;
 
-             
-           
-
-            ButtonNowaGra = new Button(
-                Content.Load<Texture2D>("Graphics/nowagra"),
-                Content.Load<Texture2D>("Graphics/nowagra1"),
-                new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 20, 250, 50));
-
-           
-            Poziom1Trud = new Button(
-                Content.Load<Texture2D>("Graphics/Poziom1Trud"),
-                Content.Load<Texture2D>("Graphics/Poziom1Trud1"),
-                new Rectangle((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155, 250, 50));
-            Poziom2Trud = new Button(
-                Content.Load<Texture2D>("Graphics/Poziom2Trud"),
-                Content.Load<Texture2D>("Graphics/Poziom2Trud1"),
-                new Rectangle((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155, 250, 50));
-            Poziom3Trud = new Button(
-                Content.Load<Texture2D>("Graphics/Poziom3Trud"),
-                Content.Load<Texture2D>("Graphics/Poziom3Trud1"),
-                new Rectangle((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155, 250, 50));
-            Poziom4Trud = new Button(
-                Content.Load<Texture2D>("Graphics/Poziom4Trud"),
-                Content.Load<Texture2D>("Graphics/Poziom4Trud1"),
-                new Rectangle((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155, 250, 50));
-
-            wyborCpuKlasykIlosc0 =  new Button(
-                Content.Load<Texture2D>("Graphics/0"), 
-                Content.Load<Texture2D>("Graphics/01"), 
-                new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30, 60, 50));
-            wyborCpuKlasykIlosc1 =  new Button(
-                Content.Load<Texture2D>("Graphics/1"), 
-                Content.Load<Texture2D>("Graphics/11"), 
-                new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30, 60, 50));
-            wyborCpuKlasykIlosc2 =  new Button(
-                Content.Load<Texture2D>("Graphics/2"), 
-                Content.Load<Texture2D>("Graphics/21"), 
-                new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30, 60, 50));
-            wyborCpuKlasykIlosc3 =  new Button(
-                Content.Load<Texture2D>("Graphics/3"), 
-                Content.Load<Texture2D>("Graphics/31"), 
-                new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30, 60, 50));
-
-            wyborCpuKlamikazeIlosc0 = new Button(
-                Content.Load<Texture2D>("Graphics/0"), 
-                Content.Load<Texture2D>("Graphics/01"), 
-                new Rectangle((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90, 60, 50));
-            wyborCpuKlamikazeIlosc1 = new Button(
-                Content.Load<Texture2D>("Graphics/1"), 
-                Content.Load<Texture2D>("Graphics/11"), 
-                new Rectangle((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90, 60, 50));
-            wyborCpuKlamikazeIlosc2 = new Button(
-                Content.Load<Texture2D>("Graphics/2"), 
-                Content.Load<Texture2D>("Graphics/21"), 
-                new Rectangle((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90, 60, 50));
-            wyborCpuKlamikazeIlosc3 = new Button(
-                Content.Load<Texture2D>("Graphics/3"), 
-                Content.Load<Texture2D>("Graphics/31"), 
-                new Rectangle((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90, 60, 50));
-
-            Czas1Gry = new Button(
-                Content.Load<Texture2D>("Graphics/Czas1Gry"), 
-                Content.Load<Texture2D>("Graphics/Czas1Gry1"),
-                new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90, 250, 50));
-            Czas2Gry = new Button(
-                Content.Load<Texture2D>("Graphics/Czas2Gry"),
-                Content.Load<Texture2D>("Graphics/Czas2Gry1"),
-                new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35, 250, 50));
-            Czas3Gry = new Button(
-                Content.Load<Texture2D>("Graphics/Czas3Gry"),
-                Content.Load<Texture2D>("Graphics/Czas3Gry1"),
-                new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20, 250, 50));
             
-            doBoju = new Button(Content.Load<Texture2D>("Graphics/doBoju"),
-                Content.Load<Texture2D>("Graphics/doBoju1"),
-                new Rectangle());
         }
 
         /// <summary>
@@ -531,7 +486,7 @@ namespace BattleTank.Core
                     }
 
 
-                    ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50);
+                    ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40, 250, 50);
                     if (ButtonPowrot.IsClicked(ref state))
                     {
                         soundOnOff = 1;
@@ -617,6 +572,7 @@ namespace BattleTank.Core
                 }
 
                 ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80);
+                ButtonKoniec.CenterHorizontal();
                 if (ButtonKoniec.IsClicked(ref state))
                 {
                     Exit();
@@ -666,6 +622,7 @@ namespace BattleTank.Core
                     }
 
                     ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - (float)(ButtonKoniec.Width /2), (map.screenHeight / 2) + 80);
+                    ButtonKoniec.CenterHorizontal();
                     if (ButtonKoniec.IsClicked(ref state))
                     {
                         Exit();
@@ -781,7 +738,7 @@ namespace BattleTank.Core
 
 
 
-                ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 130, 250, 50);
+                ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 130, 250, 50);
                 if (ButtonPowrot.IsClicked(ref state))
                 {
                     menuTexture = Content.Load<Texture2D>("Graphics/Ramka");

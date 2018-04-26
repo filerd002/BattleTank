@@ -15,34 +15,33 @@ namespace BattleTank.Core.GUI
             get => UIElementRectangle.Location.ToVector2();
             set => UIElementRectangle.Location = value.ToPoint();
         }
-        public int Width
+        public double Width
         {
             get => UIElementRectangle.Width;
-            set => UIElementRectangle.Width = value;
+            set => UIElementRectangle.Width = (int)value;
         }
-        public int Height
+        public double Height
         {
             get => UIElementRectangle.Height;
-            set => UIElementRectangle.Height = value;
+            set => UIElementRectangle.Height = (int)value;
         }
 
-        public static Effect Effect { get; set; }
         public bool IsMouseOver { get; set; }
         public bool IsEnabled { get; set; } = true;
 
-        internal Rectangle UIElementRectangle;
         protected Texture2D TextureToDraw { get; set; }
+        internal Rectangle UIElementRectangle;
 
-        EventHandler<UIElement> Clicked;
+        public EventHandler<UIElement> Clicked;
+        protected virtual void OnClickedRaised() => Clicked?.Invoke(this, this);
 
-        protected virtual void OnClickedRaised()
-            => Clicked?.Invoke(this, this);
+        public EventHandler<UIElement> MouseOver;
+        protected virtual void OnMouseOverRaised() => MouseOver?.Invoke(this, this);
 
-        private EventHandler<UIElement> MouseOver;
-
-        protected virtual void OnMouseOverRaised()
-            => MouseOver?.Invoke(this, this);
-
+        public static Effect Effect { get; set; }
+        public static SpriteFont InActiveFont { get; set; }
+        public static SpriteFont ActiveFont { get; set; }
+        public static GraphicsDevice GraphicsDevice { get; set; }
         protected UIElement(Texture2D textureToDraw)
         {
             TextureToDraw = textureToDraw;

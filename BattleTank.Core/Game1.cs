@@ -83,8 +83,6 @@ namespace BattleTank.Core
         Texture2D SukcesPorazka1Gracza;
         Texture2D SukcesPorazka2Gracza;
         Button doBoju;
-        private SpriteFont ActiveFont;
-        private SpriteFont InactiveFont;
         Vector2 positionMouse;
 
         public Sound menuSound;
@@ -177,8 +175,12 @@ namespace BattleTank.Core
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                     graphics.GraphicsDevice.Viewport.Height / 2);
-            ActiveFont = Content.Load<SpriteFont>("Fonts/Activefont");
-            InactiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
+            UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/Activefont");
+            UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
+            UIElement.ActiveFont.Spacing = -40;
+            UIElement.InActiveFont.Spacing = -40;
+
+            UIElement.GraphicsDevice = GraphicsDevice;
         }
 
         /// <summary>
@@ -1491,11 +1493,11 @@ namespace BattleTank.Core
             string text;
             text = "!  \"  #  $  %  &  '  (  )  *  +  ,  -  .  /  0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?  @ \n A  B  C  D  E  F  G  H  I  J  K  L  M  N  O  P  Q  R  S  T  U  V  W  X  Y  Z  [  \\  ]  ^  _  ` \n  a  b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  ";
             text = "ZaGrAj";
-            ActiveFont.Spacing = -40;
-            InactiveFont.Spacing = -40;
-            spriteBatch.DrawString(ActiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
-            spriteBatch.DrawString(InactiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
-            spriteBatch.DrawString(InactiveFont, text, new Vector2(100, 200), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
+            var aa = new GUI.Button("ZaGrAj", new Vector2(100, 150), 150);
+            aa.Draw(ref spriteBatch);
+            spriteBatch.DrawString(UIElement.ActiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(UIElement.InActiveFont, text, new Vector2(100), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
+            spriteBatch.DrawString(UIElement.InActiveFont, text, new Vector2(100, 200), Color.White, 0, Vector2.Zero, 0.2f, SpriteEffects.None, 0);
 
             spriteBatch.End();
 

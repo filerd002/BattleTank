@@ -12,18 +12,44 @@ namespace BattleTank.Core.GUI
         public static SoundEffect ClickSound { get; set; }
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
+        
 
-        public Button (Texture2D nonActiveTexture, Texture2D activeTexture, Vector2 position, int? width = null, int? height = null) : base(nonActiveTexture)
+        public Button(Texture2D nonActiveTexture, Texture2D activeTexture, Rectangle elementRectangle) :base(nonActiveTexture)
         {
             NonActiveTexture = nonActiveTexture;
             ActiveTexture = activeTexture;
-            Position = position;
-            Width = width ?? NonActiveTexture.Width;
-            Height = height ?? NonActiveTexture.Height;
+            Position = elementRectangle.Location.ToVector2();
+            Width = elementRectangle.Width;
+            Height = elementRectangle.Height;
         }
 
-        public Button(Texture2D nonActiveTexture, Texture2D activeTexture, Rectangle elementRectangle) : this (nonActiveTexture, activeTexture, elementRectangle.Location.ToVector2(), elementRectangle.Width, elementRectangle.Height)
-        { }
+        public Button(string text, Vector2 position, int? width, int? height) : base(null)
+        {
+            var foo = UIElement.InActiveFont.MeasureString(text);
+                RenderTarget2D renderTarget = new RenderTarget2D(
+                GraphicsDevice,
+                (int)foo.X,
+                (int)foo.Y);
+
+            var spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch.GraphicsDevice.SetRenderTarget(renderTarget);
+            spriteBatch.Begin();
+            spriteBatch.DrawString(InActiveFont, text, Vector2.Zero, Color.White);
+            spriteBatch.End();
+            spriteBatch.GraphicsDevice.SetRenderTarget(null);
+            NonActiveTexture = renderTarget;
+
+            UIElementRectangle.Location = position.ToPoint();
+            base.Width = width ?? NonActiveTexture.Width;
+            base.Height = height ?? NonActiveTexture.Height;
+        }
+
+        public Button(string text, Vector2 position, int width) : this(text, position, null, null)
+        {
+            var proportion = width / base.Width;
+            base.Width *= proportion;
+            base.Height *= proportion;
+        }
 
         /// <inheritdoc />
         public override void Draw(ref SpriteBatch spriteBatch)

@@ -540,7 +540,7 @@ namespace BattleTank.Core
                     }
 
 
-                    ButtonPowrot.Position = new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50);
+                    ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 40, 250, 50);
                     if (ButtonPowrot.IsClicked(ref state))
                     {
                         soundOnOff = 1;
@@ -625,7 +625,7 @@ namespace BattleTank.Core
                     }
                 }
 
-                ButtonKoniec.Position = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50);
+                ButtonKoniec.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50);
                 if (ButtonKoniec.IsClicked(ref state))
                 {
                     Exit();
@@ -674,7 +674,7 @@ namespace BattleTank.Core
                         gameState = SETTINGS;
                     }
 
-                    ButtonKoniec.Position = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50);
+                    ButtonKoniec.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80, 250, 50);
                     if (ButtonKoniec.IsClicked(ref state))
                     {
                         Exit();
@@ -741,7 +741,7 @@ namespace BattleTank.Core
                 }
                 else if (PlayerOneController.Equals(KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout))
                 {
-                    ButtonSettingsTrybSterowaniaKlawMysz.IsActive = true;
+                    ButtonSettingsTrybSterowaniaKlawMysz.IsMouseOver = true;
                 }
 
                 if (ButtonSettingsTrybSterowaniaKlawMysz2.IsClicked(ref state))
@@ -750,7 +750,7 @@ namespace BattleTank.Core
                 }
                 else if (PlayerTwoController.Equals(KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout))
                 {
-                    ButtonSettingsTrybSterowaniaKlawMysz2.IsActive = true;
+                    ButtonSettingsTrybSterowaniaKlawMysz2.IsMouseOver = true;
                 }
                 #endregion
 
@@ -764,7 +764,7 @@ namespace BattleTank.Core
                     }
                     else if (!PlayerOneController.Equals(KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout))
                     {
-                        ButtonSettingsTrybSterowaniaPad.IsActive = true;
+                        ButtonSettingsTrybSterowaniaPad.IsMouseOver = true;
                     }
                 
                     if (ButtonSettingsTrybSterowaniaPad2.IsClicked(ref state))
@@ -779,7 +779,7 @@ namespace BattleTank.Core
                     }
                     else if (!PlayerTwoController.Equals(KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout))
                     {
-                        ButtonSettingsTrybSterowaniaPad2.IsActive = true;
+                        ButtonSettingsTrybSterowaniaPad2.IsMouseOver = true;
                     }
                 }
                 else
@@ -790,7 +790,7 @@ namespace BattleTank.Core
 
 
 
-                ButtonPowrot.Position = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 130, 250, 50);
+                ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 130, 250, 50);
                 if (ButtonPowrot.IsClicked(ref state))
                 {
                     menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
@@ -851,7 +851,7 @@ namespace BattleTank.Core
 
 
 
-                    if (ButtonPlayer1.IsMouseOver(ref state))
+                    if (ButtonPlayer1.CheckIsMouseOver(ref state))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka1");
                         if (ButtonPlayer1.IsClicked(ref state))
@@ -865,7 +865,7 @@ namespace BattleTank.Core
                             gameReturn = gameRunningPlayer1;
                         }
                     }
-                    if (ButtonPlayer2.IsMouseOver(ref state))
+                    if (ButtonPlayer2.CheckIsMouseOver(ref state))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka2");
                         if (ButtonPlayer2.IsClicked(ref state))
@@ -882,7 +882,7 @@ namespace BattleTank.Core
                         }
                     }
 
-                    if (ButtonPlayer3.IsMouseOver(ref state))
+                    if (ButtonPlayer3.CheckIsMouseOver(ref state))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka3");
                         if (ButtonPlayer3.IsClicked(ref state))
@@ -894,7 +894,7 @@ namespace BattleTank.Core
                         }
                     }
 
-                    if (ButtonPlayer4.IsMouseOver(ref state))
+                    if (ButtonPlayer4.CheckIsMouseOver(ref state))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka4");
                         if (ButtonPlayer4.IsClicked(ref state))
@@ -951,23 +951,23 @@ namespace BattleTank.Core
 
                     if (Czas1Gry.IsClicked(ref state) || czasWyscigu == 120)
                     {
-                        Czas1Gry.IsActive = true;
+                        Czas1Gry.IsMouseOver = true;
                         czasWyscigu = 120;
                     }
 
                     if (Czas2Gry.IsClicked(ref state) || czasWyscigu == 300)
                     {
-                        Czas2Gry.IsActive = true;
+                        Czas2Gry.IsMouseOver = true;
                         czasWyscigu = 300;
                     }
 
                     if (Czas3Gry.IsClicked(ref state) || czasWyscigu == 600)
                     {
-                        Czas3Gry.IsActive = true;
+                        Czas3Gry.IsMouseOver = true;
                         czasWyscigu = 600;
                     }
 
-                    doBoju.Position = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80, 300, 60);
+                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80, 300, 60);
                     if (doBoju.IsClicked(ref state))
                     {
                         LeftButtonStatus = true;
@@ -1044,25 +1044,25 @@ namespace BattleTank.Core
                     if (Poziom1Trud.IsClicked(ref state) || poziomTrudnosci == 1)
                     {
                         poziomTrudnosci = 1;
-                        Poziom1Trud.IsActive = true;
+                        Poziom1Trud.IsMouseOver = true;
                     }
 
                     if (Poziom2Trud.IsClicked(ref state) || poziomTrudnosci == 2)
                     {
                         poziomTrudnosci = 2;
-                        Poziom2Trud.IsActive = true;
+                        Poziom2Trud.IsMouseOver = true;
                     }
 
                     if (Poziom3Trud.IsClicked(ref state) || poziomTrudnosci == 3)
                     {
                         poziomTrudnosci = 3;
-                        Poziom3Trud.IsActive = true;
+                        Poziom3Trud.IsMouseOver = true;
                     }
 
                     if (Poziom4Trud.IsClicked(ref state) || poziomTrudnosci == 4)
                     {
                         poziomTrudnosci = 4;
-                        Poziom4Trud.IsActive = true;
+                        Poziom4Trud.IsMouseOver = true;
                     }
 
                     if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160,
@@ -1079,25 +1079,25 @@ namespace BattleTank.Core
 
                     if (wyborCpuKlasykIlosc0.IsClicked(ref state) || iloscCPUKlasyk == 0)
                     {
-                        wyborCpuKlasykIlosc0.IsActive = true;
+                        wyborCpuKlasykIlosc0.IsMouseOver = true;
                         iloscCPUKlasyk = 0;
                     }
 
                     if (wyborCpuKlasykIlosc1.IsClicked(ref state) || iloscCPUKlasyk == 1)
                     {
-                        wyborCpuKlasykIlosc1.IsActive = true;
+                        wyborCpuKlasykIlosc1.IsMouseOver = true;
                         iloscCPUKlasyk = 1;
                     }
 
                     if (wyborCpuKlasykIlosc2.IsClicked(ref state) || iloscCPUKlasyk == 2)
                     {
-                        wyborCpuKlasykIlosc2.IsActive = true;
+                        wyborCpuKlasykIlosc2.IsMouseOver = true;
                         iloscCPUKlasyk = 2;
                     }
 
                     if (wyborCpuKlasykIlosc3.IsClicked(ref state) || iloscCPUKlasyk == 3)
                     {
-                        wyborCpuKlasykIlosc3.IsActive = true;
+                        wyborCpuKlasykIlosc3.IsMouseOver = true;
                         iloscCPUKlasyk = 3;
                     }
 
@@ -1117,29 +1117,29 @@ namespace BattleTank.Core
 
                     if (wyborCpuKlamikazeIlosc0.IsClicked(ref state) || iloscCPUKamikaze == 0)
                     {
-                        wyborCpuKlamikazeIlosc0.IsActive = true;
+                        wyborCpuKlamikazeIlosc0.IsMouseOver = true;
                         iloscCPUKamikaze = 0;
                     }
 
                     if (wyborCpuKlamikazeIlosc1.IsClicked(ref state) || iloscCPUKamikaze == 1)
                     {
-                        wyborCpuKlamikazeIlosc1.IsActive = true;
+                        wyborCpuKlamikazeIlosc1.IsMouseOver = true;
                         iloscCPUKamikaze = 1;
                     }
 
                     if (wyborCpuKlamikazeIlosc2.IsClicked(ref state) || iloscCPUKamikaze == 2)
                     {
-                        wyborCpuKlamikazeIlosc2.IsActive = true;
+                        wyborCpuKlamikazeIlosc2.IsMouseOver = true;
                         iloscCPUKamikaze = 2;
                     }
 
                     if (wyborCpuKlamikazeIlosc3.IsClicked(ref state) || iloscCPUKamikaze == 3)
                     {
-                        wyborCpuKlamikazeIlosc3.IsActive = true;
+                        wyborCpuKlamikazeIlosc3.IsMouseOver = true;
                         iloscCPUKamikaze = 3;
                     }
 
-                    doBoju.Position = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, 300, 60);
+                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, 300, 60);
                     if (doBoju.IsClicked(ref state))
                     {
                         LeftButtonStatus = true;
@@ -1300,7 +1300,7 @@ namespace BattleTank.Core
                 {
                     spriteBatch.Draw(BattleTankTexture, new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100), Color.White);
 
-                    ButtonZagraj.IsActive = true;
+                    ButtonZagraj.IsMouseOver = true;
                     ButtonZagraj.Draw(ref spriteBatch);
                     ButtonSettings.Draw(ref spriteBatch);
                     ButtonKoniec.Draw(ref spriteBatch);

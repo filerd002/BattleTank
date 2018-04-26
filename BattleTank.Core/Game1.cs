@@ -191,14 +191,7 @@ namespace BattleTank.Core
         /// </summary>
         protected override void LoadContent()
         {
-            UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/Activefont");
-            UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
-            UIElement.ActiveFont.Spacing = -40;
-            UIElement.InActiveFont.Spacing = -40;
-
-            UIElement.GraphicsDevice = GraphicsDevice;
-
-            // Create a new SpriteBatch, which can be used to draw textures.
+           // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics/wyborPoziomTrud");
             wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics/wyborCpuKlasyk");
@@ -207,6 +200,13 @@ namespace BattleTank.Core
             SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka1Gracza");
             SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka2Gracza");
             SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics/trybSterowania");
+
+            UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/ActiveFont");
+            UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
+            UIElement.ActiveFont.Spacing = -40;
+            UIElement.InActiveFont.Spacing = -40;
+
+            UIElement.GraphicsDevice = GraphicsDevice;
 
             ButtonPlayer1 = new Button(
                 Content.Load<Texture2D>("Graphics/playerVScpu"), 

@@ -13,8 +13,6 @@ namespace BattleTank.Core.GUI
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
 
-        
-
         public Button (Texture2D nonActiveTexture, Texture2D activeTexture, Vector2 position, int? width = null, int? height = null) : base(nonActiveTexture)
         {
             NonActiveTexture = nonActiveTexture;
@@ -34,18 +32,11 @@ namespace BattleTank.Core.GUI
             base.Draw(ref spriteBatch);
         }
 
-        public bool IsClicked(ref PointerState mouseState)
+        /// <inheritdoc />
+        protected override void OnClickedRaised()
         {
-            if (CheckIsMouseOver(ref mouseState))
-            {
-                if (mouseState.MainAction == ButtonState.Pressed)
-                {
-                    ClickSound?.Play();
-                    OnClickedRaised();
-                    return true;
-                }
-            }
-            return false;
+            ClickSound?.Play();
+            base.OnClickedRaised();
         }
     }
 }

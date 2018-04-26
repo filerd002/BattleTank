@@ -4,6 +4,7 @@ using System.Text;
 using BattleTank.Core.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace BattleTank.Core.GUI
 {
@@ -74,5 +75,13 @@ namespace BattleTank.Core.GUI
             }
         }
 
+        public bool IsClicked(ref PointerState mouseState)
+        {
+            if (!CheckIsMouseOver(ref mouseState)) return false;
+            if (mouseState.MainAction != ButtonState.Pressed) return false;
+
+            OnClickedRaised();
+            return true;
+        }
     }
 }

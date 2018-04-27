@@ -38,7 +38,7 @@ namespace BattleTank.Core
         Texture2D background;
         Texture2D menuTexture;
         Texture2D menuWinAndLossTexture;
-        Texture2D BattleTankTexture;
+        Label LabelBattleTank;
         Texture2D wyborTrybGryTexture;
         Texture2D przerwaTexture;
         Texture2D winTexture;
@@ -163,8 +163,9 @@ namespace BattleTank.Core
             background = Content.Load<Texture2D>("Graphics/Background");
             menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
 
+          
             menuWinAndLossTexture = Content.Load<Texture2D>("Graphics/MenuWinAndLoss");
-            BattleTankTexture = Content.Load<Texture2D>("Graphics/battleTank");
+            
             wyborTrybGryTexture = Content.Load<Texture2D>("Graphics/wyborTrybGry");
             winTexture = Content.Load<Texture2D>("Graphics/sukces");
             lossTexture = Content.Load<Texture2D>("Graphics/przegrana");
@@ -188,6 +189,11 @@ namespace BattleTank.Core
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
                                     graphics.GraphicsDevice.Viewport.Height / 2);
+
+
+            LabelBattleTank = new Label("BaTtLeTaNk", new Vector2((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 135), null, 80);
+            LabelBattleTank.CenterHorizontal();
+
 
             ButtonKoniec = new Button("KoNiEc", new Vector2(), null, 60);
             ButtonKoniec.CenterHorizontal();
@@ -597,16 +603,9 @@ namespace BattleTank.Core
 
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100)))
-                {
+              
 
-                    BattleTankTexture = this.Content.Load<Texture2D>("Graphics/battleTank1");
 
-                }
-                else
-                {
-                    BattleTankTexture = this.Content.Load<Texture2D>("Graphics/battleTank");
-                }
                 if (!LeftButtonStatus)
                 { 
                     if (ButtonZagraj.IsClicked(ref state))
@@ -1250,7 +1249,7 @@ namespace BattleTank.Core
 
                 if (gameState == GameState.START_GAME)
                 {
-                    spriteBatch.Draw(BattleTankTexture, new Rectangle((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 145, 380, 100), Color.White);
+                    LabelBattleTank.Draw(ref spriteBatch);
 
                     ButtonZagraj.Draw(ref spriteBatch);
                     ButtonSettings.Draw(ref spriteBatch);

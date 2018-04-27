@@ -53,6 +53,7 @@ namespace BattleTank.Core.GUI
             base.Height = height ?? NonActiveTexture.Height * proportion;
         }
 
+      
         /// <inheritdoc />
         public override void Draw(ref SpriteBatch spriteBatch)
         {

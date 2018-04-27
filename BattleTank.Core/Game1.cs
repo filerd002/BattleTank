@@ -39,10 +39,10 @@ namespace BattleTank.Core
         Texture2D menuTexture;
         Texture2D menuWinAndLossTexture;
         Label LabelBattleTank;
-        Texture2D wyborTrybGryTexture;
-        Texture2D przerwaTexture;
-        Texture2D winTexture;
-        Texture2D lossTexture;
+        Label LabelwyborTrybGryTexture;
+        Label LabelprzerwaTexture;
+        Label LabelwinTexture;
+        Label LabellossTexture;
         Texture2D cursorTexture;
         Button ButtonPlayer1;
         Button ButtonPlayer2;
@@ -53,22 +53,24 @@ namespace BattleTank.Core
         Button ButtonKoniec;
         Button ButtonZagraj;
         Button ButtonSettings;
-        Texture2D SettingsTrybSterowania;
+        Label LabelSettingsTrybSterowania;
+        Label LabelTrybSterowania1Gracza;
+        Label LabelTrybSterowania2Gracza;
         Button ButtonSettingsTrybSterowaniaKlawMysz;
         Button ButtonSettingsTrybSterowaniaPad;
         Button ButtonSettingsTrybSterowaniaKlawMysz2;
         Button ButtonSettingsTrybSterowaniaPad2;
-        Texture2D wyborPoziomTrud;
+        Label LabelwyborPoziomTrud;
         Button Poziom1Trud;
         Button Poziom2Trud;
         Button Poziom3Trud;
         Button Poziom4Trud;
-        Texture2D wyborCpuKlasyk;
+        Label LabelwyborCpuKlasyk;
         Button wyborCpuKlasykIlosc0;
         Button wyborCpuKlasykIlosc1;
         Button wyborCpuKlasykIlosc2;
         Button wyborCpuKlasykIlosc3;
-        Texture2D wyborCpuKlamikaze;
+        Label LabelwyborCpuKlamikaze;
         Button wyborCpuKlamikazeIlosc0;
         Button wyborCpuKlamikazeIlosc1;
         Button wyborCpuKlamikazeIlosc2;
@@ -76,9 +78,9 @@ namespace BattleTank.Core
         Button Czas1Gry;
         Button Czas2Gry;
         Button Czas3Gry;
-        Texture2D wyborCzasGry;
-        Texture2D SukcesPorazka1Gracza;
-        Texture2D SukcesPorazka2Gracza;
+        Label LabelwyborCzasGry;
+        Label LabelSukcesPorazka1Gracza;
+        Label LabelSukcesPorazka2Gracza;
         Button doBoju;
         Vector2 positionMouse;
 
@@ -162,15 +164,8 @@ namespace BattleTank.Core
             whiteRectangle.SetData(new[] { Color.White });
             background = Content.Load<Texture2D>("Graphics/Background");
             menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
-
-          
             menuWinAndLossTexture = Content.Load<Texture2D>("Graphics/MenuWinAndLoss");
-            
-            wyborTrybGryTexture = Content.Load<Texture2D>("Graphics/wyborTrybGry");
-            winTexture = Content.Load<Texture2D>("Graphics/sukces");
-            lossTexture = Content.Load<Texture2D>("Graphics/przegrana");
-            przerwaTexture = Content.Load<Texture2D>("Graphics/przerwa");
-
+                    
             cursorTexture = Content.Load<Texture2D>("Graphics/cursor");
 
             scoreManager = new Score(this, 10);
@@ -193,16 +188,41 @@ namespace BattleTank.Core
 
             LabelBattleTank = new Label("BaTtLeTaNk", new Vector2((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 135), null, 80);
             LabelBattleTank.CenterHorizontal();
+            LabelwyborPoziomTrud = new Label("PoZiOm TrUdNoScI", new Vector2((map.screenWidth / 2) - 160,  (map.screenHeight / 2) - 220), null, 60);
+            LabelwyborPoziomTrud.CenterHorizontal();
+            LabelwyborCpuKlasyk = new Label("CpU kLaSyCzNyCh", new Vector2((map.screenWidth / 2) - 160,  (map.screenHeight / 2) - 100), null, 60);
+            LabelwyborCpuKlasyk.CenterHorizontal();
+            LabelwyborCpuKlamikaze = new Label("CpU kAmIkAzE", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 20), null, 60);
+            LabelwyborCpuKlamikaze.CenterHorizontal();
+            LabelwyborCzasGry = new Label("CzAs RoZgRyWkI", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 150), null, 60);
+            LabelwyborCzasGry.CenterHorizontal();
+            LabelSukcesPorazka1Gracza = new Label("GrAcZa 1", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60), null, 70);
+            LabelSukcesPorazka1Gracza.CenterHorizontal();
+            LabelSukcesPorazka2Gracza = new Label("GrAcZa 2", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60), null, 70);
+            LabelSukcesPorazka2Gracza.CenterHorizontal();
+            LabelSettingsTrybSterowania = new Label("TrYb StErOwAnIa", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 195), null, 70);
+            LabelSettingsTrybSterowania.CenterHorizontal();
+            LabelTrybSterowania1Gracza = new Label("GrAcZ 1", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 130), null, 60);
+            LabelTrybSterowania1Gracza.CenterHorizontal();
+            LabelTrybSterowania2Gracza = new Label("GrAcZ 2", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 5 ), null, 60);
+            LabelTrybSterowania2Gracza.CenterHorizontal();
+
+            LabelwyborTrybGryTexture = new Label("WyBoR TrYbU\n        gRy", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 160), null, 100);
+            LabelwyborTrybGryTexture.CenterHorizontal();
+            LabelwinTexture = new Label("SuKcEs", new Vector2((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140), null, 75);
+            LabelwinTexture.CenterHorizontal();
+            LabellossTexture = new Label("PrZeGrAnA", new Vector2((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140), null, 75);
+            LabellossTexture.CenterHorizontal();
+            LabelprzerwaTexture = new Label("PrZeRwA", new Vector2((map.screenWidth / 2) - 170, (map.screenHeight / 2) - 145), null, 75);
+            LabelprzerwaTexture.CenterHorizontal();
 
 
             ButtonKoniec = new Button("KoNiEc", new Vector2(), null, 60);
             ButtonKoniec.CenterHorizontal();
             ButtonZagraj = new Button("ZaGrAj", new Vector2(0, (map.screenHeight / 2) - 40), null, 60);
             ButtonZagraj.CenterHorizontal();
-
             ButtonSettings = new Button("UsTaWiEnIa", new Vector2(0, (map.screenHeight / 2) + 20), null, 60);
             ButtonSettings.CenterHorizontal();
-
             ButtonPlayer1 = new Button("GrAcZ vS cPu", new Vector2((map.screenWidth / 2) - 140, (map.screenHeight / 2) - 60), null, 50);
             ButtonPlayer1.CenterHorizontal();
             ButtonPlayer2 = new Button("GrAcZ vS gRaCz", new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) - 10), null, 50);
@@ -259,13 +279,7 @@ namespace BattleTank.Core
         {
            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics/wyborPoziomTrud");
-            wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics/wyborCpuKlasyk");
-            wyborCpuKlamikaze = this.Content.Load<Texture2D>("Graphics/wyborCpuKlamikaze");
-            wyborCzasGry = this.Content.Load<Texture2D>("Graphics/wyborCzasGry");
-            SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka1Gracza");
-            SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka2Gracza");
-            SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics/trybSterowania");
+        
 
             UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/ActiveFont");
             UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
@@ -478,18 +492,7 @@ namespace BattleTank.Core
 
 
                 if (gameState == GameState.PAUSE)
-                {
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 170, (map.screenHeight / 2) - 145, 320, 80)))
-                    {
-
-                        przerwaTexture = this.Content.Load<Texture2D>("Graphics/przerwa1");
-
-                    }
-                    else
-                    {
-                        przerwaTexture = this.Content.Load<Texture2D>("Graphics/przerwa");
-                    }
+                {             
 
          
                     ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
@@ -501,61 +504,11 @@ namespace BattleTank.Core
                     }
                 }
 
-                else if (gameState == GameState.GAME_WIN)
-                {
-
-                    soundOnOff = 0;
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 250, 50)))
-                    {
-
-                        winTexture = this.Content.Load<Texture2D>("Graphics/sukces1");
-
-                    }
-                    else
-                    {
-                        winTexture = this.Content.Load<Texture2D>("Graphics/sukces");
-                    }
-
-
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60, 300, 70)))
-                    {
-
-                        if (tank2.lives == 0)
-                            SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka1Gracza1");
-                        if (tank1.lives == 0)
-                            SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka2Gracza1");
-
-                    }
-                    else
-                    {
-
-                        if (tank2.lives == 0)
-                            SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka1Gracza");
-                        if (tank1.lives == 0)
-                            SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka2Gracza");
-
-
-
-                    }
-
-
-                }
-                else if (gameState == GameState.GAME_LOSS)
+                else if (gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS)
                 {
                     soundOnOff = 0;
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 250, 50)))
-                    {
-
-                        lossTexture = this.Content.Load<Texture2D>("Graphics/przegrana1");
-
-                    }
-                    else
-                    {
-                        lossTexture = this.Content.Load<Texture2D>("Graphics/przegrana");
-                    }
+                
                 }
 
                 if (ButtonNowaGra.IsClicked(ref state))
@@ -653,35 +606,7 @@ namespace BattleTank.Core
 
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
-                #region Headers
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 195, 300, 70)))
-                {
-                    SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics/trybSterowania1");
-                }
-                else
-                {
-                    SettingsTrybSterowania = this.Content.Load<Texture2D>("Graphics/trybSterowania");
-                }
-
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 130, 300, 60)))
-                {
-                    SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka1Gracza1");
-                }
-                else
-                {
-                    SukcesPorazka1Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka1Gracza");
-                }
-
-                if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 3, 300, 60)))
-                {
-                    SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka2Gracza1");
-                }
-                else
-                {
-                    SukcesPorazka2Gracza = this.Content.Load<Texture2D>("Graphics/SukcesPorazka2Gracza");
-                }
-                #endregion
-
+             
                 #region Set Keyboard control for players
                 if (ButtonSettingsTrybSterowaniaKlawMysz.IsClicked(ref state))
                 {
@@ -784,22 +709,7 @@ namespace BattleTank.Core
                 if (LeftButtonStatus == false)
                 {
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 145, 300, 70)))
-                    {
-
-                        wyborTrybGryTexture = this.Content.Load<Texture2D>("Graphics/wyborTrybGry1");
-
-                    }
-                    else
-                    {
-                        wyborTrybGryTexture = this.Content.Load<Texture2D>("Graphics/wyborTrybGry");
-                    }
-
-
-
-
-
-
+                  
                     if (ButtonPlayer1.CheckIsMouseOver(ref state))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka1");
@@ -887,16 +797,6 @@ namespace BattleTank.Core
                 {
 
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 150, 300, 60)))
-                    {
-
-                        wyborCzasGry = this.Content.Load<Texture2D>("Graphics/wyborCzasGry1");
-
-                    }
-                    else
-                    {
-                        wyborCzasGry = this.Content.Load<Texture2D>("Graphics/wyborCzasGry");
-                    }
 
                     if (Czas1Gry.IsClicked(ref state) || czasWyscigu == 120)
                     {
@@ -978,17 +878,7 @@ namespace BattleTank.Core
                 {
 
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160,
-                        (map.screenHeight / 2) - 220, 300, 60)))
-                    {
-
-                        wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics/wyborPoziomTrud1");
-
-                    }
-                    else
-                    {
-                        wyborPoziomTrud = this.Content.Load<Texture2D>("Graphics/wyborPoziomTrud");
-                    }
+                   
 
 
                     if (Poziom1Trud.IsClicked(ref state) || poziomTrudnosci == 1)
@@ -1015,17 +905,7 @@ namespace BattleTank.Core
                         Poziom4Trud.IsMouseOver = true;
                     }
 
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160,
-                        (map.screenHeight / 2) - 100, 300, 60)))
-                    {
-
-                        wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics/wyborCpuKlasyk1");
-
-                    }
-                    else
-                    {
-                        wyborCpuKlasyk = this.Content.Load<Texture2D>("Graphics/wyborCpuKlasyk");
-                    }
+                    
 
                     if (wyborCpuKlasykIlosc0.IsClicked(ref state) || iloscCPUKlasyk == 0)
                     {
@@ -1049,20 +929,6 @@ namespace BattleTank.Core
                     {
                         wyborCpuKlasykIlosc3.IsMouseOver = true;
                         iloscCPUKlasyk = 3;
-                    }
-
-                    //
-                    //
-                    //
-
-                    if (positionMouseXY.Intersects(new Rectangle((map.screenWidth / 2) - 160,
-                        (map.screenHeight / 2) + 20, 300, 60)))
-                    {
-                        wyborCpuKlamikaze = this.Content.Load<Texture2D>("Graphics/wyborCpuKlamikaze1");
-                    }
-                    else
-                    {
-                        wyborCpuKlamikaze = this.Content.Load<Texture2D>("Graphics/wyborCpuKlamikaze");
                     }
 
                     if (wyborCpuKlamikazeIlosc0.IsClicked(ref state) || iloscCPUKamikaze == 0)
@@ -1259,7 +1125,7 @@ namespace BattleTank.Core
 
                 if (gameState == GameState.CHOICE_OF_GAME_TYPE)
                 {
-                    spriteBatch.Draw(wyborTrybGryTexture, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 145, 300, 70), Color.White);
+                    LabelwyborTrybGryTexture.Draw(ref spriteBatch);
                     ButtonPlayer1.Draw(ref spriteBatch);
                     ButtonPlayer2.Draw(ref spriteBatch);
                     ButtonPlayer3.Draw(ref spriteBatch);
@@ -1271,7 +1137,7 @@ namespace BattleTank.Core
                 if (gameState == GameState.PAUSE)
                 {
 
-                    spriteBatch.Draw(przerwaTexture, new Rectangle((map.screenWidth / 2) - 170, (map.screenHeight / 2) - 145, 320, 80), Color.White);
+                    LabelprzerwaTexture.Draw(ref spriteBatch);
                     ButtonPowrot.Draw(ref spriteBatch);
                     ButtonNowaGra.Draw(ref spriteBatch);
                     ButtonKoniec.Draw(ref spriteBatch);
@@ -1286,19 +1152,19 @@ namespace BattleTank.Core
 
                 if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU)
                 {
-                    spriteBatch.Draw(wyborPoziomTrud, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 220, 300, 60), Color.White);
+                    LabelwyborPoziomTrud.Draw(ref spriteBatch);
                     Poziom1Trud.Draw(ref spriteBatch);
                     Poziom2Trud.Draw(ref spriteBatch);
                     Poziom3Trud.Draw(ref spriteBatch);
                     Poziom4Trud.Draw(ref spriteBatch);
 
-                    spriteBatch.Draw(wyborCpuKlasyk, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 100, 300, 60), Color.White);
+                    LabelwyborCpuKlasyk.Draw(ref spriteBatch);
                     wyborCpuKlasykIlosc0.Draw(ref spriteBatch);
                     wyborCpuKlasykIlosc1.Draw(ref spriteBatch);
                     wyborCpuKlasykIlosc2.Draw(ref spriteBatch);
                     wyborCpuKlasykIlosc3.Draw(ref spriteBatch);
 
-                    spriteBatch.Draw(wyborCpuKlamikaze, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 20, 300, 60), Color.White);
+                    LabelwyborCpuKlamikaze.Draw(ref spriteBatch);
                     wyborCpuKlamikazeIlosc0.Draw(ref spriteBatch);
                     wyborCpuKlamikazeIlosc1.Draw(ref spriteBatch);
                     wyborCpuKlamikazeIlosc2.Draw(ref spriteBatch);
@@ -1308,7 +1174,7 @@ namespace BattleTank.Core
 
                 if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
                 {
-                    spriteBatch.Draw(wyborCzasGry, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 150, 300, 60), Color.White);
+                    LabelwyborCzasGry.Draw(ref spriteBatch);
                     Czas1Gry.Draw(ref spriteBatch);
                     Czas2Gry.Draw(ref spriteBatch);
                     Czas3Gry.Draw(ref spriteBatch);
@@ -1318,17 +1184,13 @@ namespace BattleTank.Core
 
                 if (gameState == GameState.SETTINGS)
                 {
-                    spriteBatch.Draw(SettingsTrybSterowania, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 195, 300, 70), Color.White);
-                    spriteBatch.Draw(SukcesPorazka1Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 130, 300, 60), Color.White);
-
+                    LabelSettingsTrybSterowania.Draw(ref spriteBatch);
+                    LabelTrybSterowania1Gracza.Draw(ref spriteBatch);
                     ButtonSettingsTrybSterowaniaKlawMysz.Draw(ref spriteBatch);
                     ButtonSettingsTrybSterowaniaPad.Draw(ref spriteBatch);
-
-                    spriteBatch.Draw(SukcesPorazka2Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 3, 300, 60), Color.White);
-
+                    LabelTrybSterowania2Gracza.Draw(ref spriteBatch);
                     ButtonSettingsTrybSterowaniaKlawMysz2.Draw(ref spriteBatch);
                     ButtonSettingsTrybSterowaniaPad2.Draw(ref spriteBatch);
-
                     ButtonPowrot.Draw(ref spriteBatch);
                 }
 
@@ -1345,18 +1207,16 @@ namespace BattleTank.Core
 
                 if (gameState == GameState.GAME_WIN)
                 {
-                    spriteBatch.Draw(winTexture, new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 300, 70), Color.White);
+                    LabelwinTexture.Draw(ref spriteBatch);
                     if (tank2.lives == 0)
-                        spriteBatch.Draw(SukcesPorazka1Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60, 300, 70), Color.White);
+                        LabelSukcesPorazka1Gracza.Draw(ref spriteBatch);
                     if (tank1.lives == 0)
-                        spriteBatch.Draw(SukcesPorazka2Gracza, new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 60, 300, 70), Color.White);
-
+                        LabelSukcesPorazka2Gracza.Draw(ref spriteBatch);
                 }
 
                 if (gameState == GameState.GAME_LOSS)
                 {
-                    spriteBatch.Draw(lossTexture, new Rectangle((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140, 300, 70), Color.White);
-
+                    LabellossTexture.Draw(ref spriteBatch);
                 }
                 spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
             }

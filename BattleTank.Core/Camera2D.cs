@@ -8,11 +8,14 @@ namespace BattleTank.Core
 {
     class Camera2D
     {
+        private int _screenWidth;
+        private int _screenHeight;
         public Camera2D(PresentationParameters parameters)
         {
-            
+            _screenHeight = parameters.BackBufferHeight;
+            _screenWidth = parameters.BackBufferWidth;
         }
-        public double Scale { get; set; }
+        public float Scale { get; set; }
         public bool Center { get; set; }
         public Vector2 Position { get; set; }
 
@@ -21,12 +24,13 @@ namespace BattleTank.Core
         public Point? MaxRightBottomCorner { get; set; } = null;
 
         public Matrix GetViewMatrix()
-            => Camera2D.GetViewMatrix(Scale, Position, MaxLeftTopCorner, MaxRightBottomCorner);
-
-        public static Matrix GetViewMatrix(double scale, Vector2 position, Point? maxLeftTopCorner = null,
-            Point? maxRightBottomCorner = null)
         {
-            return Matrix.Identity;
+            var newPosition = Position;
+            if (Center)
+            {
+                newPosition  -= new Vector2((_screenWidth/Scale)/2, (_screenHeight/Scale)/2);   
+            }
+            return Matrix.Identity * Matrix.CreateTranslation(-newPosition.X, -newPosition.Y, 0) * Matrix.CreateScale(Scale);
         }
     }
 }

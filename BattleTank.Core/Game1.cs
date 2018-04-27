@@ -1099,13 +1099,14 @@ namespace BattleTank.Core
             {
                 Camera.Scale = 2;
                 Camera.Position = tank1.location;
+                Camera.Center = true;
             }
             else
             {
                 Camera.Scale = 1;
                 Camera.Position = Vector2.Zero;
+                Camera.Center = false;
             }
-            Camera.Center = true;
             GraphicsDevice.Clear(Color.WhiteSmoke);
 
             // TODO: Add your drawing code here

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,8 +8,7 @@ namespace BattleTank.Core.GUI
     {
       
         Texture2D NonActiveTexture { get; set; }
-  
-
+ 
         [Obsolete]
         public Label(Texture2D nonActiveTexture, Rectangle elementRectangle) : base(nonActiveTexture)
         {
@@ -33,10 +29,6 @@ namespace BattleTank.Core.GUI
         public Label(string text, Vector2 position, int? width = null, int? height = null) : base(null)
         {
             NonActiveTexture = GUIHelper.DrawStringOnTexture2D(text, UIElement.InActiveFont, null, GraphicsDevice);
-
-            var newText = new String(text.ToCharArray().Select(d => Char.IsUpper(d) ? Char.ToLower(d) : Char.ToUpper(d))
-                .ToArray());
-
             UIElementRectangle.Location = position.ToPoint();
 
             double proportion = 1;

@@ -129,7 +129,7 @@ namespace BattleTank.Core
 
                     alive = false;
                 }
-                else if ((game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 || game.gameState == Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 1 && (game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
+                else if ((game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 || game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU) && game.iloscCPUKamikaze + game.iloscCPUKlasyk >= 1 && (game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
                 {
                     colliding = true;
 

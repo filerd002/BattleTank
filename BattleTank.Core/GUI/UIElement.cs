@@ -28,7 +28,7 @@ namespace BattleTank.Core.GUI
 
         public bool IsMouseOver { get; set; }
         public bool IsEnabled { get; set; } = true;
-
+        
         protected Texture2D TextureToDraw { get; set; }
         internal Rectangle UIElementRectangle;
 

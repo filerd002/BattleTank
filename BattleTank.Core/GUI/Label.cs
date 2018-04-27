@@ -20,14 +20,10 @@ namespace BattleTank.Core.GUI
             TextureToDraw = GUIHelper.DrawStringOnTexture2D(text, UIElement.InActiveFont, null, GraphicsDevice);
             UIElementRectangle.Location = position.ToPoint();
 
-            double proportion = 1;
-            if (width != null && height == null)
-                proportion = (double)width / TextureToDraw.Width;
-            else if (width == null && height != null)
-                proportion = (double)height / TextureToDraw.Height;
+            double proportion = GUIHelper.Proportion(TextureToDraw.Width, TextureToDraw.Height, width, height);
 
-            base.Width = width ?? TextureToDraw.Width * proportion;
-            base.Height = height ?? TextureToDraw.Height * proportion;
+            base.Width = TextureToDraw.Width * proportion;
+            base.Height = TextureToDraw.Height * proportion;
         }
     }
 }

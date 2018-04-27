@@ -34,14 +34,10 @@ namespace BattleTank.Core.GUI
 
             UIElementRectangle.Location = position.ToPoint();
 
-            double proportion = 1;
-            if (width != null && height == null)
-                proportion = (double)width / NonActiveTexture.Width;
-            else if (width == null && height != null)
-                proportion = (double)height / NonActiveTexture.Height;
+            double proportion = GUIHelper.Proportion(NonActiveTexture.Width, NonActiveTexture.Height, width, height);
 
-            base.Width = width ?? NonActiveTexture.Width * proportion;
-            base.Height = height ?? NonActiveTexture.Height * proportion;
+            base.Width = NonActiveTexture.Width * proportion;
+            base.Height = NonActiveTexture.Height * proportion;
         }
 
       

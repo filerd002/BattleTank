@@ -30,5 +30,15 @@ namespace BattleTank.Core.GUI
         }
         public static void CenterHorizontal(this UIElement element)
             => element.Position = new Vector2(UIElement.GraphicsDevice.PresentationParameters.BackBufferWidth / 2 - (float)element.Width / 2, element.Position.Y);
+
+        public static double Proportion(int actualWidth, int actualHeight, int? requestedWidth, int? requestedHeight)
+        {
+            double proportion = 1;
+            if (requestedWidth != null && requestedHeight == null)
+                proportion = (double)requestedWidth / actualWidth;
+            else if (requestedWidth == null && requestedHeight != null)
+                proportion = (double)requestedHeight / actualHeight;
+            return proportion;
+        }
     }
 }

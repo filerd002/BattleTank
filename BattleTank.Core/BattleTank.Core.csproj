@@ -95,6 +95,7 @@
     <None Remove="Content\Graphics\wyborCpuKlamikaze1.png" />
     <None Remove="Content\Graphics\wyborCpuKlasyk.png" />
     <None Remove="Content\Graphics\wyborCpuKlasyk1.png" />
+    <None Remove="Content\Graphics\wyborCzasGry.png" />
     <None Remove="Content\Graphics\wyborCzasGry1.png" />
     <None Remove="Content\Graphics\wyborPoziomTrud.png" />
     <None Remove="Content\Graphics\wyborPoziomTrud1.png" />
@@ -114,14 +115,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Content\Graphics\0.png" />
-    <Content Include="Content\Graphics\01.png" />
-    <Content Include="Content\Graphics\1.png" />
-    <Content Include="Content\Graphics\11.png" />
-    <Content Include="Content\Graphics\2.png" />
-    <Content Include="Content\Graphics\21.png" />
-    <Content Include="Content\Graphics\3.png" />
-    <Content Include="Content\Graphics\31.png" />
     <Content Include="Content\Graphics\Ammo.png" />
     <Content Include="Content\Graphics\Background.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -129,8 +122,6 @@
     <Content Include="Content\Graphics\barrier.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Graphics\BattleTank.png" />
-    <Content Include="Content\Graphics\BattleTank1.png" />
     <Content Include="Content\Graphics\BlueTank.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -140,14 +131,6 @@
     <Content Include="Content\Graphics\cursor.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Graphics\Czas1Gry.png" />
-    <Content Include="Content\Graphics\Czas1Gry1.png" />
-    <Content Include="Content\Graphics\Czas2Gry.png" />
-    <Content Include="Content\Graphics\Czas2Gry1.png" />
-    <Content Include="Content\Graphics\Czas3Gry.png" />
-    <Content Include="Content\Graphics\Czas3Gry1.png" />
-    <Content Include="Content\Graphics\doBoju.png" />
-    <Content Include="Content\Graphics\doBoju1.png" />
     <Content Include="Content\Graphics\FrozenEfekt.png" />
     <Content Include="Content\Graphics\GreenTank.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -161,37 +144,7 @@
     <Content Include="Content\Graphics\mineRed.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Graphics\nowagra.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\nowagra1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\oprawaGraficzna.png" />
-    <Content Include="Content\Graphics\oprawaGraficzna1.png" />
-    <Content Include="Content\Graphics\oprawaGraficznaKlasyk.png" />
-    <Content Include="Content\Graphics\oprawaGraficznaKlasyk1.png" />
-    <Content Include="Content\Graphics\oprawaGraficznaModern.png" />
-    <Content Include="Content\Graphics\oprawaGraficznaModern1.png" />
     <Content Include="Content\Graphics\PinkTank.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\player2VScpu.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\player2VScpu1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\playerVScpu.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\playerVScpu1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\playerVSplayer.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\playerVSplayer1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Graphics\PowerUpAmmo.png">
@@ -212,28 +165,6 @@
     <Content Include="Content\Graphics\PowerUpMine.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Graphics\powrot.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\powrot1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\Poziom1Trud.png" />
-    <Content Include="Content\Graphics\Poziom1Trud1.png" />
-    <Content Include="Content\Graphics\Poziom2Trud.png" />
-    <Content Include="Content\Graphics\Poziom2Trud1.png" />
-    <Content Include="Content\Graphics\Poziom3Trud.png" />
-    <Content Include="Content\Graphics\Poziom3Trud1.png" />
-    <Content Include="Content\Graphics\Poziom4Trud.png" />
-    <Content Include="Content\Graphics\Poziom4Trud1.png" />
-    <Content Include="Content\Graphics\przegrana.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\przegrana1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\przerwa.png" />
-    <Content Include="Content\Graphics\przerwa1.png" />
     <Content Include="Content\Graphics\Ramka.png" />
     <Content Include="Content\Graphics\Ramka1.png" />
     <Content Include="Content\Graphics\Ramka2.png" />
@@ -244,41 +175,10 @@
     <Content Include="Content\Graphics\RedTank.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\Graphics\sukces.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\sukces1.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\SukcesPorazka1Gracza.png" />
-    <Content Include="Content\Graphics\SukcesPorazka1Gracza1.png" />
-    <Content Include="Content\Graphics\SukcesPorazka2Gracza.png" />
-    <Content Include="Content\Graphics\SukcesPorazka2Gracza1.png" />
-    <Content Include="Content\Graphics\trybSterowania.png" />
-    <Content Include="Content\Graphics\trybSterowania1.png" />
-    <Content Include="Content\Graphics\trybSterowaniaKlawMysz.png" />
-    <Content Include="Content\Graphics\trybSterowaniaKlawMysz1.png" />
-    <Content Include="Content\Graphics\trybSterowaniaPad.png" />
-    <Content Include="Content\Graphics\trybSterowaniaPad1.png" />
     <Content Include="Content\Graphics\wall.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Graphics\water.gif">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\wyborCpuKlamikaze.png" />
-    <Content Include="Content\Graphics\wyborCpuKlamikaze1.png" />
-    <Content Include="Content\Graphics\wyborCpuKlasyk.png" />
-    <Content Include="Content\Graphics\wyborCpuKlasyk1.png" />
-    <Content Include="Content\Graphics\wyborCzasGry1.png" />
-    <Content Include="Content\Graphics\wyborPoziomTrud.png" />
-    <Content Include="Content\Graphics\wyborPoziomTrud1.png" />
-    <Content Include="Content\Graphics\wyborTrybGry.png" />
-    <Content Include="Content\Graphics\wyborTrybGry1.png" />
-    <Content Include="Content\Graphics\wyscig.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Content\Graphics\wyscig1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Graphics\YellowTank.png">

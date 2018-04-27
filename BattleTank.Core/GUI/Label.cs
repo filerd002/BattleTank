@@ -6,17 +6,6 @@ namespace BattleTank.Core.GUI
 {
     class Label : UIElement
     {
-      
-        Texture2D NonActiveTexture { get; set; }
- 
-        [Obsolete]
-        public Label(Texture2D nonActiveTexture, Rectangle elementRectangle) : base(nonActiveTexture)
-        {
-            NonActiveTexture = nonActiveTexture;
-            Position = elementRectangle.Location.ToVector2();
-            Width = elementRectangle.Width;
-            Height = elementRectangle.Height;
-        }
         /// <summary>
         /// Tworzy nową etykieta na podstawie podanego tekstu w zadanym miejscu o dane szerokości i wysokosci.
         /// Jeżeli jeden z parametrów width lub height jest null a drugi liczbą etykieta zostanie automatycznie 
@@ -28,28 +17,17 @@ namespace BattleTank.Core.GUI
         /// <param name="height">Wysokość etykiety</param>
         public Label(string text, Vector2 position, int? width = null, int? height = null) : base(null)
         {
-            NonActiveTexture = GUIHelper.DrawStringOnTexture2D(text, UIElement.InActiveFont, null, GraphicsDevice);
+            TextureToDraw = GUIHelper.DrawStringOnTexture2D(text, UIElement.InActiveFont, null, GraphicsDevice);
             UIElementRectangle.Location = position.ToPoint();
 
             double proportion = 1;
             if (width != null && height == null)
-                proportion = (double)width / NonActiveTexture.Width;
+                proportion = (double)width / TextureToDraw.Width;
             else if (width == null && height != null)
-                proportion = (double)height / NonActiveTexture.Height;
+                proportion = (double)height / TextureToDraw.Height;
 
-            base.Width = width ?? NonActiveTexture.Width * proportion;
-            base.Height = height ?? NonActiveTexture.Height * proportion;
+            base.Width = width ?? TextureToDraw.Width * proportion;
+            base.Height = height ?? TextureToDraw.Height * proportion;
         }
-
-        /// <inheritdoc />
-        public override void Draw(ref SpriteBatch spriteBatch)
-        {
-            base.TextureToDraw = NonActiveTexture;
-            base.Draw(ref spriteBatch);
-        }
-
-        public void CenterHorizontal()
-            => Position = new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth / 2 - (float)Width / 2, Position.Y);
-
     }
 }

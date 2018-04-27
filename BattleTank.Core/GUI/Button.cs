@@ -13,16 +13,7 @@ namespace BattleTank.Core.GUI
         public static SoundEffect ClickSound { get; set; }
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
-        
-        [Obsolete]
-        public Button(Texture2D nonActiveTexture, Texture2D activeTexture, Rectangle elementRectangle) :base(nonActiveTexture)
-        {
-            NonActiveTexture = nonActiveTexture;
-            ActiveTexture = activeTexture;
-            Position = elementRectangle.Location.ToVector2();
-            Width = elementRectangle.Width;
-            Height = elementRectangle.Height;
-        }
+
         /// <summary>
         /// Tworzy nowy przycisk na podstawie podanego tekstu w zadanym miejscu o dane szerokości i wysokosci.
         /// Jeżeli jeden z parametrów width lub height jest null a drugi liczbą przycisk zostanie automatycznie 
@@ -67,9 +58,5 @@ namespace BattleTank.Core.GUI
             ClickSound?.Play();
             base.OnClickedRaised();
         }
-
-        public void CenterHorizontal()
-            => Position = new Vector2(GraphicsDevice.PresentationParameters.BackBufferWidth/ 2 - (float)Width /2 , Position.Y);
-        
     }
 }

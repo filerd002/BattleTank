@@ -61,27 +61,27 @@ namespace BattleTank.Core
         Button ButtonSettingsTrybSterowaniaKlawMysz2;
         Button ButtonSettingsTrybSterowaniaPad2;
         Label LabelwyborPoziomTrud;
-        Button Poziom1Trud;
-        Button Poziom2Trud;
-        Button Poziom3Trud;
-        Button Poziom4Trud;
+        Button ButtonPoziom1Trud;
+        Button ButtonPoziom2Trud;
+        Button ButtonPoziom3Trud;
+        Button ButtonPoziom4Trud;
         Label LabelwyborCpuKlasyk;
-        Button wyborCpuKlasykIlosc0;
-        Button wyborCpuKlasykIlosc1;
-        Button wyborCpuKlasykIlosc2;
-        Button wyborCpuKlasykIlosc3;
+        Button ButtonwyborCpuKlasykIlosc0;
+        Button ButtonwyborCpuKlasykIlosc1;
+        Button ButtonwyborCpuKlasykIlosc2;
+        Button ButtonwyborCpuKlasykIlosc3;
         Label LabelwyborCpuKlamikaze;
-        Button wyborCpuKlamikazeIlosc0;
-        Button wyborCpuKlamikazeIlosc1;
-        Button wyborCpuKlamikazeIlosc2;
-        Button wyborCpuKlamikazeIlosc3;
-        Button Czas1Gry;
-        Button Czas2Gry;
-        Button Czas3Gry;
+        Button ButtonwyborCpuKlamikazeIlosc0;
+        Button ButtonwyborCpuKlamikazeIlosc1;
+        Button ButtonwyborCpuKlamikazeIlosc2;
+        Button ButtonwyborCpuKlamikazeIlosc3;
+        Button ButtonCzas1Gry;
+        Button ButtonCzas2Gry;
+        Button ButtonCzas3Gry;
         Label LabelwyborCzasGry;
         Label LabelSukcesPorazka1Gracza;
         Label LabelSukcesPorazka2Gracza;
-        Button doBoju;
+        Button ButtondoBoju;
         Vector2 positionMouse;
 
         public Sound menuSound;
@@ -244,29 +244,29 @@ namespace BattleTank.Core
             ButtonNowaGra = new Button("NoWa GrA", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 60);
             ButtonNowaGra.CenterHorizontal();
 
-            Poziom1Trud = new Button("BaNaLnY", new Vector2((map.screenWidth / 2) - 385, (map.screenHeight / 2) - 155), null, 50);
-            Poziom2Trud = new Button("PrZyZwOiTy", new Vector2((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155), null, 50);
-            Poziom3Trud = new Button("ZaBoJcZy", new Vector2((map.screenWidth / 2) + 35, (map.screenHeight / 2) - 155), null, 50);
-            Poziom4Trud = new Button("SzAlOnY", new Vector2((map.screenWidth / 2) + 225, (map.screenHeight / 2) - 155), null, 50);
+            ButtonPoziom1Trud = new Button("BaNaLnY", new Vector2((map.screenWidth / 2) - 385, (map.screenHeight / 2) - 155), null, 50);
+            ButtonPoziom2Trud = new Button("PrZyZwOiTy", new Vector2((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155), null, 50);
+            ButtonPoziom3Trud = new Button("ZaBoJcZy", new Vector2((map.screenWidth / 2) + 35, (map.screenHeight / 2) - 155), null, 50);
+            ButtonPoziom4Trud = new Button("SzAlOnY", new Vector2((map.screenWidth / 2) + 225, (map.screenHeight / 2) - 155), null, 50);
 
-            wyborCpuKlasykIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30), null, 50);
-            wyborCpuKlasykIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30), null, 50);
-            wyborCpuKlasykIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30), null, 50);
-            wyborCpuKlasykIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30), null, 50);
+            ButtonwyborCpuKlasykIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30), null, 50);
+            ButtonwyborCpuKlasykIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30), null, 50);
+            ButtonwyborCpuKlasykIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30), null, 50);
+            ButtonwyborCpuKlasykIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30), null, 50);
 
-            wyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90), null, 50);
-            wyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90), null, 50);
-            wyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90), null, 50);
-            wyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90), null, 50);
+            ButtonwyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90), null, 50);
+            ButtonwyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90), null, 50);
+            ButtonwyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90), null, 50);
+            ButtonwyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90), null, 50);
 
-            Czas1Gry = new Button("2 MiNuTy", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90), null, 50);
-            Czas1Gry.CenterHorizontal();
-            Czas2Gry = new Button("5 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35), null, 50);
-            Czas2Gry.CenterHorizontal();
-            Czas3Gry = new Button("10 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 50);
-            Czas3Gry.CenterHorizontal();
-            doBoju = new Button("Do BoJu!!!",  new Vector2(), null, 60);
-            doBoju.CenterHorizontal();
+            ButtonCzas1Gry = new Button("2 MiNuTy", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90), null, 50);
+            ButtonCzas1Gry.CenterHorizontal();
+            ButtonCzas2Gry = new Button("5 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35), null, 50);
+            ButtonCzas2Gry.CenterHorizontal();
+            ButtonCzas3Gry = new Button("10 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 50);
+            ButtonCzas3Gry.CenterHorizontal();
+            ButtondoBoju = new Button("Do BoJu!!!",  new Vector2(), null, 60);
+            ButtondoBoju.CenterHorizontal();
             
 
         }
@@ -798,27 +798,27 @@ namespace BattleTank.Core
 
 
 
-                    if (Czas1Gry.IsClicked(ref state) || czasWyscigu == 120)
+                    if (ButtonCzas1Gry.IsClicked(ref state) || czasWyscigu == 120)
                     {
-                        Czas1Gry.IsMouseOver = true;
+                        ButtonCzas1Gry.IsMouseOver = true;
                         czasWyscigu = 120;
                     }
 
-                    if (Czas2Gry.IsClicked(ref state) || czasWyscigu == 300)
+                    if (ButtonCzas2Gry.IsClicked(ref state) || czasWyscigu == 300)
                     {
-                        Czas2Gry.IsMouseOver = true;
+                        ButtonCzas2Gry.IsMouseOver = true;
                         czasWyscigu = 300;
                     }
 
-                    if (Czas3Gry.IsClicked(ref state) || czasWyscigu == 600)
+                    if (ButtonCzas3Gry.IsClicked(ref state) || czasWyscigu == 600)
                     {
-                        Czas3Gry.IsMouseOver = true;
+                        ButtonCzas3Gry.IsMouseOver = true;
                         czasWyscigu = 600;
                     }
 
-                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80,(int)doBoju.Width,(int)doBoju.Height);
-                    doBoju.CenterHorizontal();
-                    if (doBoju.IsClicked(ref state))
+                    ButtondoBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80,(int)ButtondoBoju.Width,(int)ButtondoBoju.Height);
+                    ButtondoBoju.CenterHorizontal();
+                    if (ButtondoBoju.IsClicked(ref state))
                     {
                         LeftButtonStatus = true;
                         tank1.lives = 1;
@@ -881,83 +881,83 @@ namespace BattleTank.Core
                    
 
 
-                    if (Poziom1Trud.IsClicked(ref state) || poziomTrudnosci == 1)
+                    if (ButtonPoziom1Trud.IsClicked(ref state) || poziomTrudnosci == 1)
                     {
                         poziomTrudnosci = 1;
-                        Poziom1Trud.IsMouseOver = true;
+                        ButtonPoziom1Trud.IsMouseOver = true;
                     }
 
-                    if (Poziom2Trud.IsClicked(ref state) || poziomTrudnosci == 2)
+                    if (ButtonPoziom2Trud.IsClicked(ref state) || poziomTrudnosci == 2)
                     {
                         poziomTrudnosci = 2;
-                        Poziom2Trud.IsMouseOver = true;
+                        ButtonPoziom2Trud.IsMouseOver = true;
                     }
 
-                    if (Poziom3Trud.IsClicked(ref state) || poziomTrudnosci == 3)
+                    if (ButtonPoziom3Trud.IsClicked(ref state) || poziomTrudnosci == 3)
                     {
                         poziomTrudnosci = 3;
-                        Poziom3Trud.IsMouseOver = true;
+                        ButtonPoziom3Trud.IsMouseOver = true;
                     }
 
-                    if (Poziom4Trud.IsClicked(ref state) || poziomTrudnosci == 4)
+                    if (ButtonPoziom4Trud.IsClicked(ref state) || poziomTrudnosci == 4)
                     {
                         poziomTrudnosci = 4;
-                        Poziom4Trud.IsMouseOver = true;
+                        ButtonPoziom4Trud.IsMouseOver = true;
                     }
 
                     
 
-                    if (wyborCpuKlasykIlosc0.IsClicked(ref state) || iloscCPUKlasyk == 0)
+                    if (ButtonwyborCpuKlasykIlosc0.IsClicked(ref state) || iloscCPUKlasyk == 0)
                     {
-                        wyborCpuKlasykIlosc0.IsMouseOver = true;
+                        ButtonwyborCpuKlasykIlosc0.IsMouseOver = true;
                         iloscCPUKlasyk = 0;
                     }
 
-                    if (wyborCpuKlasykIlosc1.IsClicked(ref state) || iloscCPUKlasyk == 1)
+                    if (ButtonwyborCpuKlasykIlosc1.IsClicked(ref state) || iloscCPUKlasyk == 1)
                     {
-                        wyborCpuKlasykIlosc1.IsMouseOver = true;
+                        ButtonwyborCpuKlasykIlosc1.IsMouseOver = true;
                         iloscCPUKlasyk = 1;
                     }
 
-                    if (wyborCpuKlasykIlosc2.IsClicked(ref state) || iloscCPUKlasyk == 2)
+                    if (ButtonwyborCpuKlasykIlosc2.IsClicked(ref state) || iloscCPUKlasyk == 2)
                     {
-                        wyborCpuKlasykIlosc2.IsMouseOver = true;
+                        ButtonwyborCpuKlasykIlosc2.IsMouseOver = true;
                         iloscCPUKlasyk = 2;
                     }
 
-                    if (wyborCpuKlasykIlosc3.IsClicked(ref state) || iloscCPUKlasyk == 3)
+                    if (ButtonwyborCpuKlasykIlosc3.IsClicked(ref state) || iloscCPUKlasyk == 3)
                     {
-                        wyborCpuKlasykIlosc3.IsMouseOver = true;
+                        ButtonwyborCpuKlasykIlosc3.IsMouseOver = true;
                         iloscCPUKlasyk = 3;
                     }
 
-                    if (wyborCpuKlamikazeIlosc0.IsClicked(ref state) || iloscCPUKamikaze == 0)
+                    if (ButtonwyborCpuKlamikazeIlosc0.IsClicked(ref state) || iloscCPUKamikaze == 0)
                     {
-                        wyborCpuKlamikazeIlosc0.IsMouseOver = true;
+                        ButtonwyborCpuKlamikazeIlosc0.IsMouseOver = true;
                         iloscCPUKamikaze = 0;
                     }
 
-                    if (wyborCpuKlamikazeIlosc1.IsClicked(ref state) || iloscCPUKamikaze == 1)
+                    if (ButtonwyborCpuKlamikazeIlosc1.IsClicked(ref state) || iloscCPUKamikaze == 1)
                     {
-                        wyborCpuKlamikazeIlosc1.IsMouseOver = true;
+                        ButtonwyborCpuKlamikazeIlosc1.IsMouseOver = true;
                         iloscCPUKamikaze = 1;
                     }
 
-                    if (wyborCpuKlamikazeIlosc2.IsClicked(ref state) || iloscCPUKamikaze == 2)
+                    if (ButtonwyborCpuKlamikazeIlosc2.IsClicked(ref state) || iloscCPUKamikaze == 2)
                     {
-                        wyborCpuKlamikazeIlosc2.IsMouseOver = true;
+                        ButtonwyborCpuKlamikazeIlosc2.IsMouseOver = true;
                         iloscCPUKamikaze = 2;
                     }
 
-                    if (wyborCpuKlamikazeIlosc3.IsClicked(ref state) || iloscCPUKamikaze == 3)
+                    if (ButtonwyborCpuKlamikazeIlosc3.IsClicked(ref state) || iloscCPUKamikaze == 3)
                     {
-                        wyborCpuKlamikazeIlosc3.IsMouseOver = true;
+                        ButtonwyborCpuKlamikazeIlosc3.IsMouseOver = true;
                         iloscCPUKamikaze = 3;
                     }
 
-                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, (int)doBoju.Width, (int)doBoju.Height);
-                    doBoju.CenterHorizontal();
-                    if (doBoju.IsClicked(ref state))
+                    ButtondoBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, (int)ButtondoBoju.Width, (int)ButtondoBoju.Height);
+                    ButtondoBoju.CenterHorizontal();
+                    if (ButtondoBoju.IsClicked(ref state))
                     {
                         LeftButtonStatus = true;
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
@@ -1153,33 +1153,33 @@ namespace BattleTank.Core
                 if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU)
                 {
                     LabelwyborPoziomTrud.Draw(ref spriteBatch);
-                    Poziom1Trud.Draw(ref spriteBatch);
-                    Poziom2Trud.Draw(ref spriteBatch);
-                    Poziom3Trud.Draw(ref spriteBatch);
-                    Poziom4Trud.Draw(ref spriteBatch);
+                    ButtonPoziom1Trud.Draw(ref spriteBatch);
+                    ButtonPoziom2Trud.Draw(ref spriteBatch);
+                    ButtonPoziom3Trud.Draw(ref spriteBatch);
+                    ButtonPoziom4Trud.Draw(ref spriteBatch);
 
                     LabelwyborCpuKlasyk.Draw(ref spriteBatch);
-                    wyborCpuKlasykIlosc0.Draw(ref spriteBatch);
-                    wyborCpuKlasykIlosc1.Draw(ref spriteBatch);
-                    wyborCpuKlasykIlosc2.Draw(ref spriteBatch);
-                    wyborCpuKlasykIlosc3.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlasykIlosc0.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlasykIlosc1.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlasykIlosc2.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlasykIlosc3.Draw(ref spriteBatch);
 
                     LabelwyborCpuKlamikaze.Draw(ref spriteBatch);
-                    wyborCpuKlamikazeIlosc0.Draw(ref spriteBatch);
-                    wyborCpuKlamikazeIlosc1.Draw(ref spriteBatch);
-                    wyborCpuKlamikazeIlosc2.Draw(ref spriteBatch);
-                    wyborCpuKlamikazeIlosc3.Draw(ref spriteBatch);
-                    doBoju.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlamikazeIlosc0.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlamikazeIlosc1.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlamikazeIlosc2.Draw(ref spriteBatch);
+                    ButtonwyborCpuKlamikazeIlosc3.Draw(ref spriteBatch);
+                    ButtondoBoju.Draw(ref spriteBatch);
                 }
 
                 if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
                 {
                     LabelwyborCzasGry.Draw(ref spriteBatch);
-                    Czas1Gry.Draw(ref spriteBatch);
-                    Czas2Gry.Draw(ref spriteBatch);
-                    Czas3Gry.Draw(ref spriteBatch);
+                    ButtonCzas1Gry.Draw(ref spriteBatch);
+                    ButtonCzas2Gry.Draw(ref spriteBatch);
+                    ButtonCzas3Gry.Draw(ref spriteBatch);
 
-                    doBoju.Draw(ref spriteBatch);
+                    ButtondoBoju.Draw(ref spriteBatch);
                 }
 
                 if (gameState == GameState.SETTINGS)

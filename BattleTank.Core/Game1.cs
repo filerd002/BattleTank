@@ -1087,18 +1087,29 @@ namespace BattleTank.Core
             base.Update(gameTime);
         }
 
+        private Camera2D Camera;
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-
-
+            Camera = new Camera2D(GraphicsDevice.PresentationParameters);
+            if (gameState == GameState.GAME_RUNNING_PLAYER_1)
+            {
+                Camera.Scale = 2;
+                Camera.Position = tank1.location;
+            }
+            else
+            {
+                Camera.Scale = 1;
+                Camera.Position = Vector2.Zero;
+            }
+            Camera.Center = true;
             GraphicsDevice.Clear(Color.WhiteSmoke);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.GetViewMatrix());
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
 
             map.Draw(spriteBatch);

@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace BattleTank.Core
 {
     class Camera2D
     {
+        public Camera2D(PresentationParameters parameters)
+        {
+            
+        }
         public double Scale { get; set; }
-        public double Position { get; set; }
+        public bool Center { get; set; }
+        public Vector2 Position { get; set; }
 
         public Point? MaxLeftTopCorner { get; set; } = null;
 
@@ -17,10 +23,10 @@ namespace BattleTank.Core
         public Matrix GetViewMatrix()
             => Camera2D.GetViewMatrix(Scale, Position, MaxLeftTopCorner, MaxRightBottomCorner);
 
-        public static Matrix GetViewMatrix(double scale, double position, Point? maxLeftTopCorner = null,
+        public static Matrix GetViewMatrix(double scale, Vector2 position, Point? maxLeftTopCorner = null,
             Point? maxRightBottomCorner = null)
         {
-            return new Matrix();
+            return Matrix.Identity;
         }
     }
 }

@@ -205,33 +205,33 @@ namespace BattleTank.Core
             ButtonPlayer3.CenterHorizontal();
             ButtonPlayer4 = new Button("WyScIg Z cZaSeM", new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 90), null, 50);
             ButtonPlayer4.CenterHorizontal();
-            ButtonSettingsTrybSterowaniaKlawMysz = new Button("KlAwIaTuRa/MySz", new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) - 60), 300, 50);
-            ButtonSettingsTrybSterowaniaPad = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 80, (map.screenHeight / 2) - 60), 160, 50);
-            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz",  new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) + 67), 300, 50);
-            ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 80, (map.screenHeight / 2) + 67), 160, 50);
-            ButtonPowrot = new Button("PoWrOt", new Vector2());
-            ButtonPowrot.CenterHorizontal();
+            ButtonSettingsTrybSterowaniaKlawMysz = new Button("KlAwIaTuRa/MySz", new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) - 60), null, 50);
+            ButtonSettingsTrybSterowaniaPad = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 100, (map.screenHeight / 2) - 60), null, 50);
+            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz",  new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) + 67), null, 50);
+            ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 100, (map.screenHeight / 2) + 67), null, 50);
+            ButtonPowrot = new Button("PoWrOt", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40), null, 60);
+         
+
+         
 
 
+            ButtonNowaGra = new Button("NoWa GrA", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 60);
+            ButtonNowaGra.CenterHorizontal();
 
+            Poziom1Trud = new Button("BaNaLnY", new Vector2((map.screenWidth / 2) - 385, (map.screenHeight / 2) - 155), null, 50);
+            Poziom2Trud = new Button("PrZyZwOiTy", new Vector2((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155), null, 50);
+            Poziom3Trud = new Button("ZaBoJcZy", new Vector2((map.screenWidth / 2) + 35, (map.screenHeight / 2) - 155), null, 50);
+            Poziom4Trud = new Button("SzAlOnY", new Vector2((map.screenWidth / 2) + 225, (map.screenHeight / 2) - 155), null, 50);
 
-            ButtonNowaGra = new Button("NoWa GrA", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), 250, 50);
+            wyborCpuKlasykIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30), null, 50);
+            wyborCpuKlasykIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30), null, 50);
+            wyborCpuKlasykIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30), null, 50);
+            wyborCpuKlasykIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30), null, 50);
 
-
-            Poziom1Trud = new Button("BaNaLnY", new Vector2((map.screenWidth / 2) - 400, (map.screenHeight / 2) - 155), 250, 50);
-            Poziom2Trud = new Button("PrZyZwOiTy", new Vector2((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155), 250, 50);
-            Poziom3Trud = new Button("ZaBoJcZy", new Vector2((map.screenWidth / 2) - 15, (map.screenHeight / 2) - 155), 250, 50);
-            Poziom4Trud = new Button("SzAlOnY", new Vector2((map.screenWidth / 2) + 155, (map.screenHeight / 2) - 155), 250, 50);
-
-            wyborCpuKlasykIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30), 60, 50);
-            wyborCpuKlasykIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30), 60, 50);
-            wyborCpuKlasykIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30), 60, 50);
-            wyborCpuKlasykIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30), 60, 50);
-
-            wyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90), 60, 50);
-            wyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90), 60, 50);
-            wyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90), 60, 50);
-            wyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90), 60, 50);
+            wyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90), null, 50);
+            wyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90), null, 50);
+            wyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90), null, 50);
+            wyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90), null, 50);
 
             Czas1Gry = new Button("2 MiNuTy", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90), null, 50);
             Czas1Gry.CenterHorizontal();
@@ -239,9 +239,9 @@ namespace BattleTank.Core
             Czas2Gry.CenterHorizontal();
             Czas3Gry = new Button("10 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 50);
             Czas3Gry.CenterHorizontal();
-            doBoju = new Button("Do BoJu!!!",  new Vector2());
+            doBoju = new Button("Do BoJu!!!",  new Vector2(), null, 60);
             doBoju.CenterHorizontal();
-
+            
 
         }
 
@@ -263,8 +263,8 @@ namespace BattleTank.Core
 
             UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/ActiveFont");
             UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
-            UIElement.ActiveFont.Spacing = -40;
-            UIElement.InActiveFont.Spacing = -40;
+            UIElement.ActiveFont.Spacing = -75;
+            UIElement.InActiveFont.Spacing = -75;
 
             UIElement.GraphicsDevice = GraphicsDevice;
 
@@ -485,8 +485,9 @@ namespace BattleTank.Core
                         przerwaTexture = this.Content.Load<Texture2D>("Graphics/przerwa");
                     }
 
-
-                    ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40, 250, 50);
+         
+                    ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
+                    ButtonPowrot.CenterHorizontal();
                     if (ButtonPowrot.IsClicked(ref state))
                     {
                         soundOnOff = 1;
@@ -738,7 +739,8 @@ namespace BattleTank.Core
 
 
 
-                ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 130, 250, 50);
+                ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 130, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
+                ButtonPowrot.CenterHorizontal();
                 if (ButtonPowrot.IsClicked(ref state))
                 {
                     menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
@@ -915,7 +917,8 @@ namespace BattleTank.Core
                         czasWyscigu = 600;
                     }
 
-                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80, 300, 60);
+                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80,(int)doBoju.Width,(int)doBoju.Height);
+                    doBoju.CenterHorizontal();
                     if (doBoju.IsClicked(ref state))
                     {
                         LeftButtonStatus = true;
@@ -1087,7 +1090,8 @@ namespace BattleTank.Core
                         iloscCPUKamikaze = 3;
                     }
 
-                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, 300, 60);
+                    doBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, (int)doBoju.Width, (int)doBoju.Height);
+                    doBoju.CenterHorizontal();
                     if (doBoju.IsClicked(ref state))
                     {
                         LeftButtonStatus = true;

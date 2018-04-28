@@ -130,11 +130,14 @@ namespace BattleTank.Core
         SoundEffectInstance soundEffectInstance = null;
 
         public ITankActionProvider PlayerOneController { get; set; } = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
-
         public ITankActionProvider PlayerTwoController { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
-
         public List<ITankActionProvider> AvailableGamepads { get; set; } = new List<ITankActionProvider>();
-        
+        /// <summary>
+        /// Odpowiada za transformacje widoku dla gracza przy rysowaniu zawartości.
+        /// </summary>
+        private Camera2D _camera;
+
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -160,6 +163,8 @@ namespace BattleTank.Core
             // graphics.PreferredBackBufferHeight = 48 * 16;
             graphics.IsFullScreen = false;
             graphics.ApplyChanges();
+            _camera = new Camera2D(GraphicsDevice.PresentationParameters);
+
             map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0);
             whiteRectangle.SetData(new[] { Color.White });
             background = Content.Load<Texture2D>("Graphics/Background");
@@ -1087,32 +1092,31 @@ namespace BattleTank.Core
             base.Update(gameTime);
         }
 
-        private Camera2D Camera;
         /// <summary>
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            Camera = new Camera2D(GraphicsDevice.PresentationParameters);
+            // TODO: Zdaję sobie sprawę, że powinno być to w innym miejscu. Jak tylko będziesz wiedzieć gdzie to przenieść - zrób to.
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                Camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
-                Camera.Position = tank1.location;
-                Camera.Center = true;
-                Camera.MaxLeftTopCorner = new Point(0);
-                Camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
+                _camera.Position = tank1.location;
+                _camera.Center = true;
+                _camera.MaxLeftTopCorner = new Point(0);
+                _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
             }
             else
             {
-                Camera.Scale = 1;
-                Camera.Position = Vector2.Zero;
-                Camera.Center = false;
+                _camera.Scale = 1;
+                _camera.Position = Vector2.Zero;
+                _camera.Center = false;
             }
+
             GraphicsDevice.Clear(Color.WhiteSmoke);
 
-            // TODO: Add your drawing code here
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.GetViewMatrix());
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.GetViewMatrix());
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
 
             map.Draw(spriteBatch);
@@ -1306,10 +1310,7 @@ namespace BattleTank.Core
                 map.Draw(spriteBatch);
                 foreach (Bullet bullet in bullets)
                 {
-                    if (bullet != null)
-                    {
-                        bullet.Draw(spriteBatch);
-                    }
+                    bullet.Draw(spriteBatch);
                 }
             }
 

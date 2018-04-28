@@ -1100,6 +1100,8 @@ namespace BattleTank.Core
                 Camera.Scale = 2;
                 Camera.Position = tank1.location;
                 Camera.Center = true;
+                Camera.MaxLeftTopCorner = new Point(0);
+                Camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
             }
             else
             {

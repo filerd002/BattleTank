@@ -1097,7 +1097,7 @@ namespace BattleTank.Core
             Camera = new Camera2D(GraphicsDevice.PresentationParameters);
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                Camera.Scale = 2;
+                Camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
                 Camera.Position = tank1.location;
                 Camera.Center = true;
                 Camera.MaxLeftTopCorner = new Point(0);

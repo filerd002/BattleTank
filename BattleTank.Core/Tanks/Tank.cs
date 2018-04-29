@@ -203,7 +203,7 @@ namespace BattleTank.Core.Tanks
 
             if (alive)
             {
-                spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 1);
+                spriteBatch.Draw(tankTexture, location, null, Color.White, rotation, origin, 1, SpriteEffects.None, 0);
 
             }
             if (frozen)

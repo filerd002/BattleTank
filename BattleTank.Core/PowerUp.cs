@@ -21,7 +21,7 @@ namespace BattleTank.Core
         /// <summary>
         /// Opóźnienie pomiędzy kolejnymi losowaniami w sekundach
         /// </summary>
-        public readonly TimeSpan RANDOM_DELAY = TimeSpan.FromSeconds(15);
+        public readonly TimeSpan RANDOM_DELAY = TimeSpan.FromSeconds(10);
         /// <summary>
         /// Określa ile czasu zostało do następnego losowania
         /// </summary>

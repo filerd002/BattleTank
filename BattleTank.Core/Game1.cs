@@ -31,7 +31,7 @@ namespace BattleTank.Core
         public Score scoreManager;
 
     
-        int timer1control = 0;
+    
   
         Texture2D background;
         Texture2D menuTexture;
@@ -86,18 +86,12 @@ namespace BattleTank.Core
         public Sound sound;
 
         public PowerUp RandomPowerUp;
-        string PowerUpSpriteName;
-        public float timerPowerUp = 10f;
+     
       
-        Random randy = new Random();
+       public Random randy = new Random();
 
         bool keysStatus = false;
         bool LeftButtonStatus = false;
-
-
-        PowerUp.PowerUpType typePowerUp;
-       
- 
 
         int soundOnOff = 0;
 
@@ -178,6 +172,8 @@ namespace BattleTank.Core
 
             scoreManager = new Score(this, 10);
             sound = new Sound(this);
+
+            RandomPowerUp = new PowerUp(this);
 
             // Zainicjalizuj odłgos kliknięcia
             Button.ClickSound = Content.Load<SoundEffect>("Sounds\\klik");
@@ -333,74 +329,17 @@ namespace BattleTank.Core
             else
             {
                 WallInside = true;
-
-
-
             }
-            
 
-
-          
-
-
-            if (RandomPowerUp != null)
+            if (RandomPowerUp.alive)
             {
                 RandomPowerUp.Update(gameTime);
             }
-            float timer1 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            timerPowerUp -= timer1;
-            if (timerPowerUp < 0)
-            {
-
-                if (timer1control == 0)
-                {
-
-
-                    Vector2 positionPowerUp = new Vector2(randy.Next(50, graphics.PreferredBackBufferWidth - 50), randy.Next(50, graphics.PreferredBackBufferHeight - 50));
-
-                    typePowerUp = (PowerUp.PowerUpType)randy.Next(Enum.GetNames(typeof(PowerUp.PowerUpType)).Length);
-                    switch (typePowerUp)
-                    {
-                        case PowerUp.PowerUpType.HEART:
-                            PowerUpSpriteName = "Graphics/PowerUpHeart";
-                            break;
-                        case PowerUp.PowerUpType.ARMOR:
-                            PowerUpSpriteName = "Graphics/PowerUpArmor";
-                            break;
-                        case PowerUp.PowerUpType.BARRIER:
-                            PowerUpSpriteName = "Graphics/PowerUpBarrier";
-                            break;
-                        case PowerUp.PowerUpType.AMMO:
-                            PowerUpSpriteName = "Graphics/PowerUpAmmo";
-                            break;
-                        case PowerUp.PowerUpType.MINE:
-                            PowerUpSpriteName = "Graphics/PowerUpMine";
-                            break;
-                        case PowerUp.PowerUpType.MATRIX:
-                            PowerUpSpriteName = "Graphics/PowerUpMatrix";
-                            break;
-                    }
-
-                    RandomPowerUp = new PowerUp(this, typePowerUp, positionPowerUp, PowerUpSpriteName, whiteRectangle);
-
-
-                    timer1control = 1;
-                }
-                else if (timer1control == 1)
-                {
-                    RandomPowerUp.controlSound = 1;
-                    RandomPowerUp = null;
-
-                    timer1control = 0;
-                }
-
-                timerPowerUp = 10;
+            else {
+                RandomPowerUp = new PowerUp(this);
+                RandomPowerUp.Random();
             }
-
-
-
-
-
+          
             if (soundOnOff == 1)
             {
                 soundEffectInstance.Stop();
@@ -480,11 +419,6 @@ namespace BattleTank.Core
                 }
             }
 
-
-
-
-
-
             if (gameState == GameState.PAUSE || gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS)
             {
 
@@ -522,8 +456,7 @@ namespace BattleTank.Core
                     WallInside = false;
                     map.Reset();
                     LeftButtonStatus = true;
-                    timerPowerUp = 10f;
-                    timer1control = 0;
+                    RandomPowerUp.alive = false;
                     czasWyscigu = 300f;
                     if (LeftButtonStatus)
                     {
@@ -1233,7 +1166,7 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_PLAYERS_2_AND_CPU)
             {
 
-                if (timer1control == 1)
+                if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
                 tank1.Draw(spriteBatch);
@@ -1258,7 +1191,7 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_PLAYERS_2 || gameState == GameState.GAME_RUNNING_RACE)
             {
                 //
-                if (timer1control == 1)
+                if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
 
@@ -1290,7 +1223,7 @@ namespace BattleTank.Core
                 _camera.MaxLeftTopCorner = new Point(0);
                 _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
 
-                if (timer1control == 1)
+                if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
                 tank1.Draw(spriteBatch);

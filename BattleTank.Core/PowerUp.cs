@@ -17,6 +17,17 @@ namespace BattleTank.Core
             MATRIX,
         }
 
+        #region Random
+        /// <summary>
+        /// Opóźnienie pomiędzy kolejnymi losowaniami w sekundach
+        /// </summary>
+        public readonly TimeSpan RANDOM_DELAY = TimeSpan.FromSeconds(10);
+        /// <summary>
+        /// Określa ile czasu zostało do następnego losowania
+        /// </summary>
+        protected TimeSpan _timeLeftToRandom = TimeSpan.Zero;
+        #endregion
+
         public string PowerUpSpriteName;
         public Vector2 location;
         public PowerUpType type;
@@ -30,27 +41,50 @@ namespace BattleTank.Core
         public Game1 game { get; set; }
         public Vector2 origin { get; set; }
         public Texture2D PowerUpTexture { get; set; }
-        public PowerUp(Game1 _game, PowerUpType _type, Vector2 _location, String _PowerUpSpriteName, Texture2D _whiteRectangle)
+        public PowerUp(Game1 _game)
         {
             game = _game;
-            location = _location;
-            PowerUpTexture = _game.Content.Load<Texture2D>(_PowerUpSpriteName);
+            location = new Vector2(_game.randy.Next(50, _game.graphics.PreferredBackBufferWidth - 50), _game.randy.Next(50, _game.graphics.PreferredBackBufferHeight - 50));
+            type = (PowerUp.PowerUpType)game.randy.Next(Enum.GetNames(typeof(PowerUp.PowerUpType)).Length);
+            switch (type)
+            {
+                case PowerUp.PowerUpType.HEART:
+                    PowerUpSpriteName = "Graphics/PowerUpHeart";
+                    break;
+                case PowerUp.PowerUpType.ARMOR:
+                    PowerUpSpriteName = "Graphics/PowerUpArmor";
+                    break;
+                case PowerUp.PowerUpType.BARRIER:
+                    PowerUpSpriteName = "Graphics/PowerUpBarrier";
+                    break;
+                case PowerUp.PowerUpType.AMMO:
+                    PowerUpSpriteName = "Graphics/PowerUpAmmo";
+                    break;
+                case PowerUp.PowerUpType.MINE:
+                    PowerUpSpriteName = "Graphics/PowerUpMine";
+                    break;
+                case PowerUp.PowerUpType.MATRIX:
+                    PowerUpSpriteName = "Graphics/PowerUpMatrix";
+                    break;
+            }
+            PowerUpTexture = _game.Content.Load<Texture2D>(PowerUpSpriteName);
             origin = new Vector2(location.X + PowerUpTexture.Width / 2f, location.Y + PowerUpTexture.Height / 2f);
-            type = _type;
-            whiteRectangle = _whiteRectangle;
+            whiteRectangle = new Texture2D(_game.GraphicsDevice, 1, 1);
             alive = true;
             respawnParticles = new Particlecloud(origin, game, 1, whiteRectangle, Color.Gold, 2, 50);
             //  deathParticles = new Particlecloud(origin, game, 1, whiteRectangle, Color.Gold, 2, 50);
             PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
         }
 
+
         public virtual void Update(GameTime gameTime)
         {
 
+            _timeLeftToRandom -= gameTime.ElapsedGameTime;
 
-            if (alive)
+            if (alive && _timeLeftToRandom.TotalSeconds>0)
             {
-
+               
 
                 PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
 
@@ -341,27 +375,18 @@ namespace BattleTank.Core
                     alive = false;
                 }
 
-
-
-
-                //Colision dla powerup
-
-                //
-
             }
             else
             {
-
+                _timeLeftToRandom = TimeSpan.Zero;
+                alive = false;
             }
             respawnParticles.Update(gameTime);
-
-
-
 
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (alive)
+            if (alive && _timeLeftToRandom.TotalSeconds > 0)
             {
                 PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
 
@@ -398,11 +423,24 @@ namespace BattleTank.Core
 
 
                 }
-                else
-                    game.timerPowerUp = -1;
+                else { }
+                
             }
-            else { }
+            else {
+                _timeLeftToRandom = TimeSpan.Zero;
+                alive = false;
+            }
 
+
+        }
+
+        public virtual void Random()
+        {
+            if (_timeLeftToRandom.TotalSeconds <= 0 )
+            {
+           
+                _timeLeftToRandom = RANDOM_DELAY;
+            }    
 
         }
         public Collision isColliding(Rectangle possibleCollisionRect)

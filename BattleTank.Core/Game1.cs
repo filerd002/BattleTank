@@ -29,12 +29,7 @@ namespace BattleTank.Core
         List<Bullet> bullets = new List<Bullet>();
         public List<Mine> mines = new List<Mine>();
         public Score scoreManager;
-        Rectangle debugRect;
-        Rectangle tank2DebugRect;
 
-    
-        int timer1control = 0;
-  
         Texture2D background;
         Texture2D menuTexture;
         Texture2D menuWinAndLossTexture;
@@ -88,18 +83,10 @@ namespace BattleTank.Core
         public Sound sound;
 
         public PowerUp RandomPowerUp;
-        string PowerUpSpriteName;
-        public float timerPowerUp = 10f;
-      
-        Random randy = new Random();
+       public Random randy = new Random();
 
         bool keysStatus = false;
         bool LeftButtonStatus = false;
-
-
-        PowerUp.PowerUpType typePowerUp;
-       
- 
 
         int soundOnOff = 0;
 
@@ -162,8 +149,13 @@ namespace BattleTank.Core
             //  graphics.PreferredBackBufferWidth = 48 * 20;
             // graphics.PreferredBackBufferHeight = 48 * 16;
             graphics.IsFullScreen = false;
+
+
             graphics.ApplyChanges();
+         
+
             _camera = new Camera2D(GraphicsDevice.PresentationParameters);
+            
 
             map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0);
             whiteRectangle.SetData(new[] { Color.White });
@@ -174,9 +166,9 @@ namespace BattleTank.Core
             cursorTexture = Content.Load<Texture2D>("Graphics/cursor");
 
             scoreManager = new Score(this, 10);
-            debugRect = new Rectangle();
-            tank2DebugRect = new Rectangle();
             sound = new Sound(this);
+
+            RandomPowerUp = new PowerUp(this);
 
             // Zainicjalizuj odłgos kliknięcia
             Button.ClickSound = Content.Load<SoundEffect>("Sounds\\klik");
@@ -211,7 +203,6 @@ namespace BattleTank.Core
             LabelTrybSterowania1Gracza.CenterHorizontal();
             LabelTrybSterowania2Gracza = new Label("GrAcZ 2", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 5 ), null, 60);
             LabelTrybSterowania2Gracza.CenterHorizontal();
-
             LabelwyborTrybGryTexture = new Label("WyBoR TrYbU\n        gRy", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 160), null, 100);
             LabelwyborTrybGryTexture.CenterHorizontal();
             LabelwinTexture = new Label("SuKcEs", new Vector2((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140), null, 75);
@@ -241,29 +232,20 @@ namespace BattleTank.Core
             ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz",  new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) + 67), null, 50);
             ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 100, (map.screenHeight / 2) + 67), null, 50);
             ButtonPowrot = new Button("PoWrOt", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40), null, 60);
-         
-
-         
-
-
             ButtonNowaGra = new Button("NoWa GrA", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 60);
             ButtonNowaGra.CenterHorizontal();
-
             ButtonPoziom1Trud = new Button("BaNaLnY", new Vector2((map.screenWidth / 2) - 385, (map.screenHeight / 2) - 155), null, 50);
             ButtonPoziom2Trud = new Button("PrZyZwOiTy", new Vector2((map.screenWidth / 2) - 210, (map.screenHeight / 2) - 155), null, 50);
             ButtonPoziom3Trud = new Button("ZaBoJcZy", new Vector2((map.screenWidth / 2) + 35, (map.screenHeight / 2) - 155), null, 50);
             ButtonPoziom4Trud = new Button("SzAlOnY", new Vector2((map.screenWidth / 2) + 225, (map.screenHeight / 2) - 155), null, 50);
-
             ButtonwyborCpuKlasykIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) - 30), null, 50);
             ButtonwyborCpuKlasykIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) - 30), null, 50);
             ButtonwyborCpuKlasykIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) - 30), null, 50);
             ButtonwyborCpuKlasykIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) - 30), null, 50);
-
             ButtonwyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((map.screenWidth / 2) - 225, (map.screenHeight / 2) + 90), null, 50);
             ButtonwyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((map.screenWidth / 2) - 90, (map.screenHeight / 2) + 90), null, 50);
             ButtonwyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((map.screenWidth / 2) + 40, (map.screenHeight / 2) + 90), null, 50);
             ButtonwyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((map.screenWidth / 2) + 175, (map.screenHeight / 2) + 90), null, 50);
-
             ButtonCzas1Gry = new Button("2 MiNuTy", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 90), null, 50);
             ButtonCzas1Gry.CenterHorizontal();
             ButtonCzas2Gry = new Button("5 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 35), null, 50);
@@ -332,74 +314,17 @@ namespace BattleTank.Core
             else
             {
                 WallInside = true;
-
-
-
             }
-            
 
-
-          
-
-
-            if (RandomPowerUp != null)
+            if (RandomPowerUp.alive)
             {
                 RandomPowerUp.Update(gameTime);
             }
-            float timer1 = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-            timerPowerUp -= timer1;
-            if (timerPowerUp < 0)
-            {
-
-                if (timer1control == 0)
-                {
-
-
-                    Vector2 positionPowerUp = new Vector2(randy.Next(50, graphics.PreferredBackBufferWidth - 50), randy.Next(50, graphics.PreferredBackBufferHeight - 50));
-
-                    typePowerUp = (PowerUp.PowerUpType)randy.Next(Enum.GetNames(typeof(PowerUp.PowerUpType)).Length);
-                    switch (typePowerUp)
-                    {
-                        case PowerUp.PowerUpType.HEART:
-                            PowerUpSpriteName = "Graphics/PowerUpHeart";
-                            break;
-                        case PowerUp.PowerUpType.ARMOR:
-                            PowerUpSpriteName = "Graphics/PowerUpArmor";
-                            break;
-                        case PowerUp.PowerUpType.BARRIER:
-                            PowerUpSpriteName = "Graphics/PowerUpBarrier";
-                            break;
-                        case PowerUp.PowerUpType.AMMO:
-                            PowerUpSpriteName = "Graphics/PowerUpAmmo";
-                            break;
-                        case PowerUp.PowerUpType.MINE:
-                            PowerUpSpriteName = "Graphics/PowerUpMine";
-                            break;
-                        case PowerUp.PowerUpType.MATRIX:
-                            PowerUpSpriteName = "Graphics/PowerUpMatrix";
-                            break;
-                    }
-
-                    RandomPowerUp = new PowerUp(this, typePowerUp, positionPowerUp, PowerUpSpriteName, whiteRectangle);
-
-
-                    timer1control = 1;
-                }
-                else if (timer1control == 1)
-                {
-                    RandomPowerUp.controlSound = 1;
-                    RandomPowerUp = null;
-
-                    timer1control = 0;
-                }
-
-                timerPowerUp = 10;
+            else {
+                RandomPowerUp = new PowerUp(this);
+                RandomPowerUp.Random();
             }
-
-
-
-
-
+          
             if (soundOnOff == 1)
             {
                 soundEffectInstance.Stop();
@@ -479,11 +404,6 @@ namespace BattleTank.Core
                 }
             }
 
-
-
-
-
-
             if (gameState == GameState.PAUSE || gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS)
             {
 
@@ -521,8 +441,7 @@ namespace BattleTank.Core
                     WallInside = false;
                     map.Reset();
                     LeftButtonStatus = true;
-                    timerPowerUp = 10f;
-                    timer1control = 0;
+                    RandomPowerUp.alive = false;
                     czasWyscigu = 300f;
                     if (LeftButtonStatus)
                     {
@@ -714,7 +633,7 @@ namespace BattleTank.Core
                 if (LeftButtonStatus == false)
                 {
 
-                  
+                   
                     if (ButtonPlayer1.CheckIsMouseOver(ref state))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka1");
@@ -1082,11 +1001,7 @@ namespace BattleTank.Core
                             mines.Add(mine);
                         }
                     }
-
-                    // Zastanów się Filipie czy tego potrzebujesz, skoro jest to nie używane akutalnie.
-                    debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
-                    tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
-                }
+  }
             }
 
             base.Update(gameTime);
@@ -1098,17 +1013,8 @@ namespace BattleTank.Core
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // TODO: Zdaję sobie sprawę, że powinno być to w innym miejscu. Jak tylko będziesz wiedzieć gdzie to przenieść - zrób to.
-            if (gameState == GameState.GAME_RUNNING_PLAYER_1)
-            {
-                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
-                _camera.Position = tank1.location;
-                _camera.Center = true;
-                _camera.MaxLeftTopCorner = new Point(0);
-                _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
-            }
-            else
-            {
+            if (gameState != GameState.GAME_RUNNING_PLAYER_1)
+            { 
                 _camera.Scale = 1;
                 _camera.Position = Vector2.Zero;
                 _camera.Center = false;
@@ -1245,7 +1151,7 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_PLAYERS_2_AND_CPU)
             {
 
-                if (timer1control == 1)
+                if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
                 tank1.Draw(spriteBatch);
@@ -1270,7 +1176,7 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_PLAYERS_2 || gameState == GameState.GAME_RUNNING_RACE)
             {
                 //
-                if (timer1control == 1)
+                if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
 
@@ -1296,7 +1202,13 @@ namespace BattleTank.Core
             }
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                if (timer1control == 1)
+                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
+                _camera.Position = tank1.location;
+                _camera.Center = true;
+                _camera.MaxLeftTopCorner = new Point(0);
+                _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+
+                if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
                 tank1.Draw(spriteBatch);

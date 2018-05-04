@@ -455,6 +455,13 @@ namespace BattleTank.Core.Tanks
 
             Color color = Color.Blue;
 
+            if(TankColor.Equals(TankColors.PINK))
+                color = Color.Pink;
+            if (TankColor.Equals(TankColors.BLUE))
+                color = Color.Blue;
+            if (TankColor.Equals(TankColors.YELLOW))
+                color = Color.Yellow;
+
             if (player == 1)
                 color = Color.Green;
             if (player == 2)

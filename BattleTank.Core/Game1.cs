@@ -29,8 +29,6 @@ namespace BattleTank.Core
         List<Bullet> bullets = new List<Bullet>();
         public List<Mine> mines = new List<Mine>();
         public Score scoreManager;
-        Rectangle debugRect;
-        Rectangle tank2DebugRect;
 
     
         int timer1control = 0;
@@ -162,8 +160,13 @@ namespace BattleTank.Core
             //  graphics.PreferredBackBufferWidth = 48 * 20;
             // graphics.PreferredBackBufferHeight = 48 * 16;
             graphics.IsFullScreen = false;
+
+
             graphics.ApplyChanges();
+         
+
             _camera = new Camera2D(GraphicsDevice.PresentationParameters);
+            
 
             map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0);
             whiteRectangle.SetData(new[] { Color.White });
@@ -174,8 +177,6 @@ namespace BattleTank.Core
             cursorTexture = Content.Load<Texture2D>("Graphics/cursor");
 
             scoreManager = new Score(this, 10);
-            debugRect = new Rectangle();
-            tank2DebugRect = new Rectangle();
             sound = new Sound(this);
 
             // Zainicjalizuj odłgos kliknięcia
@@ -714,7 +715,7 @@ namespace BattleTank.Core
                 if (LeftButtonStatus == false)
                 {
 
-                  
+                   
                     if (ButtonPlayer1.CheckIsMouseOver(ref state))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka1");
@@ -1082,11 +1083,7 @@ namespace BattleTank.Core
                             mines.Add(mine);
                         }
                     }
-
-                    // Zastanów się Filipie czy tego potrzebujesz, skoro jest to nie używane akutalnie.
-                    debugRect = new Rectangle((int)tank1.location.X - (tank1.tankTexture.Width / 2), (int)tank1.location.Y - (tank1.tankTexture.Height / 2), tank1.tankTexture.Width, tank1.tankTexture.Height);
-                    tank2DebugRect = new Rectangle((int)tank2.location.X - (tank2.tankTexture.Width / 2), (int)tank2.location.Y - (tank2.tankTexture.Height / 2), tank2.tankTexture.Width, tank2.tankTexture.Height);
-                }
+  }
             }
 
             base.Update(gameTime);
@@ -1098,17 +1095,8 @@ namespace BattleTank.Core
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // TODO: Zdaję sobie sprawę, że powinno być to w innym miejscu. Jak tylko będziesz wiedzieć gdzie to przenieść - zrób to.
-            if (gameState == GameState.GAME_RUNNING_PLAYER_1)
-            {
-                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
-                _camera.Position = tank1.location;
-                _camera.Center = true;
-                _camera.MaxLeftTopCorner = new Point(0);
-                _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
-            }
-            else
-            {
+            if (gameState != GameState.GAME_RUNNING_PLAYER_1)
+            { 
                 _camera.Scale = 1;
                 _camera.Position = Vector2.Zero;
                 _camera.Center = false;
@@ -1296,6 +1284,12 @@ namespace BattleTank.Core
             }
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
+                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
+                _camera.Position = tank1.location;
+                _camera.Center = true;
+                _camera.MaxLeftTopCorner = new Point(0);
+                _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+
                 if (timer1control == 1)
                     RandomPowerUp.Draw(spriteBatch);
 

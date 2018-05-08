@@ -116,7 +116,7 @@ namespace BattleTank.Core
 
         SoundEffectInstance soundEffectInstance = null;
 
-        public ITankActionProvider PlayerOneController { get; set; } = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
+        public ITankActionProvider PlayerOneController { get; set; } = new TouchGamepadTankActionProvider(); // = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
         public ITankActionProvider PlayerTwoController { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
         public List<ITankActionProvider> AvailableGamepads { get; set; } = new List<ITankActionProvider>();
         /// <summary>
@@ -131,6 +131,7 @@ namespace BattleTank.Core
 
             Content.RootDirectory = "Content";
         }
+        TouchGamepadTankActionProvider touchGamepad = new TouchGamepadTankActionProvider();
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -254,7 +255,6 @@ namespace BattleTank.Core
             ButtonCzas3Gry.CenterHorizontal();
             ButtondoBoju = new Button("Do BoJu!!!",  new Vector2(), null, 60);
             ButtondoBoju.CenterHorizontal();
-            
 
         }
 

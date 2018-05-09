@@ -18,9 +18,7 @@ namespace BattleTank.Core.Input
         {
             TankControllerState retVal = new TankControllerState(0, 0);
             var touchState = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
-            if (touchState.Count == 0) return new TankControllerState(0, 0);
-
-            if (!touchState.Any(d => d.State == TouchLocationState.Moved))
+            if (touchState.Count == 0)
             {
                 Id = -1;
                 StartPosition = Vector2.Zero;
@@ -41,7 +39,7 @@ namespace BattleTank.Core.Input
                                 StartPosition = previousLocation.Position;
                             }
                         }
-                        retVal = new TankControllerState(StartPosition.X - touch.Position.X, StartPosition.Y - touch.Position.Y);
+                        retVal = new TankControllerState(StartPosition.X - touch.Position.X > 0 ? -1 : 1, StartPosition.Y - touch.Position.Y > 0 ? 1 : -1) ;
 
                     }
 

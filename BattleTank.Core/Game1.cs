@@ -119,6 +119,8 @@ namespace BattleTank.Core
         public ITankActionProvider PlayerOneController { get; set; } = new TouchGamepadTankActionProvider(); // = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
         public ITankActionProvider PlayerTwoController { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
         public List<ITankActionProvider> AvailableGamepads { get; set; } = new List<ITankActionProvider>();
+        internal VirtualGamepad VirtualGamepad { get; private set; }
+
         /// <summary>
         /// Odpowiada za transformacje widoku dla gracza przy rysowaniu zawartości.
         /// </summary>
@@ -275,7 +277,10 @@ namespace BattleTank.Core
 
             UIElement.GraphicsDevice = GraphicsDevice;
 
-            
+            VirtualGamepad = new GUI.VirtualGamepad(Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickBase"),
+                Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickTop"),
+                Content.Load<Texture2D>("Graphics/VirtualJoy/FireButton"),
+                Content.Load<Texture2D>("Graphics/VirtualJoy/MineButton"));
         }
 
         /// <summary>
@@ -1027,6 +1032,7 @@ namespace BattleTank.Core
 
             map.Draw(spriteBatch);
 
+
             foreach (Mine mine in mines)
             {
                 mine.Draw(spriteBatch);
@@ -1226,6 +1232,10 @@ namespace BattleTank.Core
                 }
             }
 
+
+            spriteBatch.End();
+            spriteBatch.Begin();
+            VirtualGamepad.Draw(ref spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

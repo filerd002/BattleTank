@@ -17,7 +17,7 @@ namespace BattleTank.Core.Input
         public TankControllerState GetTankControllerState()
         {
             TankControllerState retVal = new TankControllerState(0, 0);
-            TouchCollection touchState = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
+            TouchCollection touchState = TouchPanel.GetState();
             if (touchState.Count == 0)
             {
                 Id = -1;

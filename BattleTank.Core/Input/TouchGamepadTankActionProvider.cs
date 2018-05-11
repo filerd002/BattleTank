@@ -17,7 +17,7 @@ namespace BattleTank.Core.Input
         public TankControllerState GetTankControllerState()
         {
             TankControllerState retVal = new TankControllerState(0, 0);
-            var touchState = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
+            TouchCollection touchState = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetState();
             if (touchState.Count == 0)
             {
                 Id = -1;
@@ -25,25 +25,27 @@ namespace BattleTank.Core.Input
                 return retVal;
             }
 
-            foreach (var touch in touchState)
+            foreach (TouchLocation touch in touchState)
             {
-                if (touch.State == TouchLocationState.Moved)
+                if (touch.State != TouchLocationState.Moved) continue;
+                if (touch.Id != Id && Id != -1) continue;
+
+                Id = touch.Id;
+                if (StartPosition == Vector2.Zero)
                 {
-                    if (touch.Id == Id || Id == -1)
+                    if (touch.TryGetPreviousLocation(out TouchLocation previousLocation))
                     {
-                        Id = touch.Id;
-                        if (StartPosition == Vector2.Zero)
-                        {
-                            if (touch.TryGetPreviousLocation(out TouchLocation previousLocation))
-                            {
-                                StartPosition = previousLocation.Position;
-                            }
-                        }
-                        retVal = new TankControllerState(StartPosition.X - touch.Position.X > 0 ? -1 : 1, StartPosition.Y - touch.Position.Y > 0 ? 1 : -1) ;
-
+                        StartPosition = previousLocation.Position;
                     }
-
                 }
+
+                float xMove = StartPosition.X - touch.Position.X;
+                xMove = (Math.Abs(xMove) > Size ? 1 * Math.Sign(xMove) : xMove / Size);
+
+                float yMove = StartPosition.Y - touch.Position.Y;
+                yMove = (Math.Abs(yMove) > Size ? 1 * Math.Sign(yMove) : yMove / Size);
+
+                retVal = new TankControllerState(-xMove, yMove);
             }
             return retVal;
         }

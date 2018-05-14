@@ -286,7 +286,7 @@ namespace BattleTank.Core
                     new Vector2((float) (GraphicsDevice.PresentationParameters.BackBufferWidth * 0.88),
                                 (float) (GraphicsDevice.PresentationParameters.BackBufferHeight * 0.58))),
                 new Button(mineButtonTexture, mineButtonTexture,
-                    new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 78),
+                    new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.78),
                                 (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78))));
         }
 

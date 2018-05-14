@@ -66,15 +66,18 @@ namespace BattleTank.Core.Input
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            TankControllerState retVal = new TankControllerState(0, 0);
+            float xMove = 0;
+            float yMove = 0;
+            bool fire = false;
+            bool plantMine = false;
+
             TouchCollection touchState = TouchPanel.GetState();
             if (touchState.Count == 0)
             {
                 Id = -1;
                 StartPosition = Vector2.Zero;
-                return retVal;
+                return new TankControllerState(0,0);
             }
-
 
             foreach (TouchLocation touch in touchState)
             {
@@ -90,15 +93,20 @@ namespace BattleTank.Core.Input
                     }
                 }
 
-                float xMove = StartPosition.X - touch.Position.X;
-                xMove = (Math.Abs(xMove) > Size ? 1 * Math.Sign(xMove) : xMove / Size);
+                xMove = StartPosition.X - touch.Position.X;
+                xMove = -((Math.Abs(xMove) > Size ? 1 * Math.Sign(xMove) : xMove / Size));
 
-                float yMove = StartPosition.Y - touch.Position.Y;
+                yMove = StartPosition.Y - touch.Position.Y;
                 yMove = (Math.Abs(yMove) > Size ? 1 * Math.Sign(yMove) : yMove / Size);
-
-                retVal = new TankControllerState(-xMove, yMove);
             }
-            return retVal;
+            var pointerState = PointerState.GetState();
+
+            if (FireButton.CheckIsMouseOver(ref pointerState))
+                fire = true;
+            if (MineButton.CheckIsMouseOver(ref pointerState))
+                plantMine = true;
+
+            return new TankControllerState(xMove, yMove, fire, false, plantMine);
         }
 
     }

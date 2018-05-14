@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
@@ -40,9 +41,9 @@ namespace BattleTank.Core.Input
             if (!_isTouchAvailble) return retVal;
 
             TouchCollection touchState = TouchPanel.GetState();
-            if (touchState.Count > 0)
+            foreach (TouchLocation touch in touchState)
             {
-                retVal = new PointerState(touchState[0].Position, ButtonState.Pressed);
+                retVal = new PointerState(touch.Position, ButtonState.Pressed);
             }
 
             return retVal;

@@ -116,7 +116,7 @@ namespace BattleTank.Core
 
         SoundEffectInstance soundEffectInstance = null;
 
-        public ITankActionProvider PlayerOneController { get; set; } = new TouchGamepadTankActionProvider(); // = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
+        public ITankActionProvider PlayerOneController { get; set; } // = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
         public ITankActionProvider PlayerTwoController { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
         public List<ITankActionProvider> AvailableGamepads { get; set; } = new List<ITankActionProvider>();
         internal VirtualGamepad VirtualGamepad { get; private set; }
@@ -133,7 +133,6 @@ namespace BattleTank.Core
 
             Content.RootDirectory = "Content";
         }
-        TouchGamepadTankActionProvider touchGamepad = new TouchGamepadTankActionProvider();
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -276,11 +275,19 @@ namespace BattleTank.Core
             UIElement.InActiveFont.Spacing = -75;
 
             UIElement.GraphicsDevice = GraphicsDevice;
+            
+            var fireButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/FireButton");
+            var mineButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/MineButton");
 
-            VirtualGamepad = new GUI.VirtualGamepad(Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickBase"),
+            PlayerOneController = VirtualGamepad = new VirtualGamepad(
+                Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickBase"),
                 Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickTop"),
-                Content.Load<Texture2D>("Graphics/VirtualJoy/FireButton"),
-                Content.Load<Texture2D>("Graphics/VirtualJoy/MineButton"));
+                new Button(fireButtonTexture, fireButtonTexture,
+                    new Vector2((float) (GraphicsDevice.PresentationParameters.BackBufferWidth * 0.88),
+                                (float) (GraphicsDevice.PresentationParameters.BackBufferHeight * 0.58))),
+                new Button(mineButtonTexture, mineButtonTexture,
+                    new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 78),
+                                (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78))));
         }
 
         /// <summary>

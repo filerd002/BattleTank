@@ -308,7 +308,7 @@ namespace BattleTank.Core
         {
             PointerState state =  PointerState.GetState();
             
-            if (Keyboard.GetState().IsKeyUp(Keys.Escape))
+            if (Keyboard.GetState().IsKeyUp(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
             {
 
                 keysStatus = false;
@@ -480,7 +480,7 @@ namespace BattleTank.Core
             {
 
 
-                if ((Keyboard.GetState().IsKeyDown(Keys.Escape)) && keysStatus == false)
+                if (((Keyboard.GetState().IsKeyDown(Keys.Escape)) && keysStatus == false) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
                     Exit();
 
@@ -523,7 +523,7 @@ namespace BattleTank.Core
             {
 
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
                     menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
                     gameState = GameState.START_GAME;
@@ -619,7 +619,7 @@ namespace BattleTank.Core
                 tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false,false, PlayerOneController);
                 tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false,false, PlayerTwoController);
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape) && keysStatus == false)
+                if ((Keyboard.GetState().IsKeyDown(Keys.Escape) && keysStatus == false) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
 
                     gameState = GameState.START_GAME;
@@ -706,7 +706,7 @@ namespace BattleTank.Core
             else if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
             {
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
 
                     gameState = GameState.CHOICE_OF_GAME_TYPE;
@@ -788,7 +788,7 @@ namespace BattleTank.Core
 
 
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
 
                     gameState = GameState.CHOICE_OF_GAME_TYPE;
@@ -981,7 +981,7 @@ namespace BattleTank.Core
             else
             {
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
                     soundOnOff = 0;
                     gameState = GameState.PAUSE;

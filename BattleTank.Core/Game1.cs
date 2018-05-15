@@ -283,11 +283,11 @@ namespace BattleTank.Core
                 Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickBase"),
                 Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickTop"),
                 new Button(fireButtonTexture, fireButtonTexture,
-                    new Vector2((float) (GraphicsDevice.PresentationParameters.BackBufferWidth * 0.88),
-                                (float) (GraphicsDevice.PresentationParameters.BackBufferHeight * 0.58))),
+                    new Vector2((float) (GraphicsDevice.PresentationParameters.BackBufferWidth * 0.87),
+                                (float) (GraphicsDevice.PresentationParameters.BackBufferHeight * 0.63)),null,(int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)),
                 new Button(mineButtonTexture, mineButtonTexture,
-                    new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.78),
-                                (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78))));
+                    new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.80),
+                                (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)));
         }
 
         /// <summary>
@@ -1215,7 +1215,7 @@ namespace BattleTank.Core
             }
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 3;
+                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
                 _camera.Position = tank1.location;
                 _camera.Center = true;
                 _camera.MaxLeftTopCorner = new Point(0);

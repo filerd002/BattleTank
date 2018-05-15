@@ -22,6 +22,7 @@ namespace BattleTank.Core.Input
             set { _joystickBase = value; }
         }
         private Rectangle _joystickBasePosition;
+       
 
         public Texture2D JoystickTop
         {
@@ -59,15 +60,15 @@ namespace BattleTank.Core.Input
             FireButton.Draw(ref spriteBatch);
             MineButton.Draw(ref spriteBatch);
 
+           
             _joystickBasePosition.Location = new Vector2((float) (screenWidth * 0.05), (float) (screenHeight * 0.62)).ToPoint();
+            _joystickBasePosition.Size =  new Vector2((float)(screenWidth * 0.175), (float)(screenWidth * 0.175)).ToPoint();
+            spriteBatch.Draw(JoystickBase, new Rectangle((int)_joystickBasePosition.Location.ToVector2().X, (int)_joystickBasePosition.Location.ToVector2().Y, (int)_joystickBasePosition.Size.ToVector2().X, (int)_joystickBasePosition.Size.ToVector2().Y), Color.White);
 
-            spriteBatch.Draw(JoystickBase, _joystickBasePosition.Location.ToVector2(), Color.White);
-            
-            Vector2 endJoyTopPosition = _joystickBasePosition.Location.ToVector2() -
-                             JoystickTop.Bounds.Size.ToVector2() / new Vector2(2) +
-                             (_joystickBasePosition.Size.ToVector2() / new Vector2(2)) * (_xyJoyMove + new Vector2(1));
+            Vector2 endJoyTopSize = new Vector2(_joystickBasePosition.Size.X / 2, _joystickBasePosition.Size.Y / 2);
+            Vector2 endJoyTopPosition = _joystickBasePosition.Location.ToVector2() -  endJoyTopSize / new Vector2(2) +  (_joystickBasePosition.Size.ToVector2() / new Vector2(2)) * (_xyJoyMove + new Vector2(1));
 
-            spriteBatch.Draw(JoystickTop, endJoyTopPosition, Color.White);
+            spriteBatch.Draw(JoystickTop, new Rectangle((int)endJoyTopPosition.X, (int)endJoyTopPosition.Y, (int)endJoyTopSize.X, (int)endJoyTopSize.Y), Color.White);
         }
 
 

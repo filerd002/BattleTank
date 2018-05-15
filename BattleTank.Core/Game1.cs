@@ -1079,6 +1079,7 @@ namespace BattleTank.Core
                     ButtonNowaGra.Draw(ref spriteBatch);
                     ButtonKoniec.Draw(ref spriteBatch);
                 }
+                if(Environment.OSVersion.Platform == PlatformID.Win32NT)
                 spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
             }
 
@@ -1131,8 +1132,8 @@ namespace BattleTank.Core
                     ButtonPowrot.Draw(ref spriteBatch);
                 }
 
-
-                spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
 
             }
 
@@ -1155,7 +1156,8 @@ namespace BattleTank.Core
                 {
                     LabellossTexture.Draw(ref spriteBatch);
                 }
-                spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
             }
 
 

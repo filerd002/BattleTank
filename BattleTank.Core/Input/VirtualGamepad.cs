@@ -3,6 +3,8 @@ using BattleTank.Core.GUI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
+using SlimDX.Direct3D10;
+using Texture2D = Microsoft.Xna.Framework.Graphics.Texture2D;
 
 namespace BattleTank.Core.Input
 {
@@ -12,6 +14,7 @@ namespace BattleTank.Core.Input
         private Button _fireButton;
         private Texture2D _joystickTop;
         private Texture2D _joystickBase;
+        private Vector2 _xyJoyMove;
         
         public Texture2D JoystickBase
         {
@@ -60,49 +63,35 @@ namespace BattleTank.Core.Input
 
             spriteBatch.Draw(JoystickBase, _joystickBasePosition.Location.ToVector2(), Color.White);
             
-            var joyTopPosition = _joystickBasePosition.Location.ToVector2() + new Vector2(JoystickBase.Width/2, JoystickBase.Height/2) - new Vector2(JoystickTop.Width/2, JoystickTop.Height/2);
-            spriteBatch.Draw(JoystickTop, joyTopPosition, Color.White);
+            var endJoyTopPosition = _joystickBasePosition.Location.ToVector2() -
+                             JoystickTop.Bounds.Size.ToVector2() / new Vector2(2) +
+                             (_joystickBasePosition.Size.ToVector2() / new Vector2(2)) * (_xyJoyMove + new Vector2(1));
+
+            spriteBatch.Draw(JoystickTop, endJoyTopPosition, Color.White);
         }
 
-        public float Size = 300;
-        public Vector2 StartPosition = Vector2.Zero;
-        public int Id = -1;
+
 
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            float xMove = 0;
-            float yMove = 0;
             bool fire = false;
             bool plantMine = false;
+            _xyJoyMove = new Vector2(0);
 
             TouchCollection touchState = TouchPanel.GetState();
-            if (touchState.Count == 0)
-            {
-                Id = -1;
-                StartPosition = Vector2.Zero;
-                return new TankControllerState(0,0);
-            }
+            if (touchState.Count == 0) return new TankControllerState(0,0);
 
             foreach (TouchLocation touch in touchState)
             {
-                if (touch.State != TouchLocationState.Moved) continue;
-                if (touch.Id != Id && Id != -1) continue;
+                if (!_joystickBasePosition.Contains(touch.Position)) continue;
 
-                Id = touch.Id;
-                if (StartPosition == Vector2.Zero)
-                {
-                    if (touch.TryGetPreviousLocation(out TouchLocation previousLocation))
-                    {
-                        StartPosition = previousLocation.Position;
-                    }
-                }
+                var distanceFromCenter = touch.Position.ToPoint() - _joystickBasePosition.Location;
+                distanceFromCenter -= _joystickBasePosition.Size / new Point(2);
 
-                xMove = StartPosition.X - touch.Position.X;
-                xMove = -((Math.Abs(xMove) > Size ? 1 * Math.Sign(xMove) : xMove / Size));
+                var halfJoySize = _joystickBasePosition.Size / new Point(2);
 
-                yMove = StartPosition.Y - touch.Position.Y;
-                yMove = (Math.Abs(yMove) > Size ? 1 * Math.Sign(yMove) : yMove / Size);
+                _xyJoyMove = distanceFromCenter.ToVector2() / halfJoySize.ToVector2();
             }
             var pointerState = PointerState.GetState();
 
@@ -111,7 +100,7 @@ namespace BattleTank.Core.Input
             if (MineButton.CheckIsMouseOver(ref pointerState))
                 plantMine = true;
 
-            return new TankControllerState(xMove, yMove, fire, false, plantMine);
+            return new TankControllerState(_xyJoyMove.X, -_xyJoyMove.Y, fire, false, plantMine);
         }
 
     }

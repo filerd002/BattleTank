@@ -100,7 +100,7 @@ namespace BattleTank.Core.Input
                 Point halfJoySize = _joystickBasePosition.Size / new Point(2);
 
                 _xyJoyMove = distanceFromCenter.ToVector2() / halfJoySize.ToVector2();
-                if (_xyJoyMove.X > 1 || _xyJoyMove.Y > 1)
+                if (_xyJoyMove.X > 0.7 || _xyJoyMove.Y > 0.7 || _xyJoyMove.X < -0.7 || _xyJoyMove.Y < -0.7)
                     speedUp = true;
             }
             PointerState pointerState = PointerState.GetState();

@@ -63,7 +63,7 @@ namespace BattleTank.Core.Input
 
             spriteBatch.Draw(JoystickBase, _joystickBasePosition.Location.ToVector2(), Color.White);
             
-            var endJoyTopPosition = _joystickBasePosition.Location.ToVector2() -
+            Vector2 endJoyTopPosition = _joystickBasePosition.Location.ToVector2() -
                              JoystickTop.Bounds.Size.ToVector2() / new Vector2(2) +
                              (_joystickBasePosition.Size.ToVector2() / new Vector2(2)) * (_xyJoyMove + new Vector2(1));
 
@@ -77,6 +77,7 @@ namespace BattleTank.Core.Input
         {
             bool fire = false;
             bool plantMine = false;
+            bool speedUp = false;
             _xyJoyMove = new Vector2(0);
 
             TouchCollection touchState = TouchPanel.GetState();
@@ -84,23 +85,31 @@ namespace BattleTank.Core.Input
 
             foreach (TouchLocation touch in touchState)
             {
-                if (!_joystickBasePosition.Contains(touch.Position)) continue;
+                // Rozszerzona podstawa służy do tego, aby umożliwić efekt przyśpieszenia przy odpowiednio
+                // mocno wychylonej gałce.
+                Rectangle extendendBaseSize = _joystickBasePosition;
+                extendendBaseSize.Size += new Point(20);
+                extendendBaseSize.Location -= new Point(10);
 
-                var distanceFromCenter = touch.Position.ToPoint() - _joystickBasePosition.Location;
+                if (!extendendBaseSize.Contains(touch.Position)) continue;
+
+                Point distanceFromCenter = touch.Position.ToPoint() - _joystickBasePosition.Location;
                 distanceFromCenter -= _joystickBasePosition.Size / new Point(2);
 
-                var halfJoySize = _joystickBasePosition.Size / new Point(2);
+                Point halfJoySize = _joystickBasePosition.Size / new Point(2);
 
                 _xyJoyMove = distanceFromCenter.ToVector2() / halfJoySize.ToVector2();
+                if (_xyJoyMove.X > 1 || _xyJoyMove.Y > 1)
+                    speedUp = true;
             }
-            var pointerState = PointerState.GetState();
+            PointerState pointerState = PointerState.GetState();
 
             if (FireButton.CheckIsMouseOver(ref pointerState))
                 fire = true;
             if (MineButton.CheckIsMouseOver(ref pointerState))
                 plantMine = true;
 
-            return new TankControllerState(_xyJoyMove.X, -_xyJoyMove.Y, fire, false, plantMine);
+            return new TankControllerState(_xyJoyMove.X, -_xyJoyMove.Y, fire, speedUp, plantMine, true);
         }
 
     }

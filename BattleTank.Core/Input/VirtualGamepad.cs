@@ -18,6 +18,7 @@ namespace BattleTank.Core.Input
             get { return _joystickBase; }
             set { _joystickBase = value; }
         }
+        private Rectangle _joystickBasePosition;
 
         public Texture2D JoystickTop
         {
@@ -43,6 +44,8 @@ namespace BattleTank.Core.Input
             this.JoystickTop = joystickTop;
             this.FireButton = fireButton;
             this.MineButton = mineButton;
+
+            _joystickBasePosition = JoystickBase.Bounds;
         }
 
         public void Draw(ref SpriteBatch spriteBatch)
@@ -52,15 +55,16 @@ namespace BattleTank.Core.Input
 
             FireButton.Draw(ref spriteBatch);
             MineButton.Draw(ref spriteBatch);
-   
-            var baseRectangle = new Rectangle((int)(screenWidth * 0.05), (int)(screenHeight * 0.62), (int)(screenWidth * 0.175), (int)(screenWidth * 0.175));
-            spriteBatch.Draw(JoystickBase, baseRectangle, Color.White); 
-            var TopRectangle = new Rectangle((int)(baseRectangle.X + (baseRectangle.Width / 2) - (baseRectangle.Width / 4)), (int)(baseRectangle.Y  + (baseRectangle.Height / 2) - (baseRectangle.Height / 4)), baseRectangle.Width / 2, baseRectangle.Height / 2);
 
-            spriteBatch.Draw(JoystickTop, TopRectangle, Color.White);
+            _joystickBasePosition.Location = new Vector2((float) (screenWidth * 0.05), (float) (screenHeight * 0.62)).ToPoint();
+
+            spriteBatch.Draw(JoystickBase, _joystickBasePosition.Location.ToVector2(), Color.White);
+            
+            var joyTopPosition = _joystickBasePosition.Location.ToVector2() + new Vector2(JoystickBase.Width/2, JoystickBase.Height/2) - new Vector2(JoystickTop.Width/2, JoystickTop.Height/2);
+            spriteBatch.Draw(JoystickTop, joyTopPosition, Color.White);
         }
 
-        public float Size = 100;
+        public float Size = 300;
         public Vector2 StartPosition = Vector2.Zero;
         public int Id = -1;
 
@@ -99,7 +103,6 @@ namespace BattleTank.Core.Input
 
                 yMove = StartPosition.Y - touch.Position.Y;
                 yMove = (Math.Abs(yMove) > Size ? 1 * Math.Sign(yMove) : yMove / Size);
-             
             }
             var pointerState = PointerState.GetState();
 

@@ -1241,10 +1241,12 @@ namespace BattleTank.Core
 
 
             spriteBatch.End();
-            spriteBatch.Begin();
-            VirtualGamepad.Draw(ref spriteBatch);
-            spriteBatch.End();
-
+            if (gameState == GameState.GAME_RUNNING_PLAYER_1)
+            {
+                spriteBatch.Begin();
+                VirtualGamepad.Draw(ref spriteBatch);
+                spriteBatch.End();
+            }
             base.Draw(gameTime);
         }
     }

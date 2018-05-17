@@ -40,6 +40,18 @@ namespace BattleTank.Core.GUI
             base.Height = NonActiveTexture.Height * proportion;
         }
 
+        public Button(Texture2D activeTexture, Texture2D nonActiveTexture, Vector2 position, int? width = null,
+            int? height = null) : base(null)
+        {
+            this.ActiveTexture = activeTexture;
+            this.NonActiveTexture = nonActiveTexture;
+            UIElementRectangle.Location = position.ToPoint();
+
+            double proportion = GUIHelper.Proportion(NonActiveTexture.Width, NonActiveTexture.Height, width, height);
+
+            base.Width = NonActiveTexture.Width * proportion;
+            base.Height = NonActiveTexture.Height * proportion;
+        }
       
         /// <inheritdoc />
         public override void Draw(ref SpriteBatch spriteBatch)

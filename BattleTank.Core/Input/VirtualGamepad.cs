@@ -10,37 +10,17 @@ namespace BattleTank.Core.Input
 {
     class VirtualGamepad : ITankActionProvider
     {
-        private Button _mineButton;
-        private Button _fireButton;
-        private Texture2D _joystickTop;
-        private Texture2D _joystickBase;
         private Vector2 _xyJoyMove;
         
-        public Texture2D JoystickBase
-        {
-            get { return _joystickBase; }
-            set { _joystickBase = value; }
-        }
+        public Texture2D JoystickBase { get; set; }
+
         private Rectangle _joystickBasePosition;
-       
 
-        public Texture2D JoystickTop
-        {
-            get { return _joystickTop; }
-            set { _joystickTop = value; }
-        }
+        public Texture2D JoystickTop { get; set; }
 
-        public Button FireButton
-        {
-            get { return _fireButton; }
-            set { _fireButton = value; }
-        }
+        public Button FireButton { get; set; }
 
-        public Button MineButton
-        {
-            get { return _mineButton; }
-            set { _mineButton = value; }
-        }
+        public Button MineButton { get; set; }
 
         public VirtualGamepad(Texture2D joystickBase, Texture2D joystickTop, Button fireButton, Button mineButton)
         {
@@ -71,8 +51,6 @@ namespace BattleTank.Core.Input
             spriteBatch.Draw(JoystickTop, new Rectangle((int)endJoyTopPosition.X, (int)endJoyTopPosition.Y, (int)endJoyTopSize.X, (int)endJoyTopSize.Y), Color.White);
         }
 
-
-
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
@@ -89,8 +67,8 @@ namespace BattleTank.Core.Input
                 // Rozszerzona podstawa służy do tego, aby umożliwić efekt przyśpieszenia przy odpowiednio
                 // mocno wychylonej gałce.
                 Rectangle extendendBaseSize = _joystickBasePosition;
-                extendendBaseSize.Size += new Point(20);
-                extendendBaseSize.Location -= new Point(10);
+                extendendBaseSize.Size += new Point(200);
+                extendendBaseSize.Location -= new Point(100);
 
                 if (!extendendBaseSize.Contains(touch.Position)) continue;
 
@@ -100,7 +78,7 @@ namespace BattleTank.Core.Input
                 Point halfJoySize = _joystickBasePosition.Size / new Point(2);
 
                 _xyJoyMove = distanceFromCenter.ToVector2() / halfJoySize.ToVector2();
-                if (_xyJoyMove.X > 0.7 || _xyJoyMove.Y > 0.7 || _xyJoyMove.X < -0.7 || _xyJoyMove.Y < -0.7)
+                if (_xyJoyMove.X > 1 || _xyJoyMove.Y > 1 || _xyJoyMove.X < -1 || _xyJoyMove.Y < -1)
                     speedUp = true;
             }
             PointerState pointerState = PointerState.GetState();

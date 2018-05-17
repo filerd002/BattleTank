@@ -77,7 +77,7 @@ namespace BattleTank.Core
                 }
                 this.Die();
             }
-            if ((_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
+            if (_game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && (_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
             {
                 if (_game.tank2.Barrier == false)
                 {
@@ -91,19 +91,21 @@ namespace BattleTank.Core
                 this.Die();
             }
             //If CPU hits player 2
-            if (_player > 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive)
-            {
-                if (_game.tank2.Barrier == false)
+     
+                if (_game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 &&_player > 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive)
                 {
-                    _game.tank2.Hit();
-
-                    if (!_game.tank2.alive)
+                    if (_game.tank2.Barrier == false)
                     {
+                        _game.tank2.Hit();
 
+                        if (!_game.tank2.alive)
+                        {
+
+                        }
                     }
+                    this.Die();
                 }
-                this.Die();
-            }
+            
             //If CPU hits player 1
             if (_player > 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank1.location.X - (_game.tank1.tankTexture.Width / 2), (int)_game.tank1.location.Y - (_game.tank1.tankTexture.Height / 2), _game.tank1.tankTexture.Width, _game.tank1.tankTexture.Height)).Width != 0) && _game.tank1.alive)
             {

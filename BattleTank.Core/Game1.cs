@@ -499,7 +499,20 @@ namespace BattleTank.Core
                 { 
                     if (ButtonZagraj.IsClicked(ref state))
                     {
-                        gameState = GameState.CHOICE_OF_GAME_TYPE;
+                        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                            gameState = GameState.CHOICE_OF_GAME_TYPE;
+                        else
+                        {
+                            tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, false, PlayerOneController);
+                            tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, false, PlayerTwoController);
+
+                            tank2.lives = 0;
+                            tank2.armor = 0;
+                            tank2.alive = false;                          
+                            menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
+                            gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
+                            gameReturn = GameState.GAME_RUNNING_PLAYER_1;
+                        }
                         LeftButtonStatus = true;
                     }
 
@@ -790,8 +803,10 @@ namespace BattleTank.Core
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
-
-                    gameState = GameState.CHOICE_OF_GAME_TYPE;
+                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                        gameState = GameState.CHOICE_OF_GAME_TYPE;
+                    else
+                        gameState = GameState.START_GAME;
                     keysStatus = true;
                     menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
 

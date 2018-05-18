@@ -116,7 +116,7 @@ namespace BattleTank.Core
 
         SoundEffectInstance soundEffectInstance = null;
 
-        public ITankActionProvider PlayerOneController { get; set; } // = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
+        public ITankActionProvider PlayerOneController { get; set; } = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
         public ITankActionProvider PlayerTwoController { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
         public List<ITankActionProvider> AvailableGamepads { get; set; } = new List<ITankActionProvider>();
         internal VirtualGamepad VirtualGamepad { get; private set; }
@@ -153,8 +153,7 @@ namespace BattleTank.Core
             graphics.IsFullScreen = false;
          
 
-
-            graphics.ApplyChanges();
+      graphics.ApplyChanges();
          
 
             _camera = new Camera2D(GraphicsDevice.PresentationParameters);
@@ -280,16 +279,20 @@ namespace BattleTank.Core
             var fireButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/FireButton");
             var mineButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/MineButton");
 
-            PlayerOneController = VirtualGamepad = new VirtualGamepad(
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                PlayerOneController = VirtualGamepad = new VirtualGamepad(
                 Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickBase"),
                 Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickTop"),
                 new Button(fireButtonTexture, fireButtonTexture,
-                    new Vector2((float) (GraphicsDevice.PresentationParameters.BackBufferWidth * 0.87),
-                                (float) (GraphicsDevice.PresentationParameters.BackBufferHeight * 0.63)),null,(int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)),
+                    new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.87),
+                                (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.63)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)),
                 new Button(mineButtonTexture, mineButtonTexture,
                     new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.80),
                                 (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)));
-        }
+            }
+         
+            }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -1249,7 +1252,7 @@ namespace BattleTank.Core
 
 
             spriteBatch.End();
-            if (gameState == GameState.GAME_RUNNING_PLAYER_1)
+            if (Environment.OSVersion.Platform == PlatformID.Unix && gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
                 spriteBatch.Begin();
                 VirtualGamepad.Draw(ref spriteBatch);

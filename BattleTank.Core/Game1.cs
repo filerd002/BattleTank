@@ -151,6 +151,7 @@ namespace BattleTank.Core
             //  graphics.PreferredBackBufferWidth = 48 * 20;
             // graphics.PreferredBackBufferHeight = 48 * 16;
             graphics.IsFullScreen = false;
+         
 
 
             graphics.ApplyChanges();
@@ -504,8 +505,7 @@ namespace BattleTank.Core
                             gameState = GameState.CHOICE_OF_GAME_TYPE;
                         else
                         {
-                            tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, false, PlayerOneController);
-                                                  
+                            tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, false, PlayerOneController);                                                 
                             menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
                             gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
                             gameReturn = GameState.GAME_RUNNING_PLAYER_1;

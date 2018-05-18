@@ -12,13 +12,14 @@ namespace BattleTank.Android
         , Theme = "@style/Theme.Splash"
         , AlwaysRetainTaskState = true
         , LaunchMode = global::Android.Content.PM.LaunchMode.SingleInstance
-        , ScreenOrientation = ScreenOrientation.Locked
+        , ScreenOrientation = ScreenOrientation.Landscape
         , ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.Keyboard | ConfigChanges.KeyboardHidden | ConfigChanges.ScreenSize)]
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen);       
             var g = new Game1();
             SetContentView((View)g.Services.GetService(typeof(View)));
             g.Run();

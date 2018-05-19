@@ -19,7 +19,18 @@ namespace BattleTank.Android
         protected override void OnCreate(Bundle bundle)
         {
             base.OnCreate(bundle);
-            this.Window.AddFlags(WindowManagerFlags.Fullscreen);       
+            this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
+            this.Window.AddFlags(WindowManagerFlags.Fullscreen); // hide the status bar
+
+            int uiOptions = (int)Window.DecorView.SystemUiVisibility;
+
+            uiOptions |= (int)SystemUiFlags.LowProfile;
+            uiOptions |= (int)SystemUiFlags.Fullscreen;
+            uiOptions |= (int)SystemUiFlags.HideNavigation;
+            uiOptions |= (int)SystemUiFlags.ImmersiveSticky;
+
+            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)uiOptions;
+
             var g = new Game1();
             SetContentView((View)g.Services.GetService(typeof(View)));
             g.Run();

@@ -12,7 +12,7 @@ namespace BattleTank.Core
         private float _screenWidth => ScreenSize.X;
         private float _screenHeight => ScreenSize.Y;
 
-        private Rectangle VisibleArea
+        public Rectangle VisibleArea
         {
             get
             {

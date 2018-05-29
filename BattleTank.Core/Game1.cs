@@ -1233,7 +1233,7 @@ namespace BattleTank.Core
             }
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
+                _camera.Scale = 2;// Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
                 _camera.Position = tank1.location;
                 _camera.Center = true;
                 _camera.MaxLeftTopCorner = new Point(0);
@@ -1246,7 +1246,12 @@ namespace BattleTank.Core
 
                 foreach (AI_Tank et in enemyTanks)
                 {
-                    et.Draw(spriteBatch);
+                    if (_camera.VisibleArea.Contains(et.location))
+                        et.Draw(spriteBatch);
+                    else
+                    {
+                        // Rysuj znacznik na krawędzi ekranu.
+                    }
                 }
                 scoreManager.Draw(spriteBatch);
 

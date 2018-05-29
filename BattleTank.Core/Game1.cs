@@ -150,6 +150,7 @@ namespace BattleTank.Core
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height - GraphicsDevice.DisplayMode.Height % 48;
             //  graphics.PreferredBackBufferWidth = 48 * 20;
             // graphics.PreferredBackBufferHeight = 48 * 16;
+           
             graphics.IsFullScreen = true;
          
 

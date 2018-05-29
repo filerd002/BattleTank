@@ -130,8 +130,8 @@ namespace BattleTank.Core
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-
             Content.RootDirectory = "Content";
+   
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace BattleTank.Core
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height - GraphicsDevice.DisplayMode.Height % 48;
             //  graphics.PreferredBackBufferWidth = 48 * 20;
             // graphics.PreferredBackBufferHeight = 48 * 16;
-           
+            
             graphics.IsFullScreen = true;
          
 
@@ -1042,7 +1042,7 @@ namespace BattleTank.Core
                 _camera.Center = false;
             }
 
-            GraphicsDevice.Clear(Color.WhiteSmoke);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.GetViewMatrix());
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);

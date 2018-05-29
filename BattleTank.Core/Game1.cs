@@ -1250,6 +1250,17 @@ namespace BattleTank.Core
                         et.Draw(spriteBatch);
                     else
                     {
+                        var rect = new Texture2D(GraphicsDevice, 10, 10);
+                        Color[] data = new Color[rect.Width * rect.Height];
+                        for (int i = 0; i < data.Length; ++i)
+                        {
+                            data[i] = Color.Chocolate;
+                        }
+                        rect.SetData(data);
+                        var visArea = _camera.VisibleArea;
+                        var x = et.location.X < visArea.X ? visArea.X + 25
+                                : et.location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - 25: et.location.X ;
+                        spriteBatch.Draw(rect, new Vector2(x, tank1.location.Y + 100), Color.Red);
                         // Rysuj znacznik na krawędzi ekranu.
                     }
                 }

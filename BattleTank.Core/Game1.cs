@@ -375,6 +375,12 @@ namespace BattleTank.Core
 
             if (gameState == GameState.GAME_RUNNING_PLAYER_1 || gameState == GameState.GAME_RUNNING_PLAYERS_2_AND_CPU)
             {
+                if (Environment.OSVersion.Platform == PlatformID.Unix && tank1.alive)
+                    _camera.Scale = 2;
+                else
+                    _camera.Scale = 1;
+
+
                 if (gameState == GameState.GAME_RUNNING_PLAYER_1 && tank1.lives <= 0)
                 {
                     gameState = GameState.GAME_LOSS;

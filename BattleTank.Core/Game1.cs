@@ -1260,7 +1260,9 @@ namespace BattleTank.Core
                         var visArea = _camera.VisibleArea;
                         var x = et.location.X < visArea.X ? visArea.X + 25
                                 : et.location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - 25: et.location.X ;
-                        spriteBatch.Draw(rect, new Vector2(x, tank1.location.Y + 100), Color.Red);
+                        var y = et.location.Y < visArea.Y ? visArea.Y + 25
+                            : et.location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - 25 : et.location.Y;
+                        spriteBatch.Draw(rect, new Vector2(x, y), Color.Red);
                         // Rysuj znacznik na krawędzi ekranu.
                     }
                 }

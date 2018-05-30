@@ -1254,7 +1254,26 @@ namespace BattleTank.Core
                         Color[] data = new Color[rect.Width * rect.Height];
                         for (int i = 0; i < data.Length; ++i)
                         {
-                            data[i] = Color.Chocolate;
+                            Color color;
+                            switch (et.TankColor)
+                            {
+                                case TankColors.BLUE:
+                                    color = Color.Blue;
+                                    break;
+                                case TankColors.GREEN:
+                                    color = Color.Green;
+                                    break;
+                                case TankColors.PINK:
+                                    color = Color.DeepPink;
+                                    break;
+                                case TankColors.RED:
+                                    color = Color.Red;
+                                    break;
+                                case TankColors.YELLOW:
+                                    color = Color.Yellow;
+                                    break;
+                            }
+                            data[i] = color;
                         }
                         rect.SetData(data);
                         var visArea = _camera.VisibleArea;
@@ -1262,7 +1281,7 @@ namespace BattleTank.Core
                                 : et.location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - 25: et.location.X ;
                         var y = et.location.Y < visArea.Y ? visArea.Y + 25
                             : et.location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - 25 : et.location.Y;
-                        spriteBatch.Draw(rect, new Vector2(x, y), Color.Red);
+                        spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
                         // Rysuj znacznik na krawędzi ekranu.
                     }
                 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-16"?>
+<DevTrackerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" SolutionTotalEditTime="PT19M12.0492484S" SolutionTotalViewTime="PT36M51.6030416S" SolutionTotalDebugTime="PT1M27.8566776S">
+  <FileVersion>
+    <Major>1</Major>
+    <Minor>0</Minor>
+  </FileVersion>
+  <SolutionFolder>C:\Users\dalec\Source\Repos\BattleTank</SolutionFolder>
+  <SessionTimeList />
+  <LastSessionTimeList>
+    <DevTrackerDataItem ViewActiveTime="PT19.3859921S" EditActiveTime="PT0S">
+      <ModifiedDate>0001-01-01T00:00:00</ModifiedDate>
+      <EditedCount>0</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>C:\Users\dalec\Source\Repos\BattleTank\BattleTank.Core\Game1.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>C:\Users\dalec\Source\Repos\BattleTank\BattleTank.Core\BattleTank.Core.csproj</ProjectName>
+      <CreatedDate>2018-05-30T07:42:24.7459513+02:00</CreatedDate>
+      <ViewedBy>dalec</ViewedBy>
+    </DevTrackerDataItem>
+  </LastSessionTimeList>
+  <TotalTimeList>
+    <DevTrackerDataItem ViewActiveTime="PT19.3859921S" EditActiveTime="PT0S">
+      <ModifiedDate>0001-01-01T00:00:00</ModifiedDate>
+      <EditedCount>0</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>C:\Users\dalec\Source\Repos\BattleTank\BattleTank.Core\Game1.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>C:\Users\dalec\Source\Repos\BattleTank\BattleTank.Core\BattleTank.Core.csproj</ProjectName>
+      <CreatedDate>2018-05-30T07:42:24.7459513+02:00</CreatedDate>
+      <ViewedBy>dalec</ViewedBy>
+    </DevTrackerDataItem>
+  </TotalTimeList>
+  <HistoryTimeList>
+    <DevTrackerDataItem ViewActiveTime="PT19.3859921S" EditActiveTime="PT0S">
+      <ModifiedDate>0001-01-01T00:00:00</ModifiedDate>
+      <EditedCount>0</EditedCount>
+      <ViewedCount>1</ViewedCount>
+      <Item>C:\Users\dalec\Source\Repos\BattleTank\BattleTank.Core\Game1.cs</Item>
+      <ItemType>ProjectItem</ItemType>
+      <ProjectName>C:\Users\dalec\Source\Repos\BattleTank\BattleTank.Core\BattleTank.Core.csproj</ProjectName>
+      <CreatedDate>2018-05-30T07:42:24.7459513+02:00</CreatedDate>
+      <ViewedBy>dalec</ViewedBy>
+    </DevTrackerDataItem>
+  </HistoryTimeList>
+</DevTrackerData>

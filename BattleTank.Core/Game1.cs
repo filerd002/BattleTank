@@ -1233,7 +1233,7 @@ namespace BattleTank.Core
             }
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                _camera.Scale = 2;// Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
+                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
                 _camera.Position = tank1.location;
                 _camera.Center = true;
                 _camera.MaxLeftTopCorner = new Point(0);
@@ -1250,9 +1250,10 @@ namespace BattleTank.Core
                         et.Draw(spriteBatch);
                     else
                     {
-                        var rect = new Texture2D(GraphicsDevice, 10, 10);
+                        var rectWidthAndHeight = 17;
+                        var rect = new Texture2D(GraphicsDevice, rectWidthAndHeight, rectWidthAndHeight);
                         Color[] data = new Color[rect.Width * rect.Height];
-                        for (int i = 0; i < data.Length; ++i)
+                        for (int i = 0; i < rectWidthAndHeight; ++i)
                         {
                             Color color;
                             switch (et.TankColor)
@@ -1273,7 +1274,19 @@ namespace BattleTank.Core
                                     color = Color.Yellow;
                                     break;
                             }
-                            data[i] = color;
+                            for (int j = 0; j < rectWidthAndHeight; ++j)
+                            {
+                                var squareRoot = (i - rectWidthAndHeight / 2) * (i - rectWidthAndHeight / 2)
+                                        + (j - rectWidthAndHeight / 2) * (j - rectWidthAndHeight / 2);
+                              
+                                var root = Math.Sqrt(squareRoot);
+                                if (root > rectWidthAndHeight / 2)
+                                {
+                                    continue;
+                                }
+                                data[i*rectWidthAndHeight + j] = color;
+                            }
+
                         }
                         rect.SetData(data);
                         var visArea = _camera.VisibleArea;

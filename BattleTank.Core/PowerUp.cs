@@ -116,7 +116,7 @@ namespace BattleTank.Core
                                 {
                                     et.Frozen();
                                 }
-                            if (game.tank2.alive)
+                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
 
@@ -189,7 +189,7 @@ namespace BattleTank.Core
                                 }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
-                            if (game.tank2.alive)
+                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
                     }
@@ -224,7 +224,7 @@ namespace BattleTank.Core
                                 }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
-                            if (game.tank2.alive)
+                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
                     }
@@ -259,7 +259,7 @@ namespace BattleTank.Core
                                 }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
-                            if (game.tank2.alive)
+                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
                     }
@@ -295,7 +295,7 @@ namespace BattleTank.Core
                                 }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
-                            if (game.tank2.alive)
+                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
                     }
@@ -330,7 +330,7 @@ namespace BattleTank.Core
                                 }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
-                            if (game.tank2.alive)
+                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
                     }
@@ -365,7 +365,7 @@ namespace BattleTank.Core
                                 }
                             if (game.tank1.alive)
                                 game.tank1.Frozen();
-                            if (game.tank2.alive)
+                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
                                 game.tank2.Frozen();
                             break;
                     }

@@ -47,7 +47,7 @@ namespace BattleTank.Core
                 _game.tank1.Explode();
                 this.Die();
             }
-            if ((_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
+            if (_game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && (_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
             {
                 _game.tank2.Explode();
                 this.Die();

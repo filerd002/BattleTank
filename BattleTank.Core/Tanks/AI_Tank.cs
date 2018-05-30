@@ -19,6 +19,8 @@ namespace BattleTank.Core.Tanks
         private TimeSpan _aggressiveTimeLeft = TimeSpan.Zero;
         private bool _isAggressive => _aggressiveTimeLeft.TotalMilliseconds > 0;
 
+        Tank[] tanks;
+
         public AI_Tank(Game1 game, TankColors tankSpriteName, Vector2 location, Vector2 maxSpeed,
             float rotation, int player, float scale, Texture2D whiteRectangle, int strong,
             bool barrier, bool frozen, float targetDirection, int aiLevel, bool kamikazeMode = false)
@@ -36,6 +38,7 @@ namespace BattleTank.Core.Tanks
             {
                 speed = new Vector2(3, 3);
             }
+          
         }
 
         public override void Update(GameTime gameTime)
@@ -144,7 +147,12 @@ namespace BattleTank.Core.Tanks
                     break;
             }
 
-            foreach (var userTank in new[] { game.tank1, game.tank2 }.Where(d => d.alive))
+            if (game.gameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1)
+                tanks = new[] { game.tank1 };
+            else
+                tanks = new[] { game.tank1, game.tank2 };
+
+            foreach (var userTank in tanks.Where(d => d.alive))
             {
                 if (_kamikazeMode)
                 {
@@ -198,8 +206,13 @@ namespace BattleTank.Core.Tanks
             Vector2 differenceToUserTank = (location - game.tank1.location);
             float distanceToNearestUserTank = differenceToUserTank.Length();
 
+            if (game.gameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1)
+                tanks = new[] { game.tank1 };
+            else
+                tanks = new[] { game.tank1, game.tank2 };
+
             // Sprawdź jaki czołg gracza jest najbliżej
-            foreach (Tank tank in new[] { game.tank1, game.tank2 })
+            foreach (Tank tank in tanks)
             {
                 float distanceToCurrentTank = (location - tank.location).Length();
 

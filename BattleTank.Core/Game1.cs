@@ -116,7 +116,7 @@ namespace BattleTank.Core
 
         SoundEffectInstance soundEffectInstance = null;
 
-        public ITankActionProvider PlayerOneController { get; set; } // = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
+        public ITankActionProvider PlayerOneController { get; set; } = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
         public ITankActionProvider PlayerTwoController { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
         public List<ITankActionProvider> AvailableGamepads { get; set; } = new List<ITankActionProvider>();
         internal VirtualGamepad VirtualGamepad { get; private set; }
@@ -130,8 +130,8 @@ namespace BattleTank.Core
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-
             Content.RootDirectory = "Content";
+   
         }
 
         /// <summary>
@@ -150,10 +150,11 @@ namespace BattleTank.Core
             graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height - GraphicsDevice.DisplayMode.Height % 48;
             //  graphics.PreferredBackBufferWidth = 48 * 20;
             // graphics.PreferredBackBufferHeight = 48 * 16;
-            graphics.IsFullScreen = false;
+            
+            graphics.IsFullScreen = true;
+         
 
-
-            graphics.ApplyChanges();
+      graphics.ApplyChanges();
          
 
             _camera = new Camera2D(GraphicsDevice.PresentationParameters);
@@ -279,16 +280,20 @@ namespace BattleTank.Core
             var fireButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/FireButton");
             var mineButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/MineButton");
 
-            PlayerOneController = VirtualGamepad = new VirtualGamepad(
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                PlayerOneController = VirtualGamepad = new VirtualGamepad(
                 Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickBase"),
                 Content.Load<Texture2D>("Graphics/VirtualJoy/JoystickTop"),
                 new Button(fireButtonTexture, fireButtonTexture,
-                    new Vector2((float) (GraphicsDevice.PresentationParameters.BackBufferWidth * 0.87),
-                                (float) (GraphicsDevice.PresentationParameters.BackBufferHeight * 0.63)),null,(int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)),
+                    new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.87),
+                                (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.63)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)),
                 new Button(mineButtonTexture, mineButtonTexture,
                     new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.80),
                                 (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)));
-        }
+            }
+         
+            }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -370,6 +375,12 @@ namespace BattleTank.Core
 
             if (gameState == GameState.GAME_RUNNING_PLAYER_1 || gameState == GameState.GAME_RUNNING_PLAYERS_2_AND_CPU)
             {
+                if (Environment.OSVersion.Platform == PlatformID.Unix && tank1.alive)
+                    _camera.Scale = 2;
+                else
+                    _camera.Scale = 1;
+
+
                 if (gameState == GameState.GAME_RUNNING_PLAYER_1 && tank1.lives <= 0)
                 {
                     gameState = GameState.GAME_LOSS;
@@ -461,6 +472,7 @@ namespace BattleTank.Core
                         enemyTanks.Clear();
                         mines.Clear();
                         tank1.lives = 0;
+                        if(gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1)
                         tank2.lives = 0;
                         Initialize();
 
@@ -499,7 +511,15 @@ namespace BattleTank.Core
                 { 
                     if (ButtonZagraj.IsClicked(ref state))
                     {
-                        gameState = GameState.CHOICE_OF_GAME_TYPE;
+                        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                            gameState = GameState.CHOICE_OF_GAME_TYPE;
+                        else
+                        {
+                            tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, false, PlayerOneController);                                                 
+                            menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
+                            gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
+                            gameReturn = GameState.GAME_RUNNING_PLAYER_1;
+                        }
                         LeftButtonStatus = true;
                     }
 
@@ -612,12 +632,7 @@ namespace BattleTank.Core
 
             else if (gameState == GameState.CHOICE_OF_GAME_TYPE)
             {
-                // To też nie jest najlepsze miejsce na tworzenie czołgów. Ale jest to
-                // tuż po wybraniu ustawień przez użytkownika. Ze względu na to aby robić
-                // jak najmniej komplikacji tutaj będą one tworzone. Jednak w przyszłości należy
-                // przenieśc je jeszcze bliżej samej rozgrywki
-                tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false,false, PlayerOneController);
-                tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false,false, PlayerTwoController);
+              tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false,false, PlayerOneController);
 
                 if ((Keyboard.GetState().IsKeyDown(Keys.Escape) && keysStatus == false) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
@@ -627,9 +642,6 @@ namespace BattleTank.Core
 
 
                 }
-
-
-
 
 
                 // Update our sprites position to the current cursor location
@@ -651,9 +663,8 @@ namespace BattleTank.Core
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka1");
                         if (ButtonPlayer1.IsClicked(ref state))
                         {
-                            tank2.lives = 0;
-                            tank2.armor = 0;
-                            tank2.alive = false;
+                            if (tank2 != null)
+                            tank2 = null;                            
                             LeftButtonStatus = true;
                             menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
                             gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
@@ -665,6 +676,7 @@ namespace BattleTank.Core
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka2");
                         if (ButtonPlayer2.IsClicked(ref state))
                         {
+                            tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, false, PlayerTwoController);
                             LeftButtonStatus = true;
                             map.WallBorder = randy.Next(5);
                             WallInside = true;
@@ -682,6 +694,7 @@ namespace BattleTank.Core
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka3");
                         if (ButtonPlayer3.IsClicked(ref state))
                         {
+                            tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, false, PlayerTwoController);
                             LeftButtonStatus = true;
                             menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
                             gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
@@ -694,6 +707,7 @@ namespace BattleTank.Core
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka4");
                         if (ButtonPlayer4.IsClicked(ref state))
                         {
+                            tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, false, PlayerTwoController);
                             LeftButtonStatus = true;
                             gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG;
                             gameReturn = GameState.GAME_RUNNING_RACE;
@@ -790,8 +804,10 @@ namespace BattleTank.Core
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 {
-
-                    gameState = GameState.CHOICE_OF_GAME_TYPE;
+                    if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                        gameState = GameState.CHOICE_OF_GAME_TYPE;
+                    else
+                        gameState = GameState.START_GAME;
                     keysStatus = true;
                     menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
 
@@ -997,7 +1013,7 @@ namespace BattleTank.Core
                     bullets.ForEach(c => c.Update());
                     bullets.RemoveAll(d => !d.IsAlive);
 
-                    foreach (Tank tank in enemyTanks.Concat(new [] {tank1, tank2}))
+                    foreach (Tank tank in enemyTanks.Concat(gameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1 ? new [] {tank1}: new[] { tank1, tank2 }))
                     {
                         tank.Update(gameTime);
 
@@ -1032,7 +1048,7 @@ namespace BattleTank.Core
                 _camera.Center = false;
             }
 
-            GraphicsDevice.Clear(Color.WhiteSmoke);
+            GraphicsDevice.Clear(Color.Black);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.GetViewMatrix());
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
@@ -1146,7 +1162,7 @@ namespace BattleTank.Core
                 if (gameState == GameState.GAME_WIN)
                 {
                     LabelwinTexture.Draw(ref spriteBatch);
-                    if (tank2.lives == 0)
+                    if (gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && tank2.lives == 0)
                         LabelSukcesPorazka1Gracza.Draw(ref spriteBatch);
                     if (tank1.lives == 0)
                         LabelSukcesPorazka2Gracza.Draw(ref spriteBatch);
@@ -1243,7 +1259,7 @@ namespace BattleTank.Core
 
 
             spriteBatch.End();
-            if (gameState == GameState.GAME_RUNNING_PLAYER_1)
+            if (Environment.OSVersion.Platform == PlatformID.Unix && gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
                 spriteBatch.Begin();
                 VirtualGamepad.Draw(ref spriteBatch);

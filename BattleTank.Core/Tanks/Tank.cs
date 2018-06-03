@@ -178,29 +178,11 @@ namespace BattleTank.Core.Tanks
             int rectWidthAndHeight = 17;
             Texture2D rect = new Texture2D(game.GraphicsDevice, rectWidthAndHeight, rectWidthAndHeight);
             Color[] data = new Color[rect.Width * rect.Height];
+
+            Color color = GetColor();
+
             for (int i = 0; i < rectWidthAndHeight; ++i)
             {
-                Color color;
-                switch (TankColor)
-                {
-                    case TankColors.BLUE:
-                        color = Color.Blue;
-                        break;
-                    case TankColors.GREEN:
-                        color = Color.Green;
-                        break;
-                    case TankColors.PINK:
-                        color = Color.DeepPink;
-                        break;
-                    case TankColors.RED:
-                        color = Color.Red;
-                        break;
-                    case TankColors.YELLOW:
-                        color = Color.Yellow;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException();
-                }
                 for (int j = 0; j < rectWidthAndHeight; ++j)
                 {
                     int squareRoot = (i - rectWidthAndHeight / 2) * (i - rectWidthAndHeight / 2)
@@ -225,30 +207,32 @@ namespace BattleTank.Core.Tanks
             spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
         }
 
+        private Color GetColor()
+        {
+            switch (TankColor)
+            {
+                case TankColors.BLUE:
+                    return Color.Blue;
+                case TankColors.GREEN:
+                    return Color.Green;
+                case TankColors.PINK:
+                    return Color.DeepPink;
+                case TankColors.RED:
+                    return Color.Red;
+                case TankColors.YELLOW:
+                    return Color.Yellow;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(TankColor));
+            }
+        }
+
         private void DrawTank(SpriteBatch spriteBatch)
         {
 
             if (Barrier)
             {
-                Color barrierColor = Color.White;
-                switch (TankColor)
-                {
-                    case TankColors.BLUE:
-                        barrierColor = Color.Blue;
-                        break;
-                    case TankColors.GREEN:
-                        barrierColor = Color.Green;
-                        break;
-                    case TankColors.PINK:
-                        barrierColor = Color.DeepPink;
-                        break;
-                    case TankColors.RED:
-                        barrierColor = Color.Red;
-                        break;
-                    case TankColors.YELLOW:
-                        barrierColor = Color.Yellow;
-                        break;
-                }
+                Color barrierColor = GetColor();
+
                 barrierLocation = new Vector2((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2));
                 if (_timeLeftForBarrier.Seconds <= 3)
                 {

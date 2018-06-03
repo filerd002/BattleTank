@@ -175,36 +175,45 @@ namespace BattleTank.Core.Tanks
 
         private void DrawTankPointer(SpriteBatch spriteBatch)
         {
-            int rectWidthAndHeight = 17;
-            Texture2D rect = new Texture2D(game.GraphicsDevice, rectWidthAndHeight, rectWidthAndHeight);
-            Color[] data = new Color[rect.Width * rect.Height];
+            int squareWidth = 17;
+            Texture2D rect = new Texture2D(game.GraphicsDevice, squareWidth, squareWidth);
 
+            DrawCricleInTexture(rect);
+
+            Rectangle visArea = game.Camera.VisibleArea;
+            const int displayEdgeDistance = 25; 
+
+            float x = location.X < visArea.X ? visArea.X + displayEdgeDistance
+                    : location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - displayEdgeDistance : location.X;
+            float y = location.Y < visArea.Y ? visArea.Y + displayEdgeDistance
+                : location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - displayEdgeDistance : location.Y;
+
+            spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
+        }
+
+        void DrawCricleInTexture(Texture2D rect)
+        {
+            int squareWidth = rect.Width;
+            Color[] data = new Color[rect.Width * rect.Height];
             Color color = GetColor();
 
-            for (int i = 0; i < rectWidthAndHeight; ++i)
+            for (int i = 0; i < squareWidth; ++i)
             {
-                for (int j = 0; j < rectWidthAndHeight; ++j)
+                for (int j = 0; j < squareWidth; ++j)
                 {
-                    int squareRoot = (i - rectWidthAndHeight / 2) * (i - rectWidthAndHeight / 2)
-                            + (j - rectWidthAndHeight / 2) * (j - rectWidthAndHeight / 2);
+                    int halfOfSquareWidth = squareWidth / 2;
+                    int squareRoot = (i - halfOfSquareWidth) * (i - halfOfSquareWidth)
+                                     + (j - halfOfSquareWidth) * (j - halfOfSquareWidth);
 
                     double root = Math.Sqrt(squareRoot);
-                    if (root > rectWidthAndHeight / 2)
+                    if (root > halfOfSquareWidth)
                     {
                         continue;
                     }
-                    data[i * rectWidthAndHeight + j] = color;
+                    data[i * squareWidth + j] = color;
                 }
-
             }
             rect.SetData(data);
-            Rectangle visArea = game.Camera.VisibleArea;
-            float x = location.X < visArea.X ? visArea.X + 25
-                    : location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - 25 : location.X;
-            float y = location.Y < visArea.Y ? visArea.Y + 25
-                : location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - 25 : location.Y;
-
-            spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
         }
 
         private Color GetColor()

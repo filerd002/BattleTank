@@ -166,6 +166,68 @@ namespace BattleTank.Core.Tanks
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            // || !alive w poniższym warunku jest konieczne do tego, aby Particles były widoczne po śmierci.
+            if (game.Camera.VisibleArea.Contains(location) || !alive)
+                DrawTank(spriteBatch);
+            else
+                DrawTankPointer(spriteBatch);
+         }
+
+        private void DrawTankPointer(SpriteBatch spriteBatch)
+        {
+            int rectWidthAndHeight = 17;
+            Texture2D rect = new Texture2D(game.GraphicsDevice, rectWidthAndHeight, rectWidthAndHeight);
+            Color[] data = new Color[rect.Width * rect.Height];
+            for (int i = 0; i < rectWidthAndHeight; ++i)
+            {
+                Color color;
+                switch (TankColor)
+                {
+                    case TankColors.BLUE:
+                        color = Color.Blue;
+                        break;
+                    case TankColors.GREEN:
+                        color = Color.Green;
+                        break;
+                    case TankColors.PINK:
+                        color = Color.DeepPink;
+                        break;
+                    case TankColors.RED:
+                        color = Color.Red;
+                        break;
+                    case TankColors.YELLOW:
+                        color = Color.Yellow;
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                for (int j = 0; j < rectWidthAndHeight; ++j)
+                {
+                    int squareRoot = (i - rectWidthAndHeight / 2) * (i - rectWidthAndHeight / 2)
+                            + (j - rectWidthAndHeight / 2) * (j - rectWidthAndHeight / 2);
+
+                    double root = Math.Sqrt(squareRoot);
+                    if (root > rectWidthAndHeight / 2)
+                    {
+                        continue;
+                    }
+                    data[i * rectWidthAndHeight + j] = color;
+                }
+
+            }
+            rect.SetData(data);
+            Rectangle visArea = game.Camera.VisibleArea;
+            float x = location.X < visArea.X ? visArea.X + 25
+                    : location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - 25 : location.X;
+            float y = location.Y < visArea.Y ? visArea.Y + 25
+                : location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - 25 : location.Y;
+
+            spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
+        }
+
+        private void DrawTank(SpriteBatch spriteBatch)
+        {
+
             if (Barrier)
             {
                 Color barrierColor = Color.White;

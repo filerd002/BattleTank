@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BattleTank.Core
 {
-    class Camera2D
+    public class Camera2D
     {
         public Vector2 ScreenSize { get; set; }
         private float _screenWidth => ScreenSize.X;

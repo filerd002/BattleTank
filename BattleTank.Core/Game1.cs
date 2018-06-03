@@ -124,7 +124,7 @@ namespace BattleTank.Core
         /// <summary>
         /// Odpowiada za transformacje widoku dla gracza przy rysowaniu zawartości.
         /// </summary>
-        private Camera2D _camera;
+        public Camera2D Camera;
 
 
         public Game1()
@@ -157,7 +157,7 @@ namespace BattleTank.Core
       graphics.ApplyChanges();
          
 
-            _camera = new Camera2D(GraphicsDevice.PresentationParameters);
+            Camera = new Camera2D(GraphicsDevice.PresentationParameters);
             
 
             map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0);
@@ -376,9 +376,9 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_PLAYER_1 || gameState == GameState.GAME_RUNNING_PLAYERS_2_AND_CPU)
             {
                 if (Environment.OSVersion.Platform == PlatformID.Unix && tank1.alive)
-                    _camera.Scale = 2;
+                    Camera.Scale = 2;
                 else
-                    _camera.Scale = 1;
+                    Camera.Scale = 1;
 
 
                 if (gameState == GameState.GAME_RUNNING_PLAYER_1 && tank1.lives <= 0)
@@ -1043,14 +1043,14 @@ namespace BattleTank.Core
         {
             if (gameState != GameState.GAME_RUNNING_PLAYER_1)
             { 
-                _camera.Scale = 1;
-                _camera.Position = Vector2.Zero;
-                _camera.Center = false;
+                Camera.Scale = 1;
+                Camera.Position = Vector2.Zero;
+                Camera.Center = false;
             }
 
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.GetViewMatrix());
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.GetViewMatrix());
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
 
             map.Draw(spriteBatch);
@@ -1233,70 +1233,20 @@ namespace BattleTank.Core
             }
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
-                _camera.Position = tank1.location;
-                _camera.Center = true;
-                _camera.MaxLeftTopCorner = new Point(0);
-                _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+                Camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
+                Camera.Position = tank1.location;
+                Camera.Center = true;
+                Camera.MaxLeftTopCorner = new Point(0);
+                Camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
 
                 if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
                 tank1.Draw(spriteBatch);
-
+                
                 foreach (AI_Tank et in enemyTanks)
                 {
-                    if (_camera.VisibleArea.Contains(et.location))
-                        et.Draw(spriteBatch);
-                    else
-                    {
-                        var rectWidthAndHeight = 17;
-                        var rect = new Texture2D(GraphicsDevice, rectWidthAndHeight, rectWidthAndHeight);
-                        Color[] data = new Color[rect.Width * rect.Height];
-                        for (int i = 0; i < rectWidthAndHeight; ++i)
-                        {
-                            Color color;
-                            switch (et.TankColor)
-                            {
-                                case TankColors.BLUE:
-                                    color = Color.Blue;
-                                    break;
-                                case TankColors.GREEN:
-                                    color = Color.Green;
-                                    break;
-                                case TankColors.PINK:
-                                    color = Color.DeepPink;
-                                    break;
-                                case TankColors.RED:
-                                    color = Color.Red;
-                                    break;
-                                case TankColors.YELLOW:
-                                    color = Color.Yellow;
-                                    break;
-                            }
-                            for (int j = 0; j < rectWidthAndHeight; ++j)
-                            {
-                                var squareRoot = (i - rectWidthAndHeight / 2) * (i - rectWidthAndHeight / 2)
-                                        + (j - rectWidthAndHeight / 2) * (j - rectWidthAndHeight / 2);
-                              
-                                var root = Math.Sqrt(squareRoot);
-                                if (root > rectWidthAndHeight / 2)
-                                {
-                                    continue;
-                                }
-                                data[i*rectWidthAndHeight + j] = color;
-                            }
-
-                        }
-                        rect.SetData(data);
-                        var visArea = _camera.VisibleArea;
-                        var x = et.location.X < visArea.X ? visArea.X + 25
-                                : et.location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - 25: et.location.X ;
-                        var y = et.location.Y < visArea.Y ? visArea.Y + 25
-                            : et.location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - 25 : et.location.Y;
-                        spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
-                        // Rysuj znacznik na krawędzi ekranu.
-                    }
+                    et.Draw(spriteBatch);
                 }
                 scoreManager.Draw(spriteBatch);
 

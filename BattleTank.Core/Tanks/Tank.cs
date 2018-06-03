@@ -166,27 +166,82 @@ namespace BattleTank.Core.Tanks
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
+            // || !alive w poniższym warunku jest konieczne do tego, aby Particles były widoczne po śmierci.
+            if (game.Camera.VisibleArea.Contains(location) || !alive)
+                DrawTank(spriteBatch);
+            else
+                DrawTankPointer(spriteBatch);
+         }
+
+        private void DrawTankPointer(SpriteBatch spriteBatch)
+        {
+            int squareWidth = 17;
+            Texture2D rect = new Texture2D(game.GraphicsDevice, squareWidth, squareWidth);
+
+            DrawCricleInTexture(rect);
+
+            Rectangle visArea = game.Camera.VisibleArea;
+            const int displayEdgeDistance = 25; 
+
+            float x = location.X < visArea.X ? visArea.X + displayEdgeDistance
+                    : location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - displayEdgeDistance : location.X;
+            float y = location.Y < visArea.Y ? visArea.Y + displayEdgeDistance
+                : location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - displayEdgeDistance : location.Y;
+
+            spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
+        }
+
+        void DrawCricleInTexture(Texture2D rect)
+        {
+            int squareWidth = rect.Width;
+            Color[] data = new Color[rect.Width * rect.Height];
+            Color color = GetColor();
+
+            for (int i = 0; i < squareWidth; ++i)
+            {
+                for (int j = 0; j < squareWidth; ++j)
+                {
+                    int halfOfSquareWidth = squareWidth / 2;
+                    int squareRoot = (i - halfOfSquareWidth) * (i - halfOfSquareWidth)
+                                     + (j - halfOfSquareWidth) * (j - halfOfSquareWidth);
+
+                    double root = Math.Sqrt(squareRoot);
+                    if (root > halfOfSquareWidth)
+                    {
+                        continue;
+                    }
+                    data[i * squareWidth + j] = color;
+                }
+            }
+            rect.SetData(data);
+        }
+
+        private Color GetColor()
+        {
+            switch (TankColor)
+            {
+                case TankColors.BLUE:
+                    return Color.Blue;
+                case TankColors.GREEN:
+                    return Color.Green;
+                case TankColors.PINK:
+                    return Color.DeepPink;
+                case TankColors.RED:
+                    return Color.Red;
+                case TankColors.YELLOW:
+                    return Color.Yellow;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(TankColor));
+            }
+        }
+
+        private void DrawTank(SpriteBatch spriteBatch)
+        {
+
             if (Barrier)
             {
-                Color barrierColor = Color.White;
-                switch (TankColor)
-                {
-                    case TankColors.BLUE:
-                        barrierColor = Color.Blue;
-                        break;
-                    case TankColors.GREEN:
-                        barrierColor = Color.Green;
-                        break;
-                    case TankColors.PINK:
-                        barrierColor = Color.DeepPink;
-                        break;
-                    case TankColors.RED:
-                        barrierColor = Color.Red;
-                        break;
-                    case TankColors.YELLOW:
-                        barrierColor = Color.Yellow;
-                        break;
-                }
+                Color barrierColor = GetColor();
+
                 barrierLocation = new Vector2((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2));
                 if (_timeLeftForBarrier.Seconds <= 3)
                 {

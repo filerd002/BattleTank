@@ -124,7 +124,7 @@ namespace BattleTank.Core
         /// <summary>
         /// Odpowiada za transformacje widoku dla gracza przy rysowaniu zawartości.
         /// </summary>
-        private Camera2D _camera;
+        public Camera2D Camera;
 
 
         public Game1()
@@ -157,7 +157,7 @@ namespace BattleTank.Core
       graphics.ApplyChanges();
          
 
-            _camera = new Camera2D(GraphicsDevice.PresentationParameters);
+            Camera = new Camera2D(GraphicsDevice.PresentationParameters);
             
 
             map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0);
@@ -376,9 +376,9 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_PLAYER_1 || gameState == GameState.GAME_RUNNING_PLAYERS_2_AND_CPU)
             {
                 if (Environment.OSVersion.Platform == PlatformID.Unix && tank1.alive)
-                    _camera.Scale = 2;
+                    Camera.Scale = 2;
                 else
-                    _camera.Scale = 1;
+                    Camera.Scale = 1;
 
 
                 if (gameState == GameState.GAME_RUNNING_PLAYER_1 && tank1.lives <= 0)
@@ -1043,14 +1043,14 @@ namespace BattleTank.Core
         {
             if (gameState != GameState.GAME_RUNNING_PLAYER_1)
             { 
-                _camera.Scale = 1;
-                _camera.Position = Vector2.Zero;
-                _camera.Center = false;
+                Camera.Scale = 1;
+                Camera.Position = Vector2.Zero;
+                Camera.Center = false;
             }
 
             GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, _camera.GetViewMatrix());
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.GetViewMatrix());
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
 
             map.Draw(spriteBatch);
@@ -1233,17 +1233,17 @@ namespace BattleTank.Core
             }
             if (gameState == GameState.GAME_RUNNING_PLAYER_1)
             {
-                _camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
-                _camera.Position = tank1.location;
-                _camera.Center = true;
-                _camera.MaxLeftTopCorner = new Point(0);
-                _camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
+                Camera.Scale = Environment.OSVersion.Platform == PlatformID.Win32NT ? 1 : 2;
+                Camera.Position = tank1.location;
+                Camera.Center = true;
+                Camera.MaxLeftTopCorner = new Point(0);
+                Camera.MaxRightBottomCorner = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth, GraphicsDevice.PresentationParameters.BackBufferHeight);
 
                 if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
                 tank1.Draw(spriteBatch);
-
+                
                 foreach (AI_Tank et in enemyTanks)
                 {
                     et.Draw(spriteBatch);

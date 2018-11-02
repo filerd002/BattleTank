@@ -22,12 +22,21 @@ namespace BattleTank.Core.Input
 
         public Button MineButton { get; set; }
 
-        public VirtualGamepad(Texture2D joystickBase, Texture2D joystickTop, Button fireButton, Button mineButton)
+        public DirectionsOfMovement DOM { get; set; }
+
+        public enum DirectionsOfMovement
+        {
+            BASIC,
+            ADVANCED       
+        }
+
+        public VirtualGamepad(Texture2D joystickBase, Texture2D joystickTop, Button fireButton, Button mineButton, DirectionsOfMovement directionsOfMovement )
         {
             this.JoystickBase = joystickBase;
             this.JoystickTop = joystickTop;
             this.FireButton = fireButton;
             this.MineButton = mineButton;
+            this.DOM = directionsOfMovement;
 
             _joystickBasePosition = JoystickBase.Bounds;
         }
@@ -67,8 +76,8 @@ namespace BattleTank.Core.Input
                 // Rozszerzona podstawa służy do tego, aby umożliwić efekt przyśpieszenia przy odpowiednio
                 // mocno wychylonej gałce.
                 Rectangle extendendBaseSize = _joystickBasePosition;
-                extendendBaseSize.Size += new Point(200);
-                extendendBaseSize.Location -= new Point(100);
+                extendendBaseSize.Size += new Point(100);
+                extendendBaseSize.Location -= new Point(50);
 
                 if (!extendendBaseSize.Contains(touch.Position)) continue;
 
@@ -88,8 +97,21 @@ namespace BattleTank.Core.Input
             if (MineButton.CheckIsMouseOver(ref pointerState))
                 plantMine = true;
 
+            if (DOM.Equals(DirectionsOfMovement.BASIC))
+            {
+                _xyJoyMove.X = Convert.ToInt32(_xyJoyMove.X);
+                _xyJoyMove.Y = Convert.ToInt32(_xyJoyMove.Y);
+            }
+
             return new TankControllerState(_xyJoyMove.X, -_xyJoyMove.Y, fire, speedUp, plantMine, true);
         }
 
+        public bool IsConnectedTankController()
+        {
+            if (TouchPanel.GetState().IsConnected)
+                return true;
+            else
+                return false;
+        }
     }
 }

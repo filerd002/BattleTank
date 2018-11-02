@@ -9,34 +9,36 @@ using SlimDX.DirectSound;
 
 namespace BattleTank.Core.Input
 {
-    class PointerState
+    public class PointerState
     {
         public float X => Position.X;
         public float Y => Position.Y;
         public Vector2 Position { get; }
         public Point Location => Position.ToPoint();
-        public ButtonState MainAction { get; }
+        public ButtonState LeftButtonAction { get; }
+        public ButtonState RightButtonAction { get; }
 
         private static bool _isTouchAvailble;
 
-        public PointerState(float x, float y, ButtonState mainAction = ButtonState.Released)
+        public PointerState(float x, float y, ButtonState leftButtonAction = ButtonState.Released, ButtonState rightButtonAction = ButtonState.Released)
         {
             Position = new Vector2(x, y);
-            MainAction = mainAction;
+            LeftButtonAction = leftButtonAction;
+            RightButtonAction = rightButtonAction;
 
             var touch = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetCapabilities();
             _isTouchAvailble = touch.IsConnected;
         }
 
-        public PointerState(Vector2 position, ButtonState mainAction = ButtonState.Released)
-            : this(position.X, position.Y, mainAction)
+        public PointerState(Vector2 position, ButtonState leftButtonAction = ButtonState.Released, ButtonState rightButtonAction = ButtonState.Released)
+            : this(position.X, position.Y, leftButtonAction, rightButtonAction)
         {
         }
 
         public static PointerState GetState()
         {
             MouseState mouseState = Mouse.GetState();
-            PointerState retVal = new PointerState(mouseState.X, mouseState.Y, mouseState.LeftButton);
+            PointerState retVal = new PointerState(mouseState.X, mouseState.Y, mouseState.LeftButton, mouseState.RightButton);
 
             if (!_isTouchAvailble) return retVal;
 

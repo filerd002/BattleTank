@@ -9,8 +9,8 @@ namespace BattleTank.Core
         private static Texture2D _mineTextureGreen;
         private static Texture2D _mineTextureRed;
 
-        public Mine(Game1 game, Rectangle bulletRect, Vector2 speed, Color color, int player, float rotation)
-            : base(game, bulletRect, speed, color, player, rotation, null)
+        public Mine(Game1 game, Rectangle bulletRect, Vector2 speed, Color color, int player, float rotation, Texture2D rectangleTexture, TypeOfWeapon type)
+            : base(game, bulletRect, speed, color, player, rotation, rectangleTexture, type)
 
         {
             if (_mineTextureGreen is null) _mineTextureGreen = game.Content.Load<Texture2D>("Graphics/mineGreen");

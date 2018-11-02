@@ -22,18 +22,27 @@ namespace BattleTank.Core.Input
             if (!GamePad.GetState(PadNumber).IsConnected)
                 throw new Exception($"Wybrany pad ({padNumber}) nie jest podłączony do komputera!");
         }
+
+        public bool IsConnectedTankController()
+        {
+            if (GamePad.GetState(PadNumber).IsConnected)
+                return true;
+            else
+                return false;
+        }
+
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
             GamePadState state = new GamePadState();
-     
+
             state = GamePad.GetState(PadNumber);
 
-            if (!state.IsConnected)
-            {
-                // TODO: Polepszyć obsługę wyjątków.
-                throw new Exception($"Próba pobrania danych z kontrolera ({PadNumber}), który najwidoczniej został odłączony!");
-            }
+            //if (!state.IsConnected)
+            //{
+            //    // TODO: Polepszyć obsługę wyjątków.
+            //    throw new Exception($"Próba pobrania danych z kontrolera ({PadNumber}), który najwidoczniej został odłączony!");
+            //}
 
                float moveX = state.ThumbSticks.Left.X - (float)(state.DPad.Left) + (float)(state.DPad.Right);
               float moveY = state.ThumbSticks.Left.Y - (float)(state.DPad.Down) + (float)(state.DPad.Up);
@@ -41,7 +50,7 @@ namespace BattleTank.Core.Input
                 if (Math.Abs(moveX) > 1)
                     moveX = 1;
                 if (Math.Abs(moveY) > 1)
-                    moveY = 1;
+                    moveY = 1;    
 
             bool speedBost = state.IsButtonDown(SpeedBoostButton);
             bool plantMine = state.IsButtonDown(PlantMineButton);

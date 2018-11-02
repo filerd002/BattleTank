@@ -24,14 +24,14 @@ namespace BattleTank.Core
                 int b = rand.Next(-maxSpeed, maxSpeed);          
                 speed = new Vector2(a, b);
        
-                particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
+                Particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
             }
         }
 
         public Particlecloud(Vector2 location, Game1 game, int player, Texture2D whiteRectangle, Color _color, int maxSpeed, int _num)
         {
             num = _num;
-            particles = new Particle[num];
+            Particles = new Particle[num];
             color = _color;
             Random rand = new Random();
             for (int i = 0; i < num; ++i)
@@ -41,21 +41,24 @@ namespace BattleTank.Core
                 int b = rand.Next(-maxSpeed, maxSpeed);        
                 speed = new Vector2(a, b);
              
-                particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
+                Particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
             }
         }
+
+        internal Particle[] Particles { get => particles; set => particles = value; }
+
         public void Draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < num; ++i)
             {
-                particles[i].Draw(spriteBatch);
+                Particles[i].Draw(spriteBatch);
             }
         }
         public void Update(GameTime gameTime)
         {
             for (int i = 0; i < num; ++i)
             {
-                particles[i].Update(gameTime);
+                Particles[i].Update(gameTime);
             }
         }
     }

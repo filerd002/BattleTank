@@ -4,16 +4,17 @@ using System.Linq;
 using BattleTank.Core.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static BattleTank.Core.Settings;
 
 namespace BattleTank.Core.Tanks
 {
     public class AI_Tank : Tank
     {
-        private readonly int _aiLevel;  //Można wykorzystać do ustawienia poziomu trudności
+        private readonly DifficultyLevel _aiLevel;  //Można wykorzystać do ustawienia poziomu trudności
         private TankControllerState _targetDirection;
         private float _oldTargetDirection;
         private readonly List<Bullet> _enemyBullets = new List<Bullet>();
-        private readonly bool _kamikazeMode = false;
+        public readonly bool _kamikazeMode  = false;
 
         private readonly TimeSpan MAX_AGGRESSIVE_TIME = new TimeSpan(0, 0, 0, 5);
         private TimeSpan _aggressiveTimeLeft = TimeSpan.Zero;
@@ -23,7 +24,7 @@ namespace BattleTank.Core.Tanks
 
         public AI_Tank(Game1 game, TankColors tankSpriteName, Vector2 location, Vector2 maxSpeed,
             float rotation, int player, float scale, Texture2D whiteRectangle, int strong,
-            bool barrier, bool frozen, float targetDirection, int aiLevel, bool kamikazeMode = false)
+            bool barrier, bool frozen, float targetDirection, DifficultyLevel aiLevel, bool kamikazeMode = false)
             : base(game, tankSpriteName, location, maxSpeed, rotation, player, scale,
                   whiteRectangle, strong, 0, barrier, frozen, null)
         {
@@ -67,7 +68,7 @@ namespace BattleTank.Core.Tanks
 
         public override void MoveTank(TankControllerState? state = null)
         {
-            if (_aiLevel < 4)
+            if (!_aiLevel.Equals(DifficultyLevel.Impossible))
                 StandardAI();
             else
                 ExperimentalAI();
@@ -156,7 +157,7 @@ namespace BattleTank.Core.Tanks
             {
                 if (_kamikazeMode)
                 {
-                    if ((location - userTank.location).Length() <= _aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
+                    if ((location - userTank.location).Length() <= (int)_aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
                     {
                         Explode();
                         if (userTank.Barrier == false)
@@ -169,22 +170,22 @@ namespace BattleTank.Core.Tanks
                 var toUserTankXDistance = Math.Abs(location.X - userTank.location.X);
                 var toUserTankYDistance = Math.Abs(location.Y - userTank.location.Y);
 
-                if (toUserTankXDistance <= _aiLevel && location.Y >= userTank.location.Y)
+                if (toUserTankXDistance <= (int)_aiLevel && location.Y >= userTank.location.Y)
                 {
                     _oldTargetDirection = UP;
                 }
 
-                if (toUserTankXDistance <= _aiLevel && location.Y <= userTank.location.Y)
+                if (toUserTankXDistance <= (int)_aiLevel && location.Y <= userTank.location.Y)
                 {
                     _oldTargetDirection = DOWN;
                 }
 
-                if (toUserTankYDistance <= _aiLevel && location.X >= userTank.location.X)
+                if (toUserTankYDistance <= (int)_aiLevel && location.X >= userTank.location.X)
                 {
                     _oldTargetDirection = LEFT;
                 }
 
-                if (toUserTankYDistance <= _aiLevel && location.X <= userTank.location.X)
+                if (toUserTankYDistance <= (int)_aiLevel && location.X <= userTank.location.X)
                 {
                     _oldTargetDirection = RIGHT;
                 }
@@ -236,7 +237,7 @@ namespace BattleTank.Core.Tanks
 
             if (_kamikazeMode)
             {
-                if (distanceToNearestUserTank <= (_aiLevel * 10))
+                if (distanceToNearestUserTank <= ((int)_aiLevel * 10))
                 {
                     Explode();
                     if (nearestUserTank.Barrier == false)
@@ -247,11 +248,11 @@ namespace BattleTank.Core.Tanks
             }
 
             float sightDistance = _isAggressive ? float.PositiveInfinity : 150;
-            if (distanceToNearestUserTank < (_aiLevel * sightDistance))
+            if (distanceToNearestUserTank < ((int)_aiLevel * sightDistance))
             {
 
-                double xDifference = -(differenceToUserTank.X / (_aiLevel * 150 * 1.5));
-                double yDifference = (differenceToUserTank.Y / (_aiLevel * 150 * 1.5));
+                double xDifference = -(differenceToUserTank.X / ((int)_aiLevel * 150 * 1.5));
+                double yDifference = (differenceToUserTank.Y / ((int)_aiLevel * 150 * 1.5));
 
                 if (Math.Abs(xDifference) < 0.003) xDifference = 0;
                 if (Math.Abs(yDifference) < 0.003) yDifference = 0;

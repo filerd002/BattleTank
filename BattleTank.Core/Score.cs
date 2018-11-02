@@ -131,7 +131,7 @@ namespace BattleTank.Core
                     if (game.gameState == Game1.GameState.GAME_RUNNING_RACE)
                 {
 
-                    TimeSpan time = TimeSpan.FromSeconds(game.czasWyscigu);
+                    TimeSpan time = TimeSpan.FromSeconds(game.settings.raceTime);
                     spriteBatch.DrawString(spriteFontBig, time.ToString("mm':'ss"), new Vector2((game.map.screenWidth / 2) - 27, 65), Color.White);
                     spriteBatch.DrawString(spriteFontBig, score[0][3].ToString() + "" + score[0][2].ToString() + "" + score[0][1].ToString() + "" + score[0][0].ToString(), new Vector2((game.map.screenWidth / 2) - 97, 65), Color.Green);
                     spriteBatch.DrawString(spriteFontBig, score[1][3].ToString() + "" + score[1][2].ToString() + "" + score[1][1].ToString() + "" + score[1][0].ToString(), new Vector2((game.map.screenWidth / 2) + 50, 65), Color.Red);
@@ -190,7 +190,7 @@ namespace BattleTank.Core
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 1)
+            if (game.settings.opponentsCPUClassic + game.settings.opponentsCPUKamikaze >= 1)
             {
              
                 DrawRectangle(new Rectangle((int)game.enemyTanks[0].location.X - 20, (int)game.enemyTanks[0].location.Y - 22, (int)(16 * (game.enemyTanks[0].lives)), 4), new Color(138, 7, 7));
@@ -210,7 +210,7 @@ namespace BattleTank.Core
 
 
             }
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 2)
+            if (game.settings.opponentsCPUClassic + game.settings.opponentsCPUKamikaze >= 2)
             {
 
                
@@ -231,7 +231,7 @@ namespace BattleTank.Core
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 3)
+            if (game.settings.opponentsCPUClassic + game.settings.opponentsCPUKamikaze >= 3)
 
             {
 
@@ -256,7 +256,7 @@ namespace BattleTank.Core
             }
 
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 4)
+            if (game.settings.opponentsCPUClassic + game.settings.opponentsCPUKamikaze >= 4)
 
             {
 
@@ -279,7 +279,7 @@ namespace BattleTank.Core
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 5)
+            if (game.settings.opponentsCPUClassic + game.settings.opponentsCPUKamikaze >= 5)
 
             {
 
@@ -303,7 +303,7 @@ namespace BattleTank.Core
 
             }
 
-            if (game.iloscCPUKlasyk + game.iloscCPUKamikaze >= 6)
+            if (game.settings.opponentsCPUClassic + game.settings.opponentsCPUKamikaze >= 6)
 
             {
 

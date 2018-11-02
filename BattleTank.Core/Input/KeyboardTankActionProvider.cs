@@ -24,6 +24,7 @@ namespace BattleTank.Core.Input
             PlantMine = plantMine;
             Fire = fire;
         }
+
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
@@ -50,6 +51,11 @@ namespace BattleTank.Core.Input
                     && provider.GoRight == this.GoRight 
                     && provider.PlantMine == this.PlantMine
                     && provider.SpeedBoost == this.SpeedBoost;
+        }
+
+        public bool IsConnectedTankController()
+        {
+            return true;
         }
     }
 }

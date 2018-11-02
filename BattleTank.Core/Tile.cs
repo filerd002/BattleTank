@@ -13,7 +13,8 @@ namespace BattleTank.Core
             AIR,
             WALL,
             BUSH,
-            WATER
+            WATER,
+            MUD
         }
 
         public Rectangle collisionRect;
@@ -38,30 +39,42 @@ namespace BattleTank.Core
                     break;
                 case TileType.WATER:
                     break;
+                case TileType.MUD:
+                    break;
 
             }
         }
         public void Draw(SpriteBatch spriteBatch)
         {
+
             switch (type)
             {
                 case TileType.AIR:
                     break;
                 case TileType.WALL:
-                    spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
+                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), Color.White);
                     break;
                 case TileType.BUSH:
-                    spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
+                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), Color.White);
                     break;
                 case TileType.WATER:
-                    spriteBatch.Draw(texture, new Vector2(collisionRect.X, collisionRect.Y), null, null);
+                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), Color.White);                
+                    break;                                                                                                                 
+                case TileType.MUD:
+                    Color colorMUD;
+#if ANDROID
+                    colorMUD = Color.Lerp(Color.Lerp(Color.Lerp(Color.Red, Color.Yellow, 0.55f), Color.OrangeRed, 0.3f), Color.Red, 0.6f);
+#else
+                    colorMUD = Color.Lerp(Color.Lerp(Color.Lerp(Color.Red, Color.Yellow, 0.55f), Color.OrangeRed, 0.3f), Color.Red, 0.8f);
+#endif
+                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), colorMUD);
                     break;
             }
         }
         public Collision isColliding(Rectangle possibleCollisionRect)
         {
             Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, collisionRect);
-            if (type == TileType.WALL || type == TileType.WATER || type == TileType.BUSH)
+            if (type == TileType.WALL || type == TileType.WATER || type == TileType.BUSH || type == TileType.MUD)
             {
                 if (intersect.Width > 0 || intersect.Height > 0)
                 {

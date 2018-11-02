@@ -8,11 +8,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BattleTank.Core.GUI
 {
-    class Button : UIElement
+    public class Button : UIElement
     {
         public static SoundEffect ClickSound { get; set; }
         Texture2D NonActiveTexture { get; set; }
         Texture2D ActiveTexture { get; set; }
+        int duration = 0;
 
         /// <summary>
         /// Tworzy nowy przycisk na podstawie podanego tekstu w zadanym miejscu o dane szerokości i wysokosci.
@@ -29,7 +30,7 @@ namespace BattleTank.Core.GUI
 
             var newText = new String(text.ToCharArray().Select(d => Char.IsUpper(d) ? Char.ToLower(d) : Char.ToUpper(d))
                 .ToArray());
-                
+
             ActiveTexture = GUIHelper.DrawStringOnTexture2D(newText, UIElement.InActiveFont, UIElement.ActiveFont, GraphicsDevice);
 
             UIElementRectangle.Location = position.ToPoint();
@@ -52,7 +53,7 @@ namespace BattleTank.Core.GUI
             base.Width = NonActiveTexture.Width * proportion;
             base.Height = NonActiveTexture.Height * proportion;
         }
-      
+
         /// <inheritdoc />
         public override void Draw(ref SpriteBatch spriteBatch)
         {
@@ -63,7 +64,15 @@ namespace BattleTank.Core.GUI
         /// <inheritdoc />
         protected override void OnClickedRaised()
         {
-            ClickSound?.Play();
+            if (duration == 0)
+                ClickSound?.Play();
+            duration += (int)ClickSound?.Duration.Milliseconds;
+            if (duration >= 1032)
+                duration = 0;
+
+
+
+
             base.OnClickedRaised();
         }
     }

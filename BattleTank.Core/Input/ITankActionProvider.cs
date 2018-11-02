@@ -3,5 +3,8 @@
     public interface ITankActionProvider
     {
         TankControllerState GetTankControllerState();
+
+        bool IsConnectedTankController();
+
     }
 }

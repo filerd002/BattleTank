@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace BattleTank.Core.GUI
 {
-    abstract class UIElement
+    public abstract class UIElement
     {
         public Vector2 Position
         {
@@ -74,10 +74,10 @@ namespace BattleTank.Core.GUI
             }
         }
 
-        public bool IsClicked(ref PointerState mouseState)
+        public bool IsClickedLeftButton(ref PointerState mouseState)
         {
             if (!CheckIsMouseOver(ref mouseState)) return false;
-            if (mouseState.MainAction != ButtonState.Pressed) return false;
+            if (mouseState.LeftButtonAction != ButtonState.Pressed) return false;
 
             OnClickedRaised();
             return true;

@@ -1,7 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using BattleTank.Core.GUI;
 using BattleTank.Core.Input;
 using BattleTank.Core.Tanks;
@@ -9,7 +9,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using static BattleTank.Core.Settings;
 using static BattleTank.Core.Tanks.Tank;
+using Effect = Microsoft.Xna.Framework.Graphics.Effect;
+using Keyboard = Microsoft.Xna.Framework.Input.Keyboard;
 
 namespace BattleTank.Core
 {
@@ -19,6 +22,7 @@ namespace BattleTank.Core
     public class Game1 : Game
     {
         public Map map;
+        public Settings settings;
         public bool WallInside = false;
         public GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -32,7 +36,6 @@ namespace BattleTank.Core
 
         Texture2D background;
         Texture2D menuTexture;
-        Texture2D menuWinAndLossTexture;
         Label LabelBattleTank;
         Label LabelwyborTrybGryTexture;
         Label LabelprzerwaTexture;
@@ -50,11 +53,14 @@ namespace BattleTank.Core
         Button ButtonSettings;
         Label LabelSettingsTrybSterowania;
         Label LabelTrybSterowania1Gracza;
-        Label LabelTrybSterowania2Gracza;
+        Label LabelTrybSterowania2Gracza;     
+        Label LabelStatementAboutControllerDisconnected;
         Button ButtonSettingsTrybSterowaniaKlawMysz;
         Button ButtonSettingsTrybSterowaniaPad;
         Button ButtonSettingsTrybSterowaniaKlawMysz2;
         Button ButtonSettingsTrybSterowaniaPad2;
+        Button ButtonSettingsTrybSterowaniaBasic;
+        Button ButtonSettingsTrybSterowaniaAdvanced;
         Label LabelwyborPoziomTrud;
         Button ButtonPoziom1Trud;
         Button ButtonPoziom2Trud;
@@ -79,47 +85,111 @@ namespace BattleTank.Core
         Button ButtondoBoju;
         Vector2 positionMouse;
 
-        public Sound menuSound;
         public Sound sound;
-
+        public Sound[] soundsTanks;
         public PowerUp RandomPowerUp;
-       public Random randy = new Random();
+        public Random randy = new Random();
 
         bool keysStatus = false;
         bool LeftButtonStatus = false;
+        bool RightButtonStatus = false;
 
-        int soundOnOff = 0;
-
-        public int poziomTrudnosci = 2;
-        public int iloscCPUKlasyk = 1;
-        public int iloscCPUKamikaze = 1;
-        public float czasWyscigu = 300f;   
         public enum GameState
-        {
+        {         
             START_GAME,
-            SETTINGS,
+            SETTINGS_WINDOWS,
+            SETTINGS_ANDROID,
             CHOICE_OF_GAME_TYPE,
             CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU,
-            CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG,
+            CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE,
             PAUSE,
             GAME_RUNNING_PLAYER_1,
             GAME_RUNNING_PLAYERS_2,
             GAME_RUNNING_PLAYERS_2_AND_CPU,
             GAME_RUNNING_RACE,
             GAME_WIN,
-            GAME_LOSS
-
+            GAME_LOSS,
+            STATEMENT_ABOUT_CONTROLLER_DISCONNECTED
         }
       
+
+        public enum FunctionsOfTheNavigationKeys
+        {
+            UP,
+            DOWN,
+            LEFT,
+            RIGHT,
+            CONFIRM,
+            BACK
+        }
+
+//Tuple<List<Keys> - lista klawiszy na klawiaturze  Tuple<List<Buttons>, int[]>> - lista przycisków na GamePad(XBOX) tablica wartości dla GamePad(Generic)
+        public Dictionary<FunctionsOfTheNavigationKeys, Tuple< List<Keys>, Tuple<List<Buttons>, int[]>>> navigationKeys = new Dictionary<FunctionsOfTheNavigationKeys, Tuple<List<Keys>, Tuple<List<Buttons>, int[]>>>
+        {
+             { FunctionsOfTheNavigationKeys.UP, Tuple.Create( new List<Keys>(){Keys.Up,Keys.W },  Tuple.Create( new List<Buttons>(){ Buttons.DPadUp, Buttons.LeftThumbstickUp }, new int[] { -1, 0 } ) )  },
+             { FunctionsOfTheNavigationKeys.DOWN, Tuple.Create( new List<Keys>(){Keys.Down,Keys.S },   Tuple.Create(new List<Buttons>(){ Buttons.DPadDown, Buttons.LeftThumbstickDown }, new int[] {-1, 18000 } )  )  },
+             { FunctionsOfTheNavigationKeys.LEFT, Tuple.Create( new List<Keys>(){Keys.Left,Keys.A },   Tuple.Create(new List<Buttons>(){ Buttons.DPadLeft, Buttons.LeftThumbstickLeft }, new int[] {-1, 27000 } )  )  },
+             { FunctionsOfTheNavigationKeys.RIGHT, Tuple.Create( new List<Keys>(){Keys.Right, Keys.D },  Tuple.Create( new List<Buttons>(){ Buttons.DPadRight, Buttons.LeftThumbstickRight }, new int[] {-1, 9000 } )  )  },
+             { FunctionsOfTheNavigationKeys.CONFIRM, Tuple.Create( new List<Keys>(){Keys.Enter },   Tuple.Create(new List<Buttons>(){ Buttons.Start, Buttons.RightStick }, new int[] { 9, -2 } )  )  },
+             { FunctionsOfTheNavigationKeys.BACK, Tuple.Create( new List<Keys>(){Keys.Escape, Keys.Back },   Tuple.Create(new List<Buttons>(){ Buttons.Back, Buttons.LeftStick }, new int[] { 8, -2 } )  )  },
+
+        };
+
+        public bool IsPressing(Tuple<List<Keys>, Tuple<List<Buttons>, int[]>> items)
+        {
+
+#if WINDOWS
+            List<GenericGamepadTankActionProvider> genericControllersAvailable = new List<GenericGamepadTankActionProvider>();
+
+            foreach (ITankActionProvider tankActionProvider in AvailableGamepads.Where(e => e.GetType().Name.Equals("GenericGamepadTankActionProvider") && ((GenericGamepadTankActionProvider)e)._joystick.Poll().IsSuccess).ToList())
+            {
+                genericControllersAvailable.Add((GenericGamepadTankActionProvider)tankActionProvider);
+            }
+#endif
+
+#if ANDROID
+            return (!items.Item1.TrueForAll(c => Keyboard.GetState().IsKeyUp(c)));
+
+#elif WINDOWS
+            return (!items.Item1.TrueForAll(c => Keyboard.GetState().IsKeyUp(c))) ||
+             (!items.Item2.Item1.TrueForAll(c => GamePad.GetState(PlayerIndex.One).IsButtonUp(c)) ||
+             (!items.Item2.Item1.TrueForAll(c => GamePad.GetState(PlayerIndex.Two).IsButtonUp(c)))) ||
+         (items.Item2.Item2[1] != -2 ? (!genericControllersAvailable.TrueForAll(c => !c._joystick.GetCurrentState().GetPointOfViewControllers()[0].Equals(items.Item2.Item2[1]))) : false) ||
+          (items.Item2.Item2[0] != -1 ? (!genericControllersAvailable.TrueForAll(c => !c._joystick.GetCurrentState().GetButtons()[items.Item2.Item2[0]])) : false);
+
+#else
+            return false;
+
+#endif
+        }
+
+
+
+
+
+
+        public Dictionary<GameState, Button[,]> buttonsInMemu;
+
+        int currentButtonX = 0;
+        int currentButtonY = 0;
+
         public GameState gameState;
         public GameState gameReturn;
-
-        SoundEffectInstance soundEffectInstance = null;
 
         public ITankActionProvider PlayerOneController { get; set; } = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
         public ITankActionProvider PlayerTwoController { get; set; } = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
         public List<ITankActionProvider> AvailableGamepads { get; set; } = new List<ITankActionProvider>();
         internal VirtualGamepad VirtualGamepad { get; private set; }
+
+        void BlockKeysAndMouseAndDefaultCurrentButton()
+        {
+            keysStatus = true;
+            LeftButtonStatus = true;
+            RightButtonStatus = true;
+            currentButtonX = 0;
+            currentButtonY = 0;
+        }
+
 
         /// <summary>
         /// Odpowiada za transformacje widoku dla gracza przy rysowaniu zawartości.
@@ -131,7 +201,7 @@ namespace BattleTank.Core
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-   
+
         }
 
         /// <summary>
@@ -142,34 +212,29 @@ namespace BattleTank.Core
         /// </summary>
         protected override void Initialize()
         {
+            settings = new Settings();
+
             IsMouseVisible = false;
             gameState = GameState.START_GAME;
+            gameReturn = GameState.START_GAME;
             whiteRectangle = new Texture2D(GraphicsDevice, 1, 1);
-            // UNCOMMENT NEXT THREE COMMENTS FOR FULLSCREEN
-            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width - GraphicsDevice.DisplayMode.Width % 48; //Makes the window size a divisor of 48 so the tiles fit more cleanly.
-            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height - GraphicsDevice.DisplayMode.Height % 48;
-            //  graphics.PreferredBackBufferWidth = 48 * 20;
-            // graphics.PreferredBackBufferHeight = 48 * 16;
-            
-            graphics.IsFullScreen = true;
-         
-
-      graphics.ApplyChanges();
-         
+            graphics.PreferredBackBufferWidth = GraphicsDevice.DisplayMode.Width - GraphicsDevice.DisplayMode.Width % settings.elementsOnTheWidth;
+            graphics.PreferredBackBufferHeight = GraphicsDevice.DisplayMode.Height - GraphicsDevice.DisplayMode.Height % settings.elementsOnTheHeight;
+            graphics.IsFullScreen = false;
+            graphics.ApplyChanges();
 
             Camera = new Camera2D(GraphicsDevice.PresentationParameters);
-            
 
-            map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0);
+            map = new Map(this, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight, 0, 0);
             whiteRectangle.SetData(new[] { Color.White });
             background = Content.Load<Texture2D>("Graphics/Background");
             menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
-            menuWinAndLossTexture = Content.Load<Texture2D>("Graphics/MenuWinAndLoss");
-                    
+
             cursorTexture = Content.Load<Texture2D>("Graphics/cursor");
 
             scoreManager = new Score(this, 10);
             sound = new Sound(this);
+            soundsTanks = new Sound[9];
 
             RandomPowerUp = new PowerUp(this);
 
@@ -177,9 +242,9 @@ namespace BattleTank.Core
             Button.ClickSound = Content.Load<SoundEffect>("Sounds\\klik");
             Button.Effect = Content.Load<Effect>(@"Shaders\GreyscaleEffect");
 
-            menuSound = new Sound(this);
-            soundEffectInstance = menuSound.deploySound(Sound.Sounds.MENU_SOUND).CreateInstance();
-            soundOnOff = 0;
+
+
+            sound.PlaySound(Sound.Sounds.MENU_SOUND);
             AvailableGamepads = GamePads.GetAllAvailableGamepads();
             base.Initialize();
             positionMouse = new Vector2(graphics.GraphicsDevice.Viewport.Width / 2,
@@ -188,9 +253,9 @@ namespace BattleTank.Core
 
             LabelBattleTank = new Label("BaTtLeTaNk", new Vector2((map.screenWidth / 2) - 195, (map.screenHeight / 2) - 135), null, 80);
             LabelBattleTank.CenterHorizontal();
-            LabelwyborPoziomTrud = new Label("PoZiOm TrUdNoScI", new Vector2((map.screenWidth / 2) - 160,  (map.screenHeight / 2) - 220), null, 60);
+            LabelwyborPoziomTrud = new Label("PoZiOm TrUdNoScI", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 220), null, 60);
             LabelwyborPoziomTrud.CenterHorizontal();
-            LabelwyborCpuKlasyk = new Label("CpU kLaSyCzNyCh", new Vector2((map.screenWidth / 2) - 160,  (map.screenHeight / 2) - 100), null, 60);
+            LabelwyborCpuKlasyk = new Label("CpU kLaSyCzNyCh", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 100), null, 60);
             LabelwyborCpuKlasyk.CenterHorizontal();
             LabelwyborCpuKlamikaze = new Label("CpU kAmIkAzE", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 20), null, 60);
             LabelwyborCpuKlamikaze.CenterHorizontal();
@@ -204,7 +269,7 @@ namespace BattleTank.Core
             LabelSettingsTrybSterowania.CenterHorizontal();
             LabelTrybSterowania1Gracza = new Label("GrAcZ 1", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 130), null, 60);
             LabelTrybSterowania1Gracza.CenterHorizontal();
-            LabelTrybSterowania2Gracza = new Label("GrAcZ 2", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 5 ), null, 60);
+            LabelTrybSterowania2Gracza = new Label("GrAcZ 2", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 5), null, 60);
             LabelTrybSterowania2Gracza.CenterHorizontal();
             LabelwyborTrybGryTexture = new Label("WyBoR TrYbU\n        gRy", new Vector2((map.screenWidth / 2) - 160, (map.screenHeight / 2) - 160), null, 100);
             LabelwyborTrybGryTexture.CenterHorizontal();
@@ -212,9 +277,10 @@ namespace BattleTank.Core
             LabelwinTexture.CenterHorizontal();
             LabellossTexture = new Label("PrZeGrAnA", new Vector2((map.screenWidth / 2) - 150, (map.screenHeight / 2) - 140), null, 75);
             LabellossTexture.CenterHorizontal();
-            LabelprzerwaTexture = new Label("PrZeRwA", new Vector2((map.screenWidth / 2) - 170, (map.screenHeight / 2) - 145), null, 75);
+            LabelprzerwaTexture = new Label("PrZeRwA", new Vector2((map.screenWidth / 2) - 170, (map.screenHeight / 2) - 185), null, 75);
             LabelprzerwaTexture.CenterHorizontal();
-
+            LabelStatementAboutControllerDisconnected = new Label("KoNtRoLeR zOsTaL oDlAcZoNy\n       PrZeJdZ dO UsTaWiEn,\n      AbY zMiEnIc StErOwAnIe", new Vector2((map.screenWidth / 2) - 300, (map.screenHeight / 2) - 160), null, 130);
+            LabelStatementAboutControllerDisconnected.CenterHorizontal();
 
             ButtonKoniec = new Button("KoNiEc", new Vector2(), null, 60);
             ButtonKoniec.CenterHorizontal();
@@ -232,8 +298,12 @@ namespace BattleTank.Core
             ButtonPlayer4.CenterHorizontal();
             ButtonSettingsTrybSterowaniaKlawMysz = new Button("KlAwIaTuRa/MySz", new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) - 60), null, 50);
             ButtonSettingsTrybSterowaniaPad = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 100, (map.screenHeight / 2) - 60), null, 50);
-            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz",  new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) + 67), null, 50);
+            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz", new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) + 67), null, 50);
             ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((map.screenWidth / 2) + 100, (map.screenHeight / 2) + 67), null, 50);
+            ButtonSettingsTrybSterowaniaBasic = new Button("PoDsTaWoWy", new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) - 70), null, 60);
+            ButtonSettingsTrybSterowaniaBasic.CenterHorizontal();
+            ButtonSettingsTrybSterowaniaAdvanced = new Button("ZaAwAnSoWaNy", new Vector2((map.screenWidth / 2) - 270, (map.screenHeight / 2) + 20), null, 60);
+            ButtonSettingsTrybSterowaniaAdvanced.CenterHorizontal();
             ButtonPowrot = new Button("PoWrOt", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40), null, 60);
             ButtonNowaGra = new Button("NoWa GrA", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 60);
             ButtonNowaGra.CenterHorizontal();
@@ -255,9 +325,41 @@ namespace BattleTank.Core
             ButtonCzas2Gry.CenterHorizontal();
             ButtonCzas3Gry = new Button("10 MiNuT", new Vector2((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 20), null, 50);
             ButtonCzas3Gry.CenterHorizontal();
-            ButtondoBoju = new Button("Do BoJu!!!",  new Vector2(), null, 60);
+            ButtondoBoju = new Button("Do BoJu!!!", new Vector2(), null, 60);
             ButtondoBoju.CenterHorizontal();
 
+            buttonsInMemu = new Dictionary<GameState, Button[,]>
+            {
+                { GameState.START_GAME, new Button[3, 1] {  { ButtonZagraj },
+                                                            { ButtonSettings },
+                                                            { ButtonKoniec } } },
+                { GameState.CHOICE_OF_GAME_TYPE, new Button[4, 1] { { ButtonPlayer1 },
+                                                                    { ButtonPlayer2 },
+                                                                    { ButtonPlayer3 },
+                                                                    { ButtonPlayer4 } } },
+                { GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE, new Button[4, 1] { { ButtonCzas1Gry },
+                                                                                         { ButtonCzas2Gry },
+                                                                                         { ButtonCzas3Gry },
+                                                                                         { ButtondoBoju } } },
+                { GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU, new Button[4, 4] { { ButtonPoziom1Trud, ButtonPoziom2Trud, ButtonPoziom3Trud, ButtonPoziom4Trud },
+                                                                                        { ButtonwyborCpuKlasykIlosc0, ButtonwyborCpuKlasykIlosc1, ButtonwyborCpuKlasykIlosc2, ButtonwyborCpuKlasykIlosc3 },
+                                                                                        { ButtonwyborCpuKlamikazeIlosc0, ButtonwyborCpuKlamikazeIlosc1, ButtonwyborCpuKlamikazeIlosc2, ButtonwyborCpuKlamikazeIlosc3 },
+                                                                                        { ButtondoBoju, ButtondoBoju, ButtondoBoju, ButtondoBoju }} },
+                { GameState.PAUSE, new Button[2, 2] { { ButtonPowrot, ButtonNowaGra },
+                                                      { ButtonSettings , ButtonKoniec } } },
+                { GameState.GAME_WIN, new Button[2, 1] { { ButtonNowaGra },
+                                                         { ButtonKoniec } } },
+                { GameState.GAME_LOSS, new Button[2, 1] { { ButtonNowaGra },
+                                                          { ButtonKoniec } } },
+                { GameState.SETTINGS_WINDOWS, new Button[3, 2] { { ButtonSettingsTrybSterowaniaKlawMysz, ButtonSettingsTrybSterowaniaPad },
+                                                         { ButtonSettingsTrybSterowaniaKlawMysz2, ButtonSettingsTrybSterowaniaPad2 },
+                                                         { ButtonPowrot, ButtonPowrot } } },
+                { GameState.SETTINGS_ANDROID, new Button[3, 1] { { ButtonSettingsTrybSterowaniaBasic },
+                                                                    { ButtonSettingsTrybSterowaniaAdvanced },
+                                                                    { ButtonPowrot } } },
+                { GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED, new Button[1, 1] { { ButtonSettings } } }
+            };
+   
         }
 
         /// <summary>
@@ -266,9 +368,9 @@ namespace BattleTank.Core
         /// </summary>
         protected override void LoadContent()
         {
-           // Create a new SpriteBatch, which can be used to draw textures.
+            // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-        
+
 
             UIElement.ActiveFont = Content.Load<SpriteFont>("Fonts/ActiveFont");
             UIElement.InActiveFont = Content.Load<SpriteFont>("Fonts/Inactivefont");
@@ -276,7 +378,7 @@ namespace BattleTank.Core
             UIElement.InActiveFont.Spacing = -75;
 
             UIElement.GraphicsDevice = GraphicsDevice;
-            
+
             var fireButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/FireButton");
             var mineButtonTexture = Content.Load<Texture2D>("Graphics/VirtualJoy/MineButton");
 
@@ -290,10 +392,11 @@ namespace BattleTank.Core
                                 (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.63)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)),
                 new Button(mineButtonTexture, mineButtonTexture,
                     new Vector2((float)(GraphicsDevice.PresentationParameters.BackBufferWidth * 0.80),
-                                (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)));
+                                (float)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.78)), null, (int)(GraphicsDevice.PresentationParameters.BackBufferHeight * 0.15)),
+                                VirtualGamepad.DirectionsOfMovement.BASIC);
             }
-         
-            }
+
+        }
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -311,22 +414,34 @@ namespace BattleTank.Core
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            PointerState state =  PointerState.GetState();
-            
-            if (Keyboard.GetState().IsKeyUp(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-            {
+            PointerState state = PointerState.GetState();
 
+
+
+            if (          
+                !(IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.UP]) ||
+                IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.DOWN]) ||
+                IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.LEFT]) ||
+                IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.RIGHT]) ||
+                IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) ||
+                IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM])))
+
+            {
                 keysStatus = false;
             }
 
-            if (state.MainAction == ButtonState.Released)
+            if (state.LeftButtonAction == ButtonState.Released)
             {
                 LeftButtonStatus = false;
             }
 
+            if (state.RightButtonAction == ButtonState.Released)
+            {
+                RightButtonStatus = false;
+            }
 
 
-            if (gameState == GameState.START_GAME || gameState == GameState.CHOICE_OF_GAME_TYPE || gameState == GameState.SETTINGS)
+            if (gameState == GameState.START_GAME || gameState == GameState.CHOICE_OF_GAME_TYPE || gameState == GameState.SETTINGS_WINDOWS || gameState == GameState.SETTINGS_ANDROID)
                 WallInside = false;
             else
             {
@@ -337,21 +452,13 @@ namespace BattleTank.Core
             {
                 RandomPowerUp.Update(gameTime);
             }
-            else {
+            else
+            {
                 RandomPowerUp = new PowerUp(this);
                 RandomPowerUp.Random();
             }
-          
-            if (soundOnOff == 1)
-            {
-                soundEffectInstance.Stop();
-            }
 
-            else if (soundOnOff == 0)
-            {
-                soundEffectInstance.Play();
 
-            }
             foreach (Tank tankInGame in enemyTanks.Concat(new List<Tank> { tank1, tank2 }).Where(d => !(d is null)))
             {
                 if ((tankInGame.location.X) < 0)
@@ -411,8 +518,8 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_RACE)
             {
                 float timerWyscig = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                czasWyscigu -= timerWyscig;
-                if (czasWyscigu < 0)
+                settings.raceTime -= timerWyscig;
+                if (settings.raceTime < 0)
                 {
                     if (scoreManager.getScore(0) > scoreManager.getScore(1))
                     {
@@ -427,9 +534,80 @@ namespace BattleTank.Core
                 }
             }
 
-            if (gameState == GameState.PAUSE || gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS)
+            if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU ||
+              gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE ||
+              gameState == GameState.CHOICE_OF_GAME_TYPE ||
+              gameState == GameState.SETTINGS_WINDOWS ||
+              gameState == GameState.SETTINGS_ANDROID ||
+              gameState == GameState.START_GAME ||
+              gameState == GameState.PAUSE || 
+              gameState == GameState.GAME_WIN || 
+              gameState == GameState.GAME_LOSS ||
+              gameState == GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED)
+
             {
 
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.DOWN]) || IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.UP]) || IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.RIGHT]) || IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.LEFT])) && keysStatus == false)
+                {
+
+                    if (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.DOWN]))
+                    {
+                        if (currentButtonX == buttonsInMemu[gameState].GetLength(0) - 1)
+                            currentButtonX = 0;
+                        else
+                            currentButtonX++;
+                    }
+                    if (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.UP]))
+                    {
+                        if (currentButtonX == 0)
+                            currentButtonX = buttonsInMemu[gameState].GetLength(0) - 1;
+                        else
+                            currentButtonX--;
+                    }
+                    if (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.RIGHT]))
+
+                    {
+                        if (currentButtonY == buttonsInMemu[gameState].GetLength(1) - 1)
+                            currentButtonY = 0;
+                        else
+                            currentButtonY++;
+                    }
+                    if (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.LEFT]))
+                    {
+                        if (currentButtonY == 0)
+                            currentButtonY = buttonsInMemu[gameState].GetLength(1) - 1;
+                        else
+                            currentButtonY--;
+                    }
+                    keysStatus = true;
+                }
+
+                if (!LeftButtonStatus && !keysStatus)
+                {
+                    for (int x = 0; x < buttonsInMemu[gameState].GetLength(0); x++)
+                    {
+                        for (int y = 0; y < buttonsInMemu[gameState].GetLength(1); y++)
+                        {
+
+                            if (buttonsInMemu[gameState][x, y].CheckIsMouseOver(ref state))
+                            {
+                                currentButtonX = x;
+                                currentButtonY = y;
+                            }
+                            else
+                                buttonsInMemu[gameState][x, y].IsMouseOver = false;
+                        }
+                    }
+                }
+            }
+
+
+
+
+            if (gameState == GameState.PAUSE || gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS || gameState == GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED)
+            {
+
+                soundsTanks.ToList<Sound>().ForEach((i) => { if (null != i) i.PauseSound(Sound.Sounds.ENGINE); });
 
                 // Update our sprites position to the current cursor location
 
@@ -439,63 +617,137 @@ namespace BattleTank.Core
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
 
-                if (gameState == GameState.PAUSE)
-                {             
+                if (gameState == GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED)
+                {
+                    menuTexture = Content.Load<Texture2D>("Graphics/RamkaXL");
 
-         
-                    ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) - 40, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
-                    ButtonPowrot.CenterHorizontal();
-                    if (ButtonPowrot.IsClicked(ref state))
+                    ButtonSettings.CenterHorizontal();
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettings) ? (ButtonSettings.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
-                        soundOnOff = 1;
-                        gameState = gameReturn;
+                        AvailableGamepads = GamePads.GetAllAvailableGamepads();
+                        menuTexture = Content.Load<Texture2D>("Graphics/RamkaXL");
+                        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                            gameState = GameState.SETTINGS_WINDOWS;
+                        else if (Environment.OSVersion.Platform == PlatformID.Unix)
+                            gameState = GameState.SETTINGS_ANDROID;
+                        BlockKeysAndMouseAndDefaultCurrentButton();
                     }
+
+                }
+
+
+                if (gameState == GameState.PAUSE)
+                {
+
+                    ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 235, (map.screenHeight / 2) - 60, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
+                    ButtonNowaGra.UIElementRectangle = new Rectangle((map.screenWidth / 2) + 25, (map.screenHeight / 2) - 60 , (int)ButtonNowaGra.Width, (int)ButtonNowaGra.Height);
+                    ButtonSettings.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 265, (map.screenHeight / 2) + 60, (int)ButtonSettings.Width, (int)ButtonSettings.Height);
+
+                    ButtonKoniec.Position = new Vector2((map.screenWidth / 2) + 55, (map.screenHeight / 2) + 60);
+              
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonNowaGra) ? (ButtonNowaGra.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                    {
+                        WallInside = false;
+                        map.Reset();
+                        BlockKeysAndMouseAndDefaultCurrentButton();
+                        RandomPowerUp.alive = false;
+                        settings.raceTime = (float)RaceTime.Minutes_5;
+                          
+                            sound.PauseSound(Sound.Sounds.MENU_SOUND);
+                            enemyTanks.Clear();
+                            mines.Clear();
+                            bullets.Clear();
+                            tank1.lives = 0;
+                            if (gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1)
+                                tank2.lives = 0;
+                            Initialize();
+                        
+                    }
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettings) ? (ButtonSettings.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                    {
+                        AvailableGamepads = GamePads.GetAllAvailableGamepads();
+                        menuTexture = Content.Load<Texture2D>("Graphics/RamkaXL");
+                        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                            gameState = GameState.SETTINGS_WINDOWS;
+                        else if (Environment.OSVersion.Platform == PlatformID.Unix)
+                            gameState = GameState.SETTINGS_ANDROID;
+                        BlockKeysAndMouseAndDefaultCurrentButton();
+                    }
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonKoniec) ? (ButtonKoniec.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                    {
+                        Exit();
+                    }
+
+                    if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus) || (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPowrot) ? (ButtonPowrot.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false))
+                    {
+                        sound.PauseSound(Sound.Sounds.MENU_SOUND);
+                        gameState = gameReturn;
+                        BlockKeysAndMouseAndDefaultCurrentButton();
+                    }
+
+
                 }
 
                 else if (gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS)
                 {
-                    soundOnOff = 0;
 
-                
-                }
+                    if (gameReturn.Equals(GameState.GAME_RUNNING_PLAYER_1))
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka1");
+                    else if (gameReturn.Equals(GameState.GAME_RUNNING_PLAYERS_2))
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka2");
+                    else if (gameReturn.Equals(GameState.GAME_RUNNING_PLAYERS_2_AND_CPU))
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka3");
+                    else if (gameReturn.Equals(GameState.GAME_RUNNING_RACE))
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka4");
 
-                if (ButtonNowaGra.IsClicked(ref state))
-                {
-                    WallInside = false;
-                    map.Reset();
-                    LeftButtonStatus = true;
-                    RandomPowerUp.alive = false;
-                    czasWyscigu = 300f;
-                    if (LeftButtonStatus)
+                    sound.ResumeSound(Sound.Sounds.MENU_SOUND);
+
+
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonNowaGra) ? (ButtonNowaGra.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
-                        soundEffectInstance.Stop();
-                        enemyTanks.Clear();
-                        mines.Clear();
-                        tank1.lives = 0;
-                        if(gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1)
-                        tank2.lives = 0;
-                        Initialize();
-
+                        WallInside = false;
+                        map.Reset();
+                        BlockKeysAndMouseAndDefaultCurrentButton();
+                        RandomPowerUp.alive = false;
+                        settings.raceTime = (float)RaceTime.Minutes_5;
+                        if (LeftButtonStatus)
+                        {
+                            sound.PauseSound(Sound.Sounds.MENU_SOUND);
+                            enemyTanks.Clear();
+                            mines.Clear();
+                            bullets.Clear();
+                            tank1.lives = 0;
+                            if (gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1)
+                                tank2.lives = 0;
+                            Initialize();
+                        }
                     }
-                }
 
-                ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80);
-                ButtonKoniec.CenterHorizontal();
-                if (ButtonKoniec.IsClicked(ref state))
-                {
-                    Exit();
-                }
 
+
+                    ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - 135, (map.screenHeight / 2) + 80);
+                    ButtonKoniec.CenterHorizontal();
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonKoniec) ? (ButtonKoniec.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                    {
+                        Exit();
+                    }
+
+                }
             }
 
             else if (gameState == GameState.START_GAME)
             {
 
 
-                if (((Keyboard.GetState().IsKeyDown(Keys.Escape)) && keysStatus == false) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus))
                 {
                     Exit();
-
                 }
 
 
@@ -504,57 +756,69 @@ namespace BattleTank.Core
 
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
-              
+
+                if (!LeftButtonStatus && !keysStatus)
+                {
+
+                    ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - (float)(ButtonKoniec.Width / 2), (map.screenHeight / 2) + 80);
+                    ButtonKoniec.CenterHorizontal();
 
 
-                if (!LeftButtonStatus)
-                { 
-                    if (ButtonZagraj.IsClicked(ref state))
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonZagraj) ? (ButtonZagraj.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
                         if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                             gameState = GameState.CHOICE_OF_GAME_TYPE;
                         else
                         {
-                            tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, false, PlayerOneController);                                                 
+                            tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, false, PlayerOneController);
                             menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
                             gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
                             gameReturn = GameState.GAME_RUNNING_PLAYER_1;
                         }
-                        LeftButtonStatus = true;
+                        BlockKeysAndMouseAndDefaultCurrentButton();
                     }
 
-                    if (ButtonSettings.IsClicked(ref state))
+                    else if(buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettings) ? (ButtonSettings.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
                         AvailableGamepads = GamePads.GetAllAvailableGamepads();
                         menuTexture = Content.Load<Texture2D>("Graphics/RamkaXL");
-                        gameState = GameState.SETTINGS;
+                        if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                            gameState = GameState.SETTINGS_WINDOWS;
+                        else if (Environment.OSVersion.Platform == PlatformID.Unix)
+                            gameState = GameState.SETTINGS_ANDROID;
+                        BlockKeysAndMouseAndDefaultCurrentButton();
                     }
 
-                    ButtonKoniec.Position = new Vector2((map.screenWidth / 2) - (float)(ButtonKoniec.Width /2), (map.screenHeight / 2) + 80);
-                    ButtonKoniec.CenterHorizontal();
-                    if (ButtonKoniec.IsClicked(ref state))
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonKoniec) ? (ButtonKoniec.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
                         Exit();
                     }
                 }
             }
 
-            else if (gameState == GameState.SETTINGS)
+            else if (gameState == GameState.SETTINGS_WINDOWS)
             {
 
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus ))
                 {
-                    menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
-                    gameState = GameState.START_GAME;
-                    keysStatus = true;
 
+                    if (gameReturn == GameState.START_GAME)
+                    {
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
+                        gameState = GameState.START_GAME;
+                    }
+                    else
+                    {
+                        tank1.TankActionProvider = PlayerOneController;
+                        if(tank2 != null)
+                        tank2.TankActionProvider = PlayerTwoController;
+                        gameState = GameState.PAUSE;
+                    }
+                        BlockKeysAndMouseAndDefaultCurrentButton();
 
                 }
-
-
-
-
 
 
                 positionMouse.X = state.X;
@@ -562,9 +826,9 @@ namespace BattleTank.Core
 
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
-             
+
                 #region Set Keyboard control for players
-                if (ButtonSettingsTrybSterowaniaKlawMysz.IsClicked(ref state))
+                if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettingsTrybSterowaniaKlawMysz) ? (ButtonSettingsTrybSterowaniaKlawMysz.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                 {
                     PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
                 }
@@ -573,9 +837,9 @@ namespace BattleTank.Core
                     ButtonSettingsTrybSterowaniaKlawMysz.IsMouseOver = true;
                 }
 
-                if (ButtonSettingsTrybSterowaniaKlawMysz2.IsClicked(ref state))
+                if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettingsTrybSterowaniaKlawMysz2) ? (ButtonSettingsTrybSterowaniaKlawMysz2.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                 {
-                        PlayerTwoController = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
+                    PlayerTwoController = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
                 }
                 else if (PlayerTwoController.Equals(KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout))
                 {
@@ -585,31 +849,48 @@ namespace BattleTank.Core
 
                 if (AvailableGamepads.Count > 0)
                 {
-                    if (ButtonSettingsTrybSterowaniaPad.IsClicked(ref state))
+
+                    if (AvailableGamepads.Count == 1)
                     {
-                            PlayerOneController = AvailableGamepads[0];
-                            if (AvailableGamepads.Count == 1)
-                                PlayerTwoController = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
+                        if (PlayerOneController.IsConnectedTankController() && !PlayerOneController.Equals(KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout))
+                            PlayerTwoController = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
+                        else if (PlayerTwoController.IsConnectedTankController() && !PlayerTwoController.Equals(KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout))
+                            PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
+                        else
+                        {
+                            PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
+                            PlayerTwoController = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
+                        }
+
+                    }
+
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettingsTrybSterowaniaPad) ? (ButtonSettingsTrybSterowaniaPad.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                    {
+                        PlayerOneController = AvailableGamepads[0];
+                        if (AvailableGamepads.Count == 1)
+                            PlayerTwoController = KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout;
                     }
                     else if (!PlayerOneController.Equals(KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout))
                     {
                         ButtonSettingsTrybSterowaniaPad.IsMouseOver = true;
                     }
-                
-                    if (ButtonSettingsTrybSterowaniaPad2.IsClicked(ref state))
+
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettingsTrybSterowaniaPad2) ? (ButtonSettingsTrybSterowaniaPad2.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
-                            if (AvailableGamepads.Count > 1)
-                                PlayerTwoController = AvailableGamepads[1];
-                            else if (AvailableGamepads.Count == 1)
-                            {
-                                PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
-                                PlayerTwoController = AvailableGamepads[0];
-                            }
+                        if (AvailableGamepads.Count > 1)
+                            PlayerTwoController = AvailableGamepads[1];
+                        else if (AvailableGamepads.Count == 1)
+                        {
+                            PlayerOneController = KeyboardTankActionProvider.DefaultPlayerOneKeybordLayout;
+                            PlayerTwoController = AvailableGamepads[0];
+                        }
                     }
                     else if (!PlayerTwoController.Equals(KeyboardTankActionProvider.DefaultPlayerTwoKeybordLayout))
                     {
                         ButtonSettingsTrybSterowaniaPad2.IsMouseOver = true;
                     }
+
                 }
                 else
                 {
@@ -617,29 +898,113 @@ namespace BattleTank.Core
                     ButtonSettingsTrybSterowaniaPad2.IsEnabled = false;
                 }
 
+                ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 130, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
+                ButtonPowrot.CenterHorizontal();
+                if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPowrot) ? (ButtonPowrot.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                {
+                 
+              
+                    if (gameReturn == GameState.START_GAME)
+                    {
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
+                        gameState = GameState.START_GAME;
+                    }
+                    else
+                    {
+                        tank1.TankActionProvider = PlayerOneController;
+                        if (tank2 != null)
+                            tank2.TankActionProvider = PlayerTwoController;
+                        gameState = GameState.PAUSE;
+                    }
+                    BlockKeysAndMouseAndDefaultCurrentButton();
+                }
+            }
+
+            //
+            else if (gameState == GameState.SETTINGS_ANDROID)
+            {
+
+
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus))
+                {
+
+                    if (gameReturn == GameState.START_GAME)
+                    {
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
+                        gameState = GameState.START_GAME;
+                    }
+                    else
+                    {
+                        tank1.TankActionProvider = PlayerOneController;
+                        gameState = GameState.PAUSE;
+                    }
+                    BlockKeysAndMouseAndDefaultCurrentButton();
+
+                }
+
+
+                positionMouse.X = state.X;
+                positionMouse.Y = state.Y;
+
+                var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
+
+                if (VirtualGamepad.DOM == VirtualGamepad.DirectionsOfMovement.BASIC)
+                {
+                    ButtonSettingsTrybSterowaniaBasic.IsMouseOver = true; 
+                    
+                }
+                if (VirtualGamepad.DOM == VirtualGamepad.DirectionsOfMovement.ADVANCED)
+                {
+                    ButtonSettingsTrybSterowaniaAdvanced.IsMouseOver = true;              
+                }
+
+                if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettingsTrybSterowaniaBasic) ? (ButtonSettingsTrybSterowaniaBasic.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                {
+                    VirtualGamepad.DOM = VirtualGamepad.DirectionsOfMovement.BASIC;
+                }
+
+
+                if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonSettingsTrybSterowaniaAdvanced) ? (ButtonSettingsTrybSterowaniaAdvanced.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
+                {
+                    VirtualGamepad.DOM = VirtualGamepad.DirectionsOfMovement.ADVANCED;
+                }
+
+
 
 
                 ButtonPowrot.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 125, (map.screenHeight / 2) + 130, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
                 ButtonPowrot.CenterHorizontal();
-                if (ButtonPowrot.IsClicked(ref state))
+                if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPowrot) ? (ButtonPowrot.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                 {
-                    menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
-                    LeftButtonStatus = true;
-                    gameState = GameState.START_GAME;
+
+
+                    if (gameReturn == GameState.START_GAME)
+                    {
+                        menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
+                        gameState = GameState.START_GAME;
+                    }
+                    else
+                    {
+                        tank1.TankActionProvider = PlayerOneController;
+                        gameState = GameState.PAUSE;
+                    }
+                    BlockKeysAndMouseAndDefaultCurrentButton();
                 }
             }
+
+            //-
 
 
             else if (gameState == GameState.CHOICE_OF_GAME_TYPE)
             {
-              tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false,false, PlayerOneController);
+                tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, whiteRectangle, 1, 3, false, false, PlayerOneController);
 
-                if ((Keyboard.GetState().IsKeyDown(Keys.Escape) && keysStatus == false) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus))
                 {
-
+                    menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
                     gameState = GameState.START_GAME;
-                    keysStatus = true;
-
+                    gameReturn = GameState.START_GAME;
+                    BlockKeysAndMouseAndDefaultCurrentButton();
 
                 }
 
@@ -650,289 +1015,257 @@ namespace BattleTank.Core
                 positionMouse.Y = state.Y;
 
 
-
-
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
-                if (LeftButtonStatus == false)
+                if (!LeftButtonStatus && !keysStatus)
                 {
 
-                   
-                    if (ButtonPlayer1.CheckIsMouseOver(ref state))
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer1))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka1");
-                        if (ButtonPlayer1.IsClicked(ref state))
+                        if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer1) ? (ButtonPlayer1.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                         {
                             if (tank2 != null)
-                            tank2 = null;                            
-                            LeftButtonStatus = true;
+                                tank2 = null;
+                            BlockKeysAndMouseAndDefaultCurrentButton();
                             menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
                             gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
                             gameReturn = GameState.GAME_RUNNING_PLAYER_1;
                         }
                     }
-                    if (ButtonPlayer2.CheckIsMouseOver(ref state))
+                    else if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer2))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka2");
-                        if (ButtonPlayer2.IsClicked(ref state))
+                        if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer2) ? (ButtonPlayer2.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                         {
                             tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, false, PlayerTwoController);
-                            LeftButtonStatus = true;
-                            map.WallBorder = randy.Next(5);
+                            BlockKeysAndMouseAndDefaultCurrentButton();
+                            map.WallBorder = randy.Next(7);
                             WallInside = true;
+                            map.WallInside = randy.Next(5);
                             map.Reset();
-                            iloscCPUKlasyk = 0;
-                            iloscCPUKamikaze = 0;
-                            soundOnOff = 1;
+                            settings.opponentsCPUClassic = 0;
+                            settings.opponentsCPUKamikaze = 0;
+                            sound.PauseSound(Sound.Sounds.MENU_SOUND);
                             gameState = GameState.GAME_RUNNING_PLAYERS_2;
                             gameReturn = GameState.GAME_RUNNING_PLAYERS_2;
                         }
                     }
 
-                    if (ButtonPlayer3.CheckIsMouseOver(ref state))
+                    else if(buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer3))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka3");
-                        if (ButtonPlayer3.IsClicked(ref state))
+                        if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer3) ? (ButtonPlayer3.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                         {
                             tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, false, PlayerTwoController);
-                            LeftButtonStatus = true;
+                            BlockKeysAndMouseAndDefaultCurrentButton();
                             menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
                             gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
                             gameReturn = GameState.GAME_RUNNING_PLAYERS_2_AND_CPU;
                         }
                     }
 
-                    if (ButtonPlayer4.CheckIsMouseOver(ref state))
+                    else if(buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer4))
                     {
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka4");
-                        if (ButtonPlayer4.IsClicked(ref state))
+                        if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPlayer4) ? (ButtonPlayer4.IsClickedLeftButton(ref state) || (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                         {
                             tank2 = new Tank(this, TankColors.RED, new Vector2(graphics.PreferredBackBufferWidth - 50, graphics.PreferredBackBufferHeight - 50), new Vector2(3, 3), MathHelper.Pi, 2, 1f, whiteRectangle, 1, 3, false, false, PlayerTwoController);
-                            LeftButtonStatus = true;
-                            gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG;
+                            BlockKeysAndMouseAndDefaultCurrentButton();
+                            gameState = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE;
                             gameReturn = GameState.GAME_RUNNING_RACE;
                         }
                     }
                 }
-
             }
 
-            else if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
+            else if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE)
             {
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus))
                 {
 
                     gameState = GameState.CHOICE_OF_GAME_TYPE;
-                    keysStatus = true;
-
-
+                    BlockKeysAndMouseAndDefaultCurrentButton();
 
                 }
-
-
 
                 // Update our sprites position to the current cursor location
 
                 positionMouse.X = state.X;
                 positionMouse.Y = state.Y;
 
-
-
-
+                ButtondoBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80, (int)ButtondoBoju.Width, (int)ButtondoBoju.Height);
+                ButtondoBoju.CenterHorizontal();
 
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
-                if (LeftButtonStatus == false)
+
+                if (!LeftButtonStatus && !keysStatus)
                 {
 
-
-
-                    if (ButtonCzas1Gry.IsClicked(ref state) || czasWyscigu == 120)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonCzas1Gry) ? (ButtonCzas1Gry.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.raceTime.Equals((float)RaceTime.Minutes_2))
                     {
                         ButtonCzas1Gry.IsMouseOver = true;
-                        czasWyscigu = 120;
+                        settings.raceTime = (float)RaceTime.Minutes_2;
                     }
 
-                    if (ButtonCzas2Gry.IsClicked(ref state) || czasWyscigu == 300)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonCzas2Gry) ? (ButtonCzas2Gry.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.raceTime.Equals((float)RaceTime.Minutes_5))
                     {
                         ButtonCzas2Gry.IsMouseOver = true;
-                        czasWyscigu = 300;
+                        settings.raceTime = (float)RaceTime.Minutes_5;
                     }
 
-                    if (ButtonCzas3Gry.IsClicked(ref state) || czasWyscigu == 600)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonCzas3Gry) ? (ButtonCzas3Gry.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.raceTime.Equals((float)RaceTime.Minutes_10))
                     {
                         ButtonCzas3Gry.IsMouseOver = true;
-                        czasWyscigu = 600;
+                        settings.raceTime = (float)RaceTime.Minutes_10;
                     }
-
-                    ButtondoBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 80,(int)ButtondoBoju.Width,(int)ButtondoBoju.Height);
-                    ButtondoBoju.CenterHorizontal();
-                    if (ButtondoBoju.IsClicked(ref state))
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtondoBoju) ? (ButtondoBoju.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
-                        LeftButtonStatus = true;
+                        BlockKeysAndMouseAndDefaultCurrentButton();
                         tank1.lives = 1;
                         tank2.lives = 1;
                         tank1.mines = 10;
                         tank2.mines = 10;
-                        map.WallBorder = randy.Next(5);
+                        map.WallBorder = randy.Next(7);
                         WallInside = true;
+                        map.WallInside = randy.Next(5);
                         map.Reset();
-                        iloscCPUKlasyk = 0;
-                        iloscCPUKamikaze = 0;
+                        settings.opponentsCPUClassic = 0;
+                        settings.opponentsCPUKamikaze = 0;
                         sound.PlaySound(Sound.Sounds.KLIK);
-                        soundOnOff = 1;
+                        sound.PauseSound(Sound.Sounds.MENU_SOUND);
                         gameState = GameState.GAME_RUNNING_RACE;
                     }
-
-
-
-
-                }
-
+                }      
             }
-
-
-            //
 
             else if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU)
             {
 
-
-
-
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus))
                 {
                     if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                         gameState = GameState.CHOICE_OF_GAME_TYPE;
                     else
+                    {
                         gameState = GameState.START_GAME;
-                    keysStatus = true;
+                        gameReturn = GameState.START_GAME;
+                    }
                     menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
-
+                    BlockKeysAndMouseAndDefaultCurrentButton();
 
                 }
-
-
 
                 // Update our sprites position to the current cursor location
 
                 positionMouse.X = state.X;
                 positionMouse.Y = state.Y;
 
-
-
-
                 var positionMouseXY = new Rectangle((int)positionMouse.X, (int)positionMouse.Y, 1, 1);
 
                 if (LeftButtonStatus == false)
                 {
 
-
-                   
-
-
-                    if (ButtonPoziom1Trud.IsClicked(ref state) || poziomTrudnosci == 1)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPoziom1Trud) ? (ButtonPoziom1Trud.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.difficultyLevel.Equals(DifficultyLevel.Easy))
                     {
-                        poziomTrudnosci = 1;
+                        settings.difficultyLevel = DifficultyLevel.Easy;
                         ButtonPoziom1Trud.IsMouseOver = true;
                     }
 
-                    if (ButtonPoziom2Trud.IsClicked(ref state) || poziomTrudnosci == 2)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPoziom2Trud) ? (ButtonPoziom2Trud.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.difficultyLevel.Equals(DifficultyLevel.Medium))
                     {
-                        poziomTrudnosci = 2;
+                        settings.difficultyLevel = DifficultyLevel.Medium;
                         ButtonPoziom2Trud.IsMouseOver = true;
                     }
 
-                    if (ButtonPoziom3Trud.IsClicked(ref state) || poziomTrudnosci == 3)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPoziom3Trud) ? (ButtonPoziom3Trud.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.difficultyLevel.Equals(DifficultyLevel.Hard))
                     {
-                        poziomTrudnosci = 3;
+                        settings.difficultyLevel = DifficultyLevel.Hard;
                         ButtonPoziom3Trud.IsMouseOver = true;
                     }
 
-                    if (ButtonPoziom4Trud.IsClicked(ref state) || poziomTrudnosci == 4)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonPoziom4Trud) ? (ButtonPoziom4Trud.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.difficultyLevel.Equals(DifficultyLevel.Impossible))
                     {
-                        poziomTrudnosci = 4;
+                        settings.difficultyLevel = DifficultyLevel.Impossible;
                         ButtonPoziom4Trud.IsMouseOver = true;
                     }
 
-                    
-
-                    if (ButtonwyborCpuKlasykIlosc0.IsClicked(ref state) || iloscCPUKlasyk == 0)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlasykIlosc0) ? (ButtonwyborCpuKlasykIlosc0.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUClassic == 0)
                     {
                         ButtonwyborCpuKlasykIlosc0.IsMouseOver = true;
-                        iloscCPUKlasyk = 0;
+                        settings.opponentsCPUClassic = 0;
                     }
 
-                    if (ButtonwyborCpuKlasykIlosc1.IsClicked(ref state) || iloscCPUKlasyk == 1)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlasykIlosc1) ? (ButtonwyborCpuKlasykIlosc1.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUClassic == 1)
                     {
                         ButtonwyborCpuKlasykIlosc1.IsMouseOver = true;
-                        iloscCPUKlasyk = 1;
+                        settings.opponentsCPUClassic = 1;
                     }
 
-                    if (ButtonwyborCpuKlasykIlosc2.IsClicked(ref state) || iloscCPUKlasyk == 2)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlasykIlosc2) ? (ButtonwyborCpuKlasykIlosc2.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUClassic == 2)
                     {
                         ButtonwyborCpuKlasykIlosc2.IsMouseOver = true;
-                        iloscCPUKlasyk = 2;
+                        settings.opponentsCPUClassic = 2;
                     }
 
-                    if (ButtonwyborCpuKlasykIlosc3.IsClicked(ref state) || iloscCPUKlasyk == 3)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlasykIlosc3) ? (ButtonwyborCpuKlasykIlosc3.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUClassic == 3)
                     {
                         ButtonwyborCpuKlasykIlosc3.IsMouseOver = true;
-                        iloscCPUKlasyk = 3;
+                        settings.opponentsCPUClassic = 3;
                     }
 
-                    if (ButtonwyborCpuKlamikazeIlosc0.IsClicked(ref state) || iloscCPUKamikaze == 0)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlamikazeIlosc0) ? (ButtonwyborCpuKlamikazeIlosc0.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUKamikaze == 0)
                     {
                         ButtonwyborCpuKlamikazeIlosc0.IsMouseOver = true;
-                        iloscCPUKamikaze = 0;
+                        settings.opponentsCPUKamikaze = 0;
                     }
 
-                    if (ButtonwyborCpuKlamikazeIlosc1.IsClicked(ref state) || iloscCPUKamikaze == 1)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlamikazeIlosc1) ? (ButtonwyborCpuKlamikazeIlosc1.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUKamikaze == 1)
                     {
                         ButtonwyborCpuKlamikazeIlosc1.IsMouseOver = true;
-                        iloscCPUKamikaze = 1;
+                        settings.opponentsCPUKamikaze = 1;
                     }
 
-                    if (ButtonwyborCpuKlamikazeIlosc2.IsClicked(ref state) || iloscCPUKamikaze == 2)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlamikazeIlosc2) ? (ButtonwyborCpuKlamikazeIlosc2.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUKamikaze == 2)
                     {
                         ButtonwyborCpuKlamikazeIlosc2.IsMouseOver = true;
-                        iloscCPUKamikaze = 2;
+                        settings.opponentsCPUKamikaze = 2;
                     }
 
-                    if (ButtonwyborCpuKlamikazeIlosc3.IsClicked(ref state) || iloscCPUKamikaze == 3)
+                    if ((buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtonwyborCpuKlamikazeIlosc3) ? (ButtonwyborCpuKlamikazeIlosc3.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false) || settings.opponentsCPUKamikaze == 3)
                     {
                         ButtonwyborCpuKlamikazeIlosc3.IsMouseOver = true;
-                        iloscCPUKamikaze = 3;
+                        settings.opponentsCPUKamikaze = 3;
                     }
 
                     ButtondoBoju.UIElementRectangle = new Rectangle((map.screenWidth / 2) - 160, (map.screenHeight / 2) + 150, (int)ButtondoBoju.Width, (int)ButtondoBoju.Height);
                     ButtondoBoju.CenterHorizontal();
-                    if (ButtondoBoju.IsClicked(ref state))
+                    if (buttonsInMemu[gameState][currentButtonX, currentButtonY].Equals(ButtondoBoju) ? (ButtondoBoju.IsClickedLeftButton(ref state) ||  (IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && keysStatus == false)) : false)
                     {
-                        LeftButtonStatus = true;
+                        BlockKeysAndMouseAndDefaultCurrentButton();
                         menuTexture = Content.Load<Texture2D>("Graphics/Ramka");
                         Vector2 speedCPU;
 
-                        if (poziomTrudnosci == 3)
+                        if (settings.difficultyLevel.Equals(DifficultyLevel.Hard))
                             speedCPU = new Vector2(4, 4);
                         else
                             speedCPU = new Vector2(3, 3);
 
-                        TankColors[] availableTankColors = new[] {TankColors.BLUE, TankColors.PINK, TankColors.YELLOW}; 
+                        TankColors[] availableTankColors = new[] { TankColors.BLUE, TankColors.PINK, TankColors.YELLOW };
 
-                        for (int i = 0; i < (iloscCPUKamikaze + iloscCPUKlasyk); i++)
+                        for (int i = 0; i < (settings.opponentsCPUClassic + settings.opponentsCPUKamikaze); i++)
                         {
-                            enemyTanks.Add(new AI_Tank(this, 
+                            enemyTanks.Add(new AI_Tank(this,
                                 availableTankColors[i % availableTankColors.Length],
-                                new Vector2(map.screenWidth / 2f, (int)map.screenHeight / 2f), 
-                                speedCPU, 0, 3 + i, 1f, whiteRectangle, 1, false, false, 
-                                MathHelper.WrapAngle(MathHelper.PiOver4 * 3 * i), poziomTrudnosci, i >= iloscCPUKlasyk));
+                                new Vector2(map.screenWidth / 2f, (int)map.screenHeight / 2f),
+                                speedCPU, 0, 3 + i, 1f, whiteRectangle, 1, false, false,
+                                MathHelper.WrapAngle(MathHelper.PiOver4 * 3 * i), settings.difficultyLevel, i >= settings.opponentsCPUClassic));
                         }
 
 
-                        if (poziomTrudnosci == 3)
+                        if (settings.difficultyLevel.Equals(DifficultyLevel.Hard))
                         {
                             tank1.mines = 1;
                             tank1.lives = 1;
@@ -943,7 +1276,7 @@ namespace BattleTank.Core
                                 tank2.lives = 1;
                             }
                         }
-                        else if (poziomTrudnosci == 2)
+                        if (settings.difficultyLevel.Equals(DifficultyLevel.Medium))
                         {
                             tank1.mines = 3;
                             tank1.lives = 2;
@@ -969,13 +1302,11 @@ namespace BattleTank.Core
                         }
 
 
-
-
-
-                        map.WallBorder = randy.Next(5);
+                        map.WallBorder = randy.Next(7);
                         WallInside = true;
+                        map.WallInside = randy.Next(5);
                         map.Reset();
-                        soundOnOff = 1;
+                        sound.PauseSound(Sound.Sounds.MENU_SOUND);
 
                         if (gameReturn == GameState.GAME_RUNNING_PLAYER_1)
                         {
@@ -994,26 +1325,30 @@ namespace BattleTank.Core
                 }
             }
 
+
+
             else
             {
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape) || GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+                if ((IsPressing(navigationKeys[FunctionsOfTheNavigationKeys.BACK]) && keysStatus == false) || (state.RightButtonAction == ButtonState.Pressed && !RightButtonStatus))
                 {
-                    soundOnOff = 0;
+                    menuTexture = Content.Load<Texture2D>("Graphics/RamkaXL");
+                    sound.ResumeSound(Sound.Sounds.MENU_SOUND);
                     gameState = GameState.PAUSE;
+                    BlockKeysAndMouseAndDefaultCurrentButton();
                 }
 
                 if (gameState != GameState.PAUSE)
                 {
                     map.Update(gameTime);
 
-                    mines.ForEach(c => c.Update());
+                    mines.ForEach(c => c.Update(gameTime));
                     mines.RemoveAll(d => !d.IsAlive);
 
-                    bullets.ForEach(c => c.Update());
+                    bullets.ForEach(c => c.Update(gameTime));
                     bullets.RemoveAll(d => !d.IsAlive);
 
-                    foreach (Tank tank in enemyTanks.Concat(gameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1 ? new [] {tank1}: new[] { tank1, tank2 }))
+                    foreach (Tank tank in enemyTanks.Concat(gameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1 ? new[] { tank1 } : new[] { tank1, tank2 }))
                     {
                         tank.Update(gameTime);
 
@@ -1029,8 +1364,18 @@ namespace BattleTank.Core
                             mines.Add(mine);
                         }
                     }
-  }
+                }
             }
+
+            if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU ||
+              gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE ||
+              gameState == GameState.CHOICE_OF_GAME_TYPE ||
+              gameState == GameState.SETTINGS_WINDOWS ||
+              gameState == GameState.SETTINGS_ANDROID ||
+              gameState == GameState.START_GAME ||
+              gameState == GameState.PAUSE || gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS)
+                buttonsInMemu[gameState][currentButtonX, currentButtonY].IsMouseOver = true;
+
 
             base.Update(gameTime);
         }
@@ -1042,7 +1387,7 @@ namespace BattleTank.Core
         protected override void Draw(GameTime gameTime)
         {
             if (gameState != GameState.GAME_RUNNING_PLAYER_1)
-            { 
+            {
                 Camera.Scale = 1;
                 Camera.Position = Vector2.Zero;
                 Camera.Center = false;
@@ -1053,15 +1398,10 @@ namespace BattleTank.Core
             spriteBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, Camera.GetViewMatrix());
             spriteBatch.Draw(background, new Rectangle(0, 0, map.screenWidth, map.screenHeight), Color.White);
 
-            map.Draw(spriteBatch);
+            map.Draw(spriteBatch, 0);                  
+            map.Draw(spriteBatch, 1);
 
-
-            foreach (Mine mine in mines)
-            {
-                mine.Draw(spriteBatch);
-            }
-
-            if (gameState == GameState.CHOICE_OF_GAME_TYPE || gameState == GameState.PAUSE || gameState == GameState.START_GAME)
+            if (gameState == GameState.CHOICE_OF_GAME_TYPE || gameState == GameState.PAUSE || gameState == GameState.START_GAME || gameState == GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED)
             {
 
                 spriteBatch.Draw(menuTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
@@ -1085,6 +1425,12 @@ namespace BattleTank.Core
                     ButtonPlayer4.Draw(ref spriteBatch);
                 }
 
+                if (gameState == GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED) {
+
+                    LabelStatementAboutControllerDisconnected.Draw(ref spriteBatch);
+                    ButtonSettings.Draw(ref spriteBatch);
+
+                }
 
 
                 if (gameState == GameState.PAUSE)
@@ -1093,13 +1439,14 @@ namespace BattleTank.Core
                     LabelprzerwaTexture.Draw(ref spriteBatch);
                     ButtonPowrot.Draw(ref spriteBatch);
                     ButtonNowaGra.Draw(ref spriteBatch);
+                    ButtonSettings.Draw(ref spriteBatch);
                     ButtonKoniec.Draw(ref spriteBatch);
                 }
-                if(Environment.OSVersion.Platform == PlatformID.Win32NT)
-                spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
+                if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+                    spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
             }
 
-            if (gameState == GameState.SETTINGS || gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU || gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
+            if (gameState == GameState.SETTINGS_WINDOWS || gameState == GameState.SETTINGS_ANDROID || gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU || gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE)
             {
                 spriteBatch.Draw(menuTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
 
@@ -1126,7 +1473,7 @@ namespace BattleTank.Core
                     ButtondoBoju.Draw(ref spriteBatch);
                 }
 
-                if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_WYSCIG)
+                if (gameState == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE)
                 {
                     LabelwyborCzasGry.Draw(ref spriteBatch);
                     ButtonCzas1Gry.Draw(ref spriteBatch);
@@ -1136,7 +1483,7 @@ namespace BattleTank.Core
                     ButtondoBoju.Draw(ref spriteBatch);
                 }
 
-                if (gameState == GameState.SETTINGS)
+                if (gameState == GameState.SETTINGS_WINDOWS)
                 {
                     LabelSettingsTrybSterowania.Draw(ref spriteBatch);
                     LabelTrybSterowania1Gracza.Draw(ref spriteBatch);
@@ -1148,6 +1495,15 @@ namespace BattleTank.Core
                     ButtonPowrot.Draw(ref spriteBatch);
                 }
 
+                if (gameState == GameState.SETTINGS_ANDROID)
+                {
+                    LabelSettingsTrybSterowania.Draw(ref spriteBatch);
+                    ButtonSettingsTrybSterowaniaBasic.Draw(ref spriteBatch);
+                    ButtonSettingsTrybSterowaniaAdvanced.Draw(ref spriteBatch);
+                    ButtonPowrot.Draw(ref spriteBatch);
+                }
+
+
                 if (Environment.OSVersion.Platform == PlatformID.Win32NT)
                     spriteBatch.Draw(cursorTexture, new Vector2(positionMouse.X - 8, positionMouse.Y - 20), Color.White);
 
@@ -1155,7 +1511,7 @@ namespace BattleTank.Core
 
             if (gameState == GameState.GAME_WIN || gameState == GameState.GAME_LOSS)
             {
-                spriteBatch.Draw(menuWinAndLossTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
+                spriteBatch.Draw(menuTexture, new Rectangle((map.screenWidth / 2) - 500, (map.screenHeight / 2) - 500, 1000, 1000), Color.White);
                 ButtonNowaGra.Draw(ref spriteBatch);
                 ButtonKoniec.Draw(ref spriteBatch);
 
@@ -1182,8 +1538,11 @@ namespace BattleTank.Core
             if (gameState == GameState.GAME_RUNNING_PLAYERS_2_AND_CPU)
             {
 
+                map.Draw(spriteBatch, 0);
+
                 if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
+
 
                 tank1.Draw(spriteBatch);
                 tank2.Draw(spriteBatch);
@@ -1191,10 +1550,7 @@ namespace BattleTank.Core
                 {
                     et.Draw(spriteBatch);
                 }
-
-                map.Draw(spriteBatch);
-
-                scoreManager.Draw(spriteBatch);
+             
 
                 foreach (Bullet bullet in bullets)
                 {
@@ -1203,22 +1559,28 @@ namespace BattleTank.Core
                         bullet.Draw(spriteBatch);
                     }
                 }
+
+                foreach (Mine mine in mines)
+                {
+                    mine.Draw(spriteBatch);
+                }
+
+                map.Draw(spriteBatch, 1);
+
+                scoreManager.Draw(spriteBatch);
             }
             if (gameState == GameState.GAME_RUNNING_PLAYERS_2 || gameState == GameState.GAME_RUNNING_RACE)
             {
-                //
+
+                map.Draw(spriteBatch, 0);
+
                 if (RandomPowerUp.alive)
-                    RandomPowerUp.Draw(spriteBatch);
-
-
-
+                    RandomPowerUp.Draw(spriteBatch);         
 
                 tank1.Draw(spriteBatch);
                 tank2.Draw(spriteBatch);
 
-
-
-                map.Draw(spriteBatch);
+       
 
                 foreach (Bullet bullet in bullets)
                 {
@@ -1227,6 +1589,14 @@ namespace BattleTank.Core
                         bullet.Draw(spriteBatch);
                     }
                 }
+
+                foreach (Mine mine in mines)
+                {
+                    mine.Draw(spriteBatch);
+                }
+
+                map.Draw(spriteBatch, 1);
+
                 scoreManager.Draw(spriteBatch);
 
 
@@ -1242,19 +1612,29 @@ namespace BattleTank.Core
                 if (RandomPowerUp.alive)
                     RandomPowerUp.Draw(spriteBatch);
 
+                map.Draw(spriteBatch, 0);
+
                 tank1.Draw(spriteBatch);
-                
+
                 foreach (AI_Tank et in enemyTanks)
                 {
                     et.Draw(spriteBatch);
                 }
-                scoreManager.Draw(spriteBatch);
 
-                map.Draw(spriteBatch);
                 foreach (Bullet bullet in bullets)
                 {
                     bullet.Draw(spriteBatch);
                 }
+
+                foreach (Mine mine in mines)
+                {
+                    mine.Draw(spriteBatch);
+                }
+
+                map.Draw(spriteBatch, 1);
+
+                scoreManager.Draw(spriteBatch);
+
             }
 
 

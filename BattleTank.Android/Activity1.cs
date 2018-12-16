@@ -17,9 +17,14 @@ namespace BattleTank.Android
     public class Activity1 : Microsoft.Xna.Framework.AndroidGameActivity
     {
 
-        protected override void OnCreate(Bundle bundle)
+        protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(bundle);
+            if (savedInstanceState == null)
+            {
+                throw new System.ArgumentNullException(nameof(savedInstanceState));
+            }
+
+            base.OnCreate(savedInstanceState);
             this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
             this.Window.AddFlags(WindowManagerFlags.Fullscreen); // hide the status bar
 

@@ -20,7 +20,12 @@ namespace BattleTank.Core.Input
             FireButton = fireButton;
 
             if (!GamePad.GetState(PadNumber).IsConnected)
-                throw new Exception($"Wybrany pad ({padNumber}) nie jest podłączony do komputera!");
+            {
+#pragma warning disable S112 // General exceptions should never be thrown
+                throw new Exception(message: $"Wybrany pad ({padNumber}) nie jest podłączony do komputera!");
+#pragma warning restore S112 // General exceptions should never be thrown
+            }
+
         }
 
         public bool IsConnectedTankController()
@@ -34,16 +39,10 @@ namespace BattleTank.Core.Input
         /// <inheritdoc />
         public TankControllerState GetTankControllerState()
         {
-            GamePadState state = new GamePadState();
+            GamePadState state;
 
             state = GamePad.GetState(PadNumber);
-
-            //if (!state.IsConnected)
-            //{
-            //    // TODO: Polepszyć obsługę wyjątków.
-            //    throw new Exception($"Próba pobrania danych z kontrolera ({PadNumber}), który najwidoczniej został odłączony!");
-            //}
-
+        
                float moveX = state.ThumbSticks.Left.X - (float)(state.DPad.Left) + (float)(state.DPad.Right);
               float moveY = state.ThumbSticks.Left.Y - (float)(state.DPad.Down) + (float)(state.DPad.Up);
 

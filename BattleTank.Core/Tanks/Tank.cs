@@ -20,29 +20,30 @@ namespace BattleTank.Core.Tanks
         }
         public TankColors TankColor { get; set; }
         //data members
-        public Vector2 location;
-        public Vector2 startingLocation;
-        public Vector2 speed;
-        public Vector2 slowSpeed;
-        public Vector2 normalSpeed;
-        public float rotation { get; set; }
-        public Texture2D tankTexture { get; set; }
-        public Vector2 origin { get; set; }
-        public Game1 game { get; set; }
-        public int player { get; set; }
-        public float lives { get; set; }
+        public Vector2 location ;
+        public Vector2 StartingLocation { get; set; }
+        public bool Alive { get; set; }
+        public Vector2 Speed { get; set; }
+        public Vector2 SlowSpeed { get; set; }
+        public Vector2 NormalSpeed { get; set; }
+        public float Rotation { get; set; }
+        public Texture2D TankTexture { get; set; }
+        public Vector2 Origin { get; set; }
+        public Game1 Game { get; set; }
+        public int Player { get; set; }
+        public float Lives { get; set; }
 
-        public int strong { get; set; }
+        public int Strong { get; set; }
 
-        public int mines { get; set; }
-        public float armor { get; set; }
-        public float scale { get; set; }
+        public int Mines { get; set; }
+        public float Armor { get; set; }
+        public float Scale { get; set; }
+        public Rectangle TankRect { get; set; }
+        public Particlecloud DeathParticles { get; set; }
+        public Particlecloud RespawnParticles { get; set; }
+        public Particlecloud HitParticles { get; set; }
         public ITankActionProvider TankActionProvider { get; set; }
-        public bool alive;
-        public Rectangle tankRect;
-        public Particlecloud deathParticles;
-        public Particlecloud respawnParticles;
-        public Particlecloud hitParticles;
+
         public const float UP = -MathHelper.PiOver2;
         public const float UP_RIGHT = -MathHelper.PiOver4;
         public const float RIGHT = 0;
@@ -51,30 +52,30 @@ namespace BattleTank.Core.Tanks
         public const float DOWN_LEFT = MathHelper.Pi - MathHelper.PiOver4;
         public const float LEFT = MathHelper.Pi;
         public const float UP_LEFT = -(MathHelper.Pi - MathHelper.PiOver4);
-        public bool colliding = false;
-        public bool fallIntoMud = false;
-        public Texture2D whiteRectangle;
+        public bool Colliding { get; set; }  = false;
+        public bool FallIntoMud { get; set; }  = false;
+        public Texture2D WhiteRectangle { get; set; }
 
-        public bool enemy = false;
-        public Texture2D barrierTexture;
-        public Vector2 barrierLocation;
+        public bool Enemy { get; set; } = false;
+        public Texture2D BarrierTexture { get; set; }
+        public Vector2 BarrierLocation { get; set; }
 
         private float timerBush = 0f;
-        private float[] pitchSoundEngine = new float[9];
+        private readonly float[] pitchSoundEngine = new float[9];
 
-        int tankRectWidth;
-        int tankRectHeight;
+        readonly int tankRectWidth;
+        readonly int tankRectHeight;
 
         protected TimeSpan _timeEngineEffectTime = TimeSpan.Zero;
 
         #region Respawn
-        public bool CanRespawn => !alive && lives > 0 && _timeLeftToRespawn <= TimeSpan.Zero;
+        public bool CanRespawn => !Alive && Lives > 0 && _timeLeftToRespawn <= TimeSpan.Zero;
         private readonly TimeSpan BACK_ALIVE_DELAY = TimeSpan.FromSeconds(2);
         private TimeSpan _timeLeftToRespawn = TimeSpan.Zero;
         #endregion
 
         #region Frozen
-        public bool frozen => _timeLeftForFrozen > TimeSpan.Zero;
+        public bool Frozen => _timeLeftForFrozen > TimeSpan.Zero;
         /// <summary>
         /// Czas po jakim czolg zostanie rozmrozony
         /// </summary>
@@ -131,64 +132,60 @@ namespace BattleTank.Core.Tanks
             switch (TankColor)
             {
                 case TankColors.BLUE:
-                    tankTexture = _game.Content.Load<Texture2D>("Graphics/BlueTank");
+                    TankTexture = _game.Content.Load<Texture2D>("Graphics/BlueTank");
                     break;
                 case TankColors.GREEN:
-                    tankTexture = _game.Content.Load<Texture2D>("Graphics/GreenTank");
+                    TankTexture = _game.Content.Load<Texture2D>("Graphics/GreenTank");
                     break;
                 case TankColors.PINK:
-                    tankTexture = _game.Content.Load<Texture2D>("Graphics/PinkTank");
+                    TankTexture = _game.Content.Load<Texture2D>("Graphics/PinkTank");
                     break;
                 case TankColors.RED:
-                    tankTexture = _game.Content.Load<Texture2D>("Graphics/RedTank");
+                    TankTexture = _game.Content.Load<Texture2D>("Graphics/RedTank");
                     break;
                 case TankColors.YELLOW:
-                    tankTexture = _game.Content.Load<Texture2D>("Graphics/YellowTank");
+                    TankTexture = _game.Content.Load<Texture2D>("Graphics/YellowTank");
                     break;
             }
 
-            barrierTexture = _game.Content.Load<Texture2D>("Graphics/barrier");
+            BarrierTexture = _game.Content.Load<Texture2D>("Graphics/barrier");
 
             location = _location;
 
-            startingLocation = _location;
-            speed = _speed;
-            normalSpeed = speed;
-            slowSpeed = speed - new Vector2(1.5f, 1.5f);
-            rotation = _rotation;         
-            game = _game;
-            tankRectWidth =  (((game.graphics.PreferredBackBufferWidth / game.settings.elementsOnTheWidth) * 2) / 3 ) ;
-            tankRectHeight =  (((game.graphics.PreferredBackBufferHeight / game.settings.elementsOnTheHeight) * 2) / 3) ;
+            StartingLocation = _location;
+            Speed = _speed;
+            NormalSpeed = Speed;
+            SlowSpeed = Speed - new Vector2(1.5f, 1.5f);
+            Rotation = _rotation;         
+            Game = _game;
+            tankRectWidth =  (((Game.Graphics.PreferredBackBufferWidth / Game.Settings.ElementsOnTheWidth) * 2) / 3 ) ;
+            tankRectHeight =  (((Game.Graphics.PreferredBackBufferHeight / Game.Settings.ElementsOnTheHeight) * 2) / 3) ;
 
-            // origin = new Vector2(tankRectWidth / 2f, tankRectHeight / 2f);
-            origin = new Vector2(this.tankTexture.Width / 2f, this.tankTexture.Height / 2f);
+            Origin = new Vector2(this.TankTexture.Width / 2f, this.TankTexture.Height / 2f);
 
-            player = _player;
-            scale = _scale;
-            whiteRectangle = _whiteRectangle;
-            strong = _strong;
-            mines = _mines;
+            Player = _player;
+            Scale = _scale;
+            WhiteRectangle = _whiteRectangle;
+            Strong = _strong;
+            Mines = _mines;
             TankActionProvider = tankActionProvider;
-            alive = true;
-            lives = 3;
-            armor = 1;
-            respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
-            deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
-            hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Gray, 0);
-            tankRect = new Rectangle((int)location.X - (tankRectWidth /2), (int)location.Y - (tankRectHeight /2), tankRectWidth, tankRectHeight);
-            //tankRect = new Rectangle((int)location.X - (tankTexture.Width / 2), (int)location.Y - (tankTexture.Height / 2), tankTexture.Width, tankTexture.Height);
-            game.soundsTanks[player] = new Sound(game);
-            pitchSoundEngine[player] = (float)(game.randy.Next(-50, 50) )/ 100;
-            game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE,0.8f, pitchSoundEngine[player], 0f);
+            Alive = true;
+            Lives = 3;
+            Armor = 1;
+            RespawnParticles = new Particlecloud(location, Game, Player, WhiteRectangle, Color.Gray, 0);
+            DeathParticles = new Particlecloud(location, Game, Player, WhiteRectangle, Color.Gray, 0);
+            HitParticles = new Particlecloud(location, Game, Player, WhiteRectangle, Color.Gray, 0);
+            TankRect = new Rectangle((int)location.X - (tankRectWidth /2), (int)location.Y - (tankRectHeight /2), tankRectWidth, tankRectHeight);
+            Game.SoundsTanks[Player] = new Sound(Game);
+            pitchSoundEngine[Player] = (float)(Game.Randy.Next(-50, 50) )/ 100;
+            Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE,0.8f, pitchSoundEngine[Player], 0f);
 
-            if (_barrier) StartBarrier();
-            if (_frozen) Frozen();
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             // || !alive w poniższym warunku jest konieczne do tego, aby Particles były widoczne po śmierci.
-            if (game.Camera.VisibleArea.Contains(location) || !alive)
+            if (Game.Camera.VisibleArea.Contains(location) || !Alive)
                 DrawTank(spriteBatch);
             else
                 DrawTankPointer(spriteBatch);
@@ -197,17 +194,15 @@ namespace BattleTank.Core.Tanks
         private void DrawTankPointer(SpriteBatch spriteBatch)
         {
             int squareWidth = 17;
-            Texture2D rect = new Texture2D(game.GraphicsDevice, squareWidth, squareWidth);
+            Texture2D rect = new Texture2D(Game.GraphicsDevice, squareWidth, squareWidth);
 
             DrawCricleInTexture(rect);
 
-            Rectangle visArea = game.Camera.VisibleArea;
+            Rectangle visArea = Game.Camera.VisibleArea;
             const int displayEdgeDistance = 25; 
 
-            float x = location.X < visArea.X ? visArea.X + displayEdgeDistance
-                    : location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - displayEdgeDistance : location.X;
-            float y = location.Y < visArea.Y ? visArea.Y + displayEdgeDistance
-                : location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - displayEdgeDistance : location.Y;
+            float x = location.X < visArea.X ? visArea.X + displayEdgeDistance : location.X > visArea.Width + visArea.X ? visArea.Width + visArea.X - displayEdgeDistance : location.X;
+            float y = location.Y < visArea.Y ? visArea.Y + displayEdgeDistance : location.Y > visArea.Height + visArea.Y ? visArea.Height + visArea.Y - displayEdgeDistance : location.Y;
 
             spriteBatch.Draw(rect, new Vector2(x, y), Color.White);
         }
@@ -252,7 +247,9 @@ namespace BattleTank.Core.Tanks
                 case TankColors.YELLOW:
                     return Color.Yellow;
                 default:
+#pragma warning disable S3928 // Parameter names used into ArgumentException constructors should match an existing one 
                     throw new ArgumentOutOfRangeException(nameof(TankColor));
+#pragma warning restore S3928 // Parameter names used into ArgumentException constructors should match an existing one 
             }
         }
 
@@ -263,44 +260,46 @@ namespace BattleTank.Core.Tanks
             {
                 Color barrierColor = GetColor();
 
-                barrierLocation = new Vector2((int)location.X - (barrierTexture.Width / 2), (int)location.Y - (barrierTexture.Height / 2));
+                BarrierLocation = new Vector2((int)location.X - (BarrierTexture.Width / 2), (int)location.Y - (BarrierTexture.Height / 2));
                 if (_timeLeftForBarrier.Seconds <= 3)
                 {
                     if (_timeLeftForBarrier.Milliseconds.IsWithin(500, 750) || _timeLeftForBarrier.Milliseconds.IsWithin(0, 250))
-                        spriteBatch.Draw(barrierTexture, barrierLocation, barrierColor);
+                        spriteBatch.Draw(BarrierTexture, BarrierLocation, barrierColor);
                 }
                 else
                 {
-                    spriteBatch.Draw(barrierTexture, barrierLocation, barrierColor);
+                    spriteBatch.Draw(BarrierTexture, BarrierLocation, barrierColor);
                 }
             }
 
 
 
-            if (alive)
+            if (Alive)
             {
 
-                spriteBatch.Draw(tankTexture, null, new Rectangle((int)location.X, (int)location.Y, tankRectWidth, tankRectHeight), null, origin, rotation, new Vector2(1, 1), Color.White, SpriteEffects.None, 0);
+#pragma warning disable CS0618 // Typ lub składowa jest przestarzała
+                spriteBatch.Draw(TankTexture, null, new Rectangle((int)location.X, (int)location.Y, tankRectWidth, tankRectHeight), null, Origin, Rotation, new Vector2(1, 1), Color.White, SpriteEffects.None, 0);
+#pragma warning restore CS0618 // Typ lub składowa jest przestarzała
 
             }
-            if (frozen)
+            if (Frozen)
             {
 
-                spriteBatch.Draw(game.Content.Load<Texture2D>("Graphics/FrozenEfekt"), location, null, Color.Lerp(Color.Transparent, Color.White, ((_timeLeftForFrozen.Seconds + 1) / 5f)), rotation, origin, 1, SpriteEffects.None, 1);
+                spriteBatch.Draw(Game.Content.Load<Texture2D>("Graphics/FrozenEfekt"), location, null, Color.Lerp(Color.Transparent, Color.White, ((_timeLeftForFrozen.Seconds + 1) / 5f)), Rotation, Origin, 1, SpriteEffects.None, 1);
              
             }
 
-            respawnParticles.Draw(spriteBatch);
-            deathParticles.Draw(spriteBatch);
-            if (hitParticles != null)
+            RespawnParticles.Draw(spriteBatch);
+            DeathParticles.Draw(spriteBatch);
+            if (HitParticles != null)
             {
-                hitParticles.Draw(spriteBatch);
+                HitParticles.Draw(spriteBatch);
             }
         }
 
         public virtual void Update(GameTime gameTime)
         {
-            if (alive)
+            if (Alive)
             {
                 _timeLeftToNextShot -= gameTime.ElapsedGameTime;
                 _timeLeftToPlantMine -= gameTime.ElapsedGameTime;
@@ -311,138 +310,130 @@ namespace BattleTank.Core.Tanks
 
            
                       
-                if (_timeLeftForVibration <= TimeSpan.Zero)
+                if ((_timeLeftForVibration <= TimeSpan.Zero) && (TankActionProvider is XInputGamepadTankActionProvider c))
                 {
-                    if (TankActionProvider is XInputGamepadTankActionProvider c)
-                    {
-                        c.Vibrate(0);
-                    }
+                    c.Vibrate(0);                   
                 }
 
-                if (!frozen)
+                if (!Frozen)
                 {
                     MoveTank();
                 }
 
-                tankRect = new Rectangle((int)location.X - (tankRectWidth / 2), (int)location.Y - (tankRectHeight / 2), tankRectWidth, tankRectHeight);
+                TankRect = new Rectangle((int)location.X - (tankRectWidth / 2), (int)location.Y - (tankRectHeight / 2), tankRectWidth, tankRectHeight);
 
-                colliding = false;
+                Colliding = false;
 
-                if (!fallIntoMud)
+                if (!FallIntoMud)
                 {
-                    speed = normalSpeed;
-                    game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE, 0.8f, pitchSoundEngine[player], 0f);
+                    Speed = NormalSpeed;
+                    Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE, 0.8f, pitchSoundEngine[Player], 0f);
                 }
-                foreach (Tile[] tiles in game.map.map)
+                foreach (Tile[] tiles in Game.Map.MapCurrent)
                 {
                     foreach (Tile tile in tiles)
                     {
-                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER || tile.type == Tile.TileType.BUSH || tile.type == Tile.TileType.MUD)
+                        if (tile.Type == Tile.TileType.WALL || tile.Type == Tile.TileType.WATER || tile.Type == Tile.TileType.BUSH || tile.Type == Tile.TileType.MUD)
                         {
-                            if ((tile.isColliding(tankRect).depth > 0))
+                            if ((tile.IsColliding(TankRect).Depth > 0))
                             {
                                 float timer = (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
                                 timerBush -= timer;
-                                if (tile.type != Tile.TileType.BUSH && tile.type != Tile.TileType.MUD)
-                                    colliding = true;
+                                if (tile.Type != Tile.TileType.BUSH && tile.Type != Tile.TileType.MUD)
+                                    Colliding = true;
 
-                                if (tile.type == Tile.TileType.MUD)
-                                    fallIntoMud = true;
+                                if (tile.Type == Tile.TileType.MUD)
+                                    FallIntoMud = true;
 
-                                Collision collision = tile.isColliding(tankRect);
-                                switch (collision.side)
+                                Collision collision = tile.IsColliding(TankRect);
+                                switch (collision.SideCollision)
                                 {
                                     case Collision.Side.TOP:
-                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
-                                            location.Y += collision.depth;
-                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
+                                        if (tile.Type == Tile.TileType.WALL || tile.Type == Tile.TileType.WATER)
+                                            location.Y += collision.Depth;
+                                        if (tile.Type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             RustlingEffectSound();
                                         }
-                                        if (tile.type == Tile.TileType.MUD)
+                                        if (tile.Type == Tile.TileType.MUD)
                                         {
-                                            game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[player] - 0.2f, 0f);
-                                            speed = slowSpeed;
+                                            Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[Player] - 0.2f, 0f);
+                                            Speed = SlowSpeed;
                                         }
                                         break;
                                     case Collision.Side.BOTTOM:
-                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
-                                            location.Y -= collision.depth;
-                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
+                                        if (tile.Type == Tile.TileType.WALL || tile.Type == Tile.TileType.WATER)
+                                            location.Y -= collision.Depth;
+                                        if (tile.Type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             RustlingEffectSound();
                                         }
-                                        if (tile.type == Tile.TileType.MUD)
+                                        if (tile.Type == Tile.TileType.MUD)
                                         {
-                                            game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[player] - 0.2f, 0f);
-                                            speed = slowSpeed;
+                                            Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[Player] - 0.2f, 0f);
+                                            Speed = SlowSpeed;
                                         }
                                         break;
                                     case Collision.Side.LEFT:
-                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
-                                            location.X += collision.depth;
-                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
+                                        if (tile.Type == Tile.TileType.WALL || tile.Type == Tile.TileType.WATER)
+                                            location.X += collision.Depth;
+                                        if (tile.Type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             RustlingEffectSound();
                                         }
-                                        if (tile.type == Tile.TileType.MUD)
+                                        if (tile.Type == Tile.TileType.MUD)
                                         {
-                                            game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[player] - 0.2f, 0f);
-                                            speed = slowSpeed;
+                                            Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[Player] - 0.2f, 0f);
+                                            Speed = SlowSpeed;
                                         }
                                         break;
                                     case Collision.Side.RIGHT:
-                                        if (tile.type == Tile.TileType.WALL || tile.type == Tile.TileType.WATER)
-                                            location.X -= collision.depth;
-                                        if (tile.type == Tile.TileType.BUSH && timerBush <= 0)
+                                        if (tile.Type == Tile.TileType.WALL || tile.Type == Tile.TileType.WATER)
+                                            location.X -= collision.Depth;
+                                        if (tile.Type == Tile.TileType.BUSH && timerBush <= 0)
                                         {
                                             RustlingEffectSound();
                                         }
-                                        if (tile.type == Tile.TileType.MUD)
+                                        if (tile.Type == Tile.TileType.MUD)
                                         {
-                                            game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[player] - 0.2f, 0f);
-                                            speed = slowSpeed;
+                                            Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[Player] - 0.2f, 0f);
+                                            Speed = SlowSpeed;
                                         }
                                         break;
 
                                 }
                             }
-                            fallIntoMud = false;
+                            FallIntoMud = false;
                         }
 
-                        else
-                        {
-                            continue;
-                        }
+                     
 
                     }
                 }
                         
-                foreach (Tank tank in game.enemyTanks.Where(c => !(c._kamikazeMode)).Concat(new List<Tank> { game.tank1, game.tank2 }).Where(d => !(d is null)))
+                foreach (Tank tank in Game.EnemyTanks.Where(et => !(et._kamikazeMode)).Concat(new List<Tank> { Game.Tank1, Game.Tank2 }).Where(d => !(d is null)))
                 {               
-                    if (!tank.player.Equals(player) && !enemy || tank.enemy.Equals(enemy))
+                    if (((!tank.Player.Equals(Player) && !Enemy) || tank.Enemy.Equals(Enemy)) && (tank.IsColliding(TankRect).Depth > 0))
                     {
-                        if ((tank.isColliding(tankRect).depth > 0))
-                        {
                          
-                            Collision collision = tank.isColliding(tankRect);
-                            switch (collision.side)
+                            Collision collision = tank.IsColliding(TankRect);
+                            switch (collision.SideCollision)
                             {
                                 case Collision.Side.TOP:                             
-                                        location.Y += collision.depth;                                 
+                                        location.Y += collision.Depth;                                 
                                     break;
                                 case Collision.Side.BOTTOM:
-                                        location.Y -= collision.depth;                                  
+                                        location.Y -= collision.Depth;                                  
                                     break;
                                 case Collision.Side.LEFT:
-                                        location.X += collision.depth;
+                                        location.X += collision.Depth;
                                     break;
                                 case Collision.Side.RIGHT:
-                                        location.X -= collision.depth;
+                                        location.X -= collision.Depth;
                                     break;
 
                             }
-                        }
+                        
                     }
                 }
             }
@@ -454,37 +445,37 @@ namespace BattleTank.Core.Tanks
                     Respawn();
                 }
             }
-            respawnParticles.Update(gameTime);
-            deathParticles.Update(gameTime);
-            if (hitParticles != null)
+            RespawnParticles.Update(gameTime);
+            DeathParticles.Update(gameTime);
+            if (HitParticles != null)
             {
-                hitParticles.Update(gameTime);
+                HitParticles.Update(gameTime);
             }
         }
 
-        public Collision isColliding(Rectangle possibleCollisionRect)
+        public Collision IsColliding(Rectangle possibleCollisionRect)
         {
-            Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, tankRect);
+            Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, TankRect);
          
                 if (intersect.Width > 0 || intersect.Height > 0)
                 {
 
-                    if (possibleCollisionRect.Top < tankRect.Bottom && Math.Abs(intersect.Width) > Math.Abs(intersect.Height) && possibleCollisionRect.Y > tankRect.Y)
+                    if (possibleCollisionRect.Top < TankRect.Bottom && Math.Abs(intersect.Width) > Math.Abs(intersect.Height) && possibleCollisionRect.Y > TankRect.Y)
                     {
                         float depth = intersect.Height;
                         return new Collision(Collision.Side.TOP, depth);
                     }
-                    if (possibleCollisionRect.Bottom > tankRect.Top && Math.Abs(intersect.Width) > Math.Abs(intersect.Height))
+                    if (possibleCollisionRect.Bottom > TankRect.Top && Math.Abs(intersect.Width) > Math.Abs(intersect.Height))
                     {
                         float depth = intersect.Height;
                         return new Collision(Collision.Side.BOTTOM, depth);
                     }
-                    if (possibleCollisionRect.Left < tankRect.Right && Math.Abs(intersect.Width) < Math.Abs(intersect.Height) && possibleCollisionRect.Right > tankRect.Right)
+                    if (possibleCollisionRect.Left < TankRect.Right && Math.Abs(intersect.Width) < Math.Abs(intersect.Height) && possibleCollisionRect.Right > TankRect.Right)
                     {
                         float depth = intersect.Width;
                         return new Collision(Collision.Side.LEFT, depth);
                     }
-                    if (possibleCollisionRect.Right > tankRect.Right - tankRect.Width && possibleCollisionRect.Right > tankRect.Left && Math.Abs(intersect.Width) < Math.Abs(intersect.Height))
+                    if (possibleCollisionRect.Right > TankRect.Right - TankRect.Width && possibleCollisionRect.Right > TankRect.Left && Math.Abs(intersect.Width) < Math.Abs(intersect.Height))
                     {
                         float depth = intersect.Width;
                         return new Collision(Collision.Side.RIGHT, depth);
@@ -499,15 +490,15 @@ namespace BattleTank.Core.Tanks
 
         private void RustlingEffectSound()
         {
-            game.soundsTanks[player].ConfigSound(Sound.Sounds.RUSTLING, 0.8f, (float)(game.randy.Next(-60, 60)) / 100, 0f);
-            game.soundsTanks[player].PlaySound(Sound.Sounds.RUSTLING);
+            Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.RUSTLING, 0.8f, (float)(Game.Randy.Next(-60, 60)) / 100, 0f);
+            Game.SoundsTanks[Player].PlaySound(Sound.Sounds.RUSTLING);
             timerBush = 0.5f;
         }
 
         public virtual void MoveTank(TankControllerState? state = null)
         {
 
-            if (player > 2 || TankActionProvider.IsConnectedTankController())
+            if (Player > 2 || TankActionProvider.IsConnectedTankController())
             {
 
                 TankControllerState controller = state ?? TankActionProvider.GetTankControllerState();
@@ -516,18 +507,18 @@ namespace BattleTank.Core.Tanks
 
                 if (Math.Abs(xMovement) < float.Epsilon && Math.Abs(yMovement) < float.Epsilon)
                 {
-                    game.soundsTanks[player].PauseSound(Sound.Sounds.ENGINE);
+                    Game.SoundsTanks[Player].PauseSound(Sound.Sounds.ENGINE);
                     return;
                 }
                 else
                 {
-                    game.soundsTanks[player].PlaySound(Sound.Sounds.ENGINE);
+                    Game.SoundsTanks[Player].PlaySound(Sound.Sounds.ENGINE);
                 }
 
                 if (controller.SpeedBoost)
-                    game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[player] + 0.2f, 0f);
+                    Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE, 1f, pitchSoundEngine[Player] + 0.2f, 0f);
                 else
-                    game.soundsTanks[player].ConfigSound(Sound.Sounds.ENGINE, 0.8f, pitchSoundEngine[player], 0f);
+                    Game.SoundsTanks[Player].ConfigSound(Sound.Sounds.ENGINE, 0.8f, pitchSoundEngine[Player], 0f);
 
                 float tan = Math.Abs(xMovement) > double.Epsilon
                     ? Math.Abs(yMovement) / xMovement
@@ -556,29 +547,29 @@ namespace BattleTank.Core.Tanks
             }
             else
             {
-                game.gameState = Game1.GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED;
+                Game.GameStateCurrent = Game1.GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED;
             }
 
 
-            }
+        }
 
         public void Move(Vector2 currentSpeed, bool isSpeeBoostUp)
         {
 
-            this.location.X += ((float)Math.Cos(rotation) * this.speed.X * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
-            this.location.Y += ((float)Math.Sin(rotation) * this.speed.Y * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
+            this.location.X += ((float)Math.Cos(Rotation) * this.Speed.X * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
+            this.location.Y += ((float)Math.Sin(Rotation) * this.Speed.Y * (isSpeeBoostUp ? 2 : 1)) * currentSpeed.Length();
         }
 
         public void MoveLeft(bool isBoostPressed)
         {
             if (isBoostPressed)
             {
-                this.location.X -= (2) + this.speed.X;
+                this.location.X -= (2) + this.Speed.X;
             }
 
             else
             {
-                this.location.X -= this.speed.X;
+                this.location.X -= this.Speed.X;
             }
         }
 
@@ -586,12 +577,12 @@ namespace BattleTank.Core.Tanks
         {
             if (isBoostPressed)
             {
-                this.location.X += (2) + this.speed.X;
+                this.location.X += (2) + this.Speed.X;
             }
 
             else
             {
-                this.location.X += this.speed.X;
+                this.location.X += this.Speed.X;
             }
         }
 
@@ -599,12 +590,12 @@ namespace BattleTank.Core.Tanks
         {
             if (isBoostPressed)
             {
-                this.location.Y -= (2) + this.speed.Y;
+                this.location.Y -= (2) + this.Speed.Y;
             }
 
             else
             {
-                this.location.Y -= this.speed.Y;
+                this.location.Y -= this.Speed.Y;
             }
         }
 
@@ -612,23 +603,23 @@ namespace BattleTank.Core.Tanks
         {
             if (isBoostPressed)
             {
-                this.location.Y += (2) + this.speed.Y;
+                this.location.Y += (2) + this.Speed.Y;
             }
 
             else
             {
-                this.location.Y += this.speed.Y;
+                this.location.Y += this.Speed.Y;
             }
         }
 
         public void Rotate(float angle)
         {
-            this.rotation = angle;
+            this.Rotation = angle;
         }
 
         public virtual bool TryFire(out Bullet[] bullets)
         {
-            if (player > 2 || TankActionProvider.IsConnectedTankController())
+            if (Player > 2 || TankActionProvider.IsConnectedTankController())
             {
 
                 TankControllerState controller = TankActionProvider.GetTankControllerState();
@@ -640,7 +631,7 @@ namespace BattleTank.Core.Tanks
             }
             else
             {
-                game.gameState = Game1.GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED;
+                Game.GameStateCurrent = Game1.GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED;
             }
 
             bullets = new Bullet[0];
@@ -649,15 +640,15 @@ namespace BattleTank.Core.Tanks
 
         protected Bullet[] Fire()
         {
-            if (!alive) return new Bullet[0];
+            if (!Alive) return new Bullet[0];
 
-            if (frozen) return new Bullet[0];
+            if (Frozen) return new Bullet[0];
 
             if (_timeLeftToNextShot > TimeSpan.Zero) return new Bullet[0];
 
             _timeLeftToNextShot = FIRE_DELAY;
 
-            game.soundsTanks[player].PlaySound(Sound.Sounds.SHOT);
+            Game.SoundsTanks[Player].PlaySound(Sound.Sounds.SHOT);
 
             Color color = Color.Blue;
 
@@ -668,13 +659,13 @@ namespace BattleTank.Core.Tanks
             if (TankColor.Equals(TankColors.YELLOW))
                 color = Color.Yellow;
 
-            if (player == 1)
+            if (Player == 1)
                 color = Color.Green;
-            if (player == 2)
+            if (Player == 2)
                 color = Color.Red;
 
-            float xFraction = (float)Math.Cos(rotation); // składowa pozioma aktualnego obrotu
-            float yFraction = (float)Math.Sin(rotation); // składowa pionowa akutlanego obrutu
+            float xFraction = (float)Math.Cos(Rotation); // składowa pozioma aktualnego obrotu
+            float yFraction = (float)Math.Sin(Rotation); // składowa pionowa akutlanego obrutu
 
             float bulletMaxSpeed = 20;
             Vector2 bulletSpeed = new Vector2(xFraction * bulletMaxSpeed, yFraction * bulletMaxSpeed);
@@ -683,10 +674,10 @@ namespace BattleTank.Core.Tanks
             Rectangle bulletStartPosition = new Rectangle((int)(location.X + xFraction * bulletShowDistance),
                                                            (int)(location.Y + yFraction * bulletShowDistance), 5, 7);
 
-            var bullets = new Bullet[strong];
+            var bullets = new Bullet[Strong];
 
-            for (int i = 0; i < this.strong; i++) // stwórz na raz tyle pociskow, ile mocy ma czołg.
-                bullets[i] = new Bullet(game, bulletStartPosition, bulletSpeed, color, player, 0, whiteRectangle, Bullet.TypeOfWeapon.BULLET);
+            for (int i = 0; i < this.Strong; i++) // stwórz na raz tyle pociskow, ile mocy ma czołg.
+                bullets[i] = new Bullet(Game, bulletStartPosition, bulletSpeed, color, Player, 0, WhiteRectangle, Bullet.TypeOfWeapon.BULLET);
 
             return bullets;
         }
@@ -696,30 +687,29 @@ namespace BattleTank.Core.Tanks
 
             mine = null;
 
-            if (player > 2 || TankActionProvider.IsConnectedTankController())
+            if (Player > 2 || TankActionProvider.IsConnectedTankController())
             {
 
-                if (mines <= 0 || _timeLeftToPlantMine > TimeSpan.Zero) return false;
+                if (Mines <= 0 || _timeLeftToPlantMine > TimeSpan.Zero) return false;
 
                 TankControllerState controller = TankActionProvider.GetTankControllerState();
                 if (!controller.PlantMine)
                     return false;
 
-                if (!alive) return false;
+                if (!Alive) return false;
 
                 _timeLeftToPlantMine = PLANT_MINE_DELAY;
 
-                Color color = Color.Orange;
 
                 Rectangle minePositiono = new Rectangle(this.location.ToPoint(), new Point(20, 20));
-                mine = new Mine(game, minePositiono, Vector2.Zero, Color.Orange, player, 0, whiteRectangle, Bullet.TypeOfWeapon.MINE);
-                mines--;
+                mine = new Mine(Game, minePositiono, Vector2.Zero, Color.Orange, Player, 0, WhiteRectangle, Bullet.TypeOfWeapon.MINE);
+                Mines--;
                 _timeLeftToPlantMine = PLANT_MINE_DELAY;
                 return true;
             }
             else
             {
-                game.gameState = Game1.GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED;
+                Game.GameStateCurrent = Game1.GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED;
             }
             return false;
         }
@@ -729,7 +719,7 @@ namespace BattleTank.Core.Tanks
             _timeLeftForBarrier = BARRIER_TIME;
         }
 
-        public virtual void Frozen()
+        public virtual void StartFrozen()
         {
             _timeLeftForFrozen = FROZEN_TIME;
         }
@@ -741,37 +731,37 @@ namespace BattleTank.Core.Tanks
                 c.Vibrate(0.5f);
                 _timeLeftForVibration = TimeSpan.FromMilliseconds(100);
             }
-            game.soundsTanks[player].PlaySound(Sound.Sounds.HIT);
-            if (armor > 0)
-                armor -= 0.25f;
-            else if (armor == 0)
+            Game.SoundsTanks[Player].PlaySound(Sound.Sounds.HIT);
+            if (Armor > 0)
+                Armor -= 0.25f;
+            else if (Armor == 0)
             {
-                lives -= 0.25f;
-                if (lives % 1 == 0)
+                Lives -= 0.25f;
+                if (Lives % 1 == 0)
                 {
                     Die();
                 }
             }
-            hitParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2, 6);
+            HitParticles = new Particlecloud(location, Game, Player, WhiteRectangle, Color.OrangeRed, 2, 6);
 
 
         }
 
         public virtual void Die()
         {
-            game.soundsTanks[player].StopSound(Sound.Sounds.ENGINE);
-            game.soundsTanks[player].PlaySound(Sound.Sounds.EXPLOSION);
-            if (alive)
+            Game.SoundsTanks[Player].StopSound(Sound.Sounds.ENGINE);
+            Game.SoundsTanks[Player].PlaySound(Sound.Sounds.EXPLOSION);
+            if (Alive)
             {
-                if (game.gameState == Game1.GameState.GAME_RUNNING_RACE)
-                { lives++; }
+                if (Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_RACE)
+                { Lives++; }
 
-                deathParticles = new Particlecloud(location, game, player, whiteRectangle, Color.OrangeRed, 2);
-                alive = false;
+                DeathParticles = new Particlecloud(location, Game, Player, WhiteRectangle, Color.OrangeRed, 2);
+                Alive = false;
                 location = new Vector2(-100, -100);
                 _timeLeftToRespawn = BACK_ALIVE_DELAY;
             }
-            if (lives <= 0)
+            if (Lives <= 0)
             {
                 if (TankActionProvider is XInputGamepadTankActionProvider c)
                 {
@@ -792,29 +782,29 @@ namespace BattleTank.Core.Tanks
         private void Respawn()
         {
         
-           location = game.map.FindNonColidingPosition(tankRect.Width, tankRect.Height);
-            game.soundsTanks[player].PlaySound(Sound.Sounds.RESPAWN);
+           location = Game.Map.FindNonColidingPosition(TankRect.Width, TankRect.Height);
+            Game.SoundsTanks[Player].PlaySound(Sound.Sounds.RESPAWN);
             _timeEngineEffectTime = TimeSpan.Zero;
-            armor = 1;
-            strong = 1;
-            respawnParticles = new Particlecloud(location, game, player, whiteRectangle, Color.Green, 2);
-            alive = true;
+            Armor = 1;
+            Strong = 1;
+            RespawnParticles = new Particlecloud(location, Game, Player, WhiteRectangle, Color.Green, 2);
+            Alive = true;
         }
 
         public void Explode()
         {
-            if (!alive) return;
+            if (!Alive) return;
 
             if (Barrier) return;
 
-            armor = 0;
+            Armor = 0;
 
             // czyli kiedy pozostała wartość życia jest wartością całkowitą
-            if (Math.Abs(lives - (int)lives) <= float.Epsilon)
-                lives--;
+            if (Math.Abs(Lives - (int)Lives) <= float.Epsilon)
+                Lives--;
             // Jeżeli pozostała ilosć życia jest większa niż część całkowita, odejmij część ułamkową
             else
-                lives -= lives - (int)lives;
+                Lives -= Lives - (int)Lives;
 
             Die();
 

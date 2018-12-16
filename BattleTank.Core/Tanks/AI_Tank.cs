@@ -8,12 +8,13 @@ using static BattleTank.Core.Settings;
 
 namespace BattleTank.Core.Tanks
 {
+#pragma warning disable S101 // Types should be named in PascalCase, but it is artificial intelligence (AI)
     public class AI_Tank : Tank
+#pragma warning restore S101 // Types should be named in PascalCase, but it is artificial intelligence (AI)
     {
         private readonly DifficultyLevel _aiLevel;  //Można wykorzystać do ustawienia poziomu trudności
         private TankControllerState _targetDirection;
-        private float _oldTargetDirection;
-        private readonly List<Bullet> _enemyBullets = new List<Bullet>();
+        private float _oldTargetDirection;      
         public readonly bool _kamikazeMode  = false;
 
         private readonly TimeSpan MAX_AGGRESSIVE_TIME = new TimeSpan(0, 0, 0, 5);
@@ -28,7 +29,7 @@ namespace BattleTank.Core.Tanks
             : base(game, tankSpriteName, location, maxSpeed, rotation, player, scale,
                   whiteRectangle, strong, 0, barrier, frozen, null)
         {
-            enemy = true;
+            Enemy = true;
             _aiLevel = aiLevel;
 
             _oldTargetDirection = targetDirection;
@@ -37,7 +38,7 @@ namespace BattleTank.Core.Tanks
 
             if (_kamikazeMode)
             {
-                speed = new Vector2(3, 3);
+                Speed = new Vector2(3, 3);
             }
           
         }
@@ -76,7 +77,7 @@ namespace BattleTank.Core.Tanks
 
         private void StandardAI()
         {
-            if (colliding)
+            if (Colliding)
             {
                 switch ((int)(_oldTargetDirection * 10))
                 {
@@ -148,25 +149,22 @@ namespace BattleTank.Core.Tanks
                     break;
             }
 
-            if (game.gameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1)
-                tanks = new[] { game.tank1 };
+            if (Game.GameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1)
+                tanks = new[] { Game.Tank1 };
             else
-                tanks = new[] { game.tank1, game.tank2 };
+                tanks = new[] { Game.Tank1, Game.Tank2 };
 
-            foreach (var userTank in tanks.Where(d => d.alive))
-            {
-                if (_kamikazeMode)
-                {
-                    if ((location - userTank.location).Length() <= (int)_aiLevel * 2) // TODO: należy zamienić ten mnożnik na jakąś stałą
+            foreach (var userTank in tanks.Where(d => d.Alive))
+            {               
+                    if (_kamikazeMode && ((location - userTank.location).Length() <= (int)_aiLevel * 2)) // TODO: należy zamienić ten mnożnik na jakąś stałą
                     {
                         Explode();
-                        if (userTank.Barrier == false)
+                        if (!userTank.Barrier)
                         {
                             userTank.Explode();
                         }
                     }
-                }
-
+                
                 var toUserTankXDistance = Math.Abs(location.X - userTank.location.X);
                 var toUserTankYDistance = Math.Abs(location.Y - userTank.location.Y);
 
@@ -195,7 +193,7 @@ namespace BattleTank.Core.Tanks
         private void ExperimentalAI()
         {
             Random random = new Random(DateTimeOffset.Now.Millisecond);
-            if (colliding)
+            if (Colliding)
             {
                 _targetDirection = _targetDirection.Rotate(0.1);
                 base.MoveTank(_targetDirection);
@@ -203,14 +201,14 @@ namespace BattleTank.Core.Tanks
                 return;
             }
 
-            Tank nearestUserTank = game.tank1;
-            Vector2 differenceToUserTank = (location - game.tank1.location);
+            Tank nearestUserTank = Game.Tank1;
+            Vector2 differenceToUserTank = (location - Game.Tank1.location);
             float distanceToNearestUserTank = differenceToUserTank.Length();
 
-            if (game.gameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1)
-                tanks = new[] { game.tank1 };
+            if (Game.GameReturn == Game1.GameState.GAME_RUNNING_PLAYER_1)
+                tanks = new[] { Game.Tank1 };
             else
-                tanks = new[] { game.tank1, game.tank2 };
+                tanks = new[] { Game.Tank1, Game.Tank2 };
 
             // Sprawdź jaki czołg gracza jest najbliżej
             foreach (Tank tank in tanks)
@@ -235,17 +233,15 @@ namespace BattleTank.Core.Tanks
                 _targetDirection = _targetDirection.SafelySpeedUp(1.1f).Rotate(MathHelper.PiOver4 / 10 * (random.NextDouble() - 0.5));
             }
 
-            if (_kamikazeMode)
-            {
-                if (distanceToNearestUserTank <= ((int)_aiLevel * 10))
+                if (_kamikazeMode && (distanceToNearestUserTank <= ((int)_aiLevel * 10)))
                 {
                     Explode();
-                    if (nearestUserTank.Barrier == false)
+                    if (!nearestUserTank.Barrier)
                     {
                         nearestUserTank.Explode();
                     }
                 }
-            }
+            
 
             float sightDistance = _isAggressive ? float.PositiveInfinity : 150;
             if (distanceToNearestUserTank < ((int)_aiLevel * sightDistance))

@@ -14,9 +14,6 @@ namespace BattleTank.Core
         protected float _rotation;
         protected Texture2D _rectangleTexture;
         public const int POINTS_ON_KILL = 1;
-        public Particlecloud shotParticles;
-        public Particlecloud deathParticles;
-        public TypeOfWeapon _type;
 
         public enum TypeOfWeapon
         {
@@ -25,11 +22,14 @@ namespace BattleTank.Core
 
         public bool IsAlive { get; set; }
         public bool IsCollide { get; set; }
+        public Particlecloud ShotParticles { get; set; }
+        public Particlecloud DeathParticles { get; set; }
+        public TypeOfWeapon Type { get; set; }
 
         public Bullet(Game1 game, Rectangle bulletRect, Vector2 speed, Color color, int player, float rotation, Texture2D rectangleTexture, TypeOfWeapon type)
         {
             _game = game;
-            _type = type;
+            Type = type;
             _bulletRect = bulletRect;
             _speed = speed;
             _color = color;
@@ -38,7 +38,7 @@ namespace BattleTank.Core
             _rectangleTexture = rectangleTexture;
             IsAlive = true;
             IsCollide = false;
-            shotParticles = new Particlecloud(new Vector2(bulletRect.X + speed.X, bulletRect.Y + speed.Y), game, player, rectangleTexture, _type.Equals(TypeOfWeapon.BULLET) ? Color.MonoGameOrange : Color.Gray, 1, 2);
+            ShotParticles = new Particlecloud(new Vector2(bulletRect.X + speed.X, bulletRect.Y + speed.Y), game, player, rectangleTexture, Type.Equals(TypeOfWeapon.BULLET) ? Color.MonoGameOrange : Color.Gray, 1, 2);
 
         }
 
@@ -49,13 +49,13 @@ namespace BattleTank.Core
 
             if (IsCollide)
             {
-                deathParticles.Draw(spriteBatch);
+                DeathParticles.Draw(spriteBatch);
 
             }
 
-            if (shotParticles != null)
+            if (ShotParticles != null)
             {
-                shotParticles.Draw(spriteBatch);
+                ShotParticles.Draw(spriteBatch);
 
             }
 
@@ -68,16 +68,16 @@ namespace BattleTank.Core
 
             if (!IsAlive) return;
 
-            if (deathParticles != null)
+            if (DeathParticles != null)
             {
-                deathParticles.Update(gameTime);
-                if (!deathParticles.Particles[deathParticles.Particles.Length - 1].alive)
+                DeathParticles.Update(gameTime);
+                if (!DeathParticles.Particles[DeathParticles.Particles.Length - 1].Alive)
                     IsAlive = false;
             }
 
-            if (shotParticles != null)
+            if (ShotParticles != null)
             {
-                shotParticles.Update(gameTime);
+                ShotParticles.Update(gameTime);
             }
 
             _bulletRect.X += (int)_speed.X;
@@ -89,47 +89,44 @@ namespace BattleTank.Core
 
         public virtual void CheckCollision()
         {
-            foreach (AI_Tank et in _game.enemyTanks)
+            foreach (AI_Tank et in _game.EnemyTanks)
             {
-                if ((Rectangle.Intersect(_bulletRect, new Rectangle((int)et.location.X - (et.tankTexture.Width / 2), (int)et.location.Y - (et.tankTexture.Height / 2), et.tankTexture.Width, et.tankTexture.Height)).Width != 0) && et.alive && _player < 3)
+                if (((Rectangle.Intersect(_bulletRect, new Rectangle((int)et.location.X - (et.TankTexture.Width / 2), (int)et.location.Y - (et.TankTexture.Height / 2), et.TankTexture.Width, et.TankTexture.Height)).Width != 0) && et.Alive && _player < 3) && !et.Barrier)
                 {
-                    if (et.Barrier == false)
-                    {
                         et.Hit();
 
-                        if (!et.alive)
+                        if (!et.Alive)
                         {
-                            _game.scoreManager.addScore(_player - 1, POINTS_ON_KILL);
+                            _game.ScoreManager.AddScore(_player - 1, POINTS_ON_KILL);
                         }
                         this.Die();
-
-                    }
                 }
+                
             }
 
-            if ((_player == 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank1.location.X - (_game.tank1.tankTexture.Width / 2), (int)_game.tank1.location.Y - (_game.tank1.tankTexture.Height / 2), _game.tank1.tankTexture.Width, _game.tank1.tankTexture.Height)).Width != 0) && _game.tank1.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
+            if ((_player == 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.Tank1.location.X - (_game.Tank1.TankTexture.Width / 2), (int)_game.Tank1.location.Y - (_game.Tank1.TankTexture.Height / 2), _game.Tank1.TankTexture.Width, _game.Tank1.TankTexture.Height)).Width != 0) && _game.Tank1.Alive) && (_game.GameStateCurrent != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
             {
-                if (_game.tank1.Barrier == false)
+                if (!_game.Tank1.Barrier)
                 {
-                    _game.tank1.Hit();
+                    _game.Tank1.Hit();
 
-                    if (!_game.tank1.alive)
+                    if (!_game.Tank1.Alive)
                     {
-                        _game.scoreManager.addScore(1, POINTS_ON_KILL);
+                        _game.ScoreManager.AddScore(1, POINTS_ON_KILL);
                     }
                 }
                 this.Die();
 
             }
-            if (_game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && (_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive) && (_game.gameState != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
+            if (_game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && (_player == 1 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.Tank2.location.X - (_game.Tank2.TankTexture.Width / 2), (int)_game.Tank2.location.Y - (_game.Tank2.TankTexture.Height / 2), _game.Tank2.TankTexture.Width, _game.Tank2.TankTexture.Height)).Width != 0) && _game.Tank2.Alive) && (_game.GameStateCurrent != Game1.GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU))
             {
-                if (_game.tank2.Barrier == false)
+                if (!_game.Tank2.Barrier)
                 {
-                    _game.tank2.Hit();
+                    _game.Tank2.Hit();
 
-                    if (!_game.tank2.alive)
+                    if (!_game.Tank2.Alive)
                     {
-                        _game.scoreManager.addScore(0, POINTS_ON_KILL);
+                        _game.ScoreManager.AddScore(0, POINTS_ON_KILL);
                     }
                 }
                 this.Die();
@@ -137,58 +134,38 @@ namespace BattleTank.Core
             }
             //If CPU hits player 2
 
-            if (_game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && _player > 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank2.location.X - (_game.tank2.tankTexture.Width / 2), (int)_game.tank2.location.Y - (_game.tank2.tankTexture.Height / 2), _game.tank2.tankTexture.Width, _game.tank2.tankTexture.Height)).Width != 0) && _game.tank2.alive)
+            if (_game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && _player > 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.Tank2.location.X - (_game.Tank2.TankTexture.Width / 2), (int)_game.Tank2.location.Y - (_game.Tank2.TankTexture.Height / 2), _game.Tank2.TankTexture.Width, _game.Tank2.TankTexture.Height)).Width != 0) && _game.Tank2.Alive)
             {
-                if (_game.tank2.Barrier == false)
+                if (!_game.Tank2.Barrier)
                 {
-                    _game.tank2.Hit();
-
-                    if (!_game.tank2.alive)
-                    {
-
-                    }
+                    _game.Tank2.Hit();              
                 }
                 this.Die();
 
             }
 
             //If CPU hits player 1
-            if (_player > 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.tank1.location.X - (_game.tank1.tankTexture.Width / 2), (int)_game.tank1.location.Y - (_game.tank1.tankTexture.Height / 2), _game.tank1.tankTexture.Width, _game.tank1.tankTexture.Height)).Width != 0) && _game.tank1.alive)
+            if (_player > 2 && (Rectangle.Intersect(_bulletRect, new Rectangle((int)_game.Tank1.location.X - (_game.Tank1.TankTexture.Width / 2), (int)_game.Tank1.location.Y - (_game.Tank1.TankTexture.Height / 2), _game.Tank1.TankTexture.Width, _game.Tank1.TankTexture.Height)).Width != 0) && _game.Tank1.Alive)
             {
-                if (_game.tank1.Barrier == false)
+                if (!_game.Tank1.Barrier)
                 {
-                    _game.tank1.Hit();
-
-                    if (!_game.tank1.alive)
-                    {
-
-                    }
+                    _game.Tank1.Hit();
                 }
                 this.Die();
 
             }
-            foreach (Tile[] tiles in _game.map.map)
+            foreach (Tile[] tiles in _game.Map.MapCurrent)
             {
                 foreach (Tile tile in tiles)
                 {
-                    if (tile != null)
-                    {
-
-
-                        if ((tile.isColliding(_bulletRect).depth > 0)) //If collision is not an empty collision
-                        {
-                            Collision collision = tile.isColliding(_bulletRect);
-                            if (tile.type == Tile.TileType.WALL)
-                                this.Die();
-
-                        }
-                    }
-                    else
-                    { continue; }
+                    if (tile != null && tile.IsColliding(_bulletRect).Depth > 0 && tile.Type == Tile.TileType.WALL) //If collision is not an empty collision
+                    {                                         
+                        this.Die();
+                    }                                   
                 }
             }
 
-            if (_bulletRect.X < 0 || _bulletRect.Y < 0 || _bulletRect.X > _game.map.screenWidth || _bulletRect.Y > _game.map.screenHeight)
+            if (_bulletRect.X < 0 || _bulletRect.Y < 0 || _bulletRect.X > _game.Map.ScreenWidth || _bulletRect.Y > _game.Map.ScreenHeight)
             {
                 this.Die();
 
@@ -197,7 +174,7 @@ namespace BattleTank.Core
         public virtual void Die()
         {
 
-            deathParticles = new Particlecloud(new Vector2(_bulletRect.X - _speed.X, _bulletRect.Y - _speed.Y), _game, _player, _rectangleTexture, Color.OrangeRed, 6, 6);
+            DeathParticles = new Particlecloud(new Vector2(_bulletRect.X - _speed.X, _bulletRect.Y - _speed.Y), _game, _player, _rectangleTexture, Color.OrangeRed, 6, 6);
             IsCollide = true;
             _speed = Vector2.Zero;
             _color = Color.Transparent;

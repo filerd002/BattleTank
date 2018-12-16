@@ -6,25 +6,22 @@ namespace BattleTank.Core
 {
     public class Particlecloud
     {
-        public static int MAX_PARTICLES = 15;
-        private Color color;
-        private Particle[] particles = new Particle[MAX_PARTICLES];
-        private int num = 15;
+        private readonly int num = 15;
         public Particlecloud() { }
 
 
         public Particlecloud(Vector2 location, Game1 game, int player, Texture2D whiteRectangle, Color _color, int maxSpeed)
         {
-            color = _color;
+            Color = _color;
             Random rand = new Random();
             for (int i = 0; i < MAX_PARTICLES; ++i)
             {
-                Vector2 speed = new Vector2();
+                Vector2 speed;
                 int a = rand.Next(-maxSpeed, maxSpeed);
                 int b = rand.Next(-maxSpeed, maxSpeed);          
                 speed = new Vector2(a, b);
        
-                Particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
+                Particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, Color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
             }
         }
 
@@ -32,20 +29,23 @@ namespace BattleTank.Core
         {
             num = _num;
             Particles = new Particle[num];
-            color = _color;
+            Color = _color;
             Random rand = new Random();
             for (int i = 0; i < num; ++i)
             {
-                Vector2 speed = new Vector2();
+                Vector2 speed;
                 int a = rand.Next(-maxSpeed, maxSpeed);
                 int b = rand.Next(-maxSpeed, maxSpeed);        
                 speed = new Vector2(a, b);
              
-                Particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
+                Particles[i] = new Particle(game, new Rectangle(new Point((int)location.X, (int)location.Y), new Point(rand.Next(1, 20), rand.Next(1, 20))), speed, Color, player, (float)rand.NextDouble(), whiteRectangle, 1, true);
             }
         }
 
-        internal Particle[] Particles { get => particles; set => particles = value; }
+        public static int MAX_PARTICLES { get; set; } = 15;
+        public Color Color { get; }
+
+        internal Particle[] Particles { get; set; } = new Particle[MAX_PARTICLES];
 
         public void Draw(SpriteBatch spriteBatch)
         {

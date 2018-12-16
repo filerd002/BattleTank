@@ -6,7 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace BattleTank.Core.GUI
 {
+#pragma warning disable S101 // Types should be named in PascalCase, but it is graphical user interface helper
     static class GUIHelper
+#pragma warning restore S101 // Types should be named in PascalCase, but it is graphical user interface helper
     {
         public static Texture2D DrawStringOnTexture2D(string text, SpriteFont foreGroundFont, SpriteFont backgroundFont, GraphicsDevice graphicsDevice)
         {

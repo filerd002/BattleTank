@@ -57,5 +57,18 @@ namespace BattleTank.Core.Input
         {
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -1689321389;
+            hashCode = hashCode * -1521134295 + GoUp.GetHashCode();
+            hashCode = hashCode * -1521134295 + GoLeft.GetHashCode();
+            hashCode = hashCode * -1521134295 + GoDown.GetHashCode();
+            hashCode = hashCode * -1521134295 + GoRight.GetHashCode();
+            hashCode = hashCode * -1521134295 + SpeedBoost.GetHashCode();
+            hashCode = hashCode * -1521134295 + PlantMine.GetHashCode();
+            hashCode = hashCode * -1521134295 + Fire.GetHashCode();
+            return hashCode;
+        }
     }
 }

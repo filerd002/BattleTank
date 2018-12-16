@@ -28,25 +28,25 @@ namespace BattleTank.Core
         protected TimeSpan _timeLeftToRandom = TimeSpan.Zero;
         #endregion
 
-        public string PowerUpSpriteName;
-        public Vector2 location;
-        public PowerUpType type;
-        public Rectangle PowerUpkRect;
-        public bool alive;
-        public Particlecloud respawnParticles;
-        public Particlecloud deathParticles;
-        public Texture2D whiteRectangle;
-        public bool colliding = false;
-        public int controlSound = 1;
-        public Game1 game { get; set; }
-        public Vector2 origin { get; set; }
+        public string PowerUpSpriteName { get; set; }
+        public Vector2 Location { get; set; }
+        public PowerUpType Type { get; set; }
+        public Rectangle PowerUpkRect { get; set; }
+        public bool Alive { get; set; }
+        public Particlecloud RespawnParticles { get; set; }
+        public Particlecloud DeathParticles { get; set; }
+        public Texture2D WhiteRectangle { get; set; }
+        public bool Colliding { get; set; } = false;
+        public int ControlSound { get; set; } = 1;
+        public Game1 Game { get; set; }
+        public Vector2 Origin { get; set; }
         public Texture2D PowerUpTexture { get; set; }
         public PowerUp(Game1 _game)
         {
-            game = _game;
-            location = new Vector2(_game.randy.Next(50, _game.graphics.PreferredBackBufferWidth - 50), _game.randy.Next(50, _game.graphics.PreferredBackBufferHeight - 50));
-            type = (PowerUp.PowerUpType)game.randy.Next(Enum.GetNames(typeof(PowerUp.PowerUpType)).Length);
-            switch (type)
+            Game = _game;
+            Location = new Vector2(_game.Randy.Next(50, _game.Graphics.PreferredBackBufferWidth - 50), _game.Randy.Next(50, _game.Graphics.PreferredBackBufferHeight - 50));
+            Type = (PowerUp.PowerUpType)Game.Randy.Next(Enum.GetNames(typeof(PowerUp.PowerUpType)).Length);
+            switch (Type)
             {
                 case PowerUp.PowerUpType.HEART:
                     PowerUpSpriteName = "Graphics/PowerUpHeart";
@@ -68,12 +68,11 @@ namespace BattleTank.Core
                     break;
             }
             PowerUpTexture = _game.Content.Load<Texture2D>(PowerUpSpriteName);
-            origin = new Vector2(location.X + PowerUpTexture.Width / 2f, location.Y + PowerUpTexture.Height / 2f);
-            whiteRectangle = new Texture2D(_game.GraphicsDevice, 1, 1);
-            alive = true;
-            respawnParticles = new Particlecloud(origin, game, 1, whiteRectangle, Color.Gold, 2, 50);
-            //  deathParticles = new Particlecloud(origin, game, 1, whiteRectangle, Color.Gold, 2, 50);
-            PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
+            Origin = new Vector2(Location.X + PowerUpTexture.Width / 2f, Location.Y + PowerUpTexture.Height / 2f);
+            WhiteRectangle = new Texture2D(_game.GraphicsDevice, 1, 1);
+            Alive = true;
+            RespawnParticles = new Particlecloud(Origin, Game, 1, WhiteRectangle, Color.Gold, 2, 50);
+            PowerUpkRect = new Rectangle((int)Location.X - (PowerUpTexture.Width / 2), (int)Location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
         }
 
 
@@ -82,42 +81,42 @@ namespace BattleTank.Core
 
             _timeLeftToRandom -= gameTime.ElapsedGameTime;
 
-            if (alive && _timeLeftToRandom.TotalSeconds>0)
+            if (Alive && _timeLeftToRandom.TotalSeconds>0)
             {
                
 
-                PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
+                PowerUpkRect = new Rectangle((int)Location.X - (PowerUpTexture.Width / 2), (int)Location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
 
-                colliding = false;
+                Colliding = false;
 
-                if (game.tank1 != null && (game.RandomPowerUp.isColliding(game.tank1.tankRect).depth > 0))
+                if (Game.Tank1 != null && (Game.RandomPowerUp.IsColliding(Game.Tank1.TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.tank1.lives += 0.25f;
+                            Game.Tank1.Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.tank1.armor += 0.25f;
+                            Game.Tank1.Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.tank1.StartBarrier();
+                            Game.Tank1.StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.tank1.strong++;
+                            Game.Tank1.Strong++;
                             break;
                         case PowerUpType.MINE:
-                            game.tank1.mines++;
+                            Game.Tank1.Mines++;
                             break;
                         case PowerUpType.MATRIX:                         
-                                foreach (AI_Tank et in game.enemyTanks)
+                                foreach (AI_Tank et in Game.EnemyTanks)
                                 {
-                                    et.Frozen();
+                                    et.StartFrozen();
                                 }
-                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
-                                game.tank2.Frozen();
+                            if (Game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Tank2.Alive)
+                                Game.Tank2.StartFrozen();
                             break;
 
 
@@ -125,309 +124,312 @@ namespace BattleTank.Core
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
-                else if (game.tank2 != null && (game.RandomPowerUp.isColliding(game.tank2.tankRect).depth > 0))
+                else if (Game.Tank2 != null && (Game.RandomPowerUp.IsColliding(Game.Tank2.TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.tank2.lives += 0.25f;
+                            Game.Tank2.Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.tank2.armor += 0.25f;
+                            Game.Tank2.Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.tank2.StartBarrier();
+                            Game.Tank2.StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.tank2.strong++;
+                            Game.Tank2.Strong++;
                             break;
                         case PowerUpType.MINE:
-                            game.tank2.mines++;
+                            Game.Tank2.Mines++;
                             break;
                         case PowerUpType.MATRIX:
-                                foreach (AI_Tank et in game.enemyTanks)
+                                foreach (AI_Tank et in Game.EnemyTanks)
                                 {
-                                    et.Frozen();
+                                    et.StartFrozen();
                                 }
-                            if (game.tank1.alive)
-                                game.tank1.Frozen();
+                            if (Game.Tank1.Alive)
+                                Game.Tank1.StartFrozen();
                             break;
 
                     }
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
-                else if ((game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 || game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU) && game.settings.opponentsCPUKamikaze + game.settings.opponentsCPUClassic >= 1 && (game.RandomPowerUp.isColliding(game.enemyTanks[0].tankRect).depth > 0))
+                else if ((Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYER_1 || Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU) && Game.Settings.OpponentsCPUKamikaze + Game.Settings.OpponentsCPUClassic >= 1 && (Game.RandomPowerUp.IsColliding(Game.EnemyTanks[0].TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.enemyTanks[0].lives += 0.25f;
+                            Game.EnemyTanks[0].Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.enemyTanks[0].armor += 0.25f;
+                            Game.EnemyTanks[0].Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.enemyTanks[0].StartBarrier();
+                            Game.EnemyTanks[0].StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.enemyTanks[0].strong++;
+                            Game.EnemyTanks[0].Strong++;
                             break;
                         case PowerUpType.MATRIX:
-                             foreach (AI_Tank et in game.enemyTanks)
+                             foreach (AI_Tank et in Game.EnemyTanks)
                                 { 
-                                    if(!et.Equals(game.enemyTanks[0]))
-                                    et.Frozen();
+                                    if(!et.Equals(Game.EnemyTanks[0]))
+                                {
+                                    et.StartFrozen();
                                 }
-                            if (game.tank1.alive)
-                                game.tank1.Frozen();
-                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
-                                game.tank2.Frozen();
+                            }
+                            if (Game.Tank1.Alive)
+                            {
+                                Game.Tank1.StartFrozen();
+                            }
+
+                            if (Game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Tank2.Alive)
+                            {
+                                Game.Tank2.StartFrozen();
+                            }
+
                             break;
                     }
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
-                else if ((game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 || game.gameState == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU) && game.settings.opponentsCPUKamikaze + game.settings.opponentsCPUClassic >= 2 && (game.RandomPowerUp.isColliding(game.enemyTanks[1].tankRect).depth > 0))
+                else if ((Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYER_1 || Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYERS_2_AND_CPU) && Game.Settings.OpponentsCPUKamikaze + Game.Settings.OpponentsCPUClassic >= 2 && (Game.RandomPowerUp.IsColliding(Game.EnemyTanks[1].TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.enemyTanks[1].lives += 0.25f;
+                            Game.EnemyTanks[1].Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.enemyTanks[1].armor += 0.25f;
+                            Game.EnemyTanks[1].Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.enemyTanks[1].StartBarrier();
+                            Game.EnemyTanks[1].StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.enemyTanks[1].strong++;
+                            Game.EnemyTanks[1].Strong++;
                             break;
                         case PowerUpType.MATRIX:
-                                foreach (AI_Tank et in game.enemyTanks)
+                                foreach (AI_Tank et in Game.EnemyTanks)
                                 {
-                                    if (!et.Equals(game.enemyTanks[1]))
-                                        et.Frozen();
+                                    if (!et.Equals(Game.EnemyTanks[1]))
+                                        et.StartFrozen();
                                 }
-                            if (game.tank1.alive)
-                                game.tank1.Frozen();
-                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
-                                game.tank2.Frozen();
+                            if (Game.Tank1.Alive)
+                                Game.Tank1.StartFrozen();
+                            if (Game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Tank2.Alive)
+                                Game.Tank2.StartFrozen();
                             break;
                     }
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
-                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.settings.opponentsCPUKamikaze + game.settings.opponentsCPUClassic >= 3 && (game.RandomPowerUp.isColliding(game.enemyTanks[2].tankRect).depth > 0))
+                else if (Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Settings.OpponentsCPUKamikaze + Game.Settings.OpponentsCPUClassic >= 3 && (Game.RandomPowerUp.IsColliding(Game.EnemyTanks[2].TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.enemyTanks[2].lives += 0.25f;
+                            Game.EnemyTanks[2].Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.enemyTanks[2].armor += 0.25f;
+                            Game.EnemyTanks[2].Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.enemyTanks[2].StartBarrier();
+                            Game.EnemyTanks[2].StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.enemyTanks[2].strong++;
+                            Game.EnemyTanks[2].Strong++;
                             break;
                         case PowerUpType.MATRIX:
-                            foreach (AI_Tank et in game.enemyTanks)
+                            foreach (AI_Tank et in Game.EnemyTanks)
                                 {
-                                    if (!et.Equals(game.enemyTanks[2]))
-                                        et.Frozen();
+                                    if (!et.Equals(Game.EnemyTanks[2]))
+                                        et.StartFrozen();
                                 }
-                            if (game.tank1.alive)
-                                game.tank1.Frozen();
-                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
-                                game.tank2.Frozen();
+                            if (Game.Tank1.Alive)
+                                Game.Tank1.StartFrozen();
+                            if (Game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Tank2.Alive)
+                                Game.Tank2.StartFrozen();
                             break;
                     }
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
 
-                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.settings.opponentsCPUKamikaze + game.settings.opponentsCPUClassic >= 4 && (game.RandomPowerUp.isColliding(game.enemyTanks[3].tankRect).depth > 0))
+                else if (Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Settings.OpponentsCPUKamikaze + Game.Settings.OpponentsCPUClassic >= 4 && (Game.RandomPowerUp.IsColliding(Game.EnemyTanks[3].TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.enemyTanks[3].lives += 0.25f;
+                            Game.EnemyTanks[3].Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.enemyTanks[3].armor += 0.25f;
+                            Game.EnemyTanks[3].Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.enemyTanks[3].StartBarrier();
+                            Game.EnemyTanks[3].StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.enemyTanks[3].strong++;
+                            Game.EnemyTanks[3].Strong++;
                             break;
                         case PowerUpType.MATRIX:
-                                foreach (AI_Tank et in game.enemyTanks)
+                                foreach (AI_Tank et in Game.EnemyTanks)
                                 {
-                                    if (!et.Equals(game.enemyTanks[3]))
-                                        et.Frozen();
+                                    if (!et.Equals(Game.EnemyTanks[3]))
+                                        et.StartFrozen();
                                 }
-                            if (game.tank1.alive)
-                                game.tank1.Frozen();
-                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
-                                game.tank2.Frozen();
+                            if (Game.Tank1.Alive)
+                                Game.Tank1.StartFrozen();
+                            if (Game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Tank2.Alive)
+                                Game.Tank2.StartFrozen();
                             break;
                     }
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
-                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.settings.opponentsCPUKamikaze + game.settings.opponentsCPUClassic >= 5 && (game.RandomPowerUp.isColliding(game.enemyTanks[4].tankRect).depth > 0))
+                else if (Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Settings.OpponentsCPUKamikaze + Game.Settings.OpponentsCPUClassic >= 5 && (Game.RandomPowerUp.IsColliding(Game.EnemyTanks[4].TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.enemyTanks[4].lives += 0.25f;
+                            Game.EnemyTanks[4].Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.enemyTanks[4].armor += 0.25f;
+                            Game.EnemyTanks[4].Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.enemyTanks[4].StartBarrier();
+                            Game.EnemyTanks[4].StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.enemyTanks[4].strong++;
+                            Game.EnemyTanks[4].Strong++;
                             break;
                         case PowerUpType.MATRIX:
-                                foreach (AI_Tank et in game.enemyTanks)
+                                foreach (AI_Tank et in Game.EnemyTanks)
                                 {
-                                    if (!et.Equals(game.enemyTanks[4]))
-                                        et.Frozen();
+                                    if (!et.Equals(Game.EnemyTanks[4]))
+                                        et.StartFrozen();
                                 }
-                            if (game.tank1.alive)
-                                game.tank1.Frozen();
-                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
-                                game.tank2.Frozen();
+                            if (Game.Tank1.Alive)
+                                Game.Tank1.StartFrozen();
+                            if (Game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Tank2.Alive)
+                                Game.Tank2.StartFrozen();
                             break;
                     }
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
-                else if (game.gameState == Game1.GameState.GAME_RUNNING_PLAYER_1 && game.settings.opponentsCPUKamikaze + game.settings.opponentsCPUClassic >= 6 && (game.RandomPowerUp.isColliding(game.enemyTanks[5].tankRect).depth > 0))
+                else if (Game.GameStateCurrent == Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Settings.OpponentsCPUKamikaze + Game.Settings.OpponentsCPUClassic >= 6 && (Game.RandomPowerUp.IsColliding(Game.EnemyTanks[5].TankRect).Depth > 0))
                 {
-                    colliding = true;
+                    Colliding = true;
 
-                    switch (game.RandomPowerUp.type)
+                    switch (Game.RandomPowerUp.Type)
                     {
                         case PowerUpType.HEART:
-                            game.enemyTanks[5].lives += 0.25f;
+                            Game.EnemyTanks[5].Lives += 0.25f;
                             break;
                         case PowerUpType.ARMOR:
-                            game.enemyTanks[5].armor += 0.25f;
+                            Game.EnemyTanks[5].Armor += 0.25f;
                             break;
                         case PowerUpType.BARRIER:
-                            game.enemyTanks[5].StartBarrier();
+                            Game.EnemyTanks[5].StartBarrier();
                             break;
                         case PowerUpType.AMMO:
-                            game.enemyTanks[5].strong++;
+                            Game.EnemyTanks[5].Strong++;
                             break;
                         case PowerUpType.MATRIX:
-                           foreach (AI_Tank et in game.enemyTanks)
+                           foreach (AI_Tank et in Game.EnemyTanks)
                                 {
-                                    if (!et.Equals(game.enemyTanks[5]))
-                                        et.Frozen();
+                                    if (!et.Equals(Game.EnemyTanks[5]))
+                                        et.StartFrozen();
                                 }
-                            if (game.tank1.alive)
-                                game.tank1.Frozen();
-                            if (game.gameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && game.tank2.alive)
-                                game.tank2.Frozen();
+                            if (Game.Tank1.Alive)
+                                Game.Tank1.StartFrozen();
+                            if (Game.GameReturn != Game1.GameState.GAME_RUNNING_PLAYER_1 && Game.Tank2.Alive)
+                                Game.Tank2.StartFrozen();
                             break;
                     }
 
 
 
-                    alive = false;
+                    Alive = false;
                 }
 
             }
             else
             {
                 _timeLeftToRandom = TimeSpan.Zero;
-                alive = false;
+                Alive = false;
             }
-            respawnParticles.Update(gameTime);
+            RespawnParticles.Update(gameTime);
 
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (alive && _timeLeftToRandom.TotalSeconds > 0)
+            if (Alive && _timeLeftToRandom.TotalSeconds > 0)
             {
-                PowerUpkRect = new Rectangle((int)location.X - (PowerUpTexture.Width / 2), (int)location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
+                PowerUpkRect = new Rectangle((int)Location.X - (PowerUpTexture.Width / 2), (int)Location.Y - (PowerUpTexture.Height / 2), PowerUpTexture.Width, PowerUpTexture.Height);
 
-                colliding = false;
-                foreach (Tile[] tiles in game.map.map)
+                Colliding = false;
+                foreach (Tile[] tiles in Game.Map.MapCurrent)
                 {
                     foreach (Tile tile in tiles)
-                    {
-                        if (tile != null)
+                    {                   
+                        if (tile != null && (tile.IsColliding(PowerUpkRect).Depth > 0))
                         {
-                            if ((tile.isColliding(PowerUpkRect).depth > 0))
-                            {
-                                colliding = true;
-                            }
-                        }
-                        else { continue; }
-
+                             Colliding = true;
+                        }                      
                     }
                 }
 
-                if (!colliding)
+                if (!Colliding)
                 {
-                    if (game.RandomPowerUp.controlSound == 1)
+                    if (Game.RandomPowerUp.ControlSound == 1)
                     {
-                        game.sound.PlaySound(Sound.Sounds.RESPAWN);
-                        game.RandomPowerUp.controlSound = 0;
+                        Game.SoundMenu.PlaySound(Sound.Sounds.RESPAWN);
+                        Game.RandomPowerUp.ControlSound = 0;
 
                     }
    
-                    spriteBatch.Draw(PowerUpTexture, new Rectangle((int)location.X, (int)location.Y, game.map.tileWidth * 2/3, game.map.tileHeight * 2/3), Color.White);
+                    spriteBatch.Draw(PowerUpTexture, new Rectangle((int)Location.X, (int)Location.Y, Game.Map.TileWidth * 2/3, Game.Map.TileHeight * 2/3), Color.White);
 
-                    respawnParticles.Draw(spriteBatch);
+                    RespawnParticles.Draw(spriteBatch);
 
 
                 }
-                else { }
+            
                 
             }
             else {
                 _timeLeftToRandom = TimeSpan.Zero;
-                alive = false;
+                Alive = false;
             }
 
 
@@ -442,7 +444,7 @@ namespace BattleTank.Core
             }    
 
         }
-        public Collision isColliding(Rectangle possibleCollisionRect)
+        public Collision IsColliding(Rectangle possibleCollisionRect)
         {
 
             Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, PowerUpkRect);

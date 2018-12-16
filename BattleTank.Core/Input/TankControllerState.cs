@@ -31,8 +31,8 @@ namespace BattleTank.Core.Input
 
         public TankControllerState Rotate(double angle)
         {
-            double X = (double)(MoveX * Math.Cos(angle) - MoveY * Math.Sin(angle));
-            double Y = (double)(MoveX * Math.Sin(angle) + MoveY * Math.Cos(angle));
+            double X = (MoveX * Math.Cos(angle) - MoveY * Math.Sin(angle));
+            double Y = (MoveX * Math.Sin(angle) + MoveY * Math.Cos(angle));
 
             X = Math.Abs(X) > 1 ? Math.Truncate(X) : X;
             Y = Math.Abs(Y) > 1 ? Math.Truncate(Y) : Y;

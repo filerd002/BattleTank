@@ -7,23 +7,20 @@ namespace BattleTank.Core
 {
     public class Map
     {
-        private Game1 game;
-        public int screenWidth;
-        public int rowWidth;
-        public int screenHeight;
-        public int columnHeight;
-        public int tileWidth;
-        public int tileHeight;
-        public int WallBorder;
-        public int WallInside;
-        public Tile[][] map;
+        private readonly Game1 game;
 
-        public Texture2D wallTexture;
-        public Texture2D bushTexture;
-   
-
-        public Dictionary<WaterTextureType, List<Texture2D>> waterTextures = new Dictionary<WaterTextureType, List<Texture2D>>();
-
+        public int ScreenWidth { get; set; }
+        public int RowWidth { get; set; }
+        public int ScreenHeight { get; set; }
+        public int ColumnHeight { get; set; }
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
+        public int WallBorder { get; set; }
+        public int WallInside { get; set; }
+        public Tile[][] MapCurrent { get; set; }
+        public Texture2D WallTexture { get; set; }
+        public Texture2D BushTexture { get; set; }
+        public Dictionary<WaterTextureType, List<Texture2D>> WaterTextures { get; set; } = new Dictionary<WaterTextureType, List<Texture2D>>();
 
         public enum WaterTextureType
         {
@@ -36,41 +33,41 @@ namespace BattleTank.Core
         public Map(Game1 _game, int _screenWidth, int _screenHeight, int _WallBorder, int _WallInside)
         {
             game = _game;
-            screenWidth = _screenWidth;
-            screenHeight = _screenHeight;
-            rowWidth = game.settings.elementsOnTheWidth;
-            columnHeight = game.settings.elementsOnTheHeight;
-            tileWidth = screenWidth / rowWidth;
-            tileHeight = screenHeight / columnHeight;
+            ScreenWidth = _screenWidth;
+            ScreenHeight = _screenHeight;
+            RowWidth = game.Settings.ElementsOnTheWidth;
+            ColumnHeight = game.Settings.ElementsOnTheHeight;
+            TileWidth = ScreenWidth / RowWidth;
+            TileHeight = ScreenHeight / ColumnHeight;
             WallBorder = _WallBorder;
             WallInside = _WallInside;
-            map = new Tile[rowWidth][];
+            MapCurrent = new Tile[RowWidth][];
 
-            for (int i = 0; i < map.Length; ++i)
+            for (int i = 0; i < MapCurrent.Length; ++i)
             {
-                map[i] = new Tile[columnHeight];
+                MapCurrent[i] = new Tile[ColumnHeight];
             }
 
-            wallTexture = game.Content.Load<Texture2D>("Graphics/wall");
-            bushTexture = game.Content.Load<Texture2D>("Graphics/bush");
+            WallTexture = game.Content.Load<Texture2D>("Graphics/wall");
+            BushTexture = game.Content.Load<Texture2D>("Graphics/bush");
 
 
 
-            waterTextures.Add(WaterTextureType.FULL, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterFull") });
-            waterTextures.Add(WaterTextureType.CORNER, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterCornerHorizontalRight"), game.Content.Load<Texture2D>("Graphics/waterCornerVerticalLeft"), game.Content.Load<Texture2D>("Graphics/waterCornerHorizontalLeft"), game.Content.Load<Texture2D>("Graphics/waterCornerVerticalRight") });
-            waterTextures.Add(WaterTextureType.BAY, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterBayHorizontalLeft"), game.Content.Load<Texture2D>("Graphics/waterBayHorizontalRight"), game.Content.Load<Texture2D>("Graphics/waterBayVertical") });
-            waterTextures.Add(WaterTextureType.ONE, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterOne_1"), game.Content.Load<Texture2D>("Graphics/waterOne_2"), game.Content.Load<Texture2D>("Graphics/waterOne_3"), game.Content.Load<Texture2D>("Graphics/waterOne_4") });
+            WaterTextures.Add(WaterTextureType.FULL, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterFull") });
+            WaterTextures.Add(WaterTextureType.CORNER, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterCornerHorizontalRight"), game.Content.Load<Texture2D>("Graphics/waterCornerVerticalLeft"), game.Content.Load<Texture2D>("Graphics/waterCornerHorizontalLeft"), game.Content.Load<Texture2D>("Graphics/waterCornerVerticalRight") });
+            WaterTextures.Add(WaterTextureType.BAY, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterBayHorizontalLeft"), game.Content.Load<Texture2D>("Graphics/waterBayHorizontalRight"), game.Content.Load<Texture2D>("Graphics/waterBayVertical") });
+            WaterTextures.Add(WaterTextureType.ONE, new List<Texture2D> { game.Content.Load<Texture2D>("Graphics/waterOne_1"), game.Content.Load<Texture2D>("Graphics/waterOne_2"), game.Content.Load<Texture2D>("Graphics/waterOne_3"), game.Content.Load<Texture2D>("Graphics/waterOne_4") });
 
             Reset();
         }
         public void Reset()
         {
-            for (int i = 0; i < map.Length; ++i)
+            for (int i = 0; i < MapCurrent.Length; ++i)
             {
-                for (int e = 0; e < map[i].Length; ++e)
+                for (int e = 0; e < MapCurrent[i].Length; ++e)
                 {
 
-                    map[i][e] = new Tile(Tile.TileType.AIR, new Rectangle(e * tileWidth, i * tileHeight, tileWidth, tileHeight), null);
+                    MapCurrent[i][e] = new Tile(Tile.TileType.AIR, new Rectangle(e * TileWidth, i * TileHeight, TileWidth, TileHeight), null);
 
 
                 }
@@ -82,12 +79,12 @@ namespace BattleTank.Core
         }
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < map.Length; ++i)
+            for (int i = 0; i < MapCurrent.Length; ++i)
             {
-                for (int e = 0; e < map[i].Length; ++e)
+                for (int e = 0; e < MapCurrent[i].Length; ++e)
                 {
 
-                    map[i][e].Update(gameTime);
+                    MapCurrent[i][e].Update(gameTime);
 
 
                 }
@@ -95,16 +92,15 @@ namespace BattleTank.Core
         }
         public void Draw(SpriteBatch spriteBatch, int level)
         {
-            for (int i = 0; i < map.Length; ++i)
+            for (int i = 0; i < MapCurrent.Length; ++i)
             {
-                for (int e = 0; e < map[i].Length; ++e)
+                for (int e = 0; e < MapCurrent[i].Length; ++e)
                 {
-                    if(!map[i][e].type.Equals(Tile.TileType.MUD) && level == 1)
-                        map[i][e].Draw(spriteBatch);
-                    else if (map[i][e].type.Equals(Tile.TileType.MUD) && level == 0)
-                        map[i][e].Draw(spriteBatch);
-                    else
-                        continue;
+                    if(!MapCurrent[i][e].Type.Equals(Tile.TileType.MUD) && level == 1)
+                        MapCurrent[i][e].Draw(spriteBatch);
+                    else if (MapCurrent[i][e].Type.Equals(Tile.TileType.MUD) && level == 0)
+                        MapCurrent[i][e].Draw(spriteBatch);
+             
 
                 }
             }
@@ -114,7 +110,7 @@ namespace BattleTank.Core
         public Texture2D ReverseTexture(Texture2D texture, int reverse)
         {
             Texture2D newTexture = new Texture2D(game.GraphicsDevice, texture.Width, texture.Height);
-            Color[] newTexturePixels = new Color[texture.Width * texture.Height];
+            Color[] newTexturePixels;
 
             newTexturePixels = GetPixels(texture);
             if (reverse == 1)
@@ -139,157 +135,157 @@ namespace BattleTank.Core
             {
                 case 0:
                     //First row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
-                        map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, 0, tileWidth, tileHeight), wallTexture);
+                        MapCurrent[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, 0, TileWidth, TileHeight), WallTexture);
                     }
                     //Middle rows
-                    for (int i = 1; i < map[0].Length - 1; ++i)
+                    for (int i = 1; i < MapCurrent[0].Length - 1; ++i)
                     {
 
-                        map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * tileHeight, tileWidth, tileHeight), wallTexture);
-                        map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
+                        MapCurrent[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * TileHeight, TileWidth, TileHeight), WallTexture);
+                        MapCurrent[RowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((RowWidth - 1) * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
 
                     }
                     //Bottom row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
-                        map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, (columnHeight - 1) * tileHeight, tileWidth, tileHeight), wallTexture);
+                        MapCurrent[i][ColumnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, (ColumnHeight - 1) * TileHeight, TileWidth, TileHeight), WallTexture);
                     }
                     break;
                 case 1:
                     //First row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
-                        if (i != map.Length / 2 && i != (map.Length / 2) - 1 && i != 8 && i != 9 && i != (map.Length / 2) - 1 && i != map.Length - 9 && i != map.Length - 10)
-                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, 0, tileWidth, tileHeight), wallTexture);
+                        if (i != MapCurrent.Length / 2 && i != (MapCurrent.Length / 2) - 1 && i != 8 && i != 9 && i != (MapCurrent.Length / 2) - 1 && i != MapCurrent.Length - 9 && i != MapCurrent.Length - 10)
+                            MapCurrent[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, 0, TileWidth, TileHeight), WallTexture);
                     }
                     //Middle rows
-                    for (int i = 1; i < map[0].Length - 1; ++i)
+                    for (int i = 1; i < MapCurrent[0].Length - 1; ++i)
                     {
 
-                        if (i != (map[0].Length / 2) && i != (map[0].Length / 2) - 1 && i != (map[0].Length - 5) && i != (map[0].Length - 6) && i != 4 && i != 5)
+                        if (i != (MapCurrent[0].Length / 2) && i != (MapCurrent[0].Length / 2) - 1 && i != (MapCurrent[0].Length - 5) && i != (MapCurrent[0].Length - 6) && i != 4 && i != 5)
                         {
-                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * tileHeight, tileWidth, tileHeight), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * TileHeight, TileWidth, TileHeight), WallTexture);
+                            MapCurrent[RowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((RowWidth - 1) * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
 
                         }
 
 
                     }
                     //Bottom row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
 
-                        if (i != map.Length / 2 && i != (map.Length / 2) - 1 && i != 8 && i != 9 && i != (map.Length / 2) - 1 && i != map.Length - 9 && i != map.Length - 10)
-                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, (columnHeight - 1) * tileHeight, tileWidth, tileHeight), wallTexture);
+                        if (i != MapCurrent.Length / 2 && i != (MapCurrent.Length / 2) - 1 && i != 8 && i != 9 && i != (MapCurrent.Length / 2) - 1 && i != MapCurrent.Length - 9 && i != MapCurrent.Length - 10)
+                            MapCurrent[i][ColumnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, (ColumnHeight - 1) * TileHeight, TileWidth, TileHeight), WallTexture);
                     }
 
                     break;
                 case 2:
                     //First row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
-                        if (i != map.Length / 2 && i != (map.Length / 2) - 1)
-                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, 0, tileWidth, tileHeight), wallTexture);
+                        if (i != MapCurrent.Length / 2 && i != (MapCurrent.Length / 2) - 1)
+                            MapCurrent[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, 0, TileWidth, TileHeight), WallTexture);
                     }
                     //Middle rows
-                    for (int i = 1; i < map[0].Length - 1; ++i)
+                    for (int i = 1; i < MapCurrent[0].Length - 1; ++i)
                     {
 
-                        if (i != (map[0].Length / 2) && i != (map[0].Length / 2) - 1)
+                        if (i != (MapCurrent[0].Length / 2) && i != (MapCurrent[0].Length / 2) - 1)
                         {
-                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * tileHeight, tileWidth, tileHeight), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * TileHeight, TileWidth, TileHeight), WallTexture);
+                            MapCurrent[RowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((RowWidth - 1) * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
                         }
                     }
                     //Bottom row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
-                        if (i != map.Length / 2 && i != (map.Length / 2) - 1)
-                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, (columnHeight - 1) * tileHeight, tileWidth, tileHeight), wallTexture);
+                        if (i != MapCurrent.Length / 2 && i != (MapCurrent.Length / 2) - 1)
+                            MapCurrent[i][ColumnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, (ColumnHeight - 1) * TileHeight, TileWidth, TileHeight), WallTexture);
                     }
 
                     break;
                 case 3:
                     //First row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
-                        if (i <= 1 || i >= map.Length - 2)
-                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, 0, tileWidth, tileHeight), wallTexture);
+                        if (i <= 1 || i >= MapCurrent.Length - 2)
+                            MapCurrent[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, 0, TileWidth, TileHeight), WallTexture);
                     }
                     //Middle rows
-                    for (int i = 1; i < map[0].Length - 1; ++i)
+                    for (int i = 1; i < MapCurrent[0].Length - 1; ++i)
                     {
 
-                        if (i <= 1 || i >= map[0].Length - 2)
+                        if (i <= 1 || i >= MapCurrent[0].Length - 2)
                         {
-                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * tileHeight, tileWidth, tileHeight), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * TileHeight, TileWidth, TileHeight), WallTexture);
+                            MapCurrent[RowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((RowWidth - 1) * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
                         }
                     }
                     //Bottom row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
-                        if (i <= 1 || i >= map.Length - 2)
-                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, (columnHeight - 1) * tileHeight, tileWidth, tileHeight), wallTexture);
+                        if (i <= 1 || i >= MapCurrent.Length - 2)
+                            MapCurrent[i][ColumnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, (ColumnHeight - 1) * TileHeight, TileWidth, TileHeight), WallTexture);
                     }
 
                     break;
                 case 4:
                     //First row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
                         if (i % 2 == 0)
 
-                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, 0, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, 0, TileWidth, TileHeight), WallTexture);
                     }
                     //Middle rows
-                    for (int i = 0; i < map[0].Length - 1; ++i)
+                    for (int i = 0; i < MapCurrent[0].Length - 1; ++i)
                     {
 
                         if (i % 2 == 0)
                         {
-                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * tileHeight, tileWidth, tileHeight), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * TileHeight, TileWidth, TileHeight), WallTexture);
+                            MapCurrent[RowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((RowWidth - 1) * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
                         }
 
 
                     }
                     //Bottom row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
                         if (i % 2 == 0)
-                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, (columnHeight - 1) * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[i][ColumnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, (ColumnHeight - 1) * TileHeight, TileWidth, TileHeight), WallTexture);
                     }
 
                     break;
                 case 5:
                     //First row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
                         if (i % 4 == 0)
 
-                            map[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, 0, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[i][0] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, 0, TileWidth, TileHeight), WallTexture);
                     }
                     //Middle rows
-                    for (int i = 1; i < map[0].Length - 1; ++i)
+                    for (int i = 1; i < MapCurrent[0].Length - 1; ++i)
                     {
 
                         if (i % 2 == 0)
                         {
-                            map[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * tileHeight, tileWidth, tileHeight), wallTexture);
-                            map[rowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((rowWidth - 1) * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[0][i] = new Tile(Tile.TileType.WALL, new Rectangle(0, i * TileHeight, TileWidth, TileHeight), WallTexture);
+                            MapCurrent[RowWidth - 1][i] = new Tile(Tile.TileType.WALL, new Rectangle((RowWidth - 1) * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
 
                         }
 
 
                     }
                     //Bottom row
-                    for (int i = 0; i < map.Length; ++i)
+                    for (int i = 0; i < MapCurrent.Length; ++i)
                     {
                         if (i % 4 == 0)
-                            map[i][columnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, (columnHeight - 1) * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[i][ColumnHeight - 1] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, (ColumnHeight - 1) * TileHeight, TileWidth, TileHeight), WallTexture);
                     }
 
                     break;
@@ -303,79 +299,79 @@ namespace BattleTank.Core
         }
 
         public void MatchTextureLiquid(Tile.TileType type) {
-            for (int i = 0; i < map.Length; ++i)
+            for (int i = 0; i < MapCurrent.Length; ++i)
             {
-                for (int e = 0; e < map[i].Length; ++e)
+                for (int e = 0; e < MapCurrent[i].Length; ++e)
                 {
 
-                    if (map[i][e].type.Equals(type))
+                    if (MapCurrent[i][e].Type.Equals(type))
                     {
-                        int decisionReverse = game.randy.Next(0, 2);
+                        int decisionReverse = game.Randy.Next(0, 2);
 
-                        if (!map[i - 1][e].type.Equals(type) && !map[i + 1][e].type.Equals(type) && !map[i][e - 1].type.Equals(type) && !map[i][e + 1].type.Equals(type))
+                        if (!MapCurrent[i - 1][e].Type.Equals(type) && !MapCurrent[i + 1][e].Type.Equals(type) && !MapCurrent[i][e - 1].Type.Equals(type) && !MapCurrent[i][e + 1].Type.Equals(type))
                         {
-                            int typeTexture = game.randy.Next(0, 4);
+                            int typeTexture = game.Randy.Next(0, 4);
 
-                            map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.ONE][typeTexture], decisionReverse);
+                            MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.ONE][typeTexture], decisionReverse);
                         }
-                        else if (map[i - 1][e].type.Equals(type) && !map[i + 1][e].type.Equals(type) && !map[i][e - 1].type.Equals(type) && !map[i][e + 1].type.Equals(type))
+                        else if (MapCurrent[i - 1][e].Type.Equals(type) && !MapCurrent[i + 1][e].Type.Equals(type) && !MapCurrent[i][e - 1].Type.Equals(type) && !MapCurrent[i][e + 1].Type.Equals(type))
                         {
                             if (decisionReverse == 1)
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.BAY][1], 0);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.BAY][1], 0);
                             else
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.BAY][0], 1);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.BAY][0], 1);
                         }
-                        else if (!map[i - 1][e].type.Equals(type) && map[i + 1][e].type.Equals(type) && !map[i][e - 1].type.Equals(type) && !map[i][e + 1].type.Equals(type))
+                        else if (!MapCurrent[i - 1][e].Type.Equals(type) && MapCurrent[i + 1][e].Type.Equals(type) && !MapCurrent[i][e - 1].Type.Equals(type) && !MapCurrent[i][e + 1].Type.Equals(type))
                         {
                             if (decisionReverse == 1)
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.BAY][0], 0);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.BAY][0], 0);
                             else
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.BAY][1], 1);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.BAY][1], 1);
 
                         }
-                        else if (!map[i - 1][e].type.Equals(type) && !map[i + 1][e].type.Equals(type) && map[i][e - 1].type.Equals(type) && !map[i][e + 1].type.Equals(type))
+                        else if (!MapCurrent[i - 1][e].Type.Equals(type) && !MapCurrent[i + 1][e].Type.Equals(type) && MapCurrent[i][e - 1].Type.Equals(type) && !MapCurrent[i][e + 1].Type.Equals(type))
                         {
-                            map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.BAY][2], 1);
+                            MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.BAY][2], 1);
                         }
-                        else if (!map[i - 1][e].type.Equals(type) && !map[i + 1][e].type.Equals(type) && !map[i][e - 1].type.Equals(type) && map[i][e + 1].type.Equals(type))
+                        else if (!MapCurrent[i - 1][e].Type.Equals(type) && !MapCurrent[i + 1][e].Type.Equals(type) && !MapCurrent[i][e - 1].Type.Equals(type) && MapCurrent[i][e + 1].Type.Equals(type))
                         {
-                            map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.BAY][2], 0);
+                            MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.BAY][2], 0);
                         }
-                        else if (map[i - 1][e].type.Equals(type) && !map[i + 1][e].type.Equals(type) && map[i][e - 1].type.Equals(type) && !map[i][e + 1].type.Equals(type))
+                        else if (MapCurrent[i - 1][e].Type.Equals(type) && !MapCurrent[i + 1][e].Type.Equals(type) && MapCurrent[i][e - 1].Type.Equals(type) && !MapCurrent[i][e + 1].Type.Equals(type))
                         {
 
                             if (decisionReverse == 0)
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][0], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][0], decisionReverse);
                             else
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][1], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][1], decisionReverse);
 
 
                         }
-                        else if (!map[i - 1][e].type.Equals(type) && map[i + 1][e].type.Equals(type) && map[i][e - 1].type.Equals(type) && !map[i][e + 1].type.Equals(type))
+                        else if (!MapCurrent[i - 1][e].Type.Equals(type) && MapCurrent[i + 1][e].Type.Equals(type) && MapCurrent[i][e - 1].Type.Equals(type) && !MapCurrent[i][e + 1].Type.Equals(type))
                         {
 
                             if (decisionReverse == 0)
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][2], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][2], decisionReverse);
                             else
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][3], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][3], decisionReverse);
 
                         }
-                        else if (map[i - 1][e].type.Equals(type) && !map[i + 1][e].type.Equals(type) && !map[i][e - 1].type.Equals(type) && map[i][e + 1].type.Equals(type))
+                        else if (MapCurrent[i - 1][e].Type.Equals(type) && !MapCurrent[i + 1][e].Type.Equals(type) && !MapCurrent[i][e - 1].Type.Equals(type) && MapCurrent[i][e + 1].Type.Equals(type))
                         {
 
                             if (decisionReverse == 0)
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][3], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][3], decisionReverse);
                             else
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][2], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][2], decisionReverse);
 
                         }
-                        else if (!map[i - 1][e].type.Equals(type) && map[i + 1][e].type.Equals(type) && !map[i][e - 1].type.Equals(type) && map[i][e + 1].type.Equals(type))
+                        else if (!MapCurrent[i - 1][e].Type.Equals(type) && MapCurrent[i + 1][e].Type.Equals(type) && !MapCurrent[i][e - 1].Type.Equals(type) && MapCurrent[i][e + 1].Type.Equals(type))
                         {
 
                             if (decisionReverse == 0)
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][1], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][1], decisionReverse);
                             else
-                                map[i][e].texture = ReverseTexture(waterTextures[WaterTextureType.CORNER][0], decisionReverse);
+                                MapCurrent[i][e].Texture = ReverseTexture(WaterTextures[WaterTextureType.CORNER][0], decisionReverse);
 
                         }
 
@@ -399,28 +395,25 @@ namespace BattleTank.Core
                         {
 
 
-                            int x = game.randy.Next(2, map.Length - 2);
-                            int y = game.randy.Next(2, columnHeight - 2);
-                            if (i < 30)
-                            {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), wallTexture);
+                            int x = game.Randy.Next(2, MapCurrent.Length - 2);
+                            int y = game.Randy.Next(2, ColumnHeight - 2);
+                            if (i < 30 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
+                            { 
+                                    MapCurrent[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WallTexture);
                             }
-                            else if (i < 60)
-                            {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.BUSH, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), bushTexture);
+                            else if (i < 60 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
+                            { 
+                                    MapCurrent[x][y] = new Tile(Tile.TileType.BUSH, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), BushTexture);
                             }
-                            else if (i < 90)
-                            {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.WATER, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
+                            else if (i < 90 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
+                            { 
+                                    MapCurrent[x][y] = new Tile(Tile.TileType.WATER, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);
                             }
-                            else if (i < 120)
+                            else if (i < 120 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
                             {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.MUD, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
+                                    MapCurrent[x][y] = new Tile(Tile.TileType.MUD, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);
                             }
+                            
 
 
                         }
@@ -434,12 +427,12 @@ namespace BattleTank.Core
                     {
                         //Middle rows
 
-                        for (int x = 2; x < map.Length - 2; ++x)
+                        for (int x = 2; x < MapCurrent.Length - 2; ++x)
                         {
-                            for (int y = 2; y < (map[0].Length) - 2; y++)
+                            for (int y = 2; y < (MapCurrent[0].Length) - 2; y++)
                             {
                                 if (x % 2 == 0 && y % 2 == 0)
-                                    map[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), wallTexture);
+                                    MapCurrent[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WallTexture);
 
                             }
                         }
@@ -453,27 +446,23 @@ namespace BattleTank.Core
                         {
 
 
-                            int x = game.randy.Next(2, map.Length - 2);
-                            int y = game.randy.Next(2, columnHeight - 2);
-                            if (i < 90)
-                            {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), wallTexture);
+                            int x = game.Randy.Next(2, MapCurrent.Length - 2);
+                            int y = game.Randy.Next(2, ColumnHeight - 2);
+                            if (i < 90 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
+                            { 
+                                MapCurrent[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WallTexture);
                             }
-                            else if (i < 180)
-                            {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.BUSH, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), bushTexture);
+                            else if (i < 180 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
+                            { 
+                                MapCurrent[x][y] = new Tile(Tile.TileType.BUSH, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), BushTexture);
                             }
-                            else if (i < 270)
-                            {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.WATER, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
+                            else if (i < 270 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
+                            { 
+                                MapCurrent[x][y] = new Tile(Tile.TileType.WATER, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);
                             }
-                            else if (i < 360)
-                            {
-                                if (x != map.Length / 2 && x != (map.Length / 2) - 1 && y != (map[0].Length / 2) && y != (map[0].Length / 2) - 1)
-                                    map[x][y] = new Tile(Tile.TileType.MUD, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
+                            else if (i < 360 && (x != MapCurrent.Length / 2 && x != (MapCurrent.Length / 2) - 1 && y != (MapCurrent[0].Length / 2) && y != (MapCurrent[0].Length / 2) - 1))
+                            {                         
+                                MapCurrent[x][y] = new Tile(Tile.TileType.MUD, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);                              
                             }
 
 
@@ -489,31 +478,31 @@ namespace BattleTank.Core
                         //Middle rows
 
                         //WALL
-                        for (int i = 5; i < map.Length - 5; i++)
+                        for (int i = 5; i < MapCurrent.Length - 5; i++)
                         {
-                            if (i != (map.Length / 2) && i != (map.Length / 2) - 1)
+                            if (i != (MapCurrent.Length / 2) && i != (MapCurrent.Length / 2) - 1)
                             {
-                                map[i][5] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, 5 * tileHeight, tileWidth, tileHeight), wallTexture);
-                                map[i][(map[0].Length) - 6] = new Tile(Tile.TileType.WALL, new Rectangle(i * tileWidth, ((map[0].Length) - 6) * tileHeight, tileWidth, tileHeight), wallTexture);
+                                MapCurrent[i][5] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, 5 * TileHeight, TileWidth, TileHeight), WallTexture);
+                                MapCurrent[i][(MapCurrent[0].Length) - 6] = new Tile(Tile.TileType.WALL, new Rectangle(i * TileWidth, ((MapCurrent[0].Length) - 6) * TileHeight, TileWidth, TileHeight), WallTexture);
                             }
 
                         }
-                        for (int i = 5; i < (map[0].Length) - 5; i++)
+                        for (int i = 5; i < (MapCurrent[0].Length) - 5; i++)
                         {
-                            if (i != (map[0].Length / 2) && i != (map[0].Length / 2) - 1)
+                            if (i != (MapCurrent[0].Length / 2) && i != (MapCurrent[0].Length / 2) - 1)
                             {
-                                map[5][i] = new Tile(Tile.TileType.WALL, new Rectangle(5 * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
-                                map[map.Length - 6][i] = new Tile(Tile.TileType.WALL, new Rectangle((map.Length - 6) * tileWidth, i * tileHeight, tileWidth, tileHeight), wallTexture);
+                                MapCurrent[5][i] = new Tile(Tile.TileType.WALL, new Rectangle(5 * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
+                                MapCurrent[MapCurrent.Length - 6][i] = new Tile(Tile.TileType.WALL, new Rectangle((MapCurrent.Length - 6) * TileWidth, i * TileHeight, TileWidth, TileHeight), WallTexture);
                             }
 
                         }
                         for (int i = 0; i < 50; ++i)
                         {
 
-                            int x = game.randy.Next(7, map.Length - 7);
-                            int y = game.randy.Next(7, columnHeight - 7);
+                            int x = game.Randy.Next(7, MapCurrent.Length - 7);
+                            int y = game.Randy.Next(7, ColumnHeight - 7);
 
-                            map[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), wallTexture);
+                            MapCurrent[x][y] = new Tile(Tile.TileType.WALL, new Rectangle(x * TileWidth, y * TileHeight, TileWidth, TileHeight), WallTexture);
 
                         }
 
@@ -522,47 +511,47 @@ namespace BattleTank.Core
 
 
                         //WATER
-                        for (int i = 3; i < map.Length - 3; i++)
+                        for (int i = 3; i < MapCurrent.Length - 3; i++)
                         {
-                            if (i != (map.Length / 2) && i != (map.Length / 2) - 1)
+                            if (i != (MapCurrent.Length / 2) && i != (MapCurrent.Length / 2) - 1)
                             {
-                                map[i][3] = new Tile(Tile.TileType.WATER, new Rectangle(i * tileWidth, 3 * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
-                                map[i][(map[0].Length) - 4] = new Tile(Tile.TileType.WATER, new Rectangle(i * tileWidth, ((map[0].Length) - 4) * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
+                                MapCurrent[i][3] = new Tile(Tile.TileType.WATER, new Rectangle(i * TileWidth, 3 * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);
+                                MapCurrent[i][(MapCurrent[0].Length) - 4] = new Tile(Tile.TileType.WATER, new Rectangle(i * TileWidth, ((MapCurrent[0].Length) - 4) * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);
                             }
 
                         }
-                        for (int i = 3; i < (map[0].Length) - 3; i++)
+                        for (int i = 3; i < (MapCurrent[0].Length) - 3; i++)
                         {
-                            if (i != (map[0].Length / 2) && i != (map[0].Length / 2) - 1)
+                            if (i != (MapCurrent[0].Length / 2) && i != (MapCurrent[0].Length / 2) - 1)
                             {
-                                map[3][i] = new Tile(Tile.TileType.WATER, new Rectangle(3 * tileWidth, i * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
-                                map[map.Length - 4][i] = new Tile(Tile.TileType.WATER, new Rectangle((map.Length - 4) * tileWidth, i * tileHeight, tileWidth, tileHeight), waterTextures[WaterTextureType.FULL][0]);
+                                MapCurrent[3][i] = new Tile(Tile.TileType.WATER, new Rectangle(3 * TileWidth, i * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);
+                                MapCurrent[MapCurrent.Length - 4][i] = new Tile(Tile.TileType.WATER, new Rectangle((MapCurrent.Length - 4) * TileWidth, i * TileHeight, TileWidth, TileHeight), WaterTextures[WaterTextureType.FULL][0]);
                             }
 
                         }
                         //WATER
 
                         //BUSH
-                        for (int i = 1; i < map.Length - 1; i++)
+                        for (int i = 1; i < MapCurrent.Length - 1; i++)
                         {
-                            if (i != (map.Length / 2) && i != (map.Length / 2) - 1)
+                            if (i != (MapCurrent.Length / 2) && i != (MapCurrent.Length / 2) - 1)
                             {
-                                map[i][1] = new Tile(Tile.TileType.BUSH, new Rectangle(i * tileWidth, 1 * tileHeight, tileWidth, tileHeight), bushTexture);
-                                map[i][(map[0].Length) - 2] = new Tile(Tile.TileType.BUSH, new Rectangle(i * tileWidth, ((map[0].Length) - 2) * tileHeight, tileWidth, tileHeight), bushTexture);
-                                map[i][2] = new Tile(Tile.TileType.BUSH, new Rectangle(i * tileWidth, 2 * tileHeight, tileWidth, tileHeight), bushTexture);
-                                map[i][(map[0].Length) - 3] = new Tile(Tile.TileType.BUSH, new Rectangle(i * tileWidth, ((map[0].Length) - 3) * tileHeight, tileWidth, tileHeight), bushTexture);
+                                MapCurrent[i][1] = new Tile(Tile.TileType.BUSH, new Rectangle(i * TileWidth, 1 * TileHeight, TileWidth, TileHeight), BushTexture);
+                                MapCurrent[i][(MapCurrent[0].Length) - 2] = new Tile(Tile.TileType.BUSH, new Rectangle(i * TileWidth, ((MapCurrent[0].Length) - 2) * TileHeight, TileWidth, TileHeight), BushTexture);
+                                MapCurrent[i][2] = new Tile(Tile.TileType.BUSH, new Rectangle(i * TileWidth, 2 * TileHeight, TileWidth, TileHeight), BushTexture);
+                                MapCurrent[i][(MapCurrent[0].Length) - 3] = new Tile(Tile.TileType.BUSH, new Rectangle(i * TileWidth, ((MapCurrent[0].Length) - 3) * TileHeight, TileWidth, TileHeight), BushTexture);
 
                             }
 
                         }
-                        for (int i = 1; i < (map[0].Length) - 1; i++)
+                        for (int i = 1; i < (MapCurrent[0].Length) - 1; i++)
                         {
-                            if (i != (map[0].Length / 2) && i != (map[0].Length / 2) - 1)
+                            if (i != (MapCurrent[0].Length / 2) && i != (MapCurrent[0].Length / 2) - 1)
                             {
-                                map[1][i] = new Tile(Tile.TileType.BUSH, new Rectangle(1 * tileWidth, i * tileHeight, tileWidth, tileHeight), bushTexture);
-                                map[map.Length - 2][i] = new Tile(Tile.TileType.BUSH, new Rectangle((map.Length - 2) * tileWidth, i * tileHeight, tileWidth, tileHeight), bushTexture);
-                                map[2][i] = new Tile(Tile.TileType.BUSH, new Rectangle(2 * tileWidth, i * tileHeight, tileWidth, tileHeight), bushTexture);
-                                map[map.Length - 3][i] = new Tile(Tile.TileType.BUSH, new Rectangle((map.Length - 3) * tileWidth, i * tileHeight, tileWidth, tileHeight), bushTexture);
+                                MapCurrent[1][i] = new Tile(Tile.TileType.BUSH, new Rectangle(1 * TileWidth, i * TileHeight, TileWidth, TileHeight), BushTexture);
+                                MapCurrent[MapCurrent.Length - 2][i] = new Tile(Tile.TileType.BUSH, new Rectangle((MapCurrent.Length - 2) * TileWidth, i * TileHeight, TileWidth, TileHeight), BushTexture);
+                                MapCurrent[2][i] = new Tile(Tile.TileType.BUSH, new Rectangle(2 * TileWidth, i * TileHeight, TileWidth, TileHeight), BushTexture);
+                                MapCurrent[MapCurrent.Length - 3][i] = new Tile(Tile.TileType.BUSH, new Rectangle((MapCurrent.Length - 3) * TileWidth, i * TileHeight, TileWidth, TileHeight), BushTexture);
 
                             }
 
@@ -590,20 +579,20 @@ namespace BattleTank.Core
             bool colliding = false;
             do
             {
-                int startingLocationX = randy.Next(100, screenWidth - 100);
-                int startingLocationY = randy.Next(100, screenHeight - 100);
+                int startingLocationX = randy.Next(100, ScreenWidth - 100);
+                int startingLocationY = randy.Next(100, ScreenHeight - 100);
 
                 respawnLocation = new Vector2(startingLocationX, startingLocationY);
 
                 Rectangle startingtankRect = new Rectangle(startingLocationX, startingLocationY, width, height);
 
                 colliding = false;
-                foreach (Tile[] tiles in map)
+                foreach (Tile[] tiles in MapCurrent)
                 {
                     foreach (Tile tile in tiles)
                     {
                         if (tile is null) continue;
-                        if ((!(tile.isColliding(startingtankRect).depth > 0))) continue;
+                        if ((tile.IsColliding(startingtankRect).Depth <= 0)) continue;
 
                         colliding = true;
                     }

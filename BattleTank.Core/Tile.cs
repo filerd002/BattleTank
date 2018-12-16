@@ -17,19 +17,19 @@ namespace BattleTank.Core
             MUD
         }
 
-        public Rectangle collisionRect;
-        public Texture2D texture;
- 
-         public TileType type;
-         public Tile(TileType _type, Rectangle _collisionRect, Texture2D _texture)
+        public TileType Type { get; set; }
+        public Rectangle CollisionRect { get; set; }
+        public Texture2D Texture { get; set; }
+
+        public Tile(TileType _type, Rectangle _collisionRect, Texture2D _texture)
         {
-            collisionRect = _collisionRect;
-            texture = _texture;
-            type = _type;
+            CollisionRect = _collisionRect;
+            Texture = _texture;
+            Type = _type;
         }
         public void Update(GameTime gameTime)
         {
-            switch (type)
+            switch (Type)
             {
                 case TileType.AIR:
                     break;
@@ -47,18 +47,18 @@ namespace BattleTank.Core
         public void Draw(SpriteBatch spriteBatch)
         {
 
-            switch (type)
+            switch (Type)
             {
                 case TileType.AIR:
                     break;
                 case TileType.WALL:
-                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), Color.White);
+                    spriteBatch.Draw(Texture, new Rectangle(CollisionRect.X, CollisionRect.Y, CollisionRect.Width, CollisionRect.Height), Color.White);
                     break;
                 case TileType.BUSH:
-                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), Color.White);
+                    spriteBatch.Draw(Texture, new Rectangle(CollisionRect.X, CollisionRect.Y, CollisionRect.Width, CollisionRect.Height), Color.White);
                     break;
                 case TileType.WATER:
-                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), Color.White);                
+                    spriteBatch.Draw(Texture, new Rectangle(CollisionRect.X, CollisionRect.Y, CollisionRect.Width, CollisionRect.Height), Color.White);                
                     break;                                                                                                                 
                 case TileType.MUD:
                     Color colorMUD;
@@ -67,39 +67,37 @@ namespace BattleTank.Core
 #else
                     colorMUD = Color.Lerp(Color.Lerp(Color.Lerp(Color.Red, Color.Yellow, 0.55f), Color.OrangeRed, 0.3f), Color.Red, 0.8f);
 #endif
-                    spriteBatch.Draw(texture, new Rectangle(collisionRect.X, collisionRect.Y, collisionRect.Width, collisionRect.Height), colorMUD);
+                    spriteBatch.Draw(Texture, new Rectangle(CollisionRect.X, CollisionRect.Y, CollisionRect.Width, CollisionRect.Height), colorMUD);
                     break;
             }
         }
-        public Collision isColliding(Rectangle possibleCollisionRect)
+        public Collision IsColliding(Rectangle possibleCollisionRect)
         {
-            Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, collisionRect);
-            if (type == TileType.WALL || type == TileType.WATER || type == TileType.BUSH || type == TileType.MUD)
+            Rectangle intersect = Rectangle.Intersect(possibleCollisionRect, CollisionRect);
+            if ((Type == TileType.WALL || Type == TileType.WATER || Type == TileType.BUSH || Type == TileType.MUD) && (intersect.Width > 0 || intersect.Height > 0))
             {
-                if (intersect.Width > 0 || intersect.Height > 0)
-                {
-         
-                     if (possibleCollisionRect.Top < collisionRect.Bottom && Math.Abs(intersect.Width) > Math.Abs(intersect.Height) && possibleCollisionRect.Y > collisionRect.Y)
+       
+                     if (possibleCollisionRect.Top < CollisionRect.Bottom && Math.Abs(intersect.Width) > Math.Abs(intersect.Height) && possibleCollisionRect.Y > CollisionRect.Y)
                     {
                         float depth = intersect.Height;
                         return new Collision(Collision.Side.TOP, depth);
                     }
-                    if (possibleCollisionRect.Bottom > collisionRect.Top && Math.Abs(intersect.Width) > Math.Abs(intersect.Height))
+                    if (possibleCollisionRect.Bottom > CollisionRect.Top && Math.Abs(intersect.Width) > Math.Abs(intersect.Height))
                     {
                         float depth = intersect.Height;
                         return new Collision(Collision.Side.BOTTOM, depth);
                     }
-                    if (possibleCollisionRect.Left < collisionRect.Right && Math.Abs(intersect.Width) < Math.Abs(intersect.Height) && possibleCollisionRect.Right > collisionRect.Right)
+                    if (possibleCollisionRect.Left < CollisionRect.Right && Math.Abs(intersect.Width) < Math.Abs(intersect.Height) && possibleCollisionRect.Right > CollisionRect.Right)
                     {
                         float depth = intersect.Width;
                         return new Collision(Collision.Side.LEFT, depth);
                     }
-                    if (possibleCollisionRect.Right > collisionRect.Right - collisionRect.Width && possibleCollisionRect.Right > collisionRect.Left && Math.Abs(intersect.Width) < Math.Abs(intersect.Height))
+                    if (possibleCollisionRect.Right > CollisionRect.Right - CollisionRect.Width && possibleCollisionRect.Right > CollisionRect.Left && Math.Abs(intersect.Width) < Math.Abs(intersect.Height))
                     {
                         float depth = intersect.Width;
                         return new Collision(Collision.Side.RIGHT, depth);
                     }
-                }
+                
             }
             
                 return new Collision();

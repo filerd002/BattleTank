@@ -27,25 +27,26 @@ namespace BattleTank.Core.Input
             Initialize(gamePadNumber);
         }
 
-        private bool Initialize(int pad)
+        private void Initialize(int pad)
         {
 
             DirectInput dinput = new DirectInput();
             List<DeviceInstance> devices = GetAllAvailableDeviceInstances();
             
             DeviceInstance device = devices.ElementAtOrDefault(pad);
-            if (device is null) return false;
-
-            _joystick = new SlimDX.DirectInput.Joystick(dinput, device.InstanceGuid);
-
-            foreach (DeviceObjectInstance doi in _joystick.GetObjects(ObjectDeviceType.Axis))
+            if (device != null)
             {
-                _joystick.GetObjectPropertiesById((int)doi.ObjectType).SetRange(-MAX_AXIS_VALUE, MAX_AXIS_VALUE);
-            }
-            _joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
+                _joystick = new SlimDX.DirectInput.Joystick(dinput, device.InstanceGuid);
 
-            _joystick.Acquire();
-            return true;
+                foreach (DeviceObjectInstance doi in _joystick.GetObjects(ObjectDeviceType.Axis))
+                {
+                    _joystick.GetObjectPropertiesById((int)doi.ObjectType).SetRange(-MAX_AXIS_VALUE, MAX_AXIS_VALUE);
+                }
+                _joystick.Properties.AxisMode = DeviceAxisMode.Absolute;
+
+                _joystick.Acquire();
+            }
+     
         }
 
            public bool IsConnectedTankController(){
@@ -61,15 +62,7 @@ namespace BattleTank.Core.Input
         {
            JoystickState state = _joystick.GetCurrentState();
 
-            //if (_joystick.Poll().IsFailure)
-            //{                           
-            //   throw new Exception("Nie udało się połączyć z joystickiem");
-            //}
-            //if (_joystick.GetCurrentState(ref state).IsFailure)
-            //{
-            //    throw new Exception("Nie udało się pobrać danych z joystika");
-            //}
-
+ 
             bool[] buttons = state.GetButtons();
             return new TankControllerState(
                 moveX: ((float)(Math.Abs(state.X) < 50 ? 0 : state.X) / MAX_AXIS_VALUE),
@@ -114,7 +107,17 @@ namespace BattleTank.Core.Input
                    && provider.PlantMineButtonNumber == this.PlantMineButtonNumber
                    && provider.SpeedBoostButtonNumber == this.SpeedBoostButtonNumber;
         }
-    #endregion
+
+        public override int GetHashCode()
+        {
+            var hashCode = -648174942;
+            hashCode = hashCode * -1521134295 + SpeedBoostButtonNumber.GetHashCode();
+            hashCode = hashCode * -1521134295 + PlantMineButtonNumber.GetHashCode();
+            hashCode = hashCode * -1521134295 + FireButtonNumber.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<Joystick>.Default.GetHashCode(_joystick);
+            return hashCode;
+        }
+        #endregion
     }
 
 #endif

@@ -3,13 +3,15 @@
     public class Collision
     {
         public enum Side { LEFT, RIGHT, TOP, BOTTOM };
-        public Side side;
-        public float depth;
+
+        public float Depth { get; set; }
+        public Side SideCollision { get; set; }
+
         public Collision() { }
         public Collision(Side _side, float _depth)
         {
-            side = _side;
-            depth = _depth;
+            SideCollision = _side;
+            Depth = _depth;
         }
     }
 }

@@ -7,14 +7,21 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;CORE</DefineConstants>
+    <CodeAnalysisRuleSet>BattleTank.Core.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='WINDOWS|AnyCPU'">
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <CodeAnalysisRuleSet>BattleTank.Core.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ANDROID|AnyCPU'">
     <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
+    <CodeAnalysisRuleSet>BattleTank.Core.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <CodeAnalysisRuleSet>BattleTank.Core.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

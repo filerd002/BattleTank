@@ -66,7 +66,15 @@ namespace BattleTank.Core.GUI
         {
             if (duration == 0)
                 ClickSound?.Play();
-            duration += (int)ClickSound?.Duration.Milliseconds;
+            try
+            {
+                duration += (int)ClickSound?.Duration.Milliseconds;
+            }
+            catch (InvalidCastException)
+            {
+                throw new InvalidCastException(nameof(duration));
+            }
+
             if (duration >= 1032)
                 duration = 0;
 

@@ -32,16 +32,16 @@ namespace BattleTank.Core.GUI
         protected Texture2D TextureToDraw { get; set; }
         internal Rectangle UIElementRectangle;
 
-        public EventHandler<UIElement> Clicked;
         protected virtual void OnClickedRaised() => Clicked?.Invoke(this, this);
-
-        public EventHandler<UIElement> MouseOver;
         protected virtual void OnMouseOverRaised() => MouseOver?.Invoke(this, this);
 
         public static Effect Effect { get; set; }
         public static SpriteFont InActiveFont { get; set; }
         public static SpriteFont ActiveFont { get; set; }
         public static GraphicsDevice GraphicsDevice { get; set; }
+        public EventHandler<UIElement> Clicked { get; set; }
+        public EventHandler<UIElement> MouseOver { get; set; }
+
         protected UIElement(Texture2D textureToDraw)
         {
             TextureToDraw = textureToDraw;

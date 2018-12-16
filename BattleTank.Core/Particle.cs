@@ -5,70 +5,72 @@ namespace BattleTank.Core
 {
     class Particle
     {
-        private Game1 game;
         public Rectangle particleRect;
         public Vector2 speed;
-        public Color color { get; set; }
-        public int player { get; set; }
-        public float rotation { get; set; }
+        public Color Color { get; set; }
+        public int Player { get; set; }
+        public float Rotation { get; set; }
         public Texture2D particleTexture;
-        public bool alive { get; set; }
-        public bool decay { get; set; }
-        public bool fade { get; set; }
-        public float decayTime { get; set; }
-        public float initDecayTime { get; set; }
+        public bool Alive { get; set; }
+        public bool Decay { get; set; }
+        public bool Fade { get; set; }
+        public float DecayTime { get; set; }
+        public float InitDecayTime { get; set; }
+
+        public Game1 Game { get; }
+
         public Particle() { }
         public Particle(Game1 _game, Rectangle _particleRect, Vector2 _speed, Color _color, int _player, float _rotation, Texture2D _particleTexture)
         {
-            game = _game;
+            Game = _game;
             particleRect = _particleRect;
             speed = _speed;
-            color = _color;
-            player = _player;
-            rotation = _rotation;
+            Color = _color;
+            Player = _player;
+            Rotation = _rotation;
             particleTexture = _particleTexture;
-            alive = true;
-            decay = false;
-            decayTime = float.MinValue;
-            initDecayTime = decayTime;
-            fade = false;
+            Alive = true;
+            Decay = false;
+            DecayTime = float.MinValue;
+            InitDecayTime = DecayTime;
+            Fade = false;
         }
         public Particle(Game1 _game, Rectangle _particleRect, Vector2 _speed, Color _color, int _player, float _rotation, Texture2D _particleTexture, float _decayTime, bool _fade)
         {
-            game = _game;
+            Game = _game;
             particleRect = _particleRect;
             speed = _speed;
-            color = _color;
-            player = _player;
-            rotation = _rotation;
+            Color = _color;
+            Player = _player;
+            Rotation = _rotation;
             particleTexture = _particleTexture;
-            alive = true;
-            decay = true;
-            decayTime = 0;
-            initDecayTime = _decayTime;
-            fade = _fade;
+            Alive = true;
+            Decay = true;
+            DecayTime = 0;
+            InitDecayTime = _decayTime;
+            Fade = _fade;
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (alive)
+            if (Alive)
             {
-                spriteBatch.Draw(particleTexture, particleRect, color);
+                spriteBatch.Draw(particleTexture, particleRect, Color);
             }
         }
         public void Update(GameTime gameTime)
         {
-            if (alive)
+            if (Alive)
             {
                 particleRect.X += (int)speed.X;
                 particleRect.Y += (int)speed.Y;
-                if(decay)
+                if(Decay)
                 {
-                    decayTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
-                    if(fade)
+                    DecayTime += (float)gameTime.ElapsedGameTime.TotalMilliseconds / 1000;
+                    if(Fade)
                     {
-                        color = Color.Lerp(color, Color.Transparent, decayTime/initDecayTime);
+                        Color = Color.Lerp(Color, Color.Transparent, DecayTime/InitDecayTime);
                     }
-                    if (decayTime >= initDecayTime)
+                    if (DecayTime >= InitDecayTime)
                     {
                         Die();
                     }
@@ -77,9 +79,9 @@ namespace BattleTank.Core
         }
         public void Die()
         {
-            alive = false;
+            Alive = false;
             speed = Vector2.Zero;
-            color = Color.Transparent;
+            Color = Color.Transparent;
         }
     }
 }

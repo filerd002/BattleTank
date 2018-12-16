@@ -8,15 +8,15 @@ namespace BattleTank.Core
 
    
 
-        private SoundEffectInstance menuSound;
+        private readonly SoundEffectInstance menuSound;
 
-        private SoundEffectInstance hit;
-        private SoundEffectInstance shot;
-        private SoundEffectInstance klik;
-        private SoundEffectInstance respawn;
-        private SoundEffectInstance explosion;
-        private SoundEffectInstance rustling;
-        private SoundEffectInstance engine;
+        private readonly SoundEffectInstance hit;
+        private readonly SoundEffectInstance shot;
+        private readonly SoundEffectInstance klik;
+        private readonly SoundEffectInstance respawn;
+        private readonly SoundEffectInstance explosion;
+        private readonly SoundEffectInstance rustling;
+        private readonly SoundEffectInstance engine;
      
 
 

@@ -6,17 +6,13 @@ namespace BattleTank.Core
 {
     public class Settings
     {
-        public DifficultyLevel difficultyLevel = DifficultyLevel.Easy;
-        public float raceTime = (float)RaceTime.Minutes_2;
+        public DifficultyLevel DifficultyLevelCurrent { get; set; } = DifficultyLevel.Easy;
+        public float RaceTimeCurrent { get; set; } = (float)RaceTime.Minutes_2;
 
-
-        public int opponentsCPUClassic = 1;
-        public int opponentsCPUKamikaze = 1;
-
-        //map
-        public int elementsOnTheWidth = 41;
-        public int elementsOnTheHeight = 23;
-        
+        public int ElementsOnTheHeight { get; set; } = 23;
+        public int ElementsOnTheWidth { get; set; } = 41;
+        public int OpponentsCPUKamikaze { get; set; } = 1;
+        public int OpponentsCPUClassic { get; set; } = 1;
 
         public enum RaceTime
         {

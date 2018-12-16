@@ -17,8 +17,7 @@ namespace BattleTank.Core.Input
         public Point Location => Position.ToPoint();
         public ButtonState LeftButtonAction { get; }
         public ButtonState RightButtonAction { get; }
-
-        private static bool _isTouchAvailble;
+        public static bool IsTouchAvailble { get; set; }
 
         public PointerState(float x, float y, ButtonState leftButtonAction = ButtonState.Released, ButtonState rightButtonAction = ButtonState.Released)
         {
@@ -27,7 +26,7 @@ namespace BattleTank.Core.Input
             RightButtonAction = rightButtonAction;
 
             var touch = Microsoft.Xna.Framework.Input.Touch.TouchPanel.GetCapabilities();
-            _isTouchAvailble = touch.IsConnected;
+            IsTouchAvailble = touch.IsConnected;
         }
 
         public PointerState(Vector2 position, ButtonState leftButtonAction = ButtonState.Released, ButtonState rightButtonAction = ButtonState.Released)
@@ -40,7 +39,10 @@ namespace BattleTank.Core.Input
             MouseState mouseState = Mouse.GetState();
             PointerState retVal = new PointerState(mouseState.X, mouseState.Y, mouseState.LeftButton, mouseState.RightButton);
 
-            if (!_isTouchAvailble) return retVal;
+            if (!IsTouchAvailble)
+            {
+                return retVal;
+            }
 
             TouchCollection touchState = TouchPanel.GetState();
             foreach (TouchLocation touch in touchState)

@@ -475,7 +475,7 @@ namespace BattleTank.Core.Tanks
                         float depth = intersect.Width;
                         return new Collision(Collision.Side.LEFT, depth);
                     }
-                    if (possibleCollisionRect.Right > TankRect.Right - TankRect.Width && possibleCollisionRect.Right > TankRect.Left && Math.Abs(intersect.Width) < Math.Abs(intersect.Height))
+                    if (possibleCollisionRect.Right > TankRect.Right - TankRect.Width && possibleCollisionRect.Right > TankRect.Left && ( Game.Settings.Widescreen && Environment.OSVersion.Platform == PlatformID.Win32NT ) ? ( Math.Abs(intersect.Width) < Math.Abs(intersect.Height)) : false )
                     {
                         float depth = intersect.Width;
                         return new Collision(Collision.Side.RIGHT, depth);

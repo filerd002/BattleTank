@@ -234,82 +234,97 @@ namespace BattleTank.Core
             positionMouse = new Vector2(Graphics.GraphicsDevice.Viewport.Width / 2,
                                     Graphics.GraphicsDevice.Viewport.Height / 2);
 
+            Settings.Widescreen = true;
+            if (GraphicsDevice.DisplayMode.Width / (double) (GraphicsDevice.DisplayMode.Width + GraphicsDevice.DisplayMode.Height) == 4 / 7d ||
+                GraphicsDevice.DisplayMode.Width / (double)(GraphicsDevice.DisplayMode.Width + GraphicsDevice.DisplayMode.Height) == 3 / 5d ||
+                GraphicsDevice.DisplayMode.Width / (double)(GraphicsDevice.DisplayMode.Width + GraphicsDevice.DisplayMode.Height) == 5 / 8d ||
+                GraphicsDevice.DisplayMode.Width / (double)(GraphicsDevice.DisplayMode.Width + GraphicsDevice.DisplayMode.Height) == 5 / 9d) {
+                Settings.Widescreen = false;
+            }
 
-            LabelBattleTank = new Label("BaTtLeTaNk", new Vector2((Map.ScreenWidth / 2) - 195, (Map.ScreenHeight / 2) - 135), null, 80);
+            if (Settings.Widescreen == true && Environment.OSVersion.Platform == PlatformID.Win32NT)
+            {
+                Settings.RatioOfWidthtOfFrameToScreen = 0.75;
+            }
+            else {
+                Settings.RatioOfWidthtOfFrameToScreen = 1;
+            }
+         
+
+                LabelBattleTank = new Label("BaTtLeTaNk", new Vector2((Map.ScreenWidth / 2) - 195, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.175)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.08) );
             LabelBattleTank.CenterHorizontal();
-            LabelwyborPoziomTrud = new Label("PoZiOm TrUdNoScI", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 220), null, 60);
+            LabelwyborPoziomTrud = new Label("PoZiOm TrUdNoScI", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.286)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             LabelwyborPoziomTrud.CenterHorizontal();
-            LabelwyborCpuKlasyk = new Label("CpU kLaSyCzNyCh", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 100), null, 60);
+            LabelwyborCpuKlasyk = new Label("CpU kLaSyCzNyCh", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.13)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             LabelwyborCpuKlasyk.CenterHorizontal();
-            LabelwyborCpuKlamikaze = new Label("CpU kAmIkAzE", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) + 20), null, 60);
+            LabelwyborCpuKlamikaze = new Label("CpU kAmIkAzE", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.026)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             LabelwyborCpuKlamikaze.CenterHorizontal();
-            LabelwyborCzasGry = new Label("CzAs RoZgRyWkI", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 150), null, 60);
+            LabelwyborCzasGry = new Label("CzAs RoZgRyWkI", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.195)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             LabelwyborCzasGry.CenterHorizontal();
-            LabelSukcesPorazka1Gracza = new Label("GrAcZa 1", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 60), null, 70);
+            LabelSukcesPorazka1Gracza = new Label("GrAcZa 1", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.078)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.07));
             LabelSukcesPorazka1Gracza.CenterHorizontal();
-            LabelSukcesPorazka2Gracza = new Label("GrAcZa 2", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 60), null, 70);
+            LabelSukcesPorazka2Gracza = new Label("GrAcZa 2", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.078)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.07));
             LabelSukcesPorazka2Gracza.CenterHorizontal();
-            LabelSettingsTrybSterowania = new Label("TrYb StErOwAnIa", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 195), null, 70);
+            LabelSettingsTrybSterowania = new Label("TrYb StErOwAnIa", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.254)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.07));
             LabelSettingsTrybSterowania.CenterHorizontal();
-            LabelTrybSterowania1Gracza = new Label("GrAcZ 1", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 130), null, 60);
+            LabelTrybSterowania1Gracza = new Label("GrAcZ 1", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.17)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             LabelTrybSterowania1Gracza.CenterHorizontal();
-            LabelTrybSterowania2Gracza = new Label("GrAcZ 2", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 5), null, 60);
+            LabelTrybSterowania2Gracza = new Label("GrAcZ 2", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.006)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             LabelTrybSterowania2Gracza.CenterHorizontal();
-            LabelwyborTrybGryTexture = new Label("WyBoR TrYbU\n        gRy", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - 160), null, 100);
+            LabelwyborTrybGryTexture = new Label("WyBoR TrYbU\n        gRy", new Vector2((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.208)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.1));
             LabelwyborTrybGryTexture.CenterHorizontal();
-            LabelwinTexture = new Label("SuKcEs", new Vector2((Map.ScreenWidth / 2) - 150, (Map.ScreenHeight / 2) - 140), null, 75);
+            LabelwinTexture = new Label("SuKcEs", new Vector2((Map.ScreenWidth / 2) - 150, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.182)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.075));
             LabelwinTexture.CenterHorizontal();
-            LabellossTexture = new Label("PrZeGrAnA", new Vector2((Map.ScreenWidth / 2) - 150, (Map.ScreenHeight / 2) - 140), null, 75);
+            LabellossTexture = new Label("PrZeGrAnA", new Vector2((Map.ScreenWidth / 2) - 150, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.182)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.075));
             LabellossTexture.CenterHorizontal();
-            LabelprzerwaTexture = new Label("PrZeRwA", new Vector2((Map.ScreenWidth / 2) - 170, (Map.ScreenHeight / 2) - 185), null, 75);
+            LabelprzerwaTexture = new Label("PrZeRwA", new Vector2((Map.ScreenWidth / 2) - 170, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.240)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.075));
             LabelprzerwaTexture.CenterHorizontal();
-            LabelStatementAboutControllerDisconnected = new Label("KoNtRoLeR zOsTaL oDlAcZoNy\n       PrZeJdZ dO UsTaWiEn,\n      AbY zMiEnIc StErOwAnIe", new Vector2((Map.ScreenWidth / 2) - 300, (Map.ScreenHeight / 2) - 160), null, 130);
+            LabelStatementAboutControllerDisconnected = new Label("KoNtRoLeR zOsTaL oDlAcZoNy\n       PrZeJdZ dO UsTaWiEn,\n      AbY zMiEnIc StErOwAnIe", new Vector2((Map.ScreenWidth / 2) - 300, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.208)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.13));
             LabelStatementAboutControllerDisconnected.CenterHorizontal();
-
-            ButtonKoniec = new Button("KoNiEc", new Vector2(), null, 60);
+            ButtonKoniec = new Button("KoNiEc", new Vector2(), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             ButtonKoniec.CenterHorizontal();
-            ButtonZagraj = new Button("ZaGrAj", new Vector2(0, (Map.ScreenHeight / 2) - 40), null, 60);
+            ButtonZagraj = new Button("ZaGrAj", new Vector2(0, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.052)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             ButtonZagraj.CenterHorizontal();
-            ButtonSettings = new Button("UsTaWiEnIa", new Vector2(0, (Map.ScreenHeight / 2) + 20), null, 60);
+            ButtonSettings = new Button("UsTaWiEnIa", new Vector2(0, (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.026)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             ButtonSettings.CenterHorizontal();
-            ButtonPlayer1 = new Button("GrAcZ vS cPu", new Vector2((Map.ScreenWidth / 2) - 140, (Map.ScreenHeight / 2) - 60), null, 50);
+            ButtonPlayer1 = new Button("GrAcZ vS cPu", new Vector2((Map.ScreenWidth / 2) - 140, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.078)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
             ButtonPlayer1.CenterHorizontal();
-            ButtonPlayer2 = new Button("GrAcZ vS gRaCz", new Vector2((Map.ScreenWidth / 2) - 135, (Map.ScreenHeight / 2) - 10), null, 50);
+            ButtonPlayer2 = new Button("GrAcZ vS gRaCz", new Vector2((Map.ScreenWidth / 2) - 135, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.013)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
             ButtonPlayer2.CenterHorizontal();
-            ButtonPlayer3 = new Button("2 GrAcZy Vs CpU", new Vector2((Map.ScreenWidth / 2) - 135, (Map.ScreenHeight / 2) + 40), null, 50);
+            ButtonPlayer3 = new Button("2 GrAcZy Vs CpU", new Vector2((Map.ScreenWidth / 2) - 135, (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.052)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
             ButtonPlayer3.CenterHorizontal();
-            ButtonPlayer4 = new Button("WyScIg Z cZaSeM", new Vector2((Map.ScreenWidth / 2) - 135, (Map.ScreenHeight / 2) + 90), null, 50);
+            ButtonPlayer4 = new Button("WyScIg Z cZaSeM", new Vector2((Map.ScreenWidth / 2) - 135, (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.117)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
             ButtonPlayer4.CenterHorizontal();
-            ButtonSettingsTrybSterowaniaKlawMysz = new Button("KlAwIaTuRa/MySz", new Vector2((Map.ScreenWidth / 2) - 270, (Map.ScreenHeight / 2) - 60), null, 50);
-            ButtonSettingsTrybSterowaniaPad = new Button("GaMePaD", new Vector2((Map.ScreenWidth / 2) + 100, (Map.ScreenHeight / 2) - 60), null, 50);
-            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz", new Vector2((Map.ScreenWidth / 2) - 270, (Map.ScreenHeight / 2) + 67), null, 50);
-            ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((Map.ScreenWidth / 2) + 100, (Map.ScreenHeight / 2) + 67), null, 50);
-            ButtonSettingsTrybSterowaniaBasic = new Button("PoDsTaWoWy", new Vector2((Map.ScreenWidth / 2) - 270, (Map.ScreenHeight / 2) - 70), null, 60);
+            ButtonSettingsTrybSterowaniaKlawMysz = new Button("KlAwIaTuRa/MySz", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * (Settings.Widescreen  ? 0.197 : 0.27)), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.078)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonSettingsTrybSterowaniaPad = new Button("GaMePaD", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * (Settings.Widescreen ? 0.073 : 0.1) ), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.078)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonSettingsTrybSterowaniaKlawMysz2 = new Button("KlAwIaTuRa/MySz", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * (Settings.Widescreen ? 0.197 : 0.27)), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.087)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonSettingsTrybSterowaniaPad2 = new Button("GaMePaD", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * (Settings.Widescreen ? 0.073 : 0.1) ), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.087)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonSettingsTrybSterowaniaBasic = new Button("PoDsTaWoWy", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.197), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.091)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             ButtonSettingsTrybSterowaniaBasic.CenterHorizontal();
-            ButtonSettingsTrybSterowaniaAdvanced = new Button("ZaAwAnSoWaNy", new Vector2((Map.ScreenWidth / 2) - 270, (Map.ScreenHeight / 2) + 20), null, 60);
+            ButtonSettingsTrybSterowaniaAdvanced = new Button("ZaAwAnSoWaNy", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.197), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.026)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             ButtonSettingsTrybSterowaniaAdvanced.CenterHorizontal();
-            ButtonPowrot = new Button("PoWrOt", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) - 40), null, 60);
-            ButtonNowaGra = new Button("NoWa GrA", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) + 20), null, 60);
+            ButtonPowrot = new Button("PoWrOt", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.091), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.052)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
+            ButtonNowaGra = new Button("NoWa GrA", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.091), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.026)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             ButtonNowaGra.CenterHorizontal();
-            ButtonPoziom1Trud = new Button("BaNaLnY", new Vector2((Map.ScreenWidth / 2) - 385, (Map.ScreenHeight / 2) - 155), null, 50);
-            ButtonPoziom2Trud = new Button("PrZyZwOiTy", new Vector2((Map.ScreenWidth / 2) - 210, (Map.ScreenHeight / 2) - 155), null, 50);
-            ButtonPoziom3Trud = new Button("ZaBoJcZy", new Vector2((Map.ScreenWidth / 2) + 35, (Map.ScreenHeight / 2) - 155), null, 50);
-            ButtonPoziom4Trud = new Button("SzAlOnY", new Vector2((Map.ScreenWidth / 2) + 225, (Map.ScreenHeight / 2) - 155), null, 50);
-            ButtonwyborCpuKlasykIlosc0 = new Button("0", new Vector2((Map.ScreenWidth / 2) - 225, (Map.ScreenHeight / 2) - 30), null, 50);
-            ButtonwyborCpuKlasykIlosc1 = new Button("1", new Vector2((Map.ScreenWidth / 2) - 90, (Map.ScreenHeight / 2) - 30), null, 50);
-            ButtonwyborCpuKlasykIlosc2 = new Button("2", new Vector2((Map.ScreenWidth / 2) + 40, (Map.ScreenHeight / 2) - 30), null, 50);
-            ButtonwyborCpuKlasykIlosc3 = new Button("3", new Vector2((Map.ScreenWidth / 2) + 175, (Map.ScreenHeight / 2) - 30), null, 50);
-            ButtonwyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((Map.ScreenWidth / 2) - 225, (Map.ScreenHeight / 2) + 90), null, 50);
-            ButtonwyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((Map.ScreenWidth / 2) - 90, (Map.ScreenHeight / 2) + 90), null, 50);
-            ButtonwyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((Map.ScreenWidth / 2) + 40, (Map.ScreenHeight / 2) + 90), null, 50);
-            ButtonwyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((Map.ScreenWidth / 2) + 175, (Map.ScreenHeight / 2) + 90), null, 50);
-            ButtonCzas1Gry = new Button("2 MiNuTy", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) - 90), null, 50);
+            ButtonPoziom1Trud = new Button("BaNaLnY", new Vector2((Map.ScreenWidth / 2) -  (int)(Map.ScreenWidth * (Settings.Widescreen && Environment.OSVersion.Platform == PlatformID.Win32NT ? 0.281 : 0.365)), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.201)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonPoziom2Trud = new Button("PrZyZwOiTy", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * (Settings.Widescreen && Environment.OSVersion.Platform == PlatformID.Win32NT ? 0.153 : 0.200) ), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.201)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonPoziom3Trud = new Button("ZaBoJcZy", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * (Settings.Widescreen && Environment.OSVersion.Platform == PlatformID.Win32NT ? 0.025 : 0.035) ), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.201)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonPoziom4Trud = new Button("SzAlOnY", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * (Settings.Widescreen && Environment.OSVersion.Platform == PlatformID.Win32NT ? 0.164 : 0.219) ), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.201)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlasykIlosc0 = new Button("0", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.164), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.04)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlasykIlosc1 = new Button("1", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.065), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.04)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlasykIlosc2 = new Button("2", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * 0.029), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.04)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlasykIlosc3 = new Button("3", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * 0.128), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.04)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlamikazeIlosc0 = new Button("0", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.164), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.117)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlamikazeIlosc1 = new Button("1", new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.065), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.117)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlamikazeIlosc2 = new Button("2", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * 0.029), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.117)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonwyborCpuKlamikazeIlosc3 = new Button("3", new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * 0.128), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.117)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
+            ButtonCzas1Gry = new Button("2 MiNuTy", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.117)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
             ButtonCzas1Gry.CenterHorizontal();
-            ButtonCzas2Gry = new Button("5 MiNuT", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) - 35), null, 50);
+            ButtonCzas2Gry = new Button("5 MiNuT", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.045)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
             ButtonCzas2Gry.CenterHorizontal();
-            ButtonCzas3Gry = new Button("10 MiNuT", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) + 20), null, 50);
+            ButtonCzas3Gry = new Button("10 MiNuT", new Vector2((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.026)), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.05));
             ButtonCzas3Gry.CenterHorizontal();
-            ButtondoBoju = new Button("Do BoJu!!!", new Vector2(), null, 60);
+            ButtondoBoju = new Button("Do BoJu!!!", new Vector2(), null, (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen * 0.06));
             ButtondoBoju.CenterHorizontal();
 
             ButtonsInMemu = new Dictionary<GameState, Button[,]>
@@ -621,11 +636,11 @@ namespace BattleTank.Core
                 if (GameStateCurrent == GameState.PAUSE)
                 {
 
-                    ButtonPowrot.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 235, (Map.ScreenHeight / 2) - 60, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
-                    ButtonNowaGra.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) + 25, (Map.ScreenHeight / 2) - 60 , (int)ButtonNowaGra.Width, (int)ButtonNowaGra.Height);
-                    ButtonSettings.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 265, (Map.ScreenHeight / 2) + 60, (int)ButtonSettings.Width, (int)ButtonSettings.Height);
+                    ButtonPowrot.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * (Settings.Widescreen ? 0.172 : 0.222) ), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.078), (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
+                    ButtonNowaGra.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * 0.018), (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * 0.078), (int)ButtonNowaGra.Width, (int)ButtonNowaGra.Height);
+                    ButtonSettings.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * (Settings.Widescreen ? 0.194 : 0.244) ), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.078), (int)ButtonSettings.Width, (int)ButtonSettings.Height);
 
-                    ButtonKoniec.Position = new Vector2((Map.ScreenWidth / 2) + 55, (Map.ScreenHeight / 2) + 60);
+                    ButtonKoniec.Position = new Vector2((Map.ScreenWidth / 2) + (int)(Map.ScreenWidth * 0.040), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.078));
               
 
                     if (ButtonsInMemu[GameStateCurrent][currentButtonX, currentButtonY].Equals(ButtonNowaGra) && (ButtonNowaGra.IsClickedLeftButton(ref state) || (IsPressing(NavigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && !keysStatus)))
@@ -711,7 +726,7 @@ namespace BattleTank.Core
 
 
 
-                    ButtonKoniec.Position = new Vector2((Map.ScreenWidth / 2) - 135, (Map.ScreenHeight / 2) + 80);
+                    ButtonKoniec.Position = new Vector2((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.099), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.104));
                     ButtonKoniec.CenterHorizontal();
 
                     if (ButtonsInMemu[GameStateCurrent][currentButtonX, currentButtonY].Equals(ButtonKoniec) && (ButtonKoniec.IsClickedLeftButton(ref state) || (IsPressing(NavigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && !keysStatus)))
@@ -740,7 +755,7 @@ namespace BattleTank.Core
                 if (!LeftButtonStatus && !keysStatus)
                 {
 
-                    ButtonKoniec.Position = new Vector2((Map.ScreenWidth / 2) - (float)(ButtonKoniec.Width / 2), (Map.ScreenHeight / 2) + 80);
+                    ButtonKoniec.Position = new Vector2((Map.ScreenWidth / 2) - (float)(ButtonKoniec.Width / 2), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.104));
                     ButtonKoniec.CenterHorizontal();
 
 
@@ -750,7 +765,7 @@ namespace BattleTank.Core
                             GameStateCurrent = GameState.CHOICE_OF_GAME_TYPE;
                         else
                         {
-                            Tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(3, 3), 1, 1, 1f, WhiteRectangle, 1, 3, false, false, PlayerOneController);
+                            Tank1 = new Tank(this, TankColors.GREEN, new Vector2(50, 50), new Vector2(6, 6), 1, 1, 1f, WhiteRectangle, 1, 3, false, false, PlayerOneController);
                             menuTexture = Content.Load<Texture2D>("Graphics/RamkaXXL");
                             GameStateCurrent = GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU;
                             GameReturn = GameState.GAME_RUNNING_PLAYER_1;
@@ -880,7 +895,7 @@ namespace BattleTank.Core
                     ButtonSettingsTrybSterowaniaPad2.IsEnabled = false;
                 }
 
-                ButtonPowrot.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) + 130, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
+                ButtonPowrot.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.169), (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
                 ButtonPowrot.CenterHorizontal();
                 if (ButtonsInMemu[GameStateCurrent][currentButtonX, currentButtonY].Equals(ButtonPowrot) && (ButtonPowrot.IsClickedLeftButton(ref state) || (IsPressing(NavigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && !keysStatus)))
                 {
@@ -953,7 +968,7 @@ namespace BattleTank.Core
 
 
 
-                ButtonPowrot.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) + 130, (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
+                ButtonPowrot.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 125, (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.169), (int)ButtonPowrot.Width, (int)ButtonPowrot.Height);
                 ButtonPowrot.CenterHorizontal();
                 if (ButtonsInMemu[GameStateCurrent][currentButtonX, currentButtonY].Equals(ButtonPowrot) && (ButtonPowrot.IsClickedLeftButton(ref state) || (IsPressing(NavigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && !keysStatus)))
                 {
@@ -1075,7 +1090,7 @@ namespace BattleTank.Core
                 positionMouse.X = state.X;
                 positionMouse.Y = state.Y;
 
-                ButtondoBoju.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) + 80, (int)ButtondoBoju.Width, (int)ButtondoBoju.Height);
+                ButtondoBoju.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.044), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.104), (int)ButtondoBoju.Width, (int)ButtondoBoju.Height);
                 ButtondoBoju.CenterHorizontal();
 
 
@@ -1217,7 +1232,7 @@ namespace BattleTank.Core
                         Settings.OpponentsCPUKamikaze = 3;
                     }
 
-                    ButtondoBoju.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - 160, (Map.ScreenHeight / 2) + 150, (int)ButtondoBoju.Width, (int)ButtondoBoju.Height);
+                    ButtondoBoju.UIElementRectangle = new Rectangle((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * 0.117), (Map.ScreenHeight / 2) + (int)(Map.ScreenHeight * 0.195), (int)ButtondoBoju.Width, (int)ButtondoBoju.Height);
                     ButtondoBoju.CenterHorizontal();
                     if (ButtonsInMemu[GameStateCurrent][currentButtonX, currentButtonY].Equals(ButtondoBoju) && (ButtondoBoju.IsClickedLeftButton(ref state) || (IsPressing(NavigationKeys[FunctionsOfTheNavigationKeys.CONFIRM]) && !keysStatus)))
                     {
@@ -1381,7 +1396,7 @@ namespace BattleTank.Core
             if (GameStateCurrent == GameState.CHOICE_OF_GAME_TYPE || GameStateCurrent == GameState.PAUSE || GameStateCurrent == GameState.START_GAME || GameStateCurrent == GameState.STATEMENT_ABOUT_CONTROLLER_DISCONNECTED)
             {
 
-                spriteBatch.Draw(menuTexture, new Rectangle((Map.ScreenWidth / 2) - 500, (Map.ScreenHeight / 2) - 500, 1000, 1000), Color.White);
+                spriteBatch.Draw(menuTexture, new Rectangle((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * Settings.RatioOfWidthtOfFrameToScreen) /2, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen) /2, (int)(Map.ScreenWidth * Settings.RatioOfWidthtOfFrameToScreen), (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen)), Color.White);
 
                 if (GameStateCurrent == GameState.START_GAME)
                 {
@@ -1425,7 +1440,7 @@ namespace BattleTank.Core
 
             if (GameStateCurrent == GameState.SETTINGS_WINDOWS || GameStateCurrent == GameState.SETTINGS_ANDROID || GameStateCurrent == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU || GameStateCurrent == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_RACE)
             {
-                spriteBatch.Draw(menuTexture, new Rectangle((Map.ScreenWidth / 2) - 500, (Map.ScreenHeight / 2) - 500, 1000, 1000), Color.White);
+                spriteBatch.Draw(menuTexture, new Rectangle((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * Settings.RatioOfWidthtOfFrameToScreen) / 2, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen) / 2, (int)(Map.ScreenWidth * Settings.RatioOfWidthtOfFrameToScreen), (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen)), Color.White);
 
 
                 if (GameStateCurrent == GameState.CHOICE_OF_BATTLE_SETTINGS_GAME_TYPE_CPU)
@@ -1488,7 +1503,7 @@ namespace BattleTank.Core
 
             if (GameStateCurrent == GameState.GAME_WIN || GameStateCurrent == GameState.GAME_LOSS)
             {
-                spriteBatch.Draw(menuTexture, new Rectangle((Map.ScreenWidth / 2) - 500, (Map.ScreenHeight / 2) - 500, 1000, 1000), Color.White);
+                spriteBatch.Draw(menuTexture, new Rectangle((Map.ScreenWidth / 2) - (int)(Map.ScreenWidth * Settings.RatioOfWidthtOfFrameToScreen) / 2, (Map.ScreenHeight / 2) - (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen) / 2, (int)(Map.ScreenWidth * Settings.RatioOfWidthtOfFrameToScreen), (int)(Map.ScreenHeight * Settings.RatioOfHeightOfFrameToScreen)), Color.White);
                 ButtonNowaGra.Draw(ref spriteBatch);
                 ButtonKoniec.Draw(ref spriteBatch);
 

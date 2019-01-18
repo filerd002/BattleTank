@@ -19,11 +19,7 @@ namespace BattleTank.Android
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            if (savedInstanceState == null)
-            {
-                throw new System.ArgumentNullException(nameof(savedInstanceState));
-            }
-
+       
             base.OnCreate(savedInstanceState);
             this.Window.ClearFlags(WindowManagerFlags.Fullscreen);
             this.Window.AddFlags(WindowManagerFlags.Fullscreen); // hide the status bar

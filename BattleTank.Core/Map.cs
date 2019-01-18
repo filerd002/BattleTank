@@ -383,7 +383,7 @@ namespace BattleTank.Core
 
         public void DrawWallInside(int _WallInside)
         {
-            _WallInside = 3;
+          //  _WallInside = 3;
             switch (_WallInside)
             {
                 case 0:
